@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 import android.widget.Toast;
@@ -92,6 +93,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             super.onCreate(holder);
 
             setWatchFaceStyle(new WatchFaceStyle.Builder(MyWatchFace.this)
+                    .setShowUnreadCountIndicator(true)
                     .setAcceptsTapEvents(true)
                     .build());
 
@@ -224,7 +226,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     : String.format(Locale.UK,"%d:%02d:%02d", mCalendar.get(Calendar.HOUR),
                     mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
             //canvas.drawText(text, bounds.width()/2, ((bounds.height()/2) - ((mTextPaint.descent() + mTextPaint.ascent())/2)), mTextPaint); //Perfectly centered text
-            canvas.drawText(text, bounds.width()/2, 24-mTextPaint.ascent(), mTextPaint);
+            canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
         }
 
         private void updateTimer() {
