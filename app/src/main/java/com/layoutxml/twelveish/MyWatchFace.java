@@ -22,6 +22,7 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
-
     private static final int MSG_UPDATE_TIME = 0;
+    private static final String TAG = "MyWatchFace";
 
     @Override
     public Engine onCreateEngine() {
@@ -109,6 +110,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint.setAntiAlias(true);
             mTextPaint.setColor(
                     ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+            mTextPaint.setTextAlign(Paint.Align.CENTER);
         }
 
         @Override
@@ -156,12 +158,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             Resources resources = MyWatchFace.this.getResources();
             boolean isRound = insets.isRound();
-            mXOffset = resources.getDimension(isRound
-                    ? R.dimen.digital_x_offset_round : R.dimen.digital_x_offset);
-            float textSize = resources.getDimension(isRound
-                    ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
+            mXOffset = resources.getDimension(isRound ? R.dimen.digital_x_offset_round : R.dimen.digital_x_offset);
+            float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
+            float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
+            Log.d(TAG,"textSizeSmall: "+textSizeSmall);
 
-            mTextPaint.setTextSize(textSize);
+            mTextPaint.setTextSize(textSizeSmall);
         }
 
         @Override
@@ -221,7 +223,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     mCalendar.get(Calendar.MINUTE))
                     : String.format(Locale.UK,"%d:%02d:%02d", mCalendar.get(Calendar.HOUR),
                     mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
-            canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
+            //canvas.drawText(text, bounds.width()/2, ((bounds.height()/2) - ((mTextPaint.descent() + mTextPaint.ascent())/2)), mTextPaint); //Perfectly centered text
+            canvas.drawText(text, bounds.width()/2, 24-mTextPaint.ascent(), mTextPaint);
         }
 
         private void updateTimer() {
