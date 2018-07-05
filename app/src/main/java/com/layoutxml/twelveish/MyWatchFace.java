@@ -38,7 +38,7 @@ import static java.lang.Math.sqrt;
 
 
 public class MyWatchFace extends CanvasWatchFaceService {
-    private static final Typeface NORMAL_TYPEFACE = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+    private static final Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -261,7 +261,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             ----------------------------------------
              */
             int index = mCalendar.get(Calendar.MINUTE)/5;
-            int lineCount = 1+(PrefixNewLine[index] ? 1 : 0)+(SuffixNewLine[index] ? 1 : 0);
             String text2 = Prefixes[index] + (PrefixNewLine[index] ? "\n" : "") + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12] + (SuffixNewLine[index] ? "\n" : "") + Suffixes[index];
             mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width()-32, text2));
             float x = bounds.width()/2, y = ((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2));
@@ -273,6 +272,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 canvas.drawText(line, x, y, mTextPaint2);
                 y += mTextPaint2.descent() - mTextPaint2.ascent();
             }
+
+            //Draw date
+            String text3 = String.format(Locale.UK,"%04d-%02d-%02d",mCalendar.get(Calendar.YEAR),mCalendar.get(Calendar.MONTH),mCalendar.get(Calendar.DAY_OF_MONTH));
+            canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent(), mTextPaint);
         }
 
         private void updateTimer() {
@@ -306,7 +309,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 Rect bounds = new Rect();
                 mTextPaint2.getTextBounds(line, 0, line.length(), bounds);
                 size = (testTextSize * desiredWidth / bounds.width());
-                size2 = testTextSize*desiredWidth/bounds.height()/3/linecount;
+                size2 = testTextSize*desiredWidth/bounds.height()/3.5f/linecount;
                 if (size2<size)
                     size=size2;
                 if (size<min)
