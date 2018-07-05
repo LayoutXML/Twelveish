@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.Gravity.TOP;
+import static java.lang.Math.sqrt;
 
 
 public class MyWatchFace extends CanvasWatchFaceService {
@@ -176,7 +177,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mXOffset = resources.getDimension(isRound ? R.dimen.digital_x_offset_round : R.dimen.digital_x_offset);
             float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
-            Log.d(TAG,"textSizeSmall: "+textSizeSmall);
 
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
@@ -297,19 +297,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private float getTextSizeForWidth(float desiredWidth, String text) {
-            final float testTextSize = 48f;
-            mTextPaint2.setTextSize(testTextSize);
-            float min = Integer.MAX_VALUE;
-            float size;
+            float min = Integer.MAX_VALUE, linecount=0;
+            float size, size2;
             for (String line: text.split("\n")) {
+                linecount++;
+                float testTextSize = 48f;
+                mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
-                mTextPaint2.getTextBounds(text, 0, text.length(), bounds);
+                mTextPaint2.getTextBounds(line, 0, line.length(), bounds);
                 size = (testTextSize * desiredWidth / bounds.width());
+                size2 = testTextSize*desiredWidth/bounds.height()/3/linecount;
+                if (size2<size)
+                    size=size2;
                 if (size<min)
                     min=size;
             }
-            if (min!=Integer.MAX_VALUE)
+            if (min!=Integer.MAX_VALUE) {
                 return min;
+            }
             else {
                 Resources resources = MyWatchFace.this.getResources();
                 return resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
