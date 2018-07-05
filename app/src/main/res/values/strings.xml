@@ -21,4 +21,32 @@
         <item>Ten</item>
         <item>Eleven</item>
     </string-array>
+    <string-array name="Prefixes">
+        <item>Around</item>
+        <item></item>
+        <item></item>
+        <item>Well Past</item>
+        <item>Almost Half Past</item>
+        <item>Half Past</item>
+        <item>Half Past</item>
+        <item>Half Past</item>
+        <item>Half Past</item>
+        <item>Well Past Half Past</item>
+        <item>Almost</item>
+        <item>Around</item>
+    </string-array>
+    <string-array name="Suffixes">
+        <item></item>
+        <item>ish</item>
+        <item>Or So</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>ish</item>
+        <item>Or So</item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>

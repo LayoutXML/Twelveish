@@ -43,8 +43,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
     private static final String TAG = "MyWatchFace";
-    private String[] Prefixes = new String[]{"Around","","","Well Past","Almost Half Past","Half Past","Half Past","Half Past","Half Past","Well Past Half Past","Almost","Around"};
-    private String[] Suffixes = new String[]{"","ish","Or So","","","","","ish","Or So","","",""};
+    private String[] Prefixes;
+    private String[] Suffixes;
     private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,0,0,1,1};
     private Boolean[] PrefixNewLine = new Boolean[]{true,false,false,true,true,true,true,true,true,true,true,true};
     private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,false,false,false,false,false,true,false,false,false};
@@ -127,6 +127,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint2.setAntiAlias(true);
             mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
+
+            Prefixes = getResources().getStringArray(R.array.Prefixes);
+            Suffixes = getResources().getStringArray(R.array.Suffixes);
         }
 
         @Override
