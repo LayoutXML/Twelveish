@@ -315,6 +315,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 size2 = testTextSize*desiredWidth/bounds.height()/3.5f/linecount;
                 if (size2<size)
                     size=size2;
+                if (linecount==1) {
+                    size2 = testTextSize * desiredWidth / bounds.height() / 7f;
+                    if (size2 < size)
+                        size = size2;
+                }
                 if (size<min)
                     min=size;
             }
