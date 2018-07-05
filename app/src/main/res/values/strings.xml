@@ -49,4 +49,14 @@
         <item></item>
         <item></item>
     </string-array>
+    <string-array name="colors">
+        <item>#000000</item>
+        <item>#0000ff</item>
+        <item>#ff0000</item>
+        <item>#ff00ff</item>
+        <item>#00ff00</item>
+        <item>#00ffff</item>
+        <item>#ffff00</item>
+        <item>#ffffff</item>
+    </string-array>
 </resources>

@@ -27,7 +27,9 @@ import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +51,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean[] PrefixNewLine = new Boolean[]{true,false,false,true,true,true,true,true,true,true,true,true};
     private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,false,false,false,false,false,true,false,false,false};
     private Boolean isRound = true;
+    private Integer colorElement=0;
+    private List<Integer> colors = new ArrayList<Integer>();
+    private String[] colorsTxt;
 
     @Override
     public Engine onCreateEngine() {
@@ -130,6 +135,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             Prefixes = getResources().getStringArray(R.array.Prefixes);
             Suffixes = getResources().getStringArray(R.array.Suffixes);
+
+            colorsTxt = getApplicationContext().getResources().getStringArray(R.array.colors);
+            for (String colorCode : colorsTxt) {
+                int newColor = Color.parseColor(colorCode);
+                colors.add(newColor);
+            }
         }
 
         @Override
@@ -222,6 +233,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
+                    colorElement++;
+                    if (colorElement>=colorsTxt.length)
+                        colorElement-=colorsTxt.length;
                     break;
             }
             invalidate();
@@ -231,8 +245,20 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onDraw(Canvas canvas, Rect bounds) {
             if (isInAmbientMode()) {
                 canvas.drawColor(Color.BLACK);
+                mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             } else {
+                mBackgroundPaint = new Paint();
+                mBackgroundPaint.setColor(colors.get(colorElement));
                 canvas.drawRect(0, 0, bounds.width(), bounds.height(), mBackgroundPaint);
+                if (colorElement>3) {
+                    mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                    mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                } else
+                {
+                    mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                    mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                }
             }
 
             long now = System.currentTimeMillis();
