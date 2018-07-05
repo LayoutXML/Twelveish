@@ -7,4 +7,18 @@
 <resources>
     <string name="app_name">Twelveish</string>
     <string name="my_digital_name">Twelveish</string>
+    <string-array name="ExactTimes">
+        <item>Twelve</item>
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+        <item>Six</item>
+        <item>Seven</item>
+        <item>Eight</item>
+        <item>Nine</item>
+        <item>Ten</item>
+        <item>Eleven</item>
+    </string-array>
 </resources>

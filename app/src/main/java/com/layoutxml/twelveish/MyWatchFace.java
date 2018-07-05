@@ -23,10 +23,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -34,14 +32,22 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.view.Gravity.TOP;
+
 
 public class MyWatchFace extends CanvasWatchFaceService {
-    private static final Typeface NORMAL_TYPEFACE =
-            Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
+    private static final Typeface NORMAL_TYPEFACE = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
     private static final String TAG = "MyWatchFace";
+    private String[] Prefixes = new String[]{"Around","","","Well Past","Almost Half Past","Half Past","Half Past","Half Past","Half Past","Well Past Half Past","Almost","Around"};
+    private String[] Suffixes = new String[]{"","ish","Or So","","","","","ish","Or So","","",""};
+    private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,0,0,1,1};
+    private Boolean[] PrefixNewLine = new Boolean[]{true,false,false,true,true,true,true,true,true,true,true,true};
+    private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,false,false,false,false,false,true,false,false,false};
+    private Boolean isRound = true;
 
     @Override
     public Engine onCreateEngine() {
@@ -84,6 +90,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private float mYOffset;
         private Paint mBackgroundPaint;
         private Paint mTextPaint;
+        private Paint mTextPaint2;
         private boolean mLowBitAmbient;
         private boolean mBurnInProtection;
         private boolean mAmbient;
@@ -93,6 +100,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             super.onCreate(holder);
 
             setWatchFaceStyle(new WatchFaceStyle.Builder(MyWatchFace.this)
+                    .setStatusBarGravity(CENTER_HORIZONTAL | TOP)
                     .setShowUnreadCountIndicator(true)
                     .setAcceptsTapEvents(true)
                     .build());
@@ -110,9 +118,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint = new Paint();
             mTextPaint.setTypeface(NORMAL_TYPEFACE);
             mTextPaint.setAntiAlias(true);
-            mTextPaint.setColor(
-                    ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+            mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+            mTextPaint2 = new Paint();
+            mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+            mTextPaint2.setAntiAlias(true);
+            mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+            mTextPaint2.setTextAlign(Paint.Align.CENTER);
         }
 
         @Override
@@ -159,13 +172,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
             super.onApplyWindowInsets(insets);
 
             Resources resources = MyWatchFace.this.getResources();
-            boolean isRound = insets.isRound();
+            isRound = insets.isRound();
             mXOffset = resources.getDimension(isRound ? R.dimen.digital_x_offset_round : R.dimen.digital_x_offset);
             float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
             Log.d(TAG,"textSizeSmall: "+textSizeSmall);
 
             mTextPaint.setTextSize(textSizeSmall);
+            mTextPaint2.setTextSize(textSize);
         }
 
         @Override
@@ -188,6 +202,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mAmbient = inAmbientMode;
             if (mLowBitAmbient) {
                 mTextPaint.setAntiAlias(!inAmbientMode);
+                mTextPaint2.setAntiAlias(!inAmbientMode);
             }
 
             updateTimer();
@@ -220,13 +235,44 @@ public class MyWatchFace extends CanvasWatchFaceService {
             long now = System.currentTimeMillis();
             mCalendar.setTimeInMillis(now);
 
+            //Draw digital clock
             String text = mAmbient
-                    ? String.format(Locale.UK, "%d:%02d", mCalendar.get(Calendar.HOUR),
-                    mCalendar.get(Calendar.MINUTE))
-                    : String.format(Locale.UK,"%d:%02d:%02d", mCalendar.get(Calendar.HOUR),
-                    mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
-            //canvas.drawText(text, bounds.width()/2, ((bounds.height()/2) - ((mTextPaint.descent() + mTextPaint.ascent())/2)), mTextPaint); //Perfectly centered text
+                    ? String.format(Locale.UK, "%d:%02d", mCalendar.get(Calendar.HOUR), mCalendar.get(Calendar.MINUTE))
+                    : String.format(Locale.UK,"%d:%02d:%02d", mCalendar.get(Calendar.HOUR), mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
             canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
+
+            //Draw text clock
+            /*
+            ----------------------------------------
+            | Min.  | Prefix              | Suffix |
+            ----------------------------------------
+            | 0-4   | Around              | -      |
+            | 5-9   | -                   | ish    |
+            | 10-14 | -                   | Or so  |
+            | 15-19 | Well Past           | -      |
+            | 20-24 | Almost half past    | -      |
+            | 25-29 | Half past           | -      |
+            | 30-34 | Half past           | -      |
+            | 35-39 | Half past           | ish    |
+            | 40-44 | Half past           | Or so  |
+            | 45-49 | Well Past half past | -      |
+            | 50-54 | Almost              | -      | Hours+1
+            | 55-59 | Around              | -      | Hours+1
+            ----------------------------------------
+             */
+            int index = mCalendar.get(Calendar.MINUTE)/5;
+            int lineCount = 1+(PrefixNewLine[index] ? 1 : 0)+(SuffixNewLine[index] ? 1 : 0);
+            String text2 = Prefixes[index] + (PrefixNewLine[index] ? "\n" : "") + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12] + (SuffixNewLine[index] ? "\n" : "") + Suffixes[index];
+            mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width()-32, text2));
+            float x = bounds.width()/2, y = ((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2));
+            for (String line: text2.split("\n")) {
+                y += mTextPaint2.descent() - mTextPaint2.ascent();
+            }
+            y = 1.5f*((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2)) - 0.5f*y - mTextPaint2.ascent() - mTextPaint2.descent();
+            for (String line: text2.split("\n")) {
+                canvas.drawText(line, x, y, mTextPaint2);
+                y += mTextPaint2.descent() - mTextPaint2.ascent();
+            }
         }
 
         private void updateTimer() {
@@ -247,6 +293,26 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 long delayMs = INTERACTIVE_UPDATE_RATE_MS
                         - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
                 mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs);
+            }
+        }
+
+        private float getTextSizeForWidth(float desiredWidth, String text) {
+            final float testTextSize = 48f;
+            mTextPaint2.setTextSize(testTextSize);
+            float min = Integer.MAX_VALUE;
+            float size;
+            for (String line: text.split("\n")) {
+                Rect bounds = new Rect();
+                mTextPaint2.getTextBounds(text, 0, text.length(), bounds);
+                size = (testTextSize * desiredWidth / bounds.width());
+                if (size<min)
+                    min=size;
+            }
+            if (min!=Integer.MAX_VALUE)
+                return min;
+            else {
+                Resources resources = MyWatchFace.this.getResources();
+                return resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
             }
         }
     }
