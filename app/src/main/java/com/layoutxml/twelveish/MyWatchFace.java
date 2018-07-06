@@ -303,7 +303,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Draw date
-            String text3 = String.format(Locale.UK,"%04d-%02d-%02d",mCalendar.get(Calendar.YEAR),mCalendar.get(Calendar.MONTH),mCalendar.get(Calendar.DAY_OF_MONTH));
+            String text3 = String.format(Locale.UK,"%04d-%02d-%02d",mCalendar.get(Calendar.YEAR),mCalendar.get(Calendar.MONTH)+1,mCalendar.get(Calendar.DAY_OF_MONTH));
             canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent(), mTextPaint);
         }
 

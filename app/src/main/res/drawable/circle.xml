@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. LayoutXML
+  ~ Created by LayoutXML.
+  ~ This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid
+        android:color="#48b3ff"/>
+</shape>

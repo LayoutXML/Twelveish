@@ -7,6 +7,8 @@
 <resources>
     <string name="app_name">Twelveish</string>
     <string name="my_digital_name">Twelveish</string>
+    <string name="digital_config_name">Settings</string>
+    <string name="preference_file_key">com.layoutxml.twelveish.DIGITAL_COMPLICATION_PREFERENCE_FILE_KEY</string>
     <string-array name="ExactTimes">
         <item>Twelve</item>
         <item>One</item>
