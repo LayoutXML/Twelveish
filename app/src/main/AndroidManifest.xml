@@ -54,6 +54,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.ColorOptionsActivity" />
 
         <service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

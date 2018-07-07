@@ -4,12 +4,13 @@
  * This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
@@ -23,16 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.activities.ColorOptionsActivity;
+import com.layoutxml.twelveish.config.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DigitalWatchFaceWearableConfigActivity extends Activity {
+public class ColorOptionsActivity extends Activity {
 
-    private static final String TAG = "ConfigActivity";
-    private List<Setting> values = new ArrayList<>();
-    private SettingsAdapter mAdapter;
+    private static final String TAG = "ColorOptionsActivity";
+    private List<Color> values = new ArrayList<>();
+    private ColorsAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,37 +44,25 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
-        mAdapter = new SettingsAdapter();
+        mAdapter = new ColorsAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
         generateValues();
     }
 
     private void generateValues(){
-        Setting setting = new Setting();
-        setting.setName("Background color");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test2");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test3");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test4");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test5");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
+        Color color = new Color();
+        color.setName("White");
+        color.setColorcode(R.color.white);
+        values.add(color);
+        color = new Color();
+        color.setName("Black");
+        color.setColorcode(R.color.black);
+        values.add(color);
         mAdapter.notifyDataSetChanged();
     }
 
-    public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder>{
+    public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -83,19 +72,19 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
             MyViewHolder(View view) {
                 super(view);
                 Log.d(TAG,"MyViewHolder");
-                name = view.findViewById(R.id.settingsListTextView);
-                icon = view.findViewById(R.id.settingsListImagetView);
+                name = view.findViewById(R.id.colorsListTextView);
+                icon = view.findViewById(R.id.colorsListImagetView);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Setting selectedMenuItem = values.get(position);
-                        Toast.makeText(DigitalWatchFaceWearableConfigActivity.this, selectedMenuItem.getName(), Toast.LENGTH_SHORT).show();
+                        Color selectedMenuItem = values.get(position);
+                        Toast.makeText(ColorOptionsActivity.this, selectedMenuItem.getName(), Toast.LENGTH_SHORT).show();
                         switch (position){
-                            case 0:
-                                Intent intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                            case 3:
+                                Intent intent = new Intent(ColorOptionsActivity.this, ColorOptionsActivity.class);
+                                ColorOptionsActivity.this.startActivity(intent);
                                 break;
                             default:
                                 break;
@@ -107,19 +96,18 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ColorsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.settings_list_item_view,parent,false);
-            return new MyViewHolder(itemView);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.colors_list_item_view,parent,false);
+            return new ColorsAdapter.MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ColorsAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            Setting setting = values.get(position);
-            holder.name.setText(setting.getName());
-            holder.icon.setImageResource(setting.getIcon());
-
+            Color color = values.get(position);
+            holder.name.setText(color.getName());
+            holder.icon.setColorFilter(ContextCompat.getColor(ColorOptionsActivity.this, color.getColorcode()), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         @Override
@@ -127,5 +115,4 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
             return values.size();
         }
     }
-
 }
