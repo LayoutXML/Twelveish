@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/digital_text"
+        android:textSize="16sp"
         tools:text="Menu item name" />
 
 </LinearLayout>
