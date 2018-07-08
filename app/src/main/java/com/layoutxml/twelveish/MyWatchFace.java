@@ -284,7 +284,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             ----------------------------------------
             | Min.  | Prefix              | Suffix |
             ----------------------------------------
-            | 0-4   | Around              | -      |
+            | 0     | -                   | -      |
+            | 1-4   | Around              | -      |
             | 5-9   | -                   | ish    |
             | 10-14 | -                   | Or so  |
             | 15-19 | Well Past           | -      |
@@ -299,7 +300,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             ----------------------------------------
              */
             int index = mCalendar.get(Calendar.MINUTE)/5;
-            String text2 = Prefixes[index] + (PrefixNewLine[index] ? "\n" : "") + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12] + (SuffixNewLine[index] ? "\n" : "") + Suffixes[index];
+            String text2 =
+                    ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
+                    + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                    + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12]
+                    + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                    + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
             mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width()-32, text2));
             float x = bounds.width()/2, y = ((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2));
             for (String line: text2.split("\n")) {
