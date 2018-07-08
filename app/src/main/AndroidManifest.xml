@@ -56,6 +56,8 @@
         </activity>
         <activity android:name=".activities.ColorOptionsActivity" />
         <activity android:name=".activities.MiscOptionsActivity" />
+        <activity android:name=".activities.DateOptionsListActivity" />
+        <activity android:name=".activities.DateOptionsActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

@@ -4,7 +4,7 @@
  * This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,70 +18,57 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.activities.ColorOptionsActivity;
-import com.layoutxml.twelveish.activities.DateOptionsListActivity;
-import com.layoutxml.twelveish.activities.MiscOptionsActivity;
+import com.layoutxml.twelveish.config.DateOption;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DigitalWatchFaceWearableConfigActivity extends Activity {
+public class DateOptionsListActivity extends Activity {
 
-    private static final String TAG = "ConfigActivity";
-    private List<Setting> values = new ArrayList<>();
-    private SettingsAdapter mAdapter;
+    private static final String TAG = "DateOptionsListActivity";
+    private List<DateOption> values = new ArrayList<>();
+    private DateOptionsListAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wearable_config_activity);
+        setContentView(R.layout.date_options_config_activity);
 
-        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
+        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view2);
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
-        mAdapter = new SettingsAdapter();
+        mAdapter = new DateOptionsListAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
         generateValues();
     }
 
     private void generateValues(){
-        Setting setting = new Setting();
-        setting.setName("Background color");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
+        DateOption dateOption = new DateOption();
+        dateOption.setName("Date format");
+        values.add(dateOption);
 
-        setting = new Setting();
-        setting.setName("Date format");
-        setting.setIcon(R.drawable.ic_date);
-        values.add(setting);
-
-        setting = new Setting();
-        setting.setName("Miscellaneous");
-        setting.setIcon(R.drawable.ic_misc);
-        values.add(setting);
+        dateOption = new DateOption();
+        dateOption.setName("Separator symbol");
+        values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();
     }
 
-    public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder>{
+    public class DateOptionsListAdapter extends RecyclerView.Adapter<DateOptionsListAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView name;
-            ImageView icon;
 
             MyViewHolder(View view) {
                 super(view);
                 Log.d(TAG,"MyViewHolder");
-                name = view.findViewById(R.id.settingsListTextView);
-                icon = view.findViewById(R.id.settingsListImagetView);
+                name = view.findViewById(R.id.dateoptionslistListTextView);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -90,19 +77,14 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                         Intent intent;
                         switch (position){
                             case 0:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent = new Intent(DateOptionsListActivity.this, DateOptionsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                DateOptionsListActivity.this.startActivity(intent);
                                 break;
                             case 1:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
+                                intent = new Intent(DateOptionsListActivity.this, DateOptionsListActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 2:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                DateOptionsListActivity.this.startActivity(intent);
                                 break;
                             default:
                                 break;
@@ -110,22 +92,22 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                     }
                 });
             }
+
         }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.settings_list_item_view,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.date_options_list_list_item_view,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            Setting setting = values.get(position);
-            holder.name.setText(setting.getName());
-            holder.icon.setImageResource(setting.getIcon());
+            DateOption dateOption = values.get(position);
+            holder.name.setText(dateOption.getName());
 
         }
 
@@ -133,6 +115,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         public int getItemCount() {
             return values.size();
         }
+
     }
 
 }

@@ -57,6 +57,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private SharedPreferences prefs;
     private Integer backgroundColor;
     private Boolean militaryTime;
+    private Integer dateOrder;
 
     @Override
     public Engine onCreateEngine() {
@@ -148,8 +149,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color),android.graphics.Color.parseColor("#000000"));
             contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
             militaryTime = prefs.getBoolean(getString(R.string.preference_military_time),false);
+            dateOrder = prefs.getInt(getString(R.string.preference_date_order),0);
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
+            Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
         }
 
         @Override
@@ -318,8 +321,47 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Draw date
-            String text3 = String.format(Locale.UK,"%04d-%02d-%02d",mCalendar.get(Calendar.YEAR),mCalendar.get(Calendar.MONTH)+1,mCalendar.get(Calendar.DAY_OF_MONTH));
-            canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+            Integer first, second, third;
+            Boolean FourFirst;
+            switch (dateOrder) {
+                case 0:
+                    first = mCalendar.get(Calendar.MONTH)+1;
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+                case 1:
+                    first = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    second = mCalendar.get(Calendar.MONTH)+1;
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+                case 2:
+                    first = mCalendar.get(Calendar.YEAR);
+                    second = mCalendar.get(Calendar.MONTH)+1;
+                    third = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    FourFirst = true;
+                    break;
+                case 3:
+                    first = mCalendar.get(Calendar.YEAR);
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.MONTH)+1;
+                    FourFirst = true;
+                    break;
+                default:
+                    first = mCalendar.get(Calendar.MONTH)+1;
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+            }
+            if (FourFirst) {
+                String text3 = String.format(Locale.UK, "%04d-%02d-%02d", first, second, third);
+                canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+            } else {
+                String text3 = String.format(Locale.UK, "%02d-%02d-%04d", first, second, third);
+                canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+            }
         }
 
         private void updateTimer() {
