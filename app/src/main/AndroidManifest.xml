@@ -44,7 +44,7 @@
             </intent-filter>
         </service>
 
-        <activity
+        <!--<activity
             android:name=".config.DigitalWatchFaceWearableConfigActivity"
             android:label="@string/digital_config_name">
             <intent-filter>
@@ -65,7 +65,7 @@
                     android:pathPrefix="/"
                     android:scheme="wear"/>
             </intent-filter>
-        </service>
+        </service> -->
 
         <meta-data
             android:name="com.google.android.gms.version"
