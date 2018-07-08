@@ -91,10 +91,10 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Setting selectedMenuItem = values.get(position);
-                        Toast.makeText(DigitalWatchFaceWearableConfigActivity.this, selectedMenuItem.getName(), Toast.LENGTH_SHORT).show();
                         switch (position){
                             case 0:
                                 Intent intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             default:

@@ -7,7 +7,9 @@
 package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -34,11 +36,14 @@ public class ColorOptionsActivity extends Activity {
     private static final String TAG = "ColorOptionsActivity";
     private List<Color> values = new ArrayList<>();
     private ColorsAdapter mAdapter;
+    private SharedPreferences prefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wearable_config_activity);
+
+        prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
@@ -52,13 +57,140 @@ public class ColorOptionsActivity extends Activity {
 
     private void generateValues(){
         Color color = new Color();
-        color.setName("White");
-        color.setColorcode(R.color.white);
-        values.add(color);
-        color = new Color();
         color.setName("Black");
-        color.setColorcode(R.color.black);
+        color.setColorcode(android.graphics.Color.parseColor("#000000"));
         values.add(color);
+
+        color = new Color();
+        color.setName("Red");
+        color.setColorcode(android.graphics.Color.parseColor("#ff0000"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Magenta");
+        color.setColorcode(android.graphics.Color.parseColor("#ff00ff"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Yellow");
+        color.setColorcode(android.graphics.Color.parseColor("#ffff00"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Green");
+        color.setColorcode(android.graphics.Color.parseColor("#00ff00"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Cyan");
+        color.setColorcode(android.graphics.Color.parseColor("#00ffff"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Blue");
+        color.setColorcode(android.graphics.Color.parseColor("#0000ff"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("White");
+        color.setColorcode(android.graphics.Color.parseColor("#ffffff"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Red");
+        color.setColorcode(android.graphics.Color.parseColor("#A62C23"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Pink");
+        color.setColorcode(android.graphics.Color.parseColor("#A61646"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Purple");
+        color.setColorcode(android.graphics.Color.parseColor("#9224A6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Deep Purple");
+        color.setColorcode(android.graphics.Color.parseColor("#5E35A6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Indigo");
+        color.setColorcode(android.graphics.Color.parseColor("#3A4AA6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Blue");
+        color.setColorcode(android.graphics.Color.parseColor("#1766A6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Light Blue");
+        color.setColorcode(android.graphics.Color.parseColor("#0272A6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Cyan");
+        color.setColorcode(android.graphics.Color.parseColor("#0092A6"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Teal");
+        color.setColorcode(android.graphics.Color.parseColor("#00A695"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Green");
+        color.setColorcode(android.graphics.Color.parseColor("#47A64A"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Light Green");
+        color.setColorcode(android.graphics.Color.parseColor("#76A63F"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Lime");
+        color.setColorcode(android.graphics.Color.parseColor("#99A62B"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Yellow");
+        color.setColorcode(android.graphics.Color.parseColor("#A69926"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Amber");
+        color.setColorcode(android.graphics.Color.parseColor("#A67E05"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Orange");
+        color.setColorcode(android.graphics.Color.parseColor("#A66300"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Deep Orange");
+        color.setColorcode(android.graphics.Color.parseColor("#A63716"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Brown");
+        color.setColorcode(android.graphics.Color.parseColor("#A67563"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Gray");
+        color.setColorcode(android.graphics.Color.parseColor("#676767"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Material Blue Gray");
+        color.setColorcode(android.graphics.Color.parseColor("#7295A6"));
+        values.add(color);
+
         mAdapter.notifyDataSetChanged();
     }
 
@@ -80,15 +212,8 @@ public class ColorOptionsActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Color selectedMenuItem = values.get(position);
-                        Toast.makeText(ColorOptionsActivity.this, selectedMenuItem.getName(), Toast.LENGTH_SHORT).show();
-                        switch (position){
-                            case 3:
-                                Intent intent = new Intent(ColorOptionsActivity.this, ColorOptionsActivity.class);
-                                ColorOptionsActivity.this.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
+                        prefs.edit().putInt(getString(R.string.preference_background_color),values.get(position).getColorcode()).apply();
+                        finish();
                     }
                 });
             }
@@ -107,7 +232,7 @@ public class ColorOptionsActivity extends Activity {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
             Color color = values.get(position);
             holder.name.setText(color.getName());
-            holder.icon.setColorFilter(ContextCompat.getColor(ColorOptionsActivity.this, color.getColorcode()), android.graphics.PorterDuff.Mode.SRC_IN);
+            holder.icon.setColorFilter(color.getColorcode(), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         @Override

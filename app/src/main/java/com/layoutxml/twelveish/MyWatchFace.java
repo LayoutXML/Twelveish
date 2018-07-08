@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -52,11 +53,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean[] PrefixNewLine = new Boolean[]{true,false,false,true,true,true,true,true,true,true,true,true};
     private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,false,false,false,false,false,true,false,false,false};
     private Boolean isRound = true;
-    private Integer colorElement=0;
-    private List<Integer> colors = new ArrayList<Integer>();
-    private String[] colorsTxt;
     private Boolean contrastingBlack=false;
-    private Toast toast;
+    private SharedPreferences prefs;
+    private Integer backgroundColor;
 
     @Override
     public Engine onCreateEngine() {
@@ -109,6 +108,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
 
+            prefs = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            loadPreferences();
+
             setWatchFaceStyle(new WatchFaceStyle.Builder(MyWatchFace.this)
                     .setStatusBarGravity(CENTER_HORIZONTAL | TOP)
                     .setShowUnreadCountIndicator(true)
@@ -139,12 +141,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             Prefixes = getResources().getStringArray(R.array.Prefixes);
             Suffixes = getResources().getStringArray(R.array.Suffixes);
+        }
 
-            colorsTxt = getApplicationContext().getResources().getStringArray(R.array.colors);
-            for (String colorCode : colorsTxt) {
-                int newColor = Color.parseColor(colorCode);
-                colors.add(newColor);
-            }
+        private void loadPreferences(){
+            backgroundColor = prefs.getInt(getString(R.string.preference_background_color),android.graphics.Color.parseColor("#000000"));
+            contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
+            Log.d(TAG,"backgroundColor: "+backgroundColor);
         }
 
         @Override
@@ -166,6 +168,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 unregisterReceiver();
             }
 
+            loadPreferences();
             updateTimer();
         }
 
@@ -238,17 +241,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
-                    colorElement++;
-                    if (colorElement>=colorsTxt.length)
-                        colorElement-=colorsTxt.length;
-                    if (toast!=null)
-                        toast.cancel();
-                    toast = Toast.makeText(getApplicationContext(),(colorElement+1)+"/"+colors.size(),Toast.LENGTH_SHORT);
-                    toast.show();
-                    if (Color.red(colors.get(colorElement))*0.299+Color.green(colors.get(colorElement))*0.587+Color.blue(colors.get(colorElement))*0.114>186)
-                        contrastingBlack=true;
-                    else
-                        contrastingBlack=false;
                     break;
             }
             invalidate();
@@ -262,7 +254,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             } else {
                 mBackgroundPaint = new Paint();
-                mBackgroundPaint.setColor(colors.get(colorElement));
+                mBackgroundPaint.setColor(backgroundColor);
                 canvas.drawRect(0, 0, bounds.width(), bounds.height(), mBackgroundPaint);
                 if (contrastingBlack) {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
