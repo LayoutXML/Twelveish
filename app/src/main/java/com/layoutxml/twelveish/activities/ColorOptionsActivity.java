@@ -212,7 +212,7 @@ public class ColorOptionsActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Color selectedMenuItem = values.get(position);
-                        prefs.edit().putInt(getString(R.string.preference_background_color),values.get(position).getColorcode()).apply();
+                        prefs.edit().putInt(getString(R.string.preference_background_color),selectedMenuItem.getColorcode()).apply();
                         finish();
                     }
                 });

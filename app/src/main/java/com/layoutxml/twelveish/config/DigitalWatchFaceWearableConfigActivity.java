@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
+import com.layoutxml.twelveish.activities.MiscOptionsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,19 +56,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         setting.setIcon(R.drawable.ic_color);
         values.add(setting);
         setting = new Setting();
-        setting.setName("Test2");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test3");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test4");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
-        setting = new Setting();
-        setting.setName("Test5");
+        setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_color);
         values.add(setting);
         mAdapter.notifyDataSetChanged();
@@ -90,10 +79,15 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Setting selectedMenuItem = values.get(position);
+                        Intent intent;
                         switch (position){
                             case 0:
-                                Intent intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 1:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;

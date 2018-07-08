@@ -56,6 +56,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean contrastingBlack=false;
     private SharedPreferences prefs;
     private Integer backgroundColor;
+    private Boolean militaryTime;
 
     @Override
     public Engine onCreateEngine() {
@@ -146,7 +147,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void loadPreferences(){
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color),android.graphics.Color.parseColor("#000000"));
             contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
-            Log.d(TAG,"backgroundColor: "+backgroundColor);
+            militaryTime = prefs.getBoolean(getString(R.string.preference_military_time),false);
+            Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
+            Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
         }
 
         @Override
@@ -268,11 +271,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             long now = System.currentTimeMillis();
             mCalendar.setTimeInMillis(now);
+            Integer hour = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
 
             //Draw digital clock
             String text = mAmbient
-                    ? String.format(Locale.UK, "%d:%02d", mCalendar.get(Calendar.HOUR), mCalendar.get(Calendar.MINUTE))
-                    : String.format(Locale.UK,"%d:%02d:%02d", mCalendar.get(Calendar.HOUR), mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
+                    ? String.format(Locale.UK, "%d:%02d", hour, mCalendar.get(Calendar.MINUTE))
+                    : String.format(Locale.UK,"%d:%02d:%02d", hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
             canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
             //Draw text clock

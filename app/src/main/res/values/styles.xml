@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. LayoutXML
+  ~ Created by LayoutXML.
+  ~ This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
+  -->
+
+<resources>
+    <style name="MainStyle" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:switchStyle">@style/Widget.Wear.RoundSwitch</item>
+    </style>
+</resources>
