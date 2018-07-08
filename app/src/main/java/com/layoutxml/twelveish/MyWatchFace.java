@@ -25,6 +25,7 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer colorElement=0;
     private List<Integer> colors = new ArrayList<Integer>();
     private String[] colorsTxt;
+    private Boolean contrastingBlack=false;
+    private Toast toast;
 
     @Override
     public Engine onCreateEngine() {
@@ -238,6 +241,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     colorElement++;
                     if (colorElement>=colorsTxt.length)
                         colorElement-=colorsTxt.length;
+                    if (toast!=null)
+                        toast.cancel();
+                    toast = Toast.makeText(getApplicationContext(),(colorElement+1)+"/"+colors.size(),Toast.LENGTH_SHORT);
+                    toast.show();
+                    if (Color.red(colors.get(colorElement))*0.299+Color.green(colors.get(colorElement))*0.587+Color.blue(colors.get(colorElement))*0.114>186)
+                        contrastingBlack=true;
+                    else
+                        contrastingBlack=false;
                     break;
             }
             invalidate();
@@ -253,7 +264,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mBackgroundPaint = new Paint();
                 mBackgroundPaint.setColor(colors.get(colorElement));
                 canvas.drawRect(0, 0, bounds.width(), bounds.height(), mBackgroundPaint);
-                if (colorElement>3) {
+                if (contrastingBlack) {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                     mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 } else

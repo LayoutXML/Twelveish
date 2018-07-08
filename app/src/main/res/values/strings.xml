@@ -53,12 +53,31 @@
     </string-array>
     <string-array name="colors">
         <item>#000000</item>
-        <item>#0000ff</item>
         <item>#ff0000</item>
         <item>#ff00ff</item>
+        <item>#ffff00</item>
         <item>#00ff00</item>
         <item>#00ffff</item>
-        <item>#ffff00</item>
+        <item>#0000ff</item>
         <item>#ffffff</item>
+        <item>#A62C23</item>
+        <item>#A61646</item>
+        <item>#9224A6</item>
+        <item>#5E35A6</item>
+        <item>#3A4AA6</item>
+        <item>#1766A6</item>
+        <item>#0272A6</item>
+        <item>#0092A6</item>
+        <item>#00A695</item>
+        <item>#47A64A</item>
+        <item>#76A63F</item>
+        <item>#99A62B</item>
+        <item>#A69926</item>
+        <item>#A67E05</item>
+        <item>#A66300</item>
+        <item>#A63716</item>
+        <item>#A67563</item>
+        <item>#676767</item>
+        <item>#7295A6</item>
     </string-array>
 </resources>
