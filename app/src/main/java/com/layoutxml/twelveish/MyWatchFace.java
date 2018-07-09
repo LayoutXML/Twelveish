@@ -58,6 +58,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String dateSeparator;
     private Integer capitalisation;
     private Boolean ampm;
+    private Boolean showSecondary;
 
     @Override
     public Engine onCreateEngine() {
@@ -153,11 +154,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             dateSeparator = prefs.getString(getString(R.string.preference_date_separator),"/");
             capitalisation = prefs.getInt(getString(R.string.preference_capitalisation),0);
             ampm = prefs.getBoolean(getString(R.string.preference_ampm),true);
+            showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary),true);
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
             Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
             Log.d(TAG,"loadPreferences: capitalisation: "+capitalisation);
             Log.d(TAG,"loadPreferences: am/pm: "+ampm);
+            Log.d(TAG,"loadPreferences: showSecondary: "+showSecondary);
         }
 
         @Override
@@ -286,7 +289,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             String text = mAmbient
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE))
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
-            canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
+            if (!isInAmbientMode() || showSecondary)
+                canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
             //Draw text clock
             /*
@@ -391,10 +395,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             if (FourFirst) {
                 String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
-                canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+                if (!isInAmbientMode() || showSecondary)
+                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             } else {
                 String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
-                canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+                if (!isInAmbientMode() || showSecondary)
+                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             }
         }
 

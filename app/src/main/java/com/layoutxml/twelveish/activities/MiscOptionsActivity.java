@@ -66,6 +66,12 @@ public class MiscOptionsActivity extends Activity {
         option.setDefaultOption(true);
         values.add(option);
 
+        option = new MiscOption();
+        option.setName("Show secondary info in ambient mode");
+        option.setKey(getString(R.string.preference_show_secondary));
+        option.setDefaultOption(true);
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 
