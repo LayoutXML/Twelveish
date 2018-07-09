@@ -37,11 +37,11 @@ public class DateOptionsActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.date_options_config_activity);
+        setContentView(R.layout.wearablerecyclerview_activity);
 
         prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view2);
+        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
@@ -96,7 +96,7 @@ public class DateOptionsActivity extends Activity{
         @Override
         public DateOrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.date_options_list_list_item_view,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
             return new DateOrderAdapter.MyViewHolder(itemView);
         }
 

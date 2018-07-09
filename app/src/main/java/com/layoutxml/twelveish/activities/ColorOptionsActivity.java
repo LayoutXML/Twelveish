@@ -38,7 +38,7 @@ public class ColorOptionsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wearable_config_activity);
+        setContentView(R.layout.wearablerecyclerview_activity);
 
         prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -201,8 +201,8 @@ public class ColorOptionsActivity extends Activity {
             MyViewHolder(View view) {
                 super(view);
                 Log.d(TAG,"MyViewHolder");
-                name = view.findViewById(R.id.colorsListTextView);
-                icon = view.findViewById(R.id.colorsListImagetView);
+                name = view.findViewById(R.id.settingsListTextView);
+                icon = view.findViewById(R.id.settingsListImagetView);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -220,7 +220,7 @@ public class ColorOptionsActivity extends Activity {
         @Override
         public ColorsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.colors_list_item_view,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.imageview_and_textview_item,parent,false);
             return new ColorsAdapter.MyViewHolder(itemView);
         }
 

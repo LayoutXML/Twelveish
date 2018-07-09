@@ -39,7 +39,7 @@ public class MiscOptionsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(R.style.MainStyle);
-        setContentView(R.layout.wearable_config_activity);
+        setContentView(R.layout.wearablerecyclerview_activity);
 
         prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -91,7 +91,7 @@ public class MiscOptionsActivity extends Activity {
         @Override
         public MiscOptionsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.miscoptions_list_item_view,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.switch_and_textview_item,parent,false);
             return new MiscOptionsAdapter.MyViewHolder(itemView);
         }
 

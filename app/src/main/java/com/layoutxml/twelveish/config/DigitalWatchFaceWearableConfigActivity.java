@@ -39,7 +39,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wearable_config_activity);
+        setContentView(R.layout.wearablerecyclerview_activity);
 
         WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
@@ -116,7 +116,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.settings_list_item_view,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.imageview_and_textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
