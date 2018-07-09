@@ -39,9 +39,9 @@
         <item>eighteen</item>
         <item>nineteen</item>
         <item>twenty</item>
-        <item>twenty-one</item>
-        <item>twenty-two</item>
-        <item>twenty-three</item>
+        <item>twenty one</item>
+        <item>twenty two</item>
+        <item>twenty three</item>
     </string-array>
     <string-array name="Prefixes">
         <item></item>

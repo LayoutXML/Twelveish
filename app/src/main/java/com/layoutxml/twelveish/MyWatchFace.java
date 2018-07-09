@@ -437,12 +437,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if (hourIndex>=12)
                     hourIndex-=12;
             }
-            String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
+            StringBuilder hoursInWords = new StringBuilder();
             String mainText;
-            if (mainPrefix.equals("") || PrefixNewLine[index])
-                mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
-            else
-                mainText = hoursInWords.toLowerCase();
+            String[] mainArray = getResources().getStringArray(R.array.ExactTimes)[hourIndex].split(" ");
+            for (String word : mainArray) {
+                if (hoursInWords.length()!=0) {
+                    hoursInWords.append(" ");
+                    hoursInWords.append(word.substring(0, 1).toUpperCase()).append(word.substring(1));
+                }
+                else {
+                    if (!(mainPrefix.equals("") || PrefixNewLine[index]))
+                        hoursInWords.append(word);
+                    else
+                        hoursInWords.append(word.substring(0, 1).toUpperCase()).append(word.substring(1));
+                }
+            }
+            mainText = hoursInWords.toString();
 
             //Suffix
             String mainSuffix = "";
