@@ -512,15 +512,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             StringBuilder suffix;
             if ((mCalendar.get(Calendar.MINUTE)>0) && (!Suffixes[index].equals("")) && (Suffixes[index]!=null)) {
                 if (SuffixNewLine[index]) {
-                    String[] suffixArray = Suffixes[index].split(" ");
-                    suffix = new StringBuilder();
-                    for (String word : suffixArray) {
-                        if (suffix.length()!=0)
-                            suffix.append(" ");
-                        String capitalised = word.substring(0,1).toUpperCase() + word.substring(1);
-                        suffix.append(capitalised);
-                    }
-                    mainSuffix = suffix.toString();
+                    mainSuffix = Suffixes[index].substring(0,1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
                 } else {
                     mainSuffix = Suffixes[index].toLowerCase();
                 }
