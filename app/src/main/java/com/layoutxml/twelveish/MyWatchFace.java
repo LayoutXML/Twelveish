@@ -308,6 +308,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             1 - all caps
             2 - all lowercase
             3 - first word title case
+            4 - first word in every line title case
              */
             int index = mCalendar.get(Calendar.MINUTE)/5;
             String text2;
@@ -323,6 +324,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case 3:
                     text2 = capitalise3(index);
+                    break;
+                case 4:
+                    text2 = capitalise4(index);
                     break;
                 default:
                     text2 = capitalise0(index);
@@ -413,7 +417,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 hourIndex-=12;
             String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
             String mainText;
-            if (!mainPrefix.equals("") || PrefixNewLine[index])
+            if (mainPrefix.equals("") || PrefixNewLine[index])
                 mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
             else
                 mainText = hoursInWords.toLowerCase();
@@ -472,6 +476,48 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
 
             return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
+        }
+
+        private String capitalise4(Integer index) {
+            //Prefix
+            String mainPrefix = "";
+            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
+                mainPrefix = Prefixes[index].substring(0,1).toUpperCase() + Prefixes[index].substring(1).toLowerCase();
+            }
+
+            //Time
+            Integer hourIndex = mCalendar.get(Calendar.HOUR);
+            hourIndex+=TimeShift[index];
+            if (hourIndex>=12)
+                hourIndex-=12;
+            String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
+            String mainText;
+            if (mainPrefix.equals("") || PrefixNewLine[index])
+                mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
+            else
+                mainText = hoursInWords.toLowerCase();
+
+            //Suffix
+            String mainSuffix = "";
+            StringBuilder suffix;
+            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Suffixes[index].equals("")) && (Suffixes[index]!=null)) {
+                if (SuffixNewLine[index]) {
+                    String[] suffixArray = Suffixes[index].split(" ");
+                    suffix = new StringBuilder();
+                    for (String word : suffixArray) {
+                        if (suffix.length()!=0)
+                            suffix.append(" ");
+                        String capitalised = word.substring(0,1).toUpperCase() + word.substring(1);
+                        suffix.append(capitalised);
+                    }
+                    mainSuffix = suffix.toString();
+                } else {
+                    mainSuffix = Suffixes[index].toLowerCase();
+                }
+            }
+
+            return mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+
         }
 
         private void updateTimer() {

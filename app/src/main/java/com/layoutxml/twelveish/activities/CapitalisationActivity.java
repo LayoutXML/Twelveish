@@ -54,19 +54,23 @@ public class CapitalisationActivity extends Activity {
 
     private void generateValues(){
         Capitalisation capitalisation = new Capitalisation();
-        capitalisation.setName("All words title case (Two Or So)");
+        capitalisation.setName("All words title case");
         values.add(capitalisation);
 
         capitalisation = new Capitalisation();
-        capitalisation.setName("All uppercase (TWO OR SO)");
+        capitalisation.setName("All uppercase");
         values.add(capitalisation);
 
         capitalisation = new Capitalisation();
-        capitalisation.setName("All lowercase (two or so)");
+        capitalisation.setName("All lowercase");
         values.add(capitalisation);
 
         capitalisation = new Capitalisation();
-        capitalisation.setName("First word title case (Two or so)");
+        capitalisation.setName("First word title case");
+        values.add(capitalisation);
+
+        capitalisation = new Capitalisation();
+        capitalisation.setName("First word in every line title case");
         values.add(capitalisation);
 
         mAdapter.notifyDataSetChanged();
