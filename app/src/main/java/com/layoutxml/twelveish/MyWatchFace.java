@@ -45,9 +45,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private static final String TAG = "MyWatchFace";
     private String[] Prefixes;
     private String[] Suffixes;
-    private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,0,0,1,1};
-    private Boolean[] PrefixNewLine = new Boolean[]{true,false,false,true,true,true,true,true,true,true,true,true};
-    private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,false,false,false,false,false,true,false,false,false};
+    private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+    private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+    private Boolean[] SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
     private Boolean isRound = true;
     private Boolean contrastingBlack=false;
     private SharedPreferences prefs;
@@ -290,18 +290,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             | Min.  | Prefix              | Suffix |
             ----------------------------------------
             | 0     | -                   | -      |
-            | 1-4   | Around              | -      |
-            | 5-9   | -                   | ish    |
-            | 10-14 | -                   | Or so  |
-            | 15-19 | Well Past           | -      |
-            | 20-24 | Almost half past    | -      |
-            | 25-29 | Half past           | -      |
-            | 30-34 | Half past           | -      |
-            | 35-39 | Half past           | ish    |
-            | 40-44 | Half past           | Or so  |
-            | 45-49 | Well Past half past | -      |
-            | 50-54 | Almost              | -      | Hours+1
-            | 55-59 | Around              | -      | Hours+1
+            | 1-4   | -                   | ish    |
+            | 5-9   | -                   | or so  |
+            | 10-14 | almost quarter past | -      |
+            | 15-19 | quarter past        | or so  |
+            | 20-24 | almost half past    | -      |
+            | 25-29 | around half past    | -      |
+            | 30-34 | half past           | ish    |
+            | 35-39 | half past           | or so  |
+            | 40-44 | almost quarter to   | -      | Hours+1
+            | 45-49 | quarter to eleven   | or so  | Hours+1
+            | 50-54 | almost              | -      | Hours+1
+            | 55-59 | around              | -      | Hours+1
             ----------------------------------------
 
             0 - every word title case

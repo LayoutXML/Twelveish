@@ -29,30 +29,30 @@
         <item>eleven</item>
     </string-array>
     <string-array name="Prefixes">
-        <item>around</item>
         <item></item>
         <item></item>
-        <item>well past</item>
+        <item>almost quarter past</item>
+        <item>quarter past</item>
         <item>almost half past</item>
+        <item>around half past</item>
         <item>half past</item>
         <item>half past</item>
-        <item>half past</item>
-        <item>half past</item>
-        <item>well past half past</item>
+        <item>almost quarter to</item>
+        <item>quarter to</item>
         <item>almost</item>
         <item>around</item>
     </string-array>
     <string-array name="Suffixes">
+        <item>ish</item>
+        <item>or so</item>
+        <item></item>
+        <item>or so</item>
+        <item></item>
         <item></item>
         <item>ish</item>
         <item>or so</item>
         <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item>ish</item>
         <item>or so</item>
-        <item></item>
         <item></item>
         <item></item>
     </string-array>
