@@ -8,11 +8,9 @@ package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
@@ -23,10 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.config.Color;
+import com.layoutxml.twelveish.objects.Color;
 
 import java.util.ArrayList;
 import java.util.List;

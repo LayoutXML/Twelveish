@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.config.DateOption;
+import com.layoutxml.twelveish.objects.DateOption;
 
 import java.util.ArrayList;
 import java.util.List;

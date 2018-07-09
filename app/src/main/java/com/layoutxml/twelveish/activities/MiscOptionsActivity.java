@@ -23,7 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.config.MiscOption;
+import com.layoutxml.twelveish.objects.MiscOption;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,20 +4,11 @@
  * This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.objects;
 
-public class DateSeparator {
+public class DateOption {
 
-    public String name;
-    public String symbol;
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+    private String name;
 
     public String getName() {
         return name;

@@ -4,11 +4,11 @@
  * This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.objects;
 
-public class DateOrder {
-
+public class Color {
     private String name;
+    private Integer colorcode;
 
     public String getName() {
         return name;
@@ -16,5 +16,13 @@ public class DateOrder {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getColorcode() {
+        return colorcode;
+    }
+
+    public void setColorcode(Integer colorcode) {
+        this.colorcode = colorcode;
     }
 }

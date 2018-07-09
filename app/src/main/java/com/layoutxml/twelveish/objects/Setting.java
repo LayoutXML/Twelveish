@@ -4,7 +4,7 @@
  * This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.objects;
 
 public class Setting {
     private String name;

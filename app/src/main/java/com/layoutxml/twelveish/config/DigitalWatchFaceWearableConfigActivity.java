@@ -20,12 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
+import com.layoutxml.twelveish.objects.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
