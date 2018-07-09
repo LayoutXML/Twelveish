@@ -294,22 +294,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Draw text clock
             /*
-            ----------------------------------------
-            | Min.  | Prefix              | Suffix |
-            ----------------------------------------
-            | 0     | -                   | -      |
-            | 1-4   | -                   | ish    |
-            | 5-9   | -                   | or so  |
-            | 10-14 | almost quarter past | -      |
-            | 15-19 | quarter past        | or so  |
-            | 20-24 | almost half past    | -      |
-            | 25-29 | around half past    | -      |
-            | 30-34 | half past           | ish    |
-            | 35-39 | half past           | or so  |
-            | 40-44 | almost quarter to   | -      | Hours+1
-            | 45-49 | quarter to          | or so  | Hours+1
-            | 50-54 | almost              | -      | Hours+1
-            | 55-59 | around              | -      | Hours+1
+            -----------------------------------------
+            | Min.  | Prefix               | Suffix |
+            -----------------------------------------
+            | 0     | -                    | -      |
+            | 1-4   | -                    | ish    |
+            | 5-9   | -                    | or so  |
+            | 10-14 | almost a quarter past| -      |
+            | 15-19 | quarter past         | or so  |
+            | 20-24 | almost half past     | -      |
+            | 25-29 | around half past     | -      |
+            | 30-34 | half past            | ish    |
+            | 35-39 | half past            | or so  |
+            | 40-44 | almost a quarter to  | -      | Hours+1
+            | 45-49 | quarter to           | or so  | Hours+1
+            | 50-54 | almost               | -      | Hours+1
+            | 55-59 | around               | -      | Hours+1
             ----------------------------------------
 
             0 - every word title case
