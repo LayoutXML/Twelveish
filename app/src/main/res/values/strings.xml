@@ -11,6 +11,7 @@
     <string name="preference_file_key">com.layoutxml.twelveish.DIGITAL_COMPLICATION_PREFERENCE_FILE_KEY</string>
     <string name="preference_background_color">backgroundColor</string>
     <string name="preference_military_time">militaryTime</string>
+    <string name="preference_militarytext_time">militarytextTime</string>
     <string name="preference_date_order">dateOrder</string>
     <string name="preference_date_separator">dateSeparator</string>
     <string name="preference_capitalisation">capitalisation</string>
@@ -29,6 +30,18 @@
         <item>nine</item>
         <item>ten</item>
         <item>eleven</item>
+        <item>twelve</item>
+        <item>thirteen</item>
+        <item>fourteen</item>
+        <item>fifteen</item>
+        <item>sixteen</item>
+        <item>seventeen</item>
+        <item>eighteen</item>
+        <item>nineteen</item>
+        <item>twenty</item>
+        <item>twenty-one</item>
+        <item>twenty-two</item>
+        <item>twenty-three</item>
     </string-array>
     <string-array name="Prefixes">
         <item></item>
@@ -43,8 +56,32 @@
         <item>quarter to</item>
         <item>almost</item>
         <item>around</item>
+        <item></item>
+        <item></item>
+        <item>almost a quarter past</item>
+        <item>quarter past</item>
+        <item>almost half past</item>
+        <item>around half past</item>
+        <item>half past</item>
+        <item>half past</item>
+        <item>almost a quarter to</item>
+        <item>quarter to</item>
+        <item>almost</item>
+        <item>around</item>
     </string-array>
     <string-array name="Suffixes">
+        <item>ish</item>
+        <item>or so</item>
+        <item></item>
+        <item>or so</item>
+        <item></item>
+        <item></item>
+        <item>ish</item>
+        <item>or so</item>
+        <item></item>
+        <item>or so</item>
+        <item></item>
+        <item></item>
         <item>ish</item>
         <item>or so</item>
         <item></item>

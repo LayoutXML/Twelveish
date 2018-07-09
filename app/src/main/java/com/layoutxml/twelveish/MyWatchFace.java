@@ -54,6 +54,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     //SharedPreferences:
     private Integer backgroundColor;
     private Boolean militaryTime;
+    private Boolean militaryTextTime;
     private Integer dateOrder;
     private String dateSeparator;
     private Integer capitalisation;
@@ -150,6 +151,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color),android.graphics.Color.parseColor("#000000"));
             contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
             militaryTime = prefs.getBoolean(getString(R.string.preference_military_time),false);
+            militaryTextTime = prefs.getBoolean(getString(R.string.preference_militarytext_time),false);
             dateOrder = prefs.getInt(getString(R.string.preference_date_order),0);
             dateSeparator = prefs.getString(getString(R.string.preference_date_separator),"/");
             capitalisation = prefs.getInt(getString(R.string.preference_capitalisation),0);
@@ -157,6 +159,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary),true);
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
+            Log.d(TAG,"loadPreferences: militaryTime: "+militaryTextTime);
             Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
             Log.d(TAG,"loadPreferences: capitalisation: "+capitalisation);
             Log.d(TAG,"loadPreferences: am/pm: "+ampm);
@@ -421,10 +424,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Time
-            Integer hourIndex = mCalendar.get(Calendar.HOUR);
+            Integer hourIndex;
+            if (militaryTextTime)
+                hourIndex = mCalendar.get(Calendar.HOUR_OF_DAY);
+            else
+                hourIndex = mCalendar.get(Calendar.HOUR);
             hourIndex+=TimeShift[index];
-            if (hourIndex>=12)
-                hourIndex-=12;
+            if (militaryTextTime) {
+                if (hourIndex>=24)
+                    hourIndex-=24;
+            } else {
+                if (hourIndex>=12)
+                    hourIndex-=12;
+            }
             String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
             String mainText;
             if (mainPrefix.equals("") || PrefixNewLine[index])
@@ -456,10 +468,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise1(Integer index) {
+            String middleText;
+            if (militaryTextTime)
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
+            else
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
             String text20 =
                     ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12]
+                            + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
 
@@ -467,10 +484,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise2(Integer index) {
+            String middleText;
+            if (militaryTextTime)
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
+            else
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
             String text20 =
                     ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12]
+                            + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
 
@@ -478,10 +500,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise3(Integer index) {
+            String middleText;
+            if (militaryTextTime)
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
+            else
+                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
             String text20 =
                     ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12]
+                            + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
 
@@ -496,10 +523,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Time
-            Integer hourIndex = mCalendar.get(Calendar.HOUR);
+            Integer hourIndex;
+            if (militaryTextTime)
+                hourIndex = mCalendar.get(Calendar.HOUR_OF_DAY);
+            else
+                hourIndex = mCalendar.get(Calendar.HOUR);
             hourIndex+=TimeShift[index];
-            if (hourIndex>=12)
-                hourIndex-=12;
+            if (militaryTextTime) {
+                if (hourIndex>=24)
+                    hourIndex-=24;
+            } else {
+                if (hourIndex>=12)
+                    hourIndex-=12;
+            }
             String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
             String mainText;
             if (mainPrefix.equals("") || PrefixNewLine[index])

@@ -16,7 +16,8 @@
         android:id="@+id/miscoptionsListSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp" />
+        android:layout_marginStart="8dp"
+        android:clickable="false"/>
 
     <TextView
         android:id="@+id/miscoptionsListTextView"

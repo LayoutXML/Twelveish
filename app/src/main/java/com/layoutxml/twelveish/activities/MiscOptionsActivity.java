@@ -55,8 +55,14 @@ public class MiscOptionsActivity extends Activity {
 
     private void generateValues(){
         MiscOption option = new MiscOption();
-        option.setName("Use 24 hours format");
+        option.setName("Use 24 hours format (digital clock)");
         option.setKey(getString(R.string.preference_military_time));
+        option.setDefaultOption(false);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Use 24 hours format (text clock)");
+        option.setKey(getString(R.string.preference_militarytext_time));
         option.setDefaultOption(false);
         values.add(option);
 
