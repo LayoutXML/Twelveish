@@ -307,7 +307,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             | 30-34 | half past           | ish    |
             | 35-39 | half past           | or so  |
             | 40-44 | almost quarter to   | -      | Hours+1
-            | 45-49 | quarter to eleven   | or so  | Hours+1
+            | 45-49 | quarter to          | or so  | Hours+1
             | 50-54 | almost              | -      | Hours+1
             | 55-59 | around              | -      | Hours+1
             ----------------------------------------
