@@ -27,9 +27,9 @@ import com.layoutxml.twelveish.objects.DateOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateOptionsActivity extends Activity{
+public class DateOrderActivity extends Activity{
 
-    private static final String TAG = "DateOptionsActivity";
+    private static final String TAG = "DateOrderActivity";
     private List<DateOrder> values = new ArrayList<>();
     private DateOrderAdapter mAdapter;
     private SharedPreferences prefs;
