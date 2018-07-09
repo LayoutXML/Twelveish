@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.activities.CapitalisationActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
@@ -63,6 +64,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
+        setting.setName("Capitalisation");
+        setting.setIcon(R.drawable.ic_capitalisation);
+        values.add(setting);
+
+        setting = new Setting();
         setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_misc);
         values.add(setting);
@@ -100,6 +106,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 2:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 3:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);

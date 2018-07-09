@@ -13,44 +13,45 @@
     <string name="preference_military_time">militaryTime</string>
     <string name="preference_date_order">dateOrder</string>
     <string name="preference_date_separator">dateSeparator</string>
+    <string name="preference_capitalisation">capitalisation</string>
     <string-array name="ExactTimes">
-        <item>Twelve</item>
-        <item>One</item>
-        <item>Two</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
-        <item>Six</item>
-        <item>Seven</item>
-        <item>Eight</item>
-        <item>Nine</item>
-        <item>Ten</item>
-        <item>Eleven</item>
+        <item>twelve</item>
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+        <item>nine</item>
+        <item>ten</item>
+        <item>eleven</item>
     </string-array>
     <string-array name="Prefixes">
-        <item>Around</item>
+        <item>around</item>
         <item></item>
         <item></item>
-        <item>Well Past</item>
-        <item>Almost Half Past</item>
-        <item>Half Past</item>
-        <item>Half Past</item>
-        <item>Half Past</item>
-        <item>Half Past</item>
-        <item>Well Past Half Past</item>
-        <item>Almost</item>
-        <item>Around</item>
+        <item>well past</item>
+        <item>almost half past</item>
+        <item>half past</item>
+        <item>half past</item>
+        <item>half past</item>
+        <item>half past</item>
+        <item>well past half past</item>
+        <item>almost</item>
+        <item>around</item>
     </string-array>
     <string-array name="Suffixes">
         <item></item>
         <item>ish</item>
-        <item>Or So</item>
+        <item>or so</item>
         <item></item>
         <item></item>
         <item></item>
         <item></item>
         <item>ish</item>
-        <item>Or So</item>
+        <item>or so</item>
         <item></item>
         <item></item>
         <item></item>

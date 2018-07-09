@@ -59,6 +59,7 @@
         <activity android:name=".activities.DateOptionsListActivity" />
         <activity android:name=".activities.DateOrderActivity" />
         <activity android:name=".activities.DateSeparatorActivity" />
+        <activity android:name=".activities.CapitalisationActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>
