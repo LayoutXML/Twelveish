@@ -60,6 +60,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer capitalisation;
     private Boolean ampm;
     private Boolean showSecondary;
+    private Boolean showSuffixes;
 
     @Override
     public Engine onCreateEngine() {
@@ -157,6 +158,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             capitalisation = prefs.getInt(getString(R.string.preference_capitalisation),0);
             ampm = prefs.getBoolean(getString(R.string.preference_ampm),true);
             showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary),true);
+            showSuffixes = prefs.getBoolean(getString(R.string.preference_show_suffixes),true);
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTextTime);
@@ -292,7 +294,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             String text = mAmbient
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE))
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
-            if (!isInAmbientMode() || showSecondary)
+            if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
                 canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
             //Draw text clock
@@ -398,11 +400,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             if (FourFirst) {
                 String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
-                if (!isInAmbientMode() || showSecondary)
+                if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
                     canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             } else {
                 String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
-                if (!isInAmbientMode() || showSecondary)
+                if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
                     canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             }
         }
@@ -456,20 +458,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Suffix
             String mainSuffix = "";
-            StringBuilder suffix;
-            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Suffixes[index].equals("")) && (Suffixes[index]!=null)) {
-                if (SuffixNewLine[index]) {
-                    String[] suffixArray = Suffixes[index].split(" ");
-                    suffix = new StringBuilder();
-                    for (String word : suffixArray) {
-                        if (suffix.length()!=0)
-                            suffix.append(" ");
-                        String capitalised = word.substring(0,1).toUpperCase() + word.substring(1);
-                        suffix.append(capitalised);
+            if (showSuffixes) {
+                StringBuilder suffix;
+                if ((mCalendar.get(Calendar.MINUTE) > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+                    if (SuffixNewLine[index]) {
+                        String[] suffixArray = Suffixes[index].split(" ");
+                        suffix = new StringBuilder();
+                        for (String word : suffixArray) {
+                            if (suffix.length() != 0)
+                                suffix.append(" ");
+                            String capitalised = word.substring(0, 1).toUpperCase() + word.substring(1);
+                            suffix.append(capitalised);
+                        }
+                        mainSuffix = suffix.toString();
+                    } else {
+                        mainSuffix = Suffixes[index].toLowerCase();
                     }
-                    mainSuffix = suffix.toString();
-                } else {
-                    mainSuffix = Suffixes[index].toLowerCase();
                 }
             }
 
@@ -488,7 +492,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
                             + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
+                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
 
             return text20.toUpperCase();
         }
@@ -504,7 +508,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
                             + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
+                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
 
             return text20.toLowerCase();
         }
@@ -520,7 +524,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
                             + middleText
                             + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "");
+                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
 
             return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
         }
@@ -555,12 +559,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Suffix
             String mainSuffix = "";
-            StringBuilder suffix;
-            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Suffixes[index].equals("")) && (Suffixes[index]!=null)) {
-                if (SuffixNewLine[index]) {
-                    mainSuffix = Suffixes[index].substring(0,1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
-                } else {
-                    mainSuffix = Suffixes[index].toLowerCase();
+            if (showSuffixes) {
+                if ((mCalendar.get(Calendar.MINUTE) > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+                    if (SuffixNewLine[index]) {
+                        mainSuffix = Suffixes[index].substring(0, 1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
+                    } else {
+                        mainSuffix = Suffixes[index].toLowerCase();
+                    }
                 }
             }
 
@@ -593,7 +598,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             float min = Integer.MAX_VALUE, linecount=0;
             float size, size2;
             for (String line: text.split("\n")) {
-                linecount++;
+                if (line!="")
+                    linecount++;
                 float testTextSize = 48f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();

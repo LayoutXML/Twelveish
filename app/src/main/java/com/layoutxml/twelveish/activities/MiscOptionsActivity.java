@@ -67,7 +67,7 @@ public class MiscOptionsActivity extends Activity {
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show am/pm (if 12 hours format)");
+        option.setName("Show am/pm for digital clock (if 12 hours format)");
         option.setKey(getString(R.string.preference_ampm));
         option.setDefaultOption(true);
         values.add(option);
@@ -75,6 +75,12 @@ public class MiscOptionsActivity extends Activity {
         option = new MiscOption();
         option.setName("Show secondary info in ambient mode");
         option.setKey(getString(R.string.preference_show_secondary));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show suffixes");
+        option.setKey(getString(R.string.preference_show_suffixes));
         option.setDefaultOption(true);
         values.add(option);
 

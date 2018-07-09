@@ -17,6 +17,7 @@
     <string name="preference_capitalisation">capitalisation</string>
     <string name="preference_ampm">ampm</string>
     <string name="preference_show_secondary">showSecondary</string>
+    <string name="preference_show_suffixes">showSuffixes</string>
     <string-array name="ExactTimes">
         <item>twelve</item>
         <item>one</item>
