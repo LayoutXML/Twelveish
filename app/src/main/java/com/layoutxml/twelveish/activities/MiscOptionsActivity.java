@@ -57,6 +57,13 @@ public class MiscOptionsActivity extends Activity {
         MiscOption option = new MiscOption();
         option.setName("Use 24 hours format");
         option.setKey(getString(R.string.preference_military_time));
+        option.setDefaultOption(false);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show am/pm (if 12 hours format)");
+        option.setKey(getString(R.string.preference_ampm));
+        option.setDefaultOption(true);
         values.add(option);
 
         mAdapter.notifyDataSetChanged();
@@ -100,7 +107,7 @@ public class MiscOptionsActivity extends Activity {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
             MiscOption option = values.get(position);
             holder.name.setText(option.getName());
-            Boolean shouldBeOn = prefs.getBoolean(option.getKey(),false);
+            Boolean shouldBeOn = prefs.getBoolean(option.getKey(),option.getDefaultOption());
             holder.switcher.setChecked(shouldBeOn);
             option.setBool(shouldBeOn);
         }

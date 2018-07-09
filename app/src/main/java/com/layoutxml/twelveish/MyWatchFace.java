@@ -57,6 +57,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer dateOrder;
     private String dateSeparator;
     private Integer capitalisation;
+    private Boolean ampm;
 
     @Override
     public Engine onCreateEngine() {
@@ -151,10 +152,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             dateOrder = prefs.getInt(getString(R.string.preference_date_order),0);
             dateSeparator = prefs.getString(getString(R.string.preference_date_separator),"/");
             capitalisation = prefs.getInt(getString(R.string.preference_capitalisation),0);
+            ampm = prefs.getBoolean(getString(R.string.preference_ampm),true);
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
             Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
             Log.d(TAG,"loadPreferences: capitalisation: "+capitalisation);
+            Log.d(TAG,"loadPreferences: am/pm: "+ampm);
         }
 
         @Override
@@ -279,9 +282,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Integer hour = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
 
             //Draw digital clock
+            String ampmSymbols = (ampm&&!militaryTime) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
             String text = mAmbient
-                    ? String.format(Locale.UK, "%d:%02d", hour, mCalendar.get(Calendar.MINUTE))
-                    : String.format(Locale.UK,"%d:%02d:%02d", hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
+                    ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE))
+                    : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
             canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
             //Draw text clock

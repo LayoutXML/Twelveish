@@ -11,6 +11,15 @@ public class MiscOption {
     private String name;
     private String key;
     private Boolean bool;
+    private Boolean defaultOption;
+
+    public Boolean getDefaultOption() {
+        return defaultOption;
+    }
+
+    public void setDefaultOption(Boolean defaultOption) {
+        this.defaultOption = defaultOption;
+    }
 
     public String getKey() {
         return key;
