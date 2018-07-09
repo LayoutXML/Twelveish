@@ -12,6 +12,7 @@
     <string name="preference_background_color">backgroundColor</string>
     <string name="preference_military_time">militaryTime</string>
     <string name="preference_date_order">dateOrder</string>
+    <string name="preference_date_separator">dateSeparator</string>
     <string-array name="ExactTimes">
         <item>Twelve</item>
         <item>One</item>

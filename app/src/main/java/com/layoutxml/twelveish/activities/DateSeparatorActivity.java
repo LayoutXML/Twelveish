@@ -7,7 +7,8 @@
 package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,45 +22,58 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.config.DateOption;
+import com.layoutxml.twelveish.config.DateSeparator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateOptionsListActivity extends Activity {
+public class DateSeparatorActivity extends Activity{
 
-    private static final String TAG = "DateOptionsListActivity";
-    private List<DateOption> values = new ArrayList<>();
-    private DateOptionsListAdapter mAdapter;
+    private static final String TAG = "DateSeparatorActivity";
+    List<DateSeparator> values = new ArrayList<>();
+    private DateSeparatorAdapter mAdapter;
+    private SharedPreferences prefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date_options_config_activity);
 
+        prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
         WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view2);
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
-        mAdapter = new DateOptionsListAdapter();
+        mAdapter = new DateSeparatorAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
         generateValues();
     }
 
-    private void generateValues(){
-        DateOption dateOption = new DateOption();
-        dateOption.setName("Date format");
-        values.add(dateOption);
+    private void generateValues() {
+        DateSeparator dateSeparator = new DateSeparator();
+        dateSeparator.setName("Slash /");
+        dateSeparator.setSymbol("/");
+        values.add(dateSeparator);
 
-        dateOption = new DateOption();
-        dateOption.setName("Separator symbol");
-        values.add(dateOption);
+        dateSeparator = new DateSeparator();
+        dateSeparator.setName("Period .");
+        dateSeparator.setSymbol(".");
+        values.add(dateSeparator);
 
-        mAdapter.notifyDataSetChanged();
+        dateSeparator = new DateSeparator();
+        dateSeparator.setName("Hyphen -");
+        dateSeparator.setSymbol("-");
+        values.add(dateSeparator);
+
+        dateSeparator = new DateSeparator();
+        dateSeparator.setName("Space");
+        dateSeparator.setSymbol(" ");
+        values.add(dateSeparator);
     }
 
-    public class DateOptionsListAdapter extends RecyclerView.Adapter<DateOptionsListAdapter.MyViewHolder>{
+    public class DateSeparatorAdapter extends RecyclerView.Adapter<DateSeparatorAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -74,48 +88,32 @@ public class DateOptionsListActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Intent intent;
-                        switch (position){
-                            case 0:
-                                intent = new Intent(DateOptionsListActivity.this, DateOptionsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                DateOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 1:
-                                intent = new Intent(DateOptionsListActivity.this, DateSeparatorActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                DateOptionsListActivity.this.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
+                        DateSeparator selectedMenuItem = values.get(position);
+                        prefs.edit().putString(getString(R.string.preference_date_separator),selectedMenuItem.getSymbol()).apply();
+                        finish();
                     }
                 });
             }
-
         }
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public DateSeparatorAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.date_options_list_list_item_view,parent,false);
-            return new MyViewHolder(itemView);
+            return new DateSeparatorAdapter.MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull DateSeparatorAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            DateOption dateOption = values.get(position);
-            holder.name.setText(dateOption.getName());
-
+            DateSeparator dateSeparator = values.get(position);
+            holder.name.setText(dateSeparator.getName());
         }
 
         @Override
         public int getItemCount() {
             return values.size();
         }
-
     }
-
 }

@@ -58,6 +58,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer backgroundColor;
     private Boolean militaryTime;
     private Integer dateOrder;
+    private String dateSeparator;
 
     @Override
     public Engine onCreateEngine() {
@@ -150,6 +151,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
             militaryTime = prefs.getBoolean(getString(R.string.preference_military_time),false);
             dateOrder = prefs.getInt(getString(R.string.preference_date_order),0);
+            dateSeparator = prefs.getString(getString(R.string.preference_date_separator),"/");
             Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
             Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
             Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
@@ -356,10 +358,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
             if (FourFirst) {
-                String text3 = String.format(Locale.UK, "%04d-%02d-%02d", first, second, third);
+                String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
                 canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             } else {
-                String text3 = String.format(Locale.UK, "%02d-%02d-%04d", first, second, third);
+                String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
                 canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             }
         }
