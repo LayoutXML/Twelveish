@@ -6,7 +6,9 @@
 
 package com.layoutxml.twelveish;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,11 +24,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.wearable.complications.ComplicationData;
+import android.support.wearable.complications.ComplicationHelperActivity;
+import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+
+import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -70,6 +78,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showBatteryAmbient;
     private Boolean showWords;
     private Boolean showWordsAmbient;
+    //Complications and their data
+    private static final int BOTTOM_COMPLICATION_ID = 0;
+    private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
+    private static final int[][] COMPLICATION_SUPPORTED_TYPES = {
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
+            }
+    };
+    private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
+    private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
 
     @Override
     public Engine onCreateEngine() {
@@ -80,6 +101,39 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         return new Engine();
+    }
+
+    public static int getComplicationId(ComplicationConfigActivity.ComplicationLocation complicationLocation){
+            switch (complicationLocation) {
+                case BOTTOM:
+                    return BOTTOM_COMPLICATION_ID;
+                default:
+                    return -1;
+            }
+    }
+
+    public static int[] getComplicationIds() {
+        return COMPLICATION_IDS;
+    }
+
+    public static int[] getSupportedComplicationTypes(ComplicationConfigActivity.ComplicationLocation complicationLocation) {
+        switch (complicationLocation) {
+            case BOTTOM:
+                return COMPLICATION_SUPPORTED_TYPES[0];
+            default:
+                return new int[] {};
+        }
+    }
+
+    private void drawComplications(Canvas canvas, long currentTimeMillis) {
+        int complicationId;
+        ComplicationDrawable complicationDrawable;
+
+        for (int COMPLICATION_ID : COMPLICATION_IDS) {
+            complicationId = COMPLICATION_ID;
+            complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
+            complicationDrawable.draw(canvas, currentTimeMillis);
+        }
     }
 
     private static class EngineHandler extends Handler {
@@ -168,6 +222,47 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             Prefixes = getResources().getStringArray(R.array.Prefixes);
             Suffixes = getResources().getStringArray(R.array.Suffixes);
+
+            initializeComplications();
+        }
+
+        private void initializeComplications() {
+            mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
+
+            ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            bottomComplicationDrawable.setContext(getApplicationContext());
+
+            mComplicationDrawableSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
+            mComplicationDrawableSparseArray.put(BOTTOM_COMPLICATION_ID, bottomComplicationDrawable);
+
+            setActiveComplications(COMPLICATION_IDS);
+        }
+
+        @Override
+        public void onComplicationDataUpdate(
+                int complicationId, ComplicationData complicationData) {
+            Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId);
+
+            mActiveComplicationDataSparseArray.put(complicationId, complicationData);
+
+            ComplicationDrawable complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
+            complicationDrawable.setComplicationData(complicationData);
+
+            invalidate();
+        }
+
+        @Override
+        public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            super.onSurfaceChanged(holder, format, width, height);
+
+            Rect bottomBounds = new Rect(width/2-width/4,
+                    (int)(height-16-mTextPaint.descent()-mChinSize-height/4),
+                    width/2+width/4,
+                    (int)(height-16-mChinSize));
+
+            ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
+            bottomComplicationDrawable.setBounds(bottomBounds);
+
         }
 
         private void loadPreferences() {
@@ -271,6 +366,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mTextPaint3.setAntiAlias(!inAmbientMode);
             }
 
+            ComplicationDrawable complicationDrawable;
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
+                complicationDrawable.setInAmbientMode(mAmbient);
+            }
+
             updateTimer();
         }
 
@@ -285,9 +386,79 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
+                    int tappedComplicationId = getTappedComplicationId(x, y);
+                    if (tappedComplicationId != -1) {
+                        onComplicationTap(tappedComplicationId);
+                    }
                     break;
             }
             invalidate();
+        }
+
+        private int getTappedComplicationId(int x, int y) {
+            int complicationId;
+            ComplicationData complicationData;
+            ComplicationDrawable complicationDrawable;
+
+            long currentTimeMillis = System.currentTimeMillis();
+
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationId = COMPLICATION_ID;
+                complicationData = mActiveComplicationDataSparseArray.get(complicationId);
+
+                if ((complicationData != null)
+                        && (complicationData.isActive(currentTimeMillis))
+                        && (complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED)
+                        && (complicationData.getType() != ComplicationData.TYPE_EMPTY)) {
+
+                    complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
+                    Rect complicationBoundingRect = complicationDrawable.getBounds();
+
+                    if (complicationBoundingRect.width() > 0) {
+                        if (complicationBoundingRect.contains(x, y)) {
+                            return complicationId;
+                        }
+                    } else {
+                        Log.e(TAG, "Not a recognized complication id.");
+                    }
+                }
+            }
+            return -1;
+        }
+
+        private void onComplicationTap(int complicationId) {
+            Log.d(TAG, "onComplicationTap()");
+
+            ComplicationData complicationData =
+                    mActiveComplicationDataSparseArray.get(complicationId);
+
+            if (complicationData != null) {
+
+                if (complicationData.getTapAction() != null) {
+                    try {
+                        complicationData.getTapAction().send();
+                    } catch (PendingIntent.CanceledException e) {
+                        Log.e(TAG, "onComplicationTap() tap action error: " + e);
+                    }
+
+                } else if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
+
+                    // Watch face does not have permission to receive complication data, so launch
+                    // permission request.
+                    ComponentName componentName =
+                            new ComponentName(
+                                    getApplicationContext(), MyWatchFace.class);
+
+                    Intent permissionRequestIntent =
+                            ComplicationHelperActivity.createPermissionRequestHelperIntent(
+                                    getApplicationContext(), componentName);
+
+                    startActivity(permissionRequestIntent);
+                }
+
+            } else {
+                Log.d(TAG, "No PendingIntent for complication " + complicationId + ".");
+            }
         }
 
         @Override
@@ -387,6 +558,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     canvas.drawText(line, x, y, mTextPaint2);
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
+
+                drawComplications(canvas,now);
             }
 
             //Draw battery percentage
@@ -439,11 +612,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             if (FourFirst) {
                 String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
                 if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
-                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-mChinSize, mTextPaint);
             } else {
                 String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
                 if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
-                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
+                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-mChinSize, mTextPaint);
             }
         }
 
@@ -643,7 +816,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 Rect bounds = new Rect();
                 mTextPaint2.getTextBounds(line, 0, line.length(), bounds);
                 size = (testTextSize * desiredWidth / bounds.width());
-                size2 = testTextSize*desiredWidth/bounds.height()/3.5f/linecount;
+                size2 = testTextSize*desiredWidth/bounds.height()/4/linecount;
                 if (size2<size)
                     size=size2;
                 if (linecount==1) {

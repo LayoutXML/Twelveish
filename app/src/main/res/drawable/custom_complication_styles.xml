@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. LayoutXML
+  ~ Created by LayoutXML.
+  ~ This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
+  -->
+
+<drawable
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    class="android.support.wearable.complications.rendering.ComplicationDrawable"
+    app:backgroundColor="@android:color/transparent"
+    app:borderColor="@android:color/transparent"
+    app:highlightColor="@color/digital_text"
+    app:iconColor="@color/digital_text"
+    app:rangedValuePrimaryColor="@color/digital_text"
+    app:rangedValueRingWidth="1dp"
+    app:rangedValueSecondaryColor="@color/digital_text"
+    app:textColor="@color/white"
+    app:textSize="12sp"
+    app:textTypeface="sans-serif-condensed"
+    app:titleColor="@color/digital_text"
+    app:titleSize="10sp"
+    app:titleTypeface="sans-serif">
+
+    <ambient
+        app:highlightColor="@color/digital_text"
+        app:iconColor="@color/digital_text"
+        app:rangedValuePrimaryColor="@color/digital_text"
+        app:titleColor="@color/digital_text"
+        app:borderColor="@android:color/transparent"
+        app:rangedValueSecondaryColor="@android:color/transparent"/>
+</drawable>
