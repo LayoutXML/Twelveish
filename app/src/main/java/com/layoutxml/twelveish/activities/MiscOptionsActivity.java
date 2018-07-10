@@ -55,26 +55,68 @@ public class MiscOptionsActivity extends Activity {
 
     private void generateValues(){
         MiscOption option = new MiscOption();
-        option.setName("Use 24 hours format (digital clock)");
-        option.setKey(getString(R.string.preference_military_time));
-        option.setDefaultOption(false);
-        values.add(option);
-
-        option = new MiscOption();
-        option.setName("Use 24 hours format (text clock)");
+        option.setName("24h format (Word)");
         option.setKey(getString(R.string.preference_militarytext_time));
         option.setDefaultOption(false);
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show am/pm for digital clock (if 12 hours format)");
+        option.setName("24h format (Digital)");
+        option.setKey(getString(R.string.preference_military_time));
+        option.setDefaultOption(false);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show am/pm (Digital)");
         option.setKey(getString(R.string.preference_ampm));
         option.setDefaultOption(true);
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show secondary info in ambient mode");
+        option.setName("Show digital when active");
+        option.setKey(getString(R.string.preference_show_secondary_active));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show digital in ambient");
         option.setKey(getString(R.string.preference_show_secondary));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show battery when active");
+        option.setKey(getString(R.string.preference_show_battery));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show battery in ambient");
+        option.setKey(getString(R.string.preference_show_battery_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show words when active");
+        option.setKey(getString(R.string.preference_show_words));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show words in ambient");
+        option.setKey(getString(R.string.preference_show_words_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show calendar when active");
+        option.setKey(getString(R.string.preference_show_secondary_calendar_active));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show calendar in ambient");
+        option.setKey(getString(R.string.preference_show_secondary_calendar));
         option.setDefaultOption(true);
         values.add(option);
 

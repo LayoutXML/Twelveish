@@ -17,7 +17,15 @@
     <string name="preference_capitalisation">capitalisation</string>
     <string name="preference_ampm">ampm</string>
     <string name="preference_show_secondary">showSecondary</string>
+    <string name="preference_show_secondary_active">showSecondaryActive</string>
+    <string name="preference_show_secondary_calendar">showSecondaryCalendar</string>
+    <string name="preference_show_secondary_calendar_active">showSecondaryCalendarActive</string>
     <string name="preference_show_suffixes">showSuffixes</string>
+    <string name="preference_show_battery">showBattery</string>
+    <string name="preference_show_battery_ambient">showBatteryAmbient</string>
+    <string name="preference_show_words">showWords</string>
+    <string name="preference_show_words_ambient">showWordsAmbient</string>
+
     <string-array name="ExactTimes">
         <item>twelve</item>
         <item>one</item>

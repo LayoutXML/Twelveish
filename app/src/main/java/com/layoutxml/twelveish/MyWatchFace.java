@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,6 +52,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean isRound = true;
     private Boolean contrastingBlack=false;
     private SharedPreferences prefs;
+    private Integer batteryLevel=100;
     //SharedPreferences:
     private Integer backgroundColor;
     private Boolean militaryTime;
@@ -60,10 +62,23 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer capitalisation;
     private Boolean ampm;
     private Boolean showSecondary;
+    private Boolean showSecondaryActive;
+    private Boolean showSecondaryCalendar;
+    private Boolean showSecondaryCalendarActive;
     private Boolean showSuffixes;
+    private Boolean showBattery;
+    private Boolean showBatteryAmbient;
+    private Boolean showWords;
+    private Boolean showWordsAmbient;
 
     @Override
     public Engine onCreateEngine() {
+        getApplicationContext().registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                batteryLevel = (int)(100*intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1)/((float)(intent.getIntExtra(BatteryManager.EXTRA_SCALE,-1))));
+            }
+        }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         return new Engine();
     }
 
@@ -148,24 +163,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Suffixes = getResources().getStringArray(R.array.Suffixes);
         }
 
-        private void loadPreferences(){
-            backgroundColor = prefs.getInt(getString(R.string.preference_background_color),android.graphics.Color.parseColor("#000000"));
+        private void loadPreferences() {
+            backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
-            militaryTime = prefs.getBoolean(getString(R.string.preference_military_time),false);
-            militaryTextTime = prefs.getBoolean(getString(R.string.preference_militarytext_time),false);
-            dateOrder = prefs.getInt(getString(R.string.preference_date_order),0);
-            dateSeparator = prefs.getString(getString(R.string.preference_date_separator),"/");
-            capitalisation = prefs.getInt(getString(R.string.preference_capitalisation),0);
-            ampm = prefs.getBoolean(getString(R.string.preference_ampm),true);
-            showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary),true);
-            showSuffixes = prefs.getBoolean(getString(R.string.preference_show_suffixes),true);
-            Log.d(TAG,"loadPreferences: backgroundColor: "+backgroundColor);
-            Log.d(TAG,"loadPreferences: militaryTime: "+militaryTime);
-            Log.d(TAG,"loadPreferences: militaryTime: "+militaryTextTime);
-            Log.d(TAG,"loadPreferences: dateOrder: "+dateOrder);
-            Log.d(TAG,"loadPreferences: capitalisation: "+capitalisation);
-            Log.d(TAG,"loadPreferences: am/pm: "+ampm);
-            Log.d(TAG,"loadPreferences: showSecondary: "+showSecondary);
+            militaryTime = prefs.getBoolean(getString(R.string.preference_military_time), false);
+            militaryTextTime = prefs.getBoolean(getString(R.string.preference_militarytext_time), false);
+            dateOrder = prefs.getInt(getString(R.string.preference_date_order), 0);
+            dateSeparator = prefs.getString(getString(R.string.preference_date_separator), "/");
+            capitalisation = prefs.getInt(getString(R.string.preference_capitalisation), 0);
+            ampm = prefs.getBoolean(getString(R.string.preference_ampm), true);
+            showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary), true);
+            showSecondaryActive = prefs.getBoolean(getString(R.string.preference_show_secondary_active), true);
+            showSecondaryCalendar = prefs.getBoolean(getString(R.string.preference_show_secondary_calendar), true);
+            showSecondaryCalendarActive = prefs.getBoolean(getString(R.string.preference_show_secondary_calendar_active), true);
+            showSuffixes = prefs.getBoolean(getString(R.string.preference_show_suffixes), true);
+            showBattery = prefs.getBoolean(getString(R.string.preference_show_battery), true);
+            showBatteryAmbient = prefs.getBoolean(getString(R.string.preference_show_battery_ambient), true);
+            showWords = prefs.getBoolean(getString(R.string.preference_show_words), true);
+            showWordsAmbient = prefs.getBoolean(getString(R.string.preference_show_words_ambient), true);
         }
 
         @Override
@@ -290,11 +305,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Integer hour = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
 
             //Draw digital clock
-            String ampmSymbols = (ampm&&!militaryTime) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
+            String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
             String text = mAmbient
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE))
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
-            if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
+            if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive))
                 canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
             //Draw text clock
@@ -323,38 +338,49 @@ public class MyWatchFace extends CanvasWatchFaceService {
             3 - first word title case
             4 - first word in every line title case
              */
-            int index = mCalendar.get(Calendar.MINUTE)/5;
-            String text2;
-            switch(capitalisation) {
-                case 0:
-                    text2 = capitalise0(index);
-                    break;
-                case 1:
-                    text2 = capitalise1(index);
-                    break;
-                case 2:
-                    text2 = capitalise2(index);
-                    break;
-                case 3:
-                    text2 = capitalise3(index);
-                    break;
-                case 4:
-                    text2 = capitalise4(index);
-                    break;
-                default:
-                    text2 = capitalise0(index);
-                    break;
+            Float yCopy = bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0);
+            if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
+                int index = mCalendar.get(Calendar.MINUTE) / 5;
+                String text2;
+                switch (capitalisation) {
+                    case 0:
+                        text2 = capitalise0(index);
+                        break;
+                    case 1:
+                        text2 = capitalise1(index);
+                        break;
+                    case 2:
+                        text2 = capitalise2(index);
+                        break;
+                    case 3:
+                        text2 = capitalise3(index);
+                        break;
+                    case 4:
+                        text2 = capitalise4(index);
+                        break;
+                    default:
+                        text2 = capitalise0(index);
+                        break;
+                }
+
+                mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32, text2));
+                float x = bounds.width() / 2, y = ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2));
+                for (String line : text2.split("\n")) {
+                    y += mTextPaint2.descent() - mTextPaint2.ascent();
+                }
+                y = 1.5f * ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2)) - 0.5f * y - mTextPaint2.ascent() - mTextPaint2.descent();
+                yCopy = y;
+                for (String line : text2.split("\n")) {
+                    canvas.drawText(line, x, y, mTextPaint2);
+                    y += mTextPaint2.descent() - mTextPaint2.ascent();
+                }
             }
 
-            mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width()-32, text2));
-            float x = bounds.width()/2, y = ((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2));
-            for (String line: text2.split("\n")) {
-                y += mTextPaint2.descent() - mTextPaint2.ascent();
-            }
-            y = 1.5f*((bounds.height()/2) - ((mTextPaint2.descent() + mTextPaint2.ascent())/2)) - 0.5f*y - mTextPaint2.ascent() - mTextPaint2.descent();
-            for (String line: text2.split("\n")) {
-                canvas.drawText(line, x, y, mTextPaint2);
-                y += mTextPaint2.descent() - mTextPaint2.ascent();
+            //Draw battery percentage
+            String text1 = (batteryLevel+"%");
+            Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
+            if ((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery)) {
+                    canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+yCopy+mTextPaint2.ascent())/2-mTextPaint.ascent()/2, mTextPaint);
             }
 
             //Draw date
@@ -400,11 +426,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             if (FourFirst) {
                 String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
-                if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
+                if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
                     canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             } else {
                 String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
-                if (!isInAmbientMode() || (showSecondary && isInAmbientMode()))
+                if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
                     canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0), mTextPaint);
             }
         }
