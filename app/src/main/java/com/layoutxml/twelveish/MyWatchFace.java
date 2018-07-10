@@ -120,6 +120,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private Paint mBackgroundPaint;
         private Paint mTextPaint;
         private Paint mTextPaint2;
+        private Paint mTextPaint3;
         private boolean mLowBitAmbient;
         private boolean mBurnInProtection;
         private boolean mAmbient;
@@ -158,6 +159,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint2.setAntiAlias(true);
             mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
+
+            mTextPaint3 = new Paint();
+            mTextPaint3.setTypeface(NORMAL_TYPEFACE);
+            mTextPaint3.setAntiAlias(true);
+            mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+            mTextPaint3.setTextAlign(Paint.Align.CENTER);
 
             Prefixes = getResources().getStringArray(R.array.Prefixes);
             Suffixes = getResources().getStringArray(R.array.Suffixes);
@@ -233,9 +240,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mChinSize = insets.getSystemWindowInsetBottom();
             float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
+            float textSizeExtraSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/3.5f;
 
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
+            mTextPaint3.setTextSize(textSizeExtraSmall);
         }
 
         @Override
@@ -259,6 +268,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             if (mLowBitAmbient) {
                 mTextPaint.setAntiAlias(!inAmbientMode);
                 mTextPaint2.setAntiAlias(!inAmbientMode);
+                mTextPaint3.setAntiAlias(!inAmbientMode);
             }
 
             updateTimer();
@@ -286,6 +296,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 canvas.drawColor(Color.BLACK);
                 mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                 mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             } else {
                 mBackgroundPaint = new Paint();
                 mBackgroundPaint.setColor(backgroundColor);
@@ -293,10 +304,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if (contrastingBlack) {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                     mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                    mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 } else
                 {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                     mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                    mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                 }
             }
 
@@ -378,9 +391,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Draw battery percentage
             String text1 = (batteryLevel+"%");
-            Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
             if ((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery)) {
-                    canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+yCopy+mTextPaint2.ascent())/2-mTextPaint.ascent()/2, mTextPaint);
+                    canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+yCopy+mTextPaint2.ascent())/2-mTextPaint3.ascent()/2, mTextPaint3);
             }
 
             //Draw date
@@ -624,7 +636,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             float min = Integer.MAX_VALUE, linecount=0;
             float size, size2;
             for (String line: text.split("\n")) {
-                if (line!="")
+                if (!line.equals(""))
                     linecount++;
                 float testTextSize = 48f;
                 mTextPaint2.setTextSize(testTextSize);
