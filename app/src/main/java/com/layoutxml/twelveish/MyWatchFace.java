@@ -80,6 +80,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean contrastingBlack=false;
     private SharedPreferences prefs;
     private Integer batteryLevel=100;
+    private Integer screenWidthG;
+    private Integer screenHeightG;
     //SharedPreferences:
     private Integer backgroundColor;
     private Boolean militaryTime;
@@ -252,13 +254,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
-            Rect bottomBounds = new Rect(width/2-width/4,
-                    (int)(height-16-mTextPaint.descent()-mChinSize-height/4),
-                    width/2+width/4,
-                    (int)(height-16-mChinSize));
-            ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
-            bottomComplicationDrawable.setBounds(bottomBounds);
-
+            screenHeightG=height;
+            screenWidthG=width;
         }
 
         private void loadPreferences() {
@@ -329,6 +326,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
+            Rect bottomBounds = new Rect(screenWidthG/2-screenHeightG/4,
+                    (int)(screenHeightG*3/4-mChinSize),
+                    screenWidthG/2+screenHeightG/4,
+                    (int)(screenHeightG-mChinSize));
+            ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
+            bottomComplicationDrawable.setBounds(bottomBounds);
         }
 
         @Override
@@ -463,55 +466,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             else if (hourText>=12 && !militaryTextTime)
                 hourText-=12;
 
-            //Draw digital clock
+            //Get digital clock
             String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
             String text = (mAmbient || !showSeconds)
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hourDigital, minutes)
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hourDigital, minutes, seconds);
-            if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive))
-                canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
-            //Draw battery percentage
-            String text1 = (batteryLevel+"%");
-            if ((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery)) {
-                canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+mTextPaint2.ascent())/2-mTextPaint.ascent()/2, mTextPaint);
-            }
-
-            //Draw text clock
-            if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
-                String text2;
-                switch (capitalisation) {
-                    case 0:
-                        text2 = capitalise0(hourText,minutes,index); //every word title case
-                        break;
-                    case 1:
-                        text2 = capitalise1(hourText,minutes,index); //all caps
-                        break;
-                    case 2:
-                        text2 = capitalise2(hourText,minutes,index); //all lowercase
-                        break;
-                    case 3:
-                        text2 = capitalise3(hourText,minutes,index); //first word title case
-                        break;
-                    case 4:
-                        text2 = capitalise4(hourText,minutes,index); //first word in every line title case
-                        break;
-                    default:
-                        text2 = capitalise0(hourText,minutes,index);
-                        break;
-                }
-                mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32, text2));
-                float x = bounds.width() / 2, y = ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2));
-                for (String line : text2.split("\n")) {
-                    y += mTextPaint2.descent() - mTextPaint2.ascent();
-                }
-                y = 1.5f * ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2)) - 0.5f * y - mTextPaint2.ascent() - mTextPaint2.descent();
-                for (String line : text2.split("\n")) {
-                    canvas.drawText(line, x, y, mTextPaint2);
-                    y += mTextPaint2.descent() - mTextPaint2.ascent();
-                }
-            }
-
+            //Get date
             Integer first, second, third;
             Boolean FourFirst;
             switch (dateOrder) {
@@ -546,14 +507,75 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     FourFirst = false;
                     break;
             }
-            if (FourFirst) {
-                String text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
-                if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
-                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-mChinSize, mTextPaint);
-            } else {
-                String text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
-                if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
-                    canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-mChinSize, mTextPaint);
+            String text3;
+            if (FourFirst)
+                 text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
+            else
+                text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
+
+            //Get battery percentage
+            String text1 = (batteryLevel+"%");
+
+            //Draw digital clock, date and battery percentage
+            Float firstSeparator = 40.0f;
+            if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive)) {
+                canvas.drawText(text, bounds.width()/2, firstSeparator-mTextPaint.ascent(), mTextPaint);
+                firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
+            }
+            if (!((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))) {
+                text3="";
+            }
+            if (!((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery))) {
+                text1="";
+            }
+            if (!text3.equals("") || !text1.equals("")) {
+                if (!text3.equals("") && !text1.equals("")) {
+                    canvas.drawText(text3+" • "+text1, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                } else if (!text3.equals("")) {
+                    canvas.drawText(text3, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                } else {
+                    canvas.drawText(text1, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                }
+            }
+
+            //Draw text clock
+            if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
+                String text2;
+                switch (capitalisation) {
+                    case 0:
+                        text2 = capitalise0(hourText,minutes,index); //every word title case
+                        break;
+                    case 1:
+                        text2 = capitalise1(hourText,minutes,index); //all caps
+                        break;
+                    case 2:
+                        text2 = capitalise2(hourText,minutes,index); //all lowercase
+                        break;
+                    case 3:
+                        text2 = capitalise3(hourText,minutes,index); //first word title case
+                        break;
+                    case 4:
+                        text2 = capitalise4(hourText,minutes,index); //first word in every line title case
+                        break;
+                    default:
+                        text2 = capitalise0(hourText,minutes,index);
+                        break;
+                }
+                mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2));
+                float x = bounds.width() / 2;
+                float y = (bounds.height()*3/4-mChinSize+firstSeparator)/2;
+                for (String line : text2.split("\n")) {
+                    y += mTextPaint2.descent() - mTextPaint2.ascent();
+                }
+                float difference = y-(bounds.height()*3/4-mChinSize+firstSeparator)/2;
+                y = (bounds.height()*3/4-mChinSize+firstSeparator)/2 - difference/2 -mTextPaint2.ascent();
+                for (String line : text2.split("\n")) {
+                    canvas.drawText(line, x, y, mTextPaint2);
+                    y += mTextPaint2.descent() - mTextPaint2.ascent();
+                }
             }
             drawComplications(canvas,now);
         }
@@ -697,20 +719,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private float getTextSizeForWidth(float desiredWidth, String text) {
+        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text) {
             float min = Integer.MAX_VALUE, linecount=0;
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
                 if (line.length()<10)
                     line="O"+line+"O";
-                float testTextSize = 48f;
-                float desiredHeight = desiredWidth/3;
+                float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
                 mTextPaint2.getTextBounds(line, 0, line.length(), bounds);
                 float desiredTextSize = testTextSize*desiredWidth/bounds.width();
-                float desiredTextSize2 = testTextSize*desiredHeight/bounds.height()/linecount;
+                float desiredTextSize2 = testTextSize*(desiredHeight)/(bounds.height()+mTextPaint2.descent())/linecount;
                 if (desiredTextSize<min)
                     min=desiredTextSize;
                 if (desiredTextSize2<min)
