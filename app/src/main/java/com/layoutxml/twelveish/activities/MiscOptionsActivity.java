@@ -73,6 +73,12 @@ public class MiscOptionsActivity extends Activity {
         values.add(option);
 
         option = new MiscOption();
+        option.setName("Show seconds when active");
+        option.setKey(getString(R.string.preference_show_seconds));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
         option.setName("Show digital when active");
         option.setKey(getString(R.string.preference_show_secondary_active));
         option.setDefaultOption(true);

@@ -25,6 +25,7 @@
     <string name="preference_show_battery_ambient">showBatteryAmbient</string>
     <string name="preference_show_words">showWords</string>
     <string name="preference_show_words_ambient">showWordsAmbient</string>
+    <string name="preference_show_seconds">showSeconds</string>
 
     <string-array name="ExactTimes">
         <item>twelve</item>

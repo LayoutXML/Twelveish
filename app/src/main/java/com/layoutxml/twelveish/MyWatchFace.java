@@ -97,6 +97,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showBatteryAmbient;
     private Boolean showWords;
     private Boolean showWordsAmbient;
+    private Boolean showSeconds;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -278,6 +279,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showBatteryAmbient = prefs.getBoolean(getString(R.string.preference_show_battery_ambient), true);
             showWords = prefs.getBoolean(getString(R.string.preference_show_words), true);
             showWordsAmbient = prefs.getBoolean(getString(R.string.preference_show_words_ambient), true);
+            showSeconds = prefs.getBoolean(getString(R.string.preference_show_seconds),true);
         }
 
         @Override
@@ -463,7 +465,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Draw digital clock
             String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
-            String text = mAmbient
+            String text = (mAmbient || !showSeconds)
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hourDigital, minutes)
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hourDigital, minutes, seconds);
             if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive))
