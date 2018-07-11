@@ -55,7 +55,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
     private void generateValues(){
         Setting setting = new Setting();
         setting.setName("Complication");
-        setting.setIcon(R.drawable.add_complication);
+        setting.setIcon(R.drawable.ic_complication);
         values.add(setting);
 
         setting = new Setting();
