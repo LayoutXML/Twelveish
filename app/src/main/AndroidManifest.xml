@@ -47,6 +47,11 @@
         <activity
             android:name=".config.DigitalWatchFaceWearableConfigActivity"
             android:label="@string/digital_config_name">
+            <intent-filter>
+                <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>
+                <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activities.ColorOptionsActivity" />
         <activity android:name=".activities.MiscOptionsActivity" />
@@ -57,11 +62,6 @@
         <activity
             android:name=".config.ComplicationConfigActivity"
             android:label="@string/digital_config_name">
-            <intent-filter>
-                <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>
-                <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
 

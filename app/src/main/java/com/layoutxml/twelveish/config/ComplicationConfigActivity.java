@@ -29,22 +29,16 @@ import java.util.concurrent.Executors;
 public class ComplicationConfigActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "ConfigActivity";
-
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
-
     public enum ComplicationLocation {
         BOTTOM
     }
-
     private int mBottomComplicationId;
     private int mSelectedComplicationId;
     private ComponentName mWatchFaceComponentName;
     private ProviderInfoRetriever mProviderInfoRetriever;
-
     private ImageView mBottomComplicationBackground;
-
     private ImageButton mBottomComplication;
-
     private Drawable mDefaultAddComplicationDrawable;
 
     @Override
@@ -91,9 +85,6 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
                     public void onProviderInfoReceived(
                             int watchFaceComplicationId,
                             @Nullable ComplicationProviderInfo complicationProviderInfo) {
-
-                        Log.d(TAG, "onProviderInfoReceived: " + complicationProviderInfo);
-
                         updateComplicationViews(watchFaceComplicationId, complicationProviderInfo);
                     }
                 },
@@ -104,7 +95,6 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view.equals(mBottomComplication)) {
-            Log.d(TAG, "Left Complication click()");
             launchComplicationHelperActivity(ComplicationLocation.BOTTOM);
         }
     }
@@ -112,13 +102,10 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     private void launchComplicationHelperActivity(ComplicationLocation complicationLocation) {
         mSelectedComplicationId =
                 MyWatchFace.getComplicationId(complicationLocation);
-
         if (mSelectedComplicationId >= 0) {
-
             int[] supportedTypes =
                     MyWatchFace.getSupportedComplicationTypes(
                             complicationLocation);
-
             startActivityForResult(
                     ComplicationHelperActivity.createProviderChooserHelperIntent(
                             getApplicationContext(),
@@ -126,7 +113,6 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
                             mSelectedComplicationId,
                             supportedTypes),
                     ComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
-
         } else {
             Log.d(TAG, "Complication not supported by watch face.");
         }
@@ -134,9 +120,6 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
 
     public void updateComplicationViews(
             int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
-        Log.d(TAG, "updateComplicationViews(): id: " + watchFaceComplicationId);
-        Log.d(TAG, "\tinfo: " + complicationProviderInfo);
-
         if (watchFaceComplicationId == mBottomComplicationId) {
             if (complicationProviderInfo != null) {
                 mBottomComplication.setImageIcon(complicationProviderInfo.providerIcon);
@@ -152,11 +135,8 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
-
             ComplicationProviderInfo complicationProviderInfo =
                     data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
-            Log.d(TAG, "Provider: " + complicationProviderInfo);
-
             if (mSelectedComplicationId >= 0) {
                 updateComplicationViews(mSelectedComplicationId, complicationProviderInfo);
             }

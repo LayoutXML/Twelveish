@@ -45,6 +45,25 @@ import java.util.concurrent.TimeUnit;
 import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.Gravity.TOP;
 
+/*
+            -----------------------------------------
+            | Min.  | Prefix               | Suffix |
+            -----------------------------------------
+            | 0     | -                    | -      |
+            | 1-4   | -                    | ish    |
+            | 5-9   | -                    | or so  |
+            | 10-14 | almost a quarter past| -      |
+            | 15-19 | quarter past         | or so  |
+            | 20-24 | almost half past     | -      |
+            | 25-29 | around half past     | -      |
+            | 30-34 | half past            | ish    |
+            | 35-39 | half past            | or so  |
+            | 40-44 | almost a quarter to  | -      | Hours+1
+            | 45-49 | quarter to           | or so  | Hours+1
+            | 50-54 | almost               | -      | Hours+1
+            | 55-59 | around               | -      | Hours+1
+            ----------------------------------------
+ */
 
 public class MyWatchFace extends CanvasWatchFaceService {
     private static final Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
@@ -128,7 +147,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private void drawComplications(Canvas canvas, long currentTimeMillis) {
         int complicationId;
         ComplicationDrawable complicationDrawable;
-
         for (int COMPLICATION_ID : COMPLICATION_IDS) {
             complicationId = COMPLICATION_ID;
             complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
@@ -168,15 +186,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         };
         private boolean mRegisteredTimeZoneReceiver = false;
-        private float mXOffset;
-        private float mYOffset;
         private float mChinSize;
         private Paint mBackgroundPaint;
         private Paint mTextPaint;
         private Paint mTextPaint2;
-        private Paint mTextPaint3;
         private boolean mLowBitAmbient;
-        private boolean mBurnInProtection;
         private boolean mAmbient;
 
         @Override
@@ -194,13 +208,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             mCalendar = Calendar.getInstance();
 
-            Resources resources = MyWatchFace.this.getResources();
-            mYOffset = resources.getDimension(R.dimen.digital_y_offset);
-
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(
-                    ContextCompat.getColor(getApplicationContext(), R.color.background));
-
+            mBackgroundPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.background));
 
             mTextPaint = new Paint();
             mTextPaint.setTypeface(NORMAL_TYPEFACE);
@@ -214,12 +223,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
 
-            mTextPaint3 = new Paint();
-            mTextPaint3.setTypeface(NORMAL_TYPEFACE);
-            mTextPaint3.setAntiAlias(true);
-            mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-            mTextPaint3.setTextAlign(Paint.Align.CENTER);
-
             Prefixes = getResources().getStringArray(R.array.Prefixes);
             Suffixes = getResources().getStringArray(R.array.Suffixes);
 
@@ -228,38 +231,30 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void initializeComplications() {
             mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
-
             ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            assert bottomComplicationDrawable != null;
             bottomComplicationDrawable.setContext(getApplicationContext());
-
             mComplicationDrawableSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             mComplicationDrawableSparseArray.put(BOTTOM_COMPLICATION_ID, bottomComplicationDrawable);
-
             setActiveComplications(COMPLICATION_IDS);
         }
 
         @Override
         public void onComplicationDataUpdate(
                 int complicationId, ComplicationData complicationData) {
-            Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId);
-
             mActiveComplicationDataSparseArray.put(complicationId, complicationData);
-
             ComplicationDrawable complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
             complicationDrawable.setComplicationData(complicationData);
-
             invalidate();
         }
 
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
-
             Rect bottomBounds = new Rect(width/2-width/4,
                     (int)(height-16-mTextPaint.descent()-mChinSize-height/4),
                     width/2+width/4,
                     (int)(height-16-mChinSize));
-
             ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
             bottomComplicationDrawable.setBounds(bottomBounds);
 
@@ -294,16 +289,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
-
             if (visible) {
                 registerReceiver();
-
                 mCalendar.setTimeZone(TimeZone.getDefault());
                 invalidate();
             } else {
                 unregisterReceiver();
             }
-
             loadPreferences();
             updateTimer();
         }
@@ -328,25 +320,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
-
             Resources resources = MyWatchFace.this.getResources();
             isRound = insets.isRound();
-            mXOffset = resources.getDimension(isRound ? R.dimen.digital_x_offset_round : R.dimen.digital_x_offset);
             mChinSize = insets.getSystemWindowInsetBottom();
             float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
-            float textSizeExtraSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/3.5f;
-
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
-            mTextPaint3.setTextSize(textSizeExtraSmall);
         }
 
         @Override
         public void onPropertiesChanged(Bundle properties) {
             super.onPropertiesChanged(properties);
             mLowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
-            mBurnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
         }
 
         @Override
@@ -358,20 +344,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
-
             mAmbient = inAmbientMode;
             if (mLowBitAmbient) {
                 mTextPaint.setAntiAlias(!inAmbientMode);
                 mTextPaint2.setAntiAlias(!inAmbientMode);
-                mTextPaint3.setAntiAlias(!inAmbientMode);
             }
-
             ComplicationDrawable complicationDrawable;
             for (int COMPLICATION_ID : COMPLICATION_IDS) {
                 complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
                 complicationDrawable.setInAmbientMode(mAmbient);
             }
-
             updateTimer();
         }
 
@@ -399,21 +381,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
             int complicationId;
             ComplicationData complicationData;
             ComplicationDrawable complicationDrawable;
-
             long currentTimeMillis = System.currentTimeMillis();
-
             for (int COMPLICATION_ID : COMPLICATION_IDS) {
                 complicationId = COMPLICATION_ID;
                 complicationData = mActiveComplicationDataSparseArray.get(complicationId);
-
                 if ((complicationData != null)
                         && (complicationData.isActive(currentTimeMillis))
                         && (complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED)
                         && (complicationData.getType() != ComplicationData.TYPE_EMPTY)) {
-
                     complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
                     Rect complicationBoundingRect = complicationDrawable.getBounds();
-
                     if (complicationBoundingRect.width() > 0) {
                         if (complicationBoundingRect.contains(x, y)) {
                             return complicationId;
@@ -427,35 +404,23 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private void onComplicationTap(int complicationId) {
-            Log.d(TAG, "onComplicationTap()");
-
-            ComplicationData complicationData =
-                    mActiveComplicationDataSparseArray.get(complicationId);
-
+            ComplicationData complicationData = mActiveComplicationDataSparseArray.get(complicationId);
             if (complicationData != null) {
-
                 if (complicationData.getTapAction() != null) {
                     try {
                         complicationData.getTapAction().send();
                     } catch (PendingIntent.CanceledException e) {
                         Log.e(TAG, "onComplicationTap() tap action error: " + e);
                     }
-
                 } else if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
-
-                    // Watch face does not have permission to receive complication data, so launch
-                    // permission request.
                     ComponentName componentName =
                             new ComponentName(
                                     getApplicationContext(), MyWatchFace.class);
-
                     Intent permissionRequestIntent =
                             ComplicationHelperActivity.createPermissionRequestHelperIntent(
                                     getApplicationContext(), componentName);
-
                     startActivity(permissionRequestIntent);
                 }
-
             } else {
                 Log.d(TAG, "No PendingIntent for complication " + complicationId + ".");
             }
@@ -463,141 +428,111 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
+            //Set colors
             if (isInAmbientMode()) {
                 canvas.drawColor(Color.BLACK);
                 mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                 mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-                mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             } else {
-                mBackgroundPaint = new Paint();
-                mBackgroundPaint.setColor(backgroundColor);
-                canvas.drawRect(0, 0, bounds.width(), bounds.height(), mBackgroundPaint);
+                canvas.drawColor(backgroundColor);
                 if (contrastingBlack) {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                     mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                    mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                } else
-                {
+                } else {
                     mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                     mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-                    mTextPaint3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
                 }
             }
 
+            //Get time
             long now = System.currentTimeMillis();
             mCalendar.setTimeInMillis(now);
-            Integer hour = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
+            Integer seconds = mCalendar.get(Calendar.SECOND);
+            Integer minutes = mCalendar.get(Calendar.MINUTE);
+            Integer hourDigital = militaryTime
+                    ? mCalendar.get(Calendar.HOUR_OF_DAY)
+                    : mCalendar.get(Calendar.HOUR);
+            Integer index = minutes / 5;
+            Integer hourText = militaryTextTime
+                    ? mCalendar.get(Calendar.HOUR_OF_DAY)+TimeShift[index]
+                    : mCalendar.get(Calendar.HOUR)+TimeShift[index];
+            if (hourText>=24 && militaryTextTime)
+                hourText-=24;
+            else if (hourText>=12 && !militaryTextTime)
+                hourText-=12;
 
             //Draw digital clock
             String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
             String text = mAmbient
-                    ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE))
-                    : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hour, mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
+                    ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hourDigital, minutes)
+                    : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hourDigital, minutes, seconds);
             if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive))
                 canvas.drawText(text, bounds.width()/2, 40-mTextPaint.ascent(), mTextPaint);
 
-            //Draw text clock
-            /*
-            -----------------------------------------
-            | Min.  | Prefix               | Suffix |
-            -----------------------------------------
-            | 0     | -                    | -      |
-            | 1-4   | -                    | ish    |
-            | 5-9   | -                    | or so  |
-            | 10-14 | almost a quarter past| -      |
-            | 15-19 | quarter past         | or so  |
-            | 20-24 | almost half past     | -      |
-            | 25-29 | around half past     | -      |
-            | 30-34 | half past            | ish    |
-            | 35-39 | half past            | or so  |
-            | 40-44 | almost a quarter to  | -      | Hours+1
-            | 45-49 | quarter to           | or so  | Hours+1
-            | 50-54 | almost               | -      | Hours+1
-            | 55-59 | around               | -      | Hours+1
-            ----------------------------------------
+            //Draw battery percentage
+            String text1 = (batteryLevel+"%");
+            if ((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery)) {
+                canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+mTextPaint2.ascent())/2-mTextPaint.ascent()/2, mTextPaint);
+            }
 
-            0 - every word title case
-            1 - all caps
-            2 - all lowercase
-            3 - first word title case
-            4 - first word in every line title case
-             */
-            Float yCopy = bounds.height()-16-mTextPaint.descent()-((mChinSize>0) ? mChinSize-16 : 0);
+            //Draw text clock
             if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
-                int index = mCalendar.get(Calendar.MINUTE) / 5;
                 String text2;
                 switch (capitalisation) {
                     case 0:
-                        text2 = capitalise0(index);
+                        text2 = capitalise0(hourText,minutes,index); //every word title case
                         break;
                     case 1:
-                        text2 = capitalise1(index);
+                        text2 = capitalise1(hourText,minutes,index); //all caps
                         break;
                     case 2:
-                        text2 = capitalise2(index);
+                        text2 = capitalise2(hourText,minutes,index); //all lowercase
                         break;
                     case 3:
-                        text2 = capitalise3(index);
+                        text2 = capitalise3(hourText,minutes,index); //first word title case
                         break;
                     case 4:
-                        text2 = capitalise4(index);
+                        text2 = capitalise4(hourText,minutes,index); //first word in every line title case
                         break;
                     default:
-                        text2 = capitalise0(index);
+                        text2 = capitalise0(hourText,minutes,index);
                         break;
                 }
-
                 mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32, text2));
                 float x = bounds.width() / 2, y = ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2));
                 for (String line : text2.split("\n")) {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
                 y = 1.5f * ((bounds.height() / 2) - ((mTextPaint2.descent() + mTextPaint2.ascent()) / 2)) - 0.5f * y - mTextPaint2.ascent() - mTextPaint2.descent();
-                yCopy = y;
                 for (String line : text2.split("\n")) {
                     canvas.drawText(line, x, y, mTextPaint2);
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
-
-                drawComplications(canvas,now);
             }
 
-            //Draw battery percentage
-            String text1 = (batteryLevel+"%");
-            if ((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery)) {
-                    canvas.drawText(text1, bounds.width()/2, (40-mTextPaint.ascent()+yCopy+mTextPaint2.ascent())/2-mTextPaint3.ascent()/2, mTextPaint3);
-            }
-
-            //Draw date
-            /*
-            0 - MDY
-            1 - DMY
-            2 - YMD
-            3 - YDM
-             */
             Integer first, second, third;
             Boolean FourFirst;
             switch (dateOrder) {
                 case 0:
-                    first = mCalendar.get(Calendar.MONTH)+1;
+                    first = mCalendar.get(Calendar.MONTH)+1; //MDY
                     second = mCalendar.get(Calendar.DAY_OF_MONTH);
                     third = mCalendar.get(Calendar.YEAR);
                     FourFirst = false;
                     break;
                 case 1:
-                    first = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    first = mCalendar.get(Calendar.DAY_OF_MONTH); //DMY
                     second = mCalendar.get(Calendar.MONTH)+1;
                     third = mCalendar.get(Calendar.YEAR);
                     FourFirst = false;
                     break;
                 case 2:
-                    first = mCalendar.get(Calendar.YEAR);
+                    first = mCalendar.get(Calendar.YEAR); //YMD
                     second = mCalendar.get(Calendar.MONTH)+1;
                     third = mCalendar.get(Calendar.DAY_OF_MONTH);
                     FourFirst = true;
                     break;
                 case 3:
-                    first = mCalendar.get(Calendar.YEAR);
+                    first = mCalendar.get(Calendar.YEAR); //YDM
                     second = mCalendar.get(Calendar.DAY_OF_MONTH);
                     third = mCalendar.get(Calendar.MONTH)+1;
                     FourFirst = true;
@@ -618,13 +553,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if ((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))
                     canvas.drawText(text3,bounds.width()/2, bounds.height()-16-mTextPaint.descent()-mChinSize, mTextPaint);
             }
+            drawComplications(canvas,now);
         }
 
-        private String capitalise0(Integer index){
+        private String capitalise0(Integer hours, Integer minutes, Integer index){
             //Prefix
             String mainPrefix = "";
             StringBuilder prefix;
-            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
+            if ((minutes>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
                 String[] prefixArray = Prefixes[index].split(" ");
                 prefix = new StringBuilder();
                 for (String word : prefixArray) {
@@ -637,22 +573,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Time
-            Integer hourIndex;
-            if (militaryTextTime)
-                hourIndex = mCalendar.get(Calendar.HOUR_OF_DAY);
-            else
-                hourIndex = mCalendar.get(Calendar.HOUR);
-            hourIndex+=TimeShift[index];
-            if (militaryTextTime) {
-                if (hourIndex>=24)
-                    hourIndex-=24;
-            } else {
-                if (hourIndex>=12)
-                    hourIndex-=12;
-            }
             StringBuilder hoursInWords = new StringBuilder();
             String mainText;
-            String[] mainArray = getResources().getStringArray(R.array.ExactTimes)[hourIndex].split(" ");
+            String[] mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
             for (String word : mainArray) {
                 if (hoursInWords.length()!=0) {
                     hoursInWords.append(" ");
@@ -671,7 +594,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             String mainSuffix = "";
             if (showSuffixes) {
                 StringBuilder suffix;
-                if ((mCalendar.get(Calendar.MINUTE) > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+                if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
                     if (SuffixNewLine[index]) {
                         String[] suffixArray = Suffixes[index].split(" ");
                         suffix = new StringBuilder();
@@ -687,81 +610,49 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                 }
             }
-
-            return mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
-
+            return mainPrefix + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
         }
 
-        private String capitalise1(Integer index) {
-            String middleText;
-            if (militaryTextTime)
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
-            else
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
-            String text20 =
-                    ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middleText
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
-
-            return text20.toUpperCase();
+        private String capitalise1(Integer hours, Integer minutes, Integer index) {
+            String text =
+                    ((minutes>0) ? Prefixes[index] : "")
+                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+            return text.toUpperCase();
         }
 
-        private String capitalise2(Integer index) {
-            String middleText;
-            if (militaryTextTime)
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
-            else
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
-            String text20 =
-                    ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middleText
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
+        private String capitalise2(Integer hours, Integer minutes, Integer index) {
+            String text =
+                    ((minutes>0) ? Prefixes[index] : "")
+                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
 
-            return text20.toLowerCase();
+            return text.toLowerCase();
         }
 
-        private String capitalise3(Integer index) {
-            String middleText;
-            if (militaryTextTime)
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])<24 ? (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index])-24];
-            else
-                middleText = getResources().getStringArray(R.array.ExactTimes)[(mCalendar.get(Calendar.HOUR) + TimeShift[index])<12 ? (mCalendar.get(Calendar.HOUR) + TimeShift[index]) : (mCalendar.get(Calendar.HOUR) + TimeShift[index])-12];
+        private String capitalise3(Integer hours, Integer minutes, Integer index) {
             String text20 =
-                    ((mCalendar.get(Calendar.MINUTE)>0) ? Prefixes[index] : "")
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middleText
-                            + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((mCalendar.get(Calendar.MINUTE)>0) ? Suffixes[index] : "") : "");
-
+                    ((minutes>0) ? Prefixes[index] : "")
+                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
             return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
         }
 
-        private String capitalise4(Integer index) {
+        private String capitalise4(Integer hours, Integer minutes, Integer index) {
             //Prefix
             String mainPrefix = "";
-            if ((mCalendar.get(Calendar.MINUTE)>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
+            if ((minutes>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
                 mainPrefix = Prefixes[index].substring(0,1).toUpperCase() + Prefixes[index].substring(1).toLowerCase();
             }
 
             //Time
-            Integer hourIndex;
-            if (militaryTextTime)
-                hourIndex = mCalendar.get(Calendar.HOUR_OF_DAY);
-            else
-                hourIndex = mCalendar.get(Calendar.HOUR);
-            hourIndex+=TimeShift[index];
-            if (militaryTextTime) {
-                if (hourIndex>=24)
-                    hourIndex-=24;
-            } else {
-                if (hourIndex>=12)
-                    hourIndex-=12;
-            }
-            String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hourIndex];
+            String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
             String mainText;
             if (mainPrefix.equals("") || PrefixNewLine[index])
                 mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
@@ -771,7 +662,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Suffix
             String mainSuffix = "";
             if (showSuffixes) {
-                if ((mCalendar.get(Calendar.MINUTE) > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+                if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
                     if (SuffixNewLine[index]) {
                         mainSuffix = Suffixes[index].substring(0, 1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
                     } else {
@@ -779,7 +670,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                 }
             }
-
             return mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
 
         }
@@ -807,33 +697,30 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private float getTextSizeForWidth(float desiredWidth, String text) {
             float min = Integer.MAX_VALUE, linecount=0;
-            float size, size2;
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
+                if (line.length()<10)
+                    line="O"+line+"O";
                 float testTextSize = 48f;
+                float desiredHeight = desiredWidth/3;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
                 mTextPaint2.getTextBounds(line, 0, line.length(), bounds);
-                size = (testTextSize * desiredWidth / bounds.width());
-                size2 = testTextSize*desiredWidth/bounds.height()/4/linecount;
-                if (size2<size)
-                    size=size2;
-                if (linecount==1) {
-                    size2 = testTextSize * desiredWidth / bounds.height() / 7f;
-                    if (size2 < size)
-                        size = size2;
-                }
-                if (size<min)
-                    min=size;
+                float desiredTextSize = testTextSize*desiredWidth/bounds.width();
+                float desiredTextSize2 = testTextSize*desiredHeight/bounds.height()/linecount;
+                if (desiredTextSize<min)
+                    min=desiredTextSize;
+                if (desiredTextSize2<min)
+                    min=desiredTextSize2;
             }
-            if (min!=Integer.MAX_VALUE) {
-                return min;
+            Paint newPaint = mTextPaint2;
+            newPaint.setTextSize(min);
+            while(newPaint.measureText("|",0,"|".length())/5 > 6) { //6 is the burn in protection shifting limit in pixels
+                min-=2;
+                newPaint.setTextSize(min);
             }
-            else {
-                Resources resources = MyWatchFace.this.getResources();
-                return resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
-            }
+            return min;
         }
     }
 }

@@ -54,6 +54,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
 
     private void generateValues(){
         Setting setting = new Setting();
+        setting.setName("Complication");
+        setting.setIcon(R.drawable.add_complication);
+        values.add(setting);
+
+        setting = new Setting();
         setting.setName("Background color");
         setting.setIcon(R.drawable.ic_color);
         values.add(setting);
@@ -96,21 +101,26 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                         Intent intent;
                         switch (position){
                             case 0:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ComplicationConfigActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 1:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 2:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 3:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 4:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
