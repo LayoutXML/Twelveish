@@ -78,12 +78,10 @@ public class DateOptionsListActivity extends Activity {
                         switch (position){
                             case 0:
                                 intent = new Intent(DateOptionsListActivity.this, DateOrderActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DateOptionsListActivity.this.startActivity(intent);
                                 break;
                             case 1:
                                 intent = new Intent(DateOptionsListActivity.this, DateSeparatorActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DateOptionsListActivity.this.startActivity(intent);
                                 break;
                             default:

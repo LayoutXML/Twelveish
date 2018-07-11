@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.objects.DateSeparator;
@@ -90,6 +91,7 @@ public class DateSeparatorActivity extends Activity{
                         int position = getAdapterPosition(); // gets item position
                         DateSeparator selectedMenuItem = values.get(position);
                         prefs.edit().putString(getString(R.string.preference_date_separator),selectedMenuItem.getSymbol()).apply();
+                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.objects.Capitalisation;
@@ -93,6 +94,7 @@ public class CapitalisationActivity extends Activity {
                         int position = getAdapterPosition(); // gets item position
                         Capitalisation selectedMenuItem = values.get(position);
                         prefs.edit().putInt(getString(R.string.preference_capitalisation),position).apply();
+                        Toast.makeText(getApplicationContext(), "Capitalisation mode set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

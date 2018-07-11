@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.objects.Color;
@@ -210,6 +211,7 @@ public class ColorOptionsActivity extends Activity {
                         int position = getAdapterPosition(); // gets item position
                         Color selectedMenuItem = values.get(position);
                         prefs.edit().putInt(getString(R.string.preference_background_color),selectedMenuItem.getColorcode()).apply();
+                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName().toLowerCase()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

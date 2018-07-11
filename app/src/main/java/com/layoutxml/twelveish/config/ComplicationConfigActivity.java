@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.MyWatchFace;
 import com.layoutxml.twelveish.R;
@@ -138,7 +139,9 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
             ComplicationProviderInfo complicationProviderInfo =
                     data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
             if (mSelectedComplicationId >= 0) {
+                Toast.makeText(getApplicationContext(), "Complication set", Toast.LENGTH_SHORT).show();
                 updateComplicationViews(mSelectedComplicationId, complicationProviderInfo);
+                finish();
             }
         }
     }

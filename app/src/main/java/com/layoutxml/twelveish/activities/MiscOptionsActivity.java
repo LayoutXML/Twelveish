@@ -148,7 +148,7 @@ public class MiscOptionsActivity extends Activity {
                         int position = getAdapterPosition(); // gets item position
                         MiscOption selectedMenuItem = values.get(position);
                         prefs.edit().putBoolean(selectedMenuItem.getKey(),!selectedMenuItem.getBool()).apply();
-                        finish();
+                        switcher.setChecked(!selectedMenuItem.getBool());
                     }
                 });
             }

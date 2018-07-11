@@ -102,27 +102,22 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                         switch (position){
                             case 0:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ComplicationConfigActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 1:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 2:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 3:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 4:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             default:

@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.objects.DateOrder;
@@ -86,6 +87,7 @@ public class DateOrderActivity extends Activity{
                         int position = getAdapterPosition(); // gets item position
                         DateOrder selectedMenuItem = values.get(position);
                         prefs.edit().putInt(getString(R.string.preference_date_order),position).apply();
+                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
