@@ -91,13 +91,13 @@ public class MiscOptionsActivity extends Activity {
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show calendar when active");
+        option.setName("Show date when active");
         option.setKey(getString(R.string.preference_show_secondary_calendar_active));
         option.setDefaultOption(true);
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show calendar in ambient");
+        option.setName("Show date in ambient");
         option.setKey(getString(R.string.preference_show_secondary_calendar));
         option.setDefaultOption(true);
         values.add(option);

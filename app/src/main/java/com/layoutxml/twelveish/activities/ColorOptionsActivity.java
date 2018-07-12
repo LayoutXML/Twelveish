@@ -189,6 +189,21 @@ public class ColorOptionsActivity extends Activity {
         color.setColorcode(android.graphics.Color.parseColor("#7295A6"));
         values.add(color);
 
+        color = new Color();
+        color.setName("Gold");
+        color.setColorcode(android.graphics.Color.parseColor("#FFD700"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Sunset");
+        color.setColorcode(android.graphics.Color.parseColor("#F8B195"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Fog");
+        color.setColorcode(android.graphics.Color.parseColor("#A8A7A7"));
+        values.add(color);
+
         mAdapter.notifyDataSetChanged();
     }
 
