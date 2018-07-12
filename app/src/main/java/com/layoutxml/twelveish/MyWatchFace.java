@@ -539,6 +539,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
                 }
             }
+            if (firstSeparator<bounds.height()/4)
+                firstSeparator=(float)bounds.height()/4;
 
             //Draw text clock
             if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
