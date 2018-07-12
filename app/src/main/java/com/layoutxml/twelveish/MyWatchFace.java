@@ -77,13 +77,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
     private Boolean[] SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
     private Boolean isRound = true;
-    private Boolean contrastingBlack=false;
     private SharedPreferences prefs;
     private Integer batteryLevel=100;
     private Integer screenWidthG;
     private Integer screenHeightG;
     //SharedPreferences:
     private Integer backgroundColor;
+    private Integer mainColor;
+    private Integer mainColorAmbient;
+    private Integer secondaryColor;
+    private Integer secondaryColorAmbient;
     private Boolean militaryTime;
     private Boolean militaryTextTime;
     private Integer dateOrder;
@@ -217,13 +220,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint = new Paint();
             mTextPaint.setTypeface(NORMAL_TYPEFACE);
             mTextPaint.setAntiAlias(true);
-            mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint.setTextAlign(Paint.Align.CENTER);
 
             mTextPaint2 = new Paint();
             mTextPaint2.setTypeface(NORMAL_TYPEFACE);
             mTextPaint2.setAntiAlias(true);
-            mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
 
             Prefixes = getResources().getStringArray(R.array.Prefixes);
@@ -260,7 +261,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void loadPreferences() {
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
-            contrastingBlack = Color.red(backgroundColor) * 0.299 + Color.green(backgroundColor) * 0.587 + Color.blue(backgroundColor) * 0.114 > 186;
+            mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
+            mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
+            secondaryColor = prefs.getInt(getString(R.string.preference_secondary_color), android.graphics.Color.parseColor("#ffffff"));
+            secondaryColorAmbient = prefs.getInt(getString(R.string.preference_secondary_color_ambient), android.graphics.Color.parseColor("#ffffff"));
             militaryTime = prefs.getBoolean(getString(R.string.preference_military_time), false);
             militaryTextTime = prefs.getBoolean(getString(R.string.preference_militarytext_time), false);
             dateOrder = prefs.getInt(getString(R.string.preference_date_order), 0);
@@ -436,17 +440,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Set colors
             if (isInAmbientMode()) {
                 canvas.drawColor(Color.BLACK);
-                mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-                mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
+                mTextPaint.setColor(secondaryColorAmbient);
+                mTextPaint2.setColor(mainColorAmbient);
             } else {
                 canvas.drawColor(backgroundColor);
-                if (contrastingBlack) {
-                    mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                    mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                } else {
-                    mTextPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-                    mTextPaint2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.digital_text));
-                }
+                mTextPaint.setColor(secondaryColor);
+                mTextPaint2.setColor(mainColor);
             }
 
             //Get time

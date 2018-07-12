@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.CapitalisationActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
+import com.layoutxml.twelveish.activities.ColorOptionsListActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
 import com.layoutxml.twelveish.objects.Setting;
@@ -59,7 +60,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
-        setting.setName("Background color");
+        setting.setName("Colors");
         setting.setIcon(R.drawable.ic_color);
         values.add(setting);
 
@@ -105,7 +106,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 1:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsListActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 2:
