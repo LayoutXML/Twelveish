@@ -156,6 +156,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
         for (int COMPLICATION_ID : COMPLICATION_IDS) {
             complicationId = COMPLICATION_ID;
             complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
+            complicationDrawable.setBackgroundColorActive(backgroundColor);
+            complicationDrawable.setHighlightColorActive(secondaryColor);
+            complicationDrawable.setHighlightColorAmbient(secondaryColorAmbient);
+            complicationDrawable.setIconColorActive(secondaryColor);
+            complicationDrawable.setIconColorAmbient(secondaryColorAmbient);
+            complicationDrawable.setTextColorActive(secondaryColor);
+            complicationDrawable.setTextColorAmbient(secondaryColorAmbient);
+            complicationDrawable.setRangedValuePrimaryColorActive(secondaryColor);
+            complicationDrawable.setRangedValuePrimaryColorAmbient(secondaryColorAmbient);
+            complicationDrawable.setRangedValueSecondaryColorActive(secondaryColor);
+            complicationDrawable.setRangedValueSecondaryColorAmbient(secondaryColorAmbient);
+            complicationDrawable.setRangedValueRingWidthActive(secondaryColor);
+            complicationDrawable.setRangedValueRingWidthAmbient(secondaryColorAmbient);
+            complicationDrawable.setTitleColorActive(secondaryColor);
+            complicationDrawable.setTitleColorAmbient(secondaryColorAmbient);
             complicationDrawable.draw(canvas, currentTimeMillis);
         }
     }
