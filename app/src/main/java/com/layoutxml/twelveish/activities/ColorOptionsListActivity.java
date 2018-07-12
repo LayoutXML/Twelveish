@@ -57,11 +57,11 @@ public class ColorOptionsListActivity extends Activity{
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Secondary text (when active)");
+        dateOption.setName("Secondary color (when active)");
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Secondary text (in ambient)");
+        dateOption.setName("Secondary color (in ambient)");
         values.add(dateOption);
 
         dateOption = new ColorOption();

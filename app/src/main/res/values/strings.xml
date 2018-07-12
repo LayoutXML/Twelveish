@@ -30,6 +30,8 @@
     <string name="preference_show_words">showWords</string>
     <string name="preference_show_words_ambient">showWordsAmbient</string>
     <string name="preference_show_seconds">showSeconds</string>
+    <string name="preference_show_complications">showComplication</string>
+    <string name="preference_show_complications_ambient">showComplicationAmbient</string>
 
     <string-array name="ExactTimes">
         <item>twelve</item>

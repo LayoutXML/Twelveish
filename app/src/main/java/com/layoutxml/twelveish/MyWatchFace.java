@@ -103,6 +103,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showWords;
     private Boolean showWordsAmbient;
     private Boolean showSeconds;
+    private Boolean showComplication;
+    private Boolean showComplicationAmbient;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -296,6 +298,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showWords = prefs.getBoolean(getString(R.string.preference_show_words), true);
             showWordsAmbient = prefs.getBoolean(getString(R.string.preference_show_words_ambient), true);
             showSeconds = prefs.getBoolean(getString(R.string.preference_show_seconds),true);
+            showComplication = prefs.getBoolean(getString(R.string.preference_show_complications),true);
+            showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient),true);
         }
 
         @Override
@@ -593,7 +597,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
             }
-            drawComplications(canvas,now);
+
+            //Draw complication
+            if ((isInAmbientMode() && showComplicationAmbient) || (!isInAmbientMode() && showComplication))
+                drawComplications(canvas,now);
         }
 
         private String capitalise0(Integer hours, Integer minutes, Integer index){

@@ -91,6 +91,18 @@ public class MiscOptionsActivity extends Activity {
         values.add(option);
 
         option = new MiscOption();
+        option.setName("Show calendar when active");
+        option.setKey(getString(R.string.preference_show_secondary_calendar_active));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show calendar in ambient");
+        option.setKey(getString(R.string.preference_show_secondary_calendar));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
         option.setName("Show battery when active");
         option.setKey(getString(R.string.preference_show_battery));
         option.setDefaultOption(true);
@@ -115,14 +127,14 @@ public class MiscOptionsActivity extends Activity {
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show calendar when active");
-        option.setKey(getString(R.string.preference_show_secondary_calendar_active));
+        option.setName("Show complication when active");
+        option.setKey(getString(R.string.preference_show_complications));
         option.setDefaultOption(true);
         values.add(option);
 
         option = new MiscOption();
-        option.setName("Show calendar in ambient");
-        option.setKey(getString(R.string.preference_show_secondary_calendar));
+        option.setName("Show complication in ambient");
+        option.setKey(getString(R.string.preference_show_complications_ambient));
         option.setDefaultOption(true);
         values.add(option);
 
@@ -154,7 +166,8 @@ public class MiscOptionsActivity extends Activity {
                         int position = getAdapterPosition(); // gets item position
                         MiscOption selectedMenuItem = values.get(position);
                         prefs.edit().putBoolean(selectedMenuItem.getKey(),!selectedMenuItem.getBool()).apply();
-                        switcher.setChecked(!selectedMenuItem.getBool());
+                        selectedMenuItem.setBool(!selectedMenuItem.getBool());
+                        switcher.setChecked(selectedMenuItem.getBool());
                     }
                 });
             }
