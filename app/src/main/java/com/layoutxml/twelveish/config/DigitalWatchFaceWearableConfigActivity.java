@@ -27,6 +27,7 @@ import com.layoutxml.twelveish.activities.ColorOptionsActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsListActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
+import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.objects.Setting;
 
 import java.util.ArrayList;
@@ -75,6 +76,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
+        setting.setName("Show/hide elements");
+        setting.setIcon(R.drawable.ic_showhide);
+        values.add(setting);
+
+        setting = new Setting();
         setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_misc);
         values.add(setting);
@@ -118,6 +124,10 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 4:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ShowHideOptionsActivity.class);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 5:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;

@@ -66,6 +66,7 @@
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
         <activity android:name=".activities.ColorOptionsListActivity" />
         <activity android:name=".activities.TextColorOptionsActivity" />
+        <activity android:name=".activities.ShowHideOptionsActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

@@ -28,11 +28,12 @@ import com.layoutxml.twelveish.objects.MiscOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiscOptionsActivity extends Activity {
+public class ShowHideOptionsActivity extends Activity{
 
-    private static final String TAG = "MiscOptionsActivity";
+    private static final String TAG = "ShowHideOptionsActivity";
+
     private List<MiscOption> values = new ArrayList<>();
-    private MiscOptionsAdapter mAdapter;
+    private ShowHideOptionsAdapter mAdapter;
     private SharedPreferences prefs;
 
     @Override
@@ -47,7 +48,7 @@ public class MiscOptionsActivity extends Activity {
         mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
-        mAdapter = new MiscOptionsAdapter();
+        mAdapter = new ShowHideOptionsAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
         generateValues();
@@ -55,21 +56,87 @@ public class MiscOptionsActivity extends Activity {
 
     private void generateValues(){
         MiscOption option = new MiscOption();
-        option.setName("24h format (Word)");
-        option.setKey(getString(R.string.preference_militarytext_time));
-        option.setDefaultOption(false);
+        option.setName("Show am/pm (Digital)");
+        option.setKey(getString(R.string.preference_ampm));
+        option.setDefaultOption(true);
         values.add(option);
 
         option = new MiscOption();
-        option.setName("24h format (Digital)");
-        option.setKey(getString(R.string.preference_military_time));
-        option.setDefaultOption(false);
+        option.setName("Show seconds when active");
+        option.setKey(getString(R.string.preference_show_seconds));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show digital when active");
+        option.setKey(getString(R.string.preference_show_secondary_active));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show digital in ambient");
+        option.setKey(getString(R.string.preference_show_secondary));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show date when active");
+        option.setKey(getString(R.string.preference_show_secondary_calendar_active));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show date in ambient");
+        option.setKey(getString(R.string.preference_show_secondary_calendar));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show battery when active");
+        option.setKey(getString(R.string.preference_show_battery));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show battery in ambient");
+        option.setKey(getString(R.string.preference_show_battery_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show words when active");
+        option.setKey(getString(R.string.preference_show_words));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show words in ambient");
+        option.setKey(getString(R.string.preference_show_words_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show complication when active");
+        option.setKey(getString(R.string.preference_show_complications));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show complication in ambient");
+        option.setKey(getString(R.string.preference_show_complications_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show suffixes");
+        option.setKey(getString(R.string.preference_show_suffixes));
+        option.setDefaultOption(true);
         values.add(option);
 
         mAdapter.notifyDataSetChanged();
     }
 
-    public class MiscOptionsAdapter extends RecyclerView.Adapter<MiscOptionsAdapter.MyViewHolder>{
+    public class ShowHideOptionsAdapter extends RecyclerView.Adapter<ShowHideOptionsAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -97,14 +164,14 @@ public class MiscOptionsActivity extends Activity {
 
         @NonNull
         @Override
-        public MiscOptionsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ShowHideOptionsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.switch_and_textview_item,parent,false);
-            return new MiscOptionsAdapter.MyViewHolder(itemView);
+            return new ShowHideOptionsAdapter.MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MiscOptionsAdapter.MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ShowHideOptionsAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
             MiscOption option = values.get(position);
             holder.name.setText(option.getName());
@@ -118,4 +185,5 @@ public class MiscOptionsActivity extends Activity {
             return values.size();
         }
     }
+    
 }
