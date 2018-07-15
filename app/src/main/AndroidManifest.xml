@@ -36,7 +36,11 @@
                     "com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value=
                     "com.example.android.wearable.watchface.CONFIG_DIGITAL" />
-
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.companionConfigurationAction"
+                android:value=
+                    "com.example.android.wearable.watchface.CONFIG_DIGITAL" />
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
 

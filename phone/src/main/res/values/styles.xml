@@ -1,0 +1,17 @@
+<!--
+  ~ Copyright (c) 2018. LayoutXML
+  ~ Created by LayoutXML.
+  ~ This product is protected by copyright and distributed under licenses restricting copying, distribution and decompilation.
+  -->
+
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>
