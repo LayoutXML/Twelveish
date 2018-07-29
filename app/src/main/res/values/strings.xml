@@ -32,6 +32,7 @@
     <string name="preference_show_seconds">showSeconds</string>
     <string name="preference_show_complications">showComplication</string>
     <string name="preference_show_complications_ambient">showComplicationAmbient</string>
+    <string name="preference_language">language</string>
 
     <string-array name="ExactTimes">
         <item>twelve</item>
@@ -72,18 +73,6 @@
         <item>quarter to</item>
         <item>almost</item>
         <item>around</item>
-        <item></item>
-        <item></item>
-        <item>almost a quarter past</item>
-        <item>quarter past</item>
-        <item>almost half past</item>
-        <item>around half past</item>
-        <item>half past</item>
-        <item>half past</item>
-        <item>almost a quarter to</item>
-        <item>quarter to</item>
-        <item>almost</item>
-        <item>around</item>
     </string-array>
     <string-array name="Suffixes">
         <item>ish</item>
@@ -98,17 +87,61 @@
         <item>or so</item>
         <item></item>
         <item></item>
-        <item>ish</item>
-        <item>or so</item>
+    </string-array>
+
+    <string-array name="ExactTimesLT">
+        <item>dvylikta</item>
+        <item>pirma</item>
+        <item>antra</item>
+        <item>trečia</item>
+        <item>ketvirta</item>
+        <item>penkta</item>
+        <item>šešta</item>
+        <item>septinta</item>
+        <item>aštunta</item>
+        <item>devinta</item>
+        <item>dešimta</item>
+        <item>vienuolikta</item>
+        <item>dvylikta</item>
+        <item>trylikta</item>
+        <item>keturiolikta</item>
+        <item>penkiolikta</item>
+        <item>šešiolikta</item>
+        <item>septyniolikta</item>
+        <item>aštuoniolikta</item>
+        <item>devyniolikta</item>
+        <item>dvidešimta</item>
+        <item>dvidešimt pirma</item>
+        <item>dvidešimt antra</item>
+        <item>dvidešimt trečia</item>
+    </string-array>
+    <string-array name="PrefixesLT">
+        <item>apie</item>
+        <item>maždaug</item>
+        <item>beveik</item>
+        <item>maždaug</item>
+        <item>beveik</item>
+        <item>apie</item>
+        <item>apie</item>
+        <item>maždaug</item>
+        <item>beveik be ketvirčio</item>
+        <item>be ketvirčio</item>
+        <item>beveik</item>
+        <item>apie</item>
+    </string-array>
+    <string-array name="SuffixesLT">
         <item></item>
-        <item>or so</item>
+        <item></item>
+        <item>su ketvirčiu</item>
+        <item>su ketvirčiu</item>
+        <item>su puse</item>
+        <item>su puse</item>
+        <item>su puse</item>
+        <item>su puse</item>
         <item></item>
         <item></item>
-        <item>ish</item>
-        <item>or so</item>
-        <item></item>
-        <item>or so</item>
         <item></item>
         <item></item>
     </string-array>
+
 </resources>

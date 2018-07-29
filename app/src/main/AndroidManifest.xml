@@ -71,6 +71,7 @@
         <activity android:name=".activities.ColorOptionsListActivity" />
         <activity android:name=".activities.TextColorOptionsActivity" />
         <activity android:name=".activities.ShowHideOptionsActivity" />
+        <activity android:name=".activities.LanguageOptionsActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

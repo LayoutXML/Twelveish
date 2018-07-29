@@ -33,6 +33,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 
@@ -75,7 +76,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String[] Suffixes;
     private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
     private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
-    private Boolean[] SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
+    private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
     private Boolean isRound = true;
     private SharedPreferences prefs;
     private Integer batteryLevel=100;
@@ -105,6 +106,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showSeconds;
     private Boolean showComplication;
     private Boolean showComplicationAmbient;
+    private String language;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -244,9 +246,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint2.setAntiAlias(true);
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
 
-            Prefixes = getResources().getStringArray(R.array.Prefixes);
-            Suffixes = getResources().getStringArray(R.array.Suffixes);
-
             initializeComplications();
         }
 
@@ -300,6 +299,34 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showSeconds = prefs.getBoolean(getString(R.string.preference_show_seconds),true);
             showComplication = prefs.getBoolean(getString(R.string.preference_show_complications),true);
             showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient),true);
+            language = prefs.getString(getString(R.string.preference_language),"en");
+            switch (language) {
+                case "en":
+                    Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+                    Prefixes = getResources().getStringArray(R.array.Prefixes);
+                    Suffixes = getResources().getStringArray(R.array.Suffixes);
+                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
+                    break;
+                case "lt":
+                    Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
+                    Prefixes = getResources().getStringArray(R.array.PrefixesLT);
+                    Suffixes = getResources().getStringArray(R.array.SuffixesLT);
+                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,false,false,false,false};
+                    break;
+                default:
+                    Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+                    Prefixes = getResources().getStringArray(R.array.Prefixes);
+                    Suffixes = getResources().getStringArray(R.array.Suffixes);
+                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
+                    break;
+
+            }
         }
 
         @Override
@@ -622,7 +649,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Time
             StringBuilder hoursInWords = new StringBuilder();
             String mainText;
-            String[] mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
+            String[] mainArray;
+            switch (language) {
+                case "en":
+                    mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
+                    break;
+                case "lt":
+                    mainArray = getResources().getStringArray(R.array.ExactTimesLT)[hours].split(" ");
+                    break;
+                default:
+                    mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
+
+            }
             for (String word : mainArray) {
                 if (hoursInWords.length()!=0) {
                     hoursInWords.append(" ");
@@ -661,20 +699,42 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise1(Integer hours, Integer minutes, Integer index) {
+            String middle;
+            switch (language) {
+                case "en":
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "lt":
+                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
+                    break;
+                default:
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+            }
             String text =
                     ((minutes>0) ? Prefixes[index] : "")
                             + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + middle
                             + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
             return text.toUpperCase();
         }
 
         private String capitalise2(Integer hours, Integer minutes, Integer index) {
+            String middle;
+            switch (language) {
+                case "en":
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "lt":
+                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
+                    break;
+                default:
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+            }
             String text =
                     ((minutes>0) ? Prefixes[index] : "")
                             + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + middle
                             + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
 
@@ -682,10 +742,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise3(Integer hours, Integer minutes, Integer index) {
+            String middle;
+            switch (language) {
+                case "en":
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "lt":
+                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
+                    break;
+                default:
+                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+            }
             String text20 =
                     ((minutes>0) ? Prefixes[index] : "")
                             + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + getResources().getStringArray(R.array.ExactTimes)[hours]
+                            + middle
                             + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
             return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
@@ -699,7 +770,17 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Time
-            String hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
+            String hoursInWords;
+            switch (language) {
+                case "en":
+                    hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "lt":
+                    hoursInWords = getResources().getStringArray(R.array.ExactTimesLT)[hours];
+                    break;
+                default:
+                    hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
+            }
             String mainText;
             if (mainPrefix.equals("") || PrefixNewLine[index])
                 mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);

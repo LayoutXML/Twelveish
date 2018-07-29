@@ -221,7 +221,7 @@ public class TextColorOptionsActivity extends Activity{
 
         color = new Color();
         color.setName("Gold");
-        color.setColorcode(android.graphics.Color.parseColor("#7295A6"));
+        color.setColorcode(android.graphics.Color.parseColor("#FFD700"));
         values.add(color);
 
         color = new Color();

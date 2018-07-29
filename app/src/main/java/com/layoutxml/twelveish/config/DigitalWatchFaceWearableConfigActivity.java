@@ -26,6 +26,7 @@ import com.layoutxml.twelveish.activities.CapitalisationActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsListActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
+import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
 import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.objects.Setting;
@@ -81,6 +82,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
+        setting.setName("Language");
+        setting.setIcon(R.drawable.ic_language);
+        values.add(setting);
+
+        setting = new Setting();
         setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_misc);
         values.add(setting);
@@ -128,6 +134,10 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 5:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, LanguageOptionsActivity.class);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 6:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
