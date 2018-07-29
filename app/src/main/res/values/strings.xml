@@ -144,4 +144,59 @@
         <item></item>
     </string-array>
 
+    <string-array name="ExactTimesFI">
+        <item>kaksitoista</item>
+        <item>yksi</item>
+        <item>kaksi</item>
+        <item>kolme</item>
+        <item>neljä</item>
+        <item>viisi</item>
+        <item>kuusi</item>
+        <item>seitsemän</item>
+        <item>kahdeksan</item>
+        <item>yhdeksän</item>
+        <item>kymmenen</item>
+        <item>yksitoista</item>
+        <item>kaksitoista</item>
+        <item>yksi</item>
+        <item>kaksi</item>
+        <item>kolme</item>
+        <item>neljä</item>
+        <item>viisi</item>
+        <item>kuusi</item>
+        <item>seitsemän</item>
+        <item>kahdeksan</item>
+        <item>yhdeksän</item>
+        <item>kymmenen</item>
+        <item>yksitoista</item>
+    </string-array>
+    <string-array name="PrefixesFI">
+        <item></item>
+        <item></item>
+        <item>lähes varttia yli</item>
+        <item>varttia yli</item>
+        <item>kohta puoli</item>
+        <item>lähes puoli</item>
+        <item>puoli</item>
+        <item>puoli</item>
+        <item>lähes varttia vaille</item>
+        <item>varttia vaille</item>
+        <item>kohta</item>
+        <item>lähes</item>
+    </string-array>
+    <string-array name="SuffixesFI">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
 </resources>
