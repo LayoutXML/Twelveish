@@ -847,8 +847,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
-                if (line.length()<10)
-                    line="O"+line+"O";
+                line="O"+line+"O";
                 float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
