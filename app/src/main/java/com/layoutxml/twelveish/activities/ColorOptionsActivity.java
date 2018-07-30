@@ -204,6 +204,26 @@ public class ColorOptionsActivity extends Activity {
         color.setColorcode(android.graphics.Color.parseColor("#A8A7A7"));
         values.add(color);
 
+        color = new Color();
+        color.setName("Summer Red");
+        color.setColorcode(android.graphics.Color.parseColor("#fe4a49"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Aqua");
+        color.setColorcode(android.graphics.Color.parseColor("#2ab7ca"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Sun");
+        color.setColorcode(android.graphics.Color.parseColor("#fed766"));
+        values.add(color);
+
+        color = new Color();
+        color.setName("Dawn");
+        color.setColorcode(android.graphics.Color.parseColor("#451e3e"));
+        values.add(color);
+
         mAdapter.notifyDataSetChanged();
     }
 
