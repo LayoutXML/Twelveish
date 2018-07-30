@@ -171,8 +171,8 @@
         <item>yksitoista</item>
     </string-array>
     <string-array name="PrefixesFI">
-        <item></item>
-        <item></item>
+        <item>hieman yli</item>
+        <item>noin viittä yli</item>
         <item>lähes varttia yli</item>
         <item>varttia yli</item>
         <item>kohta puoli</item>

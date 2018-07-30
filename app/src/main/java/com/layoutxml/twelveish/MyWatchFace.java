@@ -319,7 +319,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     Prefixes = getResources().getStringArray(R.array.PrefixesFI);
                     Suffixes = getResources().getStringArray(R.array.SuffixesFI);
                     TimeShift = new Integer[]{0,0,0,0,1,1,1,1,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+                    PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
                     SuffixNewLine = new Boolean[]{false,false,false,false,false,false,false,false,false,false,false,false};
                     break;
                 default:
