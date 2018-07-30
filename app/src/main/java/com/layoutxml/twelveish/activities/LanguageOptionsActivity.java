@@ -63,6 +63,11 @@ public class LanguageOptionsActivity extends Activity {
         option.setKey("lt");
         values.add(option);
 
+        option = new LanguageOption();
+        option.setName("Russian");
+        option.setKey("ru");
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 

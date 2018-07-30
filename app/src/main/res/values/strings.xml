@@ -199,4 +199,59 @@
         <item></item>
     </string-array>
 
+    <string-array name="ExactTimesRU">
+        <item>двенадцать</item>
+        <item>один</item>
+        <item>два</item>
+        <item>три</item>
+        <item>четыре</item>
+        <item>пять</item>
+        <item>шесть</item>
+        <item>семь</item>
+        <item>восемь</item>
+        <item>девять</item>
+        <item>десять</item>
+        <item>одиннадцать</item>
+        <item>двенадцать</item>
+        <item>тринадцать</item>
+        <item>четырнадцать</item>
+        <item>пятнадцать</item>
+        <item>шестнадцать</item>
+        <item>семнадцать</item>
+        <item>восемьнадцать</item>
+        <item>девятнадцать</item>
+        <item>двадцать</item>
+        <item>двадцать один</item>
+        <item>двадцать два</item>
+        <item>двадцать три</item>
+    </string-array>
+    <string-array name="PrefixesRU">
+        <item></item>
+        <item></item>
+        <item>почти</item>
+        <item></item>
+        <item>почти</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>почти без четверти</item>
+        <item>без четверти</item>
+        <item>почти</item>
+        <item></item>
+    </string-array>
+    <string-array name="SuffixesRU">
+        <item></item>
+        <item>или около того</item>
+        <item>с четвертью</item>
+        <item>с четвертью</item>
+        <item>с половиной</item>
+        <item>с половиной</item>
+        <item>с половиной</item>
+        <item>с половиной или около того</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
 </resources>
