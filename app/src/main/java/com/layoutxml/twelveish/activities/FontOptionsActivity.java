@@ -61,6 +61,12 @@ public class FontOptionsActivity extends Activity{
         option.setTypeface(ResourcesCompat.getFont(this,R.font.allura));
         values.add(option);
 
+        option = new FontOption();
+        option.setName("Halo 3");
+        option.setKey("halo3");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.halo3));
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 

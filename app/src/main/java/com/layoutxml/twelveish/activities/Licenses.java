@@ -107,5 +107,25 @@ public class Licenses extends Activity{
                 "DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\n" +
                 "FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM\n" +
                 "OTHER DEALINGS IN THE FONT SOFTWARE.\n");
+
+        TextView License2 = findViewById(R.id.license2);
+        License2.setText("********************************************************************\n" +
+                "*                           HALO 3 FONT                            *\n" +
+                "*          In homage of Xbox's Halo created by Bungie              *\n" +
+                "*                                                                  *\n" +
+                "*                     Created by Will Turnbow                      *\n" +
+                "*                    willyliliana@sbcglobal.net                    *\n" +
+                "*                      www.willyliliana.com                        *\n" +
+                "********************************************************************\n" +
+                "\n" +
+                "Finally an update of the Halo font.  It's been updated to match the\n" +
+                "logos of Halo 2, Halo 3, Halo Wars and the Halo 2 ad run before\n" +
+                "release.  I've also revised some letters and numbers I never liked.\n" +
+                "If you have any problems with the font, email me or try my website.\n" +
+                "\n" +
+                "Obviously the font is free.  Please do whatever you want with it.\n" +
+                "If you like it or find a problem with it drop me a line.  If you\n" +
+                "would like something added please ask though I think I have most of\n" +
+                "it this time.");
     }
 }
