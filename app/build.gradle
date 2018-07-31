@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.layoutxml.twelveish"
         minSdkVersion 25
-        targetSdkVersion 27
-        versionCode 55
-        versionName "1.0.4"
+        targetSdkVersion 28
+        versionCode 65
+        versionName "1.0.5"
         multiDexEnabled true
     }
     buildTypes {
@@ -22,9 +22,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.android.support:wearable:2.3.0'
     implementation 'com.google.android.gms:play-services-wearable:15.0.1'
-    implementation 'com.android.support:percent:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:wear:27.1.1'
+    implementation 'com.android.support:percent:28.0.0-beta01'
+    implementation 'com.android.support:support-v4:28.0.0-beta01'
+    implementation 'com.android.support:recyclerview-v7:28.0.0-beta01'
+    implementation 'com.android.support:wear:28.0.0-beta01'
     compileOnly 'com.google.android.wearable:wearable:2.3.0'
 }
