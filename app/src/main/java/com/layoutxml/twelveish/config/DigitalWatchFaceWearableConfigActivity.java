@@ -26,7 +26,9 @@ import com.layoutxml.twelveish.activities.CapitalisationActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsActivity;
 import com.layoutxml.twelveish.activities.ColorOptionsListActivity;
 import com.layoutxml.twelveish.activities.DateOptionsListActivity;
+import com.layoutxml.twelveish.activities.FontOptionsActivity;
 import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
+import com.layoutxml.twelveish.activities.Licenses;
 import com.layoutxml.twelveish.activities.MiscOptionsActivity;
 import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.objects.Setting;
@@ -67,6 +69,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
+        setting.setName("Font");
+        setting.setIcon(R.drawable.ic_font);
+        values.add(setting);
+
+        setting = new Setting();
         setting.setName("Date format");
         setting.setIcon(R.drawable.ic_date);
         values.add(setting);
@@ -89,6 +96,11 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         setting = new Setting();
         setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_misc);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Licenses");
+        setting.setIcon(R.drawable.ic_info);
         values.add(setting);
 
         mAdapter.notifyDataSetChanged();
@@ -122,23 +134,31 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 2:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, FontOptionsActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 3:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 4:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ShowHideOptionsActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 5:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, LanguageOptionsActivity.class);
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ShowHideOptionsActivity.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             case 6:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, LanguageOptionsActivity.class);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 7:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
+                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                break;
+                            case 8:
+                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, Licenses.class);
                                 DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
                                 break;
                             default:

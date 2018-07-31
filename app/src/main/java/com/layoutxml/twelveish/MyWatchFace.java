@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
@@ -38,6 +39,7 @@ import android.widget.Toast;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -67,7 +69,7 @@ import static android.view.Gravity.TOP;
  */
 
 public class MyWatchFace extends CanvasWatchFaceService {
-    private static final Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
+    private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -107,6 +109,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showComplication;
     private Boolean showComplicationAmbient;
     private String language;
+    private String font;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -222,9 +225,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
 
-            prefs = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            loadPreferences();
-
             setWatchFaceStyle(new WatchFaceStyle.Builder(MyWatchFace.this)
                     .setStatusBarGravity(CENTER_HORIZONTAL | TOP)
                     .setShowUnreadCountIndicator(true)
@@ -245,6 +245,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mTextPaint2.setTypeface(NORMAL_TYPEFACE);
             mTextPaint2.setAntiAlias(true);
             mTextPaint2.setTextAlign(Paint.Align.CENTER);
+
+            prefs = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            loadPreferences();
 
             initializeComplications();
         }
@@ -300,6 +303,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showComplication = prefs.getBoolean(getString(R.string.preference_show_complications),true);
             showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient),true);
             language = prefs.getString(getString(R.string.preference_language),"en");
+            font = prefs.getString(getString(R.string.preference_font),"robotolight");
+
+            //Work with given preferences
             switch (language) {
                 case "en":
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
@@ -337,6 +343,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
                     break;
 
+            }
+
+            switch (font) {
+                case "robotolight":
+                    NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "allura":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.allura);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                default:
+                    NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
             }
         }
 
