@@ -67,6 +67,12 @@ public class FontOptionsActivity extends Activity{
         option.setTypeface(ResourcesCompat.getFont(this,R.font.halo3));
         values.add(option);
 
+        option = new FontOption();
+        option.setName("Homoarakhn");
+        option.setKey("homoarakhn");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.homoarakhn));
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 

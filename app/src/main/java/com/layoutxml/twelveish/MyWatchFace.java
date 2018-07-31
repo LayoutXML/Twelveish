@@ -358,6 +358,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.halo3);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
+                case "homoarakhn":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.homoarakhn);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
                 default:
                     NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
