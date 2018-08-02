@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.layoutxml.twelveish"
-        minSdkVersion 25
+        minSdkVersion 23
         targetSdkVersion 28
-        versionCode 67
-        versionName "1.0.5"
+        versionCode 68
+        versionName "1.1.1"
         multiDexEnabled true
     }
     buildTypes {
