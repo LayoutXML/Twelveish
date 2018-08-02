@@ -20,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -136,12 +137,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
     }
 
     public static int getComplicationId(ComplicationConfigActivity.ComplicationLocation complicationLocation){
-            switch (complicationLocation) {
-                case BOTTOM:
-                    return BOTTOM_COMPLICATION_ID;
-                default:
-                    return -1;
-            }
+        switch (complicationLocation) {
+            case BOTTOM:
+                return BOTTOM_COMPLICATION_ID;
+            default:
+                return -1;
+        }
     }
 
     public static int[] getComplicationIds() {
@@ -249,7 +250,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             prefs = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             loadPreferences();
 
-            initializeComplications();
+            if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N)
+                initializeComplications();
         }
 
         private void initializeComplications() {
@@ -594,7 +596,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             String text3;
             if (FourFirst)
-                 text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
+                text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
             else
                 text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
 
@@ -666,7 +668,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Draw complication
-            if ((isInAmbientMode() && showComplicationAmbient) || (!isInAmbientMode() && showComplication))
+            if (((isInAmbientMode() && showComplicationAmbient) || (!isInAmbientMode() && showComplication)) && (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N))
                 drawComplications(canvas,now);
         }
 
