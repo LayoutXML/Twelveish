@@ -544,6 +544,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Integer hourDigital = militaryTime
                     ? mCalendar.get(Calendar.HOUR_OF_DAY)
                     : mCalendar.get(Calendar.HOUR);
+            if (hourDigital==0 && !militaryTime && Calendar.HOUR_OF_DAY!=12)
+                hourDigital=12;
             Integer index = minutes / 5;
             Integer hourText = militaryTextTime
                     ? mCalendar.get(Calendar.HOUR_OF_DAY)+TimeShift[index]
