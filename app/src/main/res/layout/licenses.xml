@@ -45,6 +45,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <TextView
+                android:id="@+id/license4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Error loading license"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </LinearLayout>
             
         </ScrollView>

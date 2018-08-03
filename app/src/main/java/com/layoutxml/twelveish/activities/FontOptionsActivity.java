@@ -62,6 +62,12 @@ public class FontOptionsActivity extends Activity{
         values.add(option);
 
         option = new FontOption();
+        option.setName("Divlit");
+        option.setKey("divlit");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.divlit));
+        values.add(option);
+
+        option = new FontOption();
         option.setName("Halo 3");
         option.setKey("halo3");
         option.setTypeface(ResourcesCompat.getFont(this,R.font.halo3));

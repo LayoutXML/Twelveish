@@ -404,6 +404,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.allura);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
+                case "divlit":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.divlit);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
                 case "halo3":
                     NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.halo3);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);

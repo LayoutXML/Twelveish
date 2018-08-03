@@ -161,6 +161,37 @@ public class Licenses extends Activity{
                 "5. Disclaimer\n" +
                 "Homoarakhn is offered 'as is' without any warranty. 1001fonts.com and the respective author of Homoarakhn shall not be liable for any damage derived from using this typeface. By using Homoarakhn you agree to the terms of this license.");
 
-
+        TextView License4 = findViewById(R.id.license4);
+        License4.setText("1001Fonts Free For Commercial Use License (FFC)\n" +
+                "\n" +
+                "Preamble\n" +
+                "In this license, 'divlit' refers to the given .zip file, which may contain one or numerous fonts. These fonts can be of any type (.ttf, .otf, ...) and together they form a 'font family' or in short a 'typeface'.\n" +
+                "\n" +
+                "1. Copyright\n" +
+                "divlit is the intellectual property of its respective author, provided it is original, and is protected by copyright laws in many parts of the world.\n" +
+                "\n" +
+                "2. Usage\n" +
+                "divlit may be downloaded and used free of charge for both personal and commercial use. Personal use refers to all usage that does not generate financial income in a business manner, for instance:\n" +
+                "\n" +
+                " - personal scrapbooking for yourself\n" +
+                " - recreational websites and blogs for friends and family\n" +
+                " - prints such as flyers, posters, t-shirts for churches, charities, and non-profit organizations\n" +
+                "\n" +
+                "Commercial use refers to usage in a business environment, including:\n" +
+                "\n" +
+                " - business cards, logos, advertising, websites for companies\n" +
+                " - t-shirts, books, apparel that will be sold for money\n" +
+                " - flyers, posters for events that charge admission\n" +
+                " - freelance graphic design work\n" +
+                " - anything that will generate direct or indirect income\n" +
+                "\n" +
+                "3. Modification\n" +
+                "divlit may not be modified, altered, adapted or built upon without written permission by its respective author. This pertains all files within the downloadable font zip-file.\n" +
+                "\n" +
+                "4. Distribution\n" +
+                "While divlit may freely be copied and passed along to other individuals for private use as its original downloadable zip-file, it may not be sold or published without written permission by its respective author.\n" +
+                "\n" +
+                "5. Disclaimer\n" +
+                "divlit is offered 'as is' without any warranty. 1001fonts.com and the respective author of divlit shall not be liable for any damage derived from using this typeface. By using divlit you agree to the terms of this license.");
     }
 }
