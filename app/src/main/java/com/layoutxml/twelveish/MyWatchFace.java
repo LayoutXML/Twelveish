@@ -19,11 +19,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.wearable.complications.ComplicationData;
@@ -38,6 +41,7 @@ import android.view.WindowInsets;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
+import com.layoutxml.twelveish.config.DigitalWatchFaceWearableConfigActivity;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
@@ -86,6 +90,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer batteryLevel=100;
     private Integer screenWidthG;
     private Integer screenHeightG;
+    private Boolean showedRateAlready;
+    private Integer counter;
     //SharedPreferences:
     private Integer backgroundColor;
     private Integer mainColor;
@@ -259,6 +265,34 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 initializeComplications();
         }
 
+        private void showRateNotification(){
+            Log.d(TAG,"showRateNotification: start");
+            int notificationId = 1;
+            // The channel ID of the notification.
+            String id = "Main";
+            // Build intent for notification content
+            Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.layoutxml.twelveish"));
+            viewIntent.putExtra("Rate Twelveish", "Would you like to rate Twelveish? I won't ask again :)");
+            PendingIntent viewPendingIntent =
+                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
+
+            // Notification channel ID is ignored for Android 7.1.1
+            // (API level 25) and lower.
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), id)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Rate Twelveish")
+                            .setContentText("Would you like to rate Twelveish? You will not see this ever again")
+                            .setContentIntent(viewPendingIntent);
+
+            // Get an instance of the NotificationManager service
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(getApplicationContext());
+
+            // Issue the notification with notification manager.
+            notificationManager.notify(notificationId, notificationBuilder.build());
+        }
+
         private void initializeComplications() {
             mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
@@ -286,6 +320,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private void loadPreferences() {
+            showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate),false);
+            counter = prefs.getInt(getString(R.string.counter),0);
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
             mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
@@ -380,6 +416,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
+            }
+
+            if (counter>=100 && !showedRateAlready) {
+                prefs.edit().putBoolean(getString(R.string.showed_rate),true).apply();
+                showRateNotification();
+            }
+
+            counter++;
+            if (counter<110) {
+                prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
 
