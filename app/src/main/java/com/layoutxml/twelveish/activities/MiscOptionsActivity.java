@@ -66,6 +66,12 @@ public class MiscOptionsActivity extends Activity {
         option.setDefaultOption(false);
         values.add(option);
 
+        option = new MiscOption();
+        option.setName("Show am/pm (Digital)");
+        option.setKey(getString(R.string.preference_ampm));
+        option.setDefaultOption(true);
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 

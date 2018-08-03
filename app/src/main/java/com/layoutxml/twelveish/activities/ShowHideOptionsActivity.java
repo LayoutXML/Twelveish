@@ -56,12 +56,6 @@ public class ShowHideOptionsActivity extends Activity{
 
     private void generateValues(){
         MiscOption option = new MiscOption();
-        option.setName("Show am/pm (Digital)");
-        option.setKey(getString(R.string.preference_ampm));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new MiscOption();
         option.setName("Show seconds when active");
         option.setKey(getString(R.string.preference_show_seconds));
         option.setDefaultOption(true);
