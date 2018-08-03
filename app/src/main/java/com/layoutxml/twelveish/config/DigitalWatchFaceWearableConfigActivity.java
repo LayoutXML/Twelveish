@@ -8,6 +8,7 @@ package com.layoutxml.twelveish.config;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.CapitalisationActivity;
@@ -126,8 +128,12 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                         Intent intent;
                         switch (position){
                             case 0:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ComplicationConfigActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+                                    intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ComplicationConfigActivity.class);
+                                    DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),"Complications not supported",Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             case 1:
                                 intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsListActivity.class);

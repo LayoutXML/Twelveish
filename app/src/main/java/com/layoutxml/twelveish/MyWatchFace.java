@@ -462,10 +462,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mTextPaint.setAntiAlias(!inAmbientMode);
                 mTextPaint2.setAntiAlias(!inAmbientMode);
             }
-            ComplicationDrawable complicationDrawable;
-            for (int COMPLICATION_ID : COMPLICATION_IDS) {
-                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
-                complicationDrawable.setInAmbientMode(mAmbient);
+            if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+                ComplicationDrawable complicationDrawable;
+                for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                    complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
+                    complicationDrawable.setInAmbientMode(mAmbient);
+                }
             }
             updateTimer();
         }
@@ -481,9 +483,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
-                    int tappedComplicationId = getTappedComplicationId(x, y);
-                    if (tappedComplicationId != -1) {
-                        onComplicationTap(tappedComplicationId);
+                    if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+                        int tappedComplicationId = getTappedComplicationId(x, y);
+                        if (tappedComplicationId != -1) {
+                            onComplicationTap(tappedComplicationId);
+                        }
                     }
                     break;
             }
