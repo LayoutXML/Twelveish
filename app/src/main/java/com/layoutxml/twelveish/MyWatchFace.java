@@ -118,8 +118,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             {
                     ComplicationData.TYPE_RANGED_VALUE,
                     ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_LONG_TEXT,
                     ComplicationData.TYPE_SHORT_TEXT,
-                    ComplicationData.TYPE_SMALL_IMAGE
+                    ComplicationData.TYPE_SMALL_IMAGE,
+                    ComplicationData.TYPE_LARGE_IMAGE
             }
     };
     private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
