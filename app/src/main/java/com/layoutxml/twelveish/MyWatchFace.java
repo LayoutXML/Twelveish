@@ -400,8 +400,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
+                case "alegreya":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.alegreya);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
                 case "allura":
                     NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.allura);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "cabin":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.cabin);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
                 case "divlit":
@@ -414,6 +422,38 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case "homoarakhn":
                     NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.homoarakhn);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "ibmplexsans":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.ibmplexsans);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "inconsolata":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.inconsolata);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "merriweather":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.merriweather);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "nunito":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.nunito);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "pacifico":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.pacifico);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "quattrocento":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.quattrocento);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "quicksand":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.quicksand);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    break;
+                case "rubik":
+                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.rubik);
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
                 default:

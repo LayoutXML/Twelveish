@@ -56,9 +56,21 @@ public class FontOptionsActivity extends Activity{
         values.add(option);
 
         option = new FontOption();
+        option.setName("Alegreya");
+        option.setKey("alegreya");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.alegreya));
+        values.add(option);
+
+        option = new FontOption();
         option.setName("Allura");
         option.setKey("allura");
         option.setTypeface(ResourcesCompat.getFont(this,R.font.allura));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Cabin");
+        option.setKey("cabin");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.cabin));
         values.add(option);
 
         option = new FontOption();
@@ -77,6 +89,54 @@ public class FontOptionsActivity extends Activity{
         option.setName("Homoarakhn");
         option.setKey("homoarakhn");
         option.setTypeface(ResourcesCompat.getFont(this,R.font.homoarakhn));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("IBM Plex Sans");
+        option.setKey("ibmplexsans");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.ibmplexsans));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Inconsolata");
+        option.setKey("inconsolata");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.inconsolata));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Merriweather");
+        option.setKey("merriweather");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.merriweather));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Nunito");
+        option.setKey("nunito");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.nunito));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Pacifico");
+        option.setKey("pacifico");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.pacifico));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Quattrocento");
+        option.setKey("quattrocento");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.quattrocento));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Quicksand");
+        option.setKey("quicksand");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.quicksand));
+        values.add(option);
+
+        option = new FontOption();
+        option.setName("Rubik");
+        option.setKey("rubik");
+        option.setTypeface(ResourcesCompat.getFont(this,R.font.rubik));
         values.add(option);
 
         mAdapter.notifyDataSetChanged();
