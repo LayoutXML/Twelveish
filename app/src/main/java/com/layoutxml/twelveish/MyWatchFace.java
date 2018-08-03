@@ -77,6 +77,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private static final String TAG = "MyWatchFace";
     private String[] Prefixes;
     private String[] Suffixes;
+    private String[] WeekDays;
     private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
     private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
     private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
@@ -318,6 +319,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "en":
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
+                    WeekDays = getResources().getStringArray(R.array.WeekDays);
                     TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
                     PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
                     SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
@@ -325,6 +327,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "lt":
                     Prefixes = getResources().getStringArray(R.array.PrefixesLT);
                     Suffixes = getResources().getStringArray(R.array.SuffixesLT);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysLT);
                     TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
                     PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
                     SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,false,false,false,false};
@@ -332,6 +335,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "fi":
                     Prefixes = getResources().getStringArray(R.array.PrefixesFI);
                     Suffixes = getResources().getStringArray(R.array.SuffixesFI);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysFI);
                     TimeShift = new Integer[]{0,0,0,0,1,1,1,1,1,1,1,1};
                     PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
                     SuffixNewLine = new Boolean[]{false,false,false,false,false,false,false,false,false,false,false,false};
@@ -339,6 +343,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "ru":
                     Prefixes = getResources().getStringArray(R.array.PrefixesRU);
                     Suffixes = getResources().getStringArray(R.array.SuffixesRU);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysRU);
                     TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
                     PrefixNewLine = new Boolean[]{false,false,true,false,true,false,false,false,true,true,true,false};
                     SuffixNewLine = new Boolean[]{false,true,true,true,true,true,true,true,false,false,false,false};
@@ -346,6 +351,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
+                    WeekDays = getResources().getStringArray(R.array.WeekDays);
                     TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
                     PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
                     SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
@@ -617,9 +623,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Get day of the week
             String dayOfTheWeek = "";
-            String[] days = {"Su","Mo","Tu","We","Th","Fr","Sa"};
             if ((isInAmbientMode() && showDayAmbient) || (!isInAmbientMode() && showDay))
-                dayOfTheWeek = days[mCalendar.get(Calendar.DAY_OF_WEEK)-1];
+                dayOfTheWeek = WeekDays[mCalendar.get(Calendar.DAY_OF_WEEK)-1];
 
             //Draw digital clock, date, battery percentage and day of the week
             Float firstSeparator = 40.0f;

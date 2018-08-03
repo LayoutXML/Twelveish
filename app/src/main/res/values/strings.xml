@@ -91,6 +91,15 @@
         <item></item>
         <item></item>
     </string-array>
+    <string-array name="WeekDays">
+        <item>Su</item>
+        <item>Mo</item>
+        <item>Tu</item>
+        <item>We</item>
+        <item>Th</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
 
     <string-array name="ExactTimesLT">
         <item>dvylikta</item>
@@ -145,6 +154,15 @@
         <item></item>
         <item></item>
         <item></item>
+    </string-array>
+    <string-array name="WeekDaysLT">
+        <item>Se</item>
+        <item>Pi</item>
+        <item>An</item>
+        <item>Tr</item>
+        <item>Ke</item>
+        <item>Pe</item>
+        <item>Še</item>
     </string-array>
 
     <string-array name="ExactTimesFI">
@@ -201,6 +219,15 @@
         <item></item>
         <item></item>
     </string-array>
+    <string-array name="WeekDaysFI">
+        <item>Su</item>
+        <item>Ma</item>
+        <item>Ti</item>
+        <item>Ke</item>
+        <item>To</item>
+        <item>Pe</item>
+        <item>La</item>
+    </string-array>
 
     <string-array name="ExactTimesRU">
         <item>двенадцать</item>
@@ -255,6 +282,15 @@
         <item></item>
         <item></item>
         <item></item>
+    </string-array>
+    <string-array name="WeekDaysRU">
+        <item>Во</item>
+        <item>По</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Че</item>
+        <item>Пя</item>
+        <item>Су</item>
     </string-array>
 
 </resources>
