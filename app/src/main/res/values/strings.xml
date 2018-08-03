@@ -34,6 +34,8 @@
     <string name="preference_show_complications_ambient">showComplicationAmbient</string>
     <string name="preference_language">language</string>
     <string name="preference_font">font</string>
+    <string name="preference_show_day">showDay</string>
+    <string name="preference_show_day_ambient">showDayAmbient</string>
 
     <string-array name="ExactTimes">
         <item>twelve</item>

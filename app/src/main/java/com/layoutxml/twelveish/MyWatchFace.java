@@ -111,6 +111,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showComplicationAmbient;
     private String language;
     private String font;
+    private Boolean showDay;
+    private Boolean showDayAmbient;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -301,6 +303,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showSuffixes = prefs.getBoolean(getString(R.string.preference_show_suffixes), true);
             showBattery = prefs.getBoolean(getString(R.string.preference_show_battery), true);
             showBatteryAmbient = prefs.getBoolean(getString(R.string.preference_show_battery_ambient), true);
+            showDay = prefs.getBoolean(getString(R.string.preference_show_day), true);
+            showDayAmbient = prefs.getBoolean(getString(R.string.preference_show_day_ambient), true);
             showWords = prefs.getBoolean(getString(R.string.preference_show_words), true);
             showWordsAmbient = prefs.getBoolean(getString(R.string.preference_show_words_ambient), true);
             showSeconds = prefs.getBoolean(getString(R.string.preference_show_seconds),true);
@@ -371,6 +375,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     mTextPaint2.setTypeface(NORMAL_TYPEFACE);
                     break;
             }
+
+
         }
 
         @Override
@@ -609,11 +615,28 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Get battery percentage
             String text1 = (batteryLevel+"%");
 
-            //Draw digital clock, date and battery percentage
+            //Get day of the week
+            String dayOfTheWeek = "";
+            String[] days = {"Su","Mo","Tu","We","Th","Fr","Sa"};
+            if ((isInAmbientMode() && showDayAmbient) || (!isInAmbientMode() && showDay))
+                dayOfTheWeek = days[mCalendar.get(Calendar.DAY_OF_WEEK)-1];
+
+            //Draw digital clock, date, battery percentage and day of the week
             Float firstSeparator = 40.0f;
-            if ((isInAmbientMode() && showSecondary) || (!isInAmbientMode() && showSecondaryActive)) {
-                canvas.drawText(text, bounds.width()/2, firstSeparator-mTextPaint.ascent(), mTextPaint);
-                firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
+            if ((isInAmbientMode() && !showSecondary) || (!isInAmbientMode() && !showSecondaryActive)) {
+                text = "";
+            }
+            if (!text.equals("") || !dayOfTheWeek.equals("")) {
+                if (!text.equals("") && !dayOfTheWeek.equals("")) {
+                    canvas.drawText(text + " • " + dayOfTheWeek, bounds.width()/2, firstSeparator-mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
+                } else if (!text.equals("")) {
+                    canvas.drawText(text, bounds.width()/2, firstSeparator-mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
+                } else {
+                    canvas.drawText(dayOfTheWeek, bounds.width()/2, firstSeparator-mTextPaint.ascent(), mTextPaint);
+                    firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
+                }
             }
             if (!((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))) {
                 text3="";

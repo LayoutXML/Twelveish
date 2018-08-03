@@ -74,6 +74,18 @@ public class ShowHideOptionsActivity extends Activity{
         values.add(option);
 
         option = new MiscOption();
+        option.setName("Show day when active");
+        option.setKey(getString(R.string.preference_show_day));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show day in ambient");
+        option.setKey(getString(R.string.preference_show_day_ambient));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
         option.setName("Show date when active");
         option.setKey(getString(R.string.preference_show_secondary_calendar_active));
         option.setDefaultOption(true);
