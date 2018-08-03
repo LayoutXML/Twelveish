@@ -422,8 +422,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     (int)(screenHeightG*3/4-mChinSize),
                     screenWidthG/2+screenHeightG/4,
                     (int)(screenHeightG-mChinSize));
-            ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
-            bottomComplicationDrawable.setBounds(bottomBounds);
+            if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+                ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
+                bottomComplicationDrawable.setBounds(bottomBounds);
+            }
         }
 
         @Override
