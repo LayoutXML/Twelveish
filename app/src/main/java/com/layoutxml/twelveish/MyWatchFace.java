@@ -6,6 +6,7 @@
 
 package com.layoutxml.twelveish;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -91,6 +92,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer screenWidthG;
     private Integer screenHeightG;
     private Boolean showedRateAlready;
+    private Boolean showedTutorialAlready;
     private Integer counter;
     //SharedPreferences:
     private Integer backgroundColor;
@@ -280,9 +282,38 @@ public class MyWatchFace extends CanvasWatchFaceService {
             // (API level 25) and lower.
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), id)
+                            .setDefaults(Notification.DEFAULT_ALL)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("Rate Twelveish")
-                            .setContentText("Would you like to rate Twelveish? You will not see this ever again")
+                            .setContentText("Would you like to rate Twelveish? Tap to go to Google Play store.")
+                            .setContentIntent(viewPendingIntent);
+
+            // Get an instance of the NotificationManager service
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(getApplicationContext());
+
+            // Issue the notification with notification manager.
+            notificationManager.notify(notificationId, notificationBuilder.build());
+        }
+
+        private void showTutorialNotification(){
+            int notificationId = 2;
+            // The channel ID of the notification.
+            String id = "Main";
+            // Build intent for notification content
+            Intent viewIntent = new Intent(getApplicationContext(), DigitalWatchFaceWearableConfigActivity.class);
+            viewIntent.putExtra("Open settings", "Don't forget to customize the watch");
+            PendingIntent viewPendingIntent =
+                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
+
+            // Notification channel ID is ignored for Android 7.1.1
+            // (API level 25) and lower.
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), id)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Open Twelveish Settings")
+                            .setContentText("Don't forget to customize Twelveish directly on your watch")
                             .setContentIntent(viewPendingIntent);
 
             // Get an instance of the NotificationManager service
@@ -322,6 +353,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void loadPreferences() {
             showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate),false);
             counter = prefs.getInt(getString(R.string.counter),0);
+            showedTutorialAlready = prefs.getBoolean(getString(R.string.showed_tutorial),false);
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
             mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
@@ -462,17 +494,20 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
 
-            if (counter>=100 && !showedRateAlready) {
+            if (counter>=50 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate),true).apply();
                 showRateNotification();
             }
 
             counter++;
-            if (counter<110) {
+            if (counter<60) {
                 prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
-
+            if (!showedTutorialAlready){
+                prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
+                showTutorialNotification();
+            }
         }
 
         @Override

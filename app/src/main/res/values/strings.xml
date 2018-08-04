@@ -37,6 +37,7 @@
     <string name="preference_show_day">showDay</string>
     <string name="preference_show_day_ambient">showDayAmbient</string>
     <string name="showed_rate">showedRate</string>
+    <string name="showed_tutorial">showedTutorial</string>
     <string name="counter">counter</string>
 
     <string-array name="ExactTimes">
