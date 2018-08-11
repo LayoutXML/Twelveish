@@ -85,7 +85,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String[] WeekDays;
     private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
     private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
-    private Boolean[] SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+    private Boolean[] SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
     private Boolean isRound = true;
     private SharedPreferences prefs;
     private Integer batteryLevel=100;
