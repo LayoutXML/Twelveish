@@ -296,4 +296,68 @@
         <item>Су</item>
     </string-array>
 
+    <string-array name="ExactTimesDE">
+        <item>null</item>
+        <item>eins</item>
+        <item>zwei</item>
+        <item>drei</item>
+        <item>vier</item>
+        <item>fünf</item>
+        <item>sechs</item>
+        <item>sieben</item>
+        <item>acht</item>
+        <item>neun</item>
+        <item>zehn</item>
+        <item>elf</item>
+        <item>zwölf</item>
+        <item>dreizehn</item>
+        <item>vierzehn</item>
+        <item>fünfzehn</item>
+        <item>sechzehn</item>
+        <item>siebzehn</item>
+        <item>achtzehn</item>
+        <item>neunzehn</item>
+        <item>zwanzig</item>
+        <item>einundzwanzig</item>
+        <item>zweiundzwanzig</item>
+        <item>dreiundzwanzig</item>
+    </string-array>
+    <string-array name="PrefixesDE">
+        <item>kurz nach</item>
+        <item></item>
+        <item>fast viertel nach</item>
+        <item>viertel nach</item>
+        <item>bald halb</item>
+        <item>kurz vor halb</item>
+        <item>etwa halb</item>
+        <item>halb</item>
+        <item>fast viertel vor</item>
+        <item>viertel vor</item>
+        <item>bald</item>
+        <item>fast</item>
+    </string-array>
+    <string-array name="SuffixesDE">
+        <item></item>
+        <item>oder so</item>
+        <item></item>
+        <item>oder so</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>oder so</item>
+        <item></item>
+        <item>oder so</item>
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="WeekDaysDE">
+        <item>So</item>
+        <item>Mo</item>
+        <item>Di</item>
+        <item>Mi</item>
+        <item>Do</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
+
 </resources>
