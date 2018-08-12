@@ -24,7 +24,7 @@
                 android:id="@+id/license1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Error loading license"
+                android:text="Made by LayoutXML"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
                 android:id="@+id/license2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Error loading license"
+                android:text="Error loading versionname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,7 +41,7 @@
                 android:id="@+id/license3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Error loading license"
+                android:text="Error loading versioncode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -49,7 +49,7 @@
                 android:id="@+id/license4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Error loading license"
+                android:text="Don't forget to rate the app!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

@@ -101,7 +101,7 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
         values.add(setting);
 
         setting = new Setting();
-        setting.setName("Licenses");
+        setting.setName("Info");
         setting.setIcon(R.drawable.ic_info);
         values.add(setting);
 

@@ -62,33 +62,9 @@ public class FontOptionsActivity extends Activity{
         values.add(option);
 
         option = new FontOption();
-        option.setName("Allura");
-        option.setKey("allura");
-        option.setTypeface(ResourcesCompat.getFont(this,R.font.allura));
-        values.add(option);
-
-        option = new FontOption();
         option.setName("Cabin");
         option.setKey("cabin");
         option.setTypeface(ResourcesCompat.getFont(this,R.font.cabin));
-        values.add(option);
-
-        option = new FontOption();
-        option.setName("Divlit");
-        option.setKey("divlit");
-        option.setTypeface(ResourcesCompat.getFont(this,R.font.divlit));
-        values.add(option);
-
-        option = new FontOption();
-        option.setName("Halo 3");
-        option.setKey("halo3");
-        option.setTypeface(ResourcesCompat.getFont(this,R.font.halo3));
-        values.add(option);
-
-        option = new FontOption();
-        option.setName("Homoarakhn");
-        option.setKey("homoarakhn");
-        option.setTypeface(ResourcesCompat.getFont(this,R.font.homoarakhn));
         values.add(option);
 
         option = new FontOption();
