@@ -851,6 +851,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "en":
                     mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
                     break;
+                case "de":
+                    mainArray = getResources().getStringArray(R.array.ExactTimesDE)[hours].split(" ");
+                    break;
                 case "lt":
                     mainArray = getResources().getStringArray(R.array.ExactTimesLT)[hours].split(" ");
                     break;
@@ -907,6 +910,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "en":
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
                     break;
+                case "de":
+                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
+                    break;
                 case "lt":
                     middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
                     break;
@@ -933,6 +939,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             switch (language) {
                 case "en":
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "de":
+                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
                     break;
                 case "lt":
                     middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
@@ -961,6 +970,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             switch (language) {
                 case "en":
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "de":
+                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
                     break;
                 case "lt":
                     middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
@@ -995,6 +1007,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             switch (language) {
                 case "en":
                     hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "de":
+                    hoursInWords = getResources().getStringArray(R.array.ExactTimesDE)[hours];
                     break;
                 case "lt":
                     hoursInWords = getResources().getStringArray(R.array.ExactTimesLT)[hours];
