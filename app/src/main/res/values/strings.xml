@@ -324,13 +324,13 @@
     </string-array>
     <string-array name="PrefixesDE">
         <item>kurz nach</item>
-        <item></item>
+        <item>bald viertel nach</item>
         <item>fast viertel nach</item>
         <item>viertel nach</item>
         <item>bald halb</item>
         <item>kurz vor halb</item>
-        <item>etwa halb</item>
-        <item>halb</item>
+        <item>kurz nach halb</item>
+        <item>bald viertel vor</item>
         <item>fast viertel vor</item>
         <item>viertel vor</item>
         <item>bald</item>
@@ -338,13 +338,13 @@
     </string-array>
     <string-array name="SuffixesDE">
         <item></item>
-        <item>oder so</item>
-        <item></item>
-        <item>oder so</item>
-        <item></item>
         <item></item>
         <item></item>
         <item>oder so</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
         <item></item>
         <item>oder so</item>
         <item></item>
