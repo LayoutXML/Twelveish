@@ -97,7 +97,7 @@ Translations:
 
 * Finnish: Lari Palander
 
-* German: Robin Roschlau, @roschlau
+* German: Robin Roschlau, [@roschlau](https://github.com/roschlau)
 
 ## License
 
