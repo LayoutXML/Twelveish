@@ -689,7 +689,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     : mCalendar.get(Calendar.HOUR)+TimeShift[index];
             if (hourText>=24 && militaryTextTime)
                 hourText-=24;
-            else if (hourText>=12 && !militaryTextTime)
+            else if (hourText>12 && !militaryTextTime)
                 hourText-=12;
 
             //Get digital clock
