@@ -70,7 +70,7 @@ More advanced users can create their own pull requests with new translations, bu
 
 From version 1.1.1 upwards, Twelveish versioning follows this scheme:
 
-* Version code: number of commits to this repository. 
+* Version code: number of commits to this repository.
 
 * Version name: x.y.z, where z increases by 1 with at least one fix compared to the previous version, y increases by 1 with at least one new feature. y and x additionally increase by 1 if the number after it reaches 10. In that case the number that reaches 10 reverts back to 0.
 
@@ -79,6 +79,8 @@ Versions 1.0.0-1.0.5 followed this scheme:
 * Version code: number of commits to this repository
 
 * Version name: 1.0.x, where x is the release number -1.
+
+Phone/companion app (module "phone") follows the same versioning except that the version code is always smaller by 1.
 
 ## Privacy policy
 
@@ -89,7 +91,6 @@ Twelveish does not send any anonymous or personally identifiable information - T
 More information about me: https://rokasjankunas.com
 
 More information about my projects: https://layoutxml.com
-
 
 ## Acknowledgments
 
