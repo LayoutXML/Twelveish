@@ -360,4 +360,68 @@
         <item>Sa</item>
     </string-array>
 
+    <string-array name="ExactTimesHU">
+        <item>tizenkettő</item>
+        <item>egy</item>
+        <item>kettő</item>
+        <item>három</item>
+        <item>négy</item>
+        <item>öt</item>
+        <item>hat</item>
+        <item>hét</item>
+        <item>nyolc</item>
+        <item>kilenc</item>
+        <item>tíz</item>
+        <item>tizenegy</item>
+        <item>tizenkettő</item>
+        <item>tizenhárom</item>
+        <item>tizennégy</item>
+        <item>tizenöt</item>
+        <item>tizenhat</item>
+        <item>tizenhét</item>
+        <item>tizennyolc</item>
+        <item>tizenkilenc</item>
+        <item>húsz</item>
+        <item>huszonegy</item>
+        <item>huszonkettő</item>
+        <item>huszonhárom</item>
+    </string-array>
+    <string-array name="PrefixesHU">
+        <item></item>
+        <item></item>
+        <item>negyed</item>
+        <item>negyed</item>
+        <item>lassan fél</item>
+        <item>fél</item>
+        <item>fél</item>
+        <item>fél</item>
+        <item>háromnegyed</item>
+        <item>háromnegyed</item>
+        <item></item>
+        <item>mindjárt</item>
+    </string-array>
+    <string-array name="SuffixesHU">
+        <item>múlt</item>
+        <item>körül</item>
+        <item>lesz</item>
+        <item></item>
+        <item></item>
+        <item>lesz</item>
+        <item></item>
+        <item>múlt</item>
+        <item></item>
+        <item>múlt</item>
+        <item>lesz</item>
+        <item></item>
+    </string-array>
+    <string-array name="WeekDaysHU">
+        <item>Va</item>
+        <item>Hé</item>
+        <item>Ke</item>
+        <item>Sze</item>
+        <item>Csü</item>
+        <item>Pé</item>
+        <item>Szo</item>
+    </string-array>
+
 </resources>

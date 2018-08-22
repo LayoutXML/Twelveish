@@ -64,6 +64,11 @@ public class LanguageOptionsActivity extends Activity {
         values.add(option);
 
         option = new LanguageOption();
+        option.setName("Hungarian");
+        option.setKey("hu");
+        values.add(option);
+
+        option = new LanguageOption();
         option.setName("Lithuanian");
         option.setKey("lt");
         values.add(option);
