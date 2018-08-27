@@ -39,13 +39,11 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
-import android.widget.Toast;
 
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.config.DigitalWatchFaceWearableConfigActivity;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -689,7 +687,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Integer hourDigital = militaryTime
                     ? mCalendar.get(Calendar.HOUR_OF_DAY)
                     : mCalendar.get(Calendar.HOUR);
-            if (hourDigital==0 && !militaryTime && Calendar.HOUR_OF_DAY!=12)
+            if (hourDigital==0 && !militaryTime)
                 hourDigital=12;
             Integer index = minutes / 5;
             Integer hourText = militaryTextTime
@@ -699,6 +697,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 hourText-=24;
             else if (hourText>12 && !militaryTextTime)
                 hourText-=12;
+            if (hourText==0 && !militaryTextTime)
+                hourText = 12;
 
             //Get digital clock
             String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY)>=12 ? " pm" : " am") : "";
