@@ -29,7 +29,7 @@ In addition to what has been mentioned in the description above, Twelveish offer
 * 5 capitalisation options
 * 12 and 24 hour clock formats. Separate for word and digital clocks
 * Options to show/hide almost any information
-* 5 languages (English, Finnish, German, Lithuanian and Russian)
+* 6 languages (English, Finnish, German, Hungarian, Lithuanian and Russian)
 * 10 fonts
 * Support for chinned displays (aka flat tire)
 * Support for square displays
@@ -96,9 +96,11 @@ More information about my projects: https://layoutxml.com
 
 Translations:
 
-* Finnish: Lari Palander
+* Finnish: Lari Palander [@oh2fhf](http://github.com/oh2fhf)
 
 * German: Robin Roschlau, [@roschlau](https://github.com/roschlau)
+
+* Hungarian: Richard Hriech, [@richardSin501](https://github.com/richardSin501)
 
 ## License
 
