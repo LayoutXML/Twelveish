@@ -52,26 +52,6 @@ import java.util.concurrent.TimeUnit;
 import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.Gravity.TOP;
 
-/*
-            -----------------------------------------
-            | Min.  | Prefix               | Suffix |
-            -----------------------------------------
-            | 0     | -                    | -      |
-            | 1-4   | -                    | ish    |
-            | 5-9   | -                    | or so  |
-            | 10-14 | almost a quarter past| -      |
-            | 15-19 | quarter past         | or so  |
-            | 20-24 | almost half past     | -      |
-            | 25-29 | around half past     | -      |
-            | 30-34 | half past            | ish    |
-            | 35-39 | half past            | or so  |
-            | 40-44 | almost a quarter to  | -      | Hours+1
-            | 45-49 | quarter to           | or so  | Hours+1
-            | 50-54 | almost               | -      | Hours+1
-            | 55-59 | around               | -      | Hours+1
-            ----------------------------------------
- */
-
 public class MyWatchFace extends CanvasWatchFaceService {
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
 
@@ -120,6 +100,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String font;
     private Boolean showDay;
     private Boolean showDayAmbient;
+    private Boolean disableComplicationTap;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
@@ -379,6 +360,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient),true);
             language = prefs.getString(getString(R.string.preference_language),"en");
             font = prefs.getString(getString(R.string.preference_font),"robotolight");
+            disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
 
             //Work with given preferences
             switch (language) {
@@ -606,7 +588,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
-                    if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+                    if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N && !disableComplicationTap) {
                         int tappedComplicationId = getTappedComplicationId(x, y);
                         if (tappedComplicationId != -1) {
                             onComplicationTap(tappedComplicationId);

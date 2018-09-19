@@ -72,6 +72,12 @@ public class MiscOptionsActivity extends Activity {
         option.setDefaultOption(true);
         values.add(option);
 
+        option = new MiscOption();
+        option.setName("Disable tapping on complications");
+        option.setKey(getString(R.string.preference_tap));
+        option.setDefaultOption(false);
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 
