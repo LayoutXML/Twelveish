@@ -68,8 +68,8 @@
         <item>twenty three</item>
     </string-array>
     <string-array name="Prefixes">
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>a quarter past</item>
         <item>a quarter past</item>
         <item>almost half past</item>
@@ -84,16 +84,16 @@
     <string-array name="Suffixes">
         <item>ish</item>
         <item>or so</item>
-        <item></item>
+        <item/>
         <item>or so</item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>ish</item>
         <item>or so</item>
-        <item></item>
+        <item/>
         <item>or so</item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
     </string-array>
     <string-array name="WeekDays">
         <item>Su</item>
@@ -146,18 +146,18 @@
         <item>apie</item>
     </string-array>
     <string-array name="SuffixesLT">
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>su ketvirčiu</item>
         <item>su ketvirčiu</item>
         <item>su puse</item>
         <item>su puse</item>
         <item>su puse</item>
         <item>su puse</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
     <string-array name="WeekDaysLT">
         <item>Se</item>
@@ -210,18 +210,18 @@
         <item>lähes</item>
     </string-array>
     <string-array name="SuffixesFI">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
     <string-array name="WeekDaysFI">
         <item>Su</item>
@@ -260,21 +260,21 @@
         <item>двадцать три</item>
     </string-array>
     <string-array name="PrefixesRU">
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>почти</item>
-        <item></item>
+        <item/>
         <item>почти</item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
         <item>почти без четверти</item>
         <item>без четверти</item>
         <item>почти</item>
-        <item></item>
+        <item/>
     </string-array>
     <string-array name="SuffixesRU">
-        <item></item>
+        <item/>
         <item>или около того</item>
         <item>с четвертью</item>
         <item>с четвертью</item>
@@ -282,10 +282,10 @@
         <item>с половиной</item>
         <item>с половиной</item>
         <item>с половиной</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
     <string-array name="WeekDaysRU">
         <item>Во</item>
@@ -338,18 +338,18 @@
         <item>fast</item>
     </string-array>
     <string-array name="SuffixesDE">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
         <item>oder so</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
         <item>oder so</item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
     </string-array>
     <string-array name="WeekDaysDE">
         <item>So</item>
@@ -388,8 +388,8 @@
         <item>huszonhárom</item>
     </string-array>
     <string-array name="PrefixesHU">
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>negyed</item>
         <item>negyed</item>
         <item>lassan fél</item>
@@ -398,22 +398,22 @@
         <item>fél</item>
         <item>háromnegyed</item>
         <item>háromnegyed</item>
-        <item></item>
+        <item/>
         <item>mindjárt</item>
     </string-array>
     <string-array name="SuffixesHU">
         <item>múlt</item>
         <item>körül</item>
         <item>lesz</item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
         <item>lesz</item>
-        <item></item>
+        <item/>
         <item>múlt</item>
-        <item></item>
+        <item/>
         <item>múlt</item>
         <item>lesz</item>
-        <item></item>
+        <item/>
     </string-array>
     <string-array name="WeekDaysHU">
         <item>Va</item>
@@ -423,6 +423,70 @@
         <item>Csü</item>
         <item>Pé</item>
         <item>Szo</item>
+    </string-array>
+
+    <string-array name="ExactTimesIT">
+        <item>mezzanotte</item>
+        <item>l\'una</item>
+        <item>le due</item>
+        <item>le tre</item>
+        <item>le quattro</item>
+        <item>le cinque</item>
+        <item>le sei</item>
+        <item>le sette</item>
+        <item>le otto</item>
+        <item>le nove</item>
+        <item>le dieci</item>
+        <item>le undici</item>
+        <item>mezzogiorno</item>
+        <item>l\'una</item>
+        <item>le due</item>
+        <item>le tre</item>
+        <item>le quattro</item>
+        <item>le cinque</item>
+        <item>le sei</item>
+        <item>le sette</item>
+        <item>le otto</item>
+        <item>le nove</item>
+        <item>le dieci</item>
+        <item>le undici</item>
+    </string-array>
+    <string-array name="PrefixesIT">
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item>quasi</item>
+        <item>suppergiù</item>
+        <item>grosso modo</item>
+        <item/>
+        <item/>
+        <item/>
+        <item>quasi</item>
+        <item>suppergiù</item>
+    </string-array>
+    <string-array name="SuffixesIT">
+        <item>e qualcosa</item>
+        <item>e passa</item>
+        <item>e un quarto</item>
+        <item>e un quarto o poco più</item>
+        <item>e mezza</item>
+        <item>e mezza</item>
+        <item>e mezza</item>
+        <item>e mezza o poco più</item>
+        <item>meno un quarto</item>
+        <item>meno qualcosa</item>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysIT">
+        <item>Do</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Me</item>
+        <item>Gi</item>
+        <item>Ve</item>
+        <item>Sa</item>
     </string-array>
 
 </resources>

@@ -412,6 +412,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,false,true};
                     SuffixNewLine = new Boolean[]{true,true,true,false,false,true,false,true,false,true,true,false};
                     break;
+                case "it":
+                    Prefixes = getResources().getStringArray(R.array.PrefixesIT);
+                    Suffixes = getResources().getStringArray(R.array.SuffixesIT);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysIT);
+                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new Boolean[]{false,false,false,false,true,true,true,false,false,false,true,true};
+                    SuffixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,false,false};
+                    break;
                 default:
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
@@ -856,6 +864,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "hu":
                     mainArray = getResources().getStringArray(R.array.ExactTimesHU)[hours].split(" ");
                     break;
+                case "it":
+                    mainArray = getResources().getStringArray(R.array.ExactTimesIT)[hours].split(" ");
+                    break;
                 default:
                     mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
 
@@ -918,6 +929,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 case "hu":
                     middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
                     break;
+                case "it":
+                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
+                    break;
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
@@ -950,6 +964,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case "hu":
                     middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
+                    break;
+                case "it":
+                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
                     break;
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
@@ -984,6 +1001,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case "hu":
                     middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
+                    break;
+                case "it":
+                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
                     break;
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
@@ -1024,6 +1044,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case "hu":
                     hoursInWords = getResources().getStringArray(R.array.ExactTimesHU)[hours];
+                    break;
+                case "it":
+                    hoursInWords = getResources().getStringArray(R.array.ExactTimesIT)[hours];
                     break;
                 default:
                     hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
