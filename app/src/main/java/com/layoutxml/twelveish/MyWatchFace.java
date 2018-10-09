@@ -101,6 +101,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showDay;
     private Boolean showDayAmbient;
     private Boolean disableComplicationTap;
+    private Boolean legacyWords;
     //Complications and their data
     private Boolean complicationLeftSet;
     private Boolean complicationRightSet;
@@ -395,6 +396,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
             complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set),false);
             complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set),false);
+            legacyWords = prefs.getBoolean(getString(R.string.preference_legacy_word_arrangement),false);
 
             //Work with given preferences
             switch (language) {
@@ -858,13 +860,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
@@ -965,7 +967,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                 }
             }
-            return mainPrefix + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+            if (legacyWords)
+                return mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+            else
+                return arrangeWords(mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix);
         }
 
         private String capitalise1(Integer hours, Integer minutes, Integer index) {
@@ -995,13 +1000,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
-            return text.toUpperCase();
+
+            if (legacyWords) {
+                String text =
+                        ((minutes > 0) ? Prefixes[index] : "")
+                                + ((minutes > 0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
+                return text.toUpperCase();
+            } else {
+                String text =
+                        ((minutes > 0) ? Prefixes[index] : "")
+                                + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text);
+            }
         }
 
         private String capitalise2(Integer hours, Integer minutes, Integer index) {
@@ -1031,14 +1047,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
 
-            return text.toLowerCase();
+            if (legacyWords) {
+                String text =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return text.toLowerCase();
+            } else {
+                String text =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text);
+            }
         }
 
         private String capitalise3(Integer hours, Integer minutes, Integer index) {
@@ -1068,20 +1094,30 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text20 =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
-            return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
+            if (legacyWords) {
+                String text20 =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
+            } else {
+                String text20 =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase());
+            }
         }
 
         private String capitalise4(Integer hours, Integer minutes, Integer index) {
             //Prefix
             String mainPrefix = "";
             if ((minutes>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
-                mainPrefix = Prefixes[index].substring(0,1).toUpperCase() + Prefixes[index].substring(1).toLowerCase();
+                mainPrefix = Prefixes[index];
             }
 
             //Time
@@ -1111,25 +1147,97 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String mainText;
-            if (mainPrefix.equals("") || PrefixNewLine[index])
-                mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
-            else
-                mainText = hoursInWords.toLowerCase();
+            String mainText = hoursInWords;
 
             //Suffix
             String mainSuffix = "";
             if (showSuffixes) {
                 if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
-                    if (SuffixNewLine[index]) {
-                        mainSuffix = Suffixes[index].substring(0, 1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
-                    } else {
-                        mainSuffix = Suffixes[index].toLowerCase();
-                    }
+                    mainSuffix = Suffixes[index];
                 }
             }
-            return mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
 
+            if (legacyWords) {
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+                String[] textArray = text.split("\n");
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase());
+                }
+                return newText.toString();
+            } else {
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix;
+                text = arrangeWords(text);
+                String[] textArray = text.split("\n");
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase());
+                }
+                return newText.toString();
+            }
+
+        }
+
+        private String arrangeWords(String text) {
+            String[] textArray = text.split(" ");
+            int numberOfWords = textArray.length;
+            if (numberOfWords<2)
+                return text;
+            else if ((numberOfWords==2 && text.length()>=10) || (numberOfWords==3 && text.length()>12)){
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word).append('\n');
+                }
+                return newText.substring(0,newText.length()-1);
+            } else {
+                if (numberOfWords%4==0  && numberOfWords!=4) {
+                    int div = numberOfWords/4;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append('\n');
+                        } else {
+                            newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else if (numberOfWords%3==0 && ((text.length()>24 && numberOfWords%2==0) || (numberOfWords%2!=0))) {
+                    int div = numberOfWords/3;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append("\n");
+                        } else {
+                            newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else if (numberOfWords%2==0 || (numberOfWords==4 && text.length()>16)) {
+                    int div = numberOfWords/2;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append('\n');
+                        } else {
+                            newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else
+                {
+                    // I DONT KNOW
+                    return text+".";
+                }
+            }
         }
 
         private void updateTimer() {
