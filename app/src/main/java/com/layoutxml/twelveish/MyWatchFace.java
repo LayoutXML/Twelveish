@@ -516,17 +516,17 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
 
-            if (counter>=50 && !showedRateAlready) {
+            if (counter>=100 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate),true).apply();
                 showRateNotification();
             }
 
             counter++;
-            if (counter<60) {
+            if (counter<102) {
                 prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
-            if (!showedTutorialAlready){
+            if (!showedTutorialAlready && counter>30){
                 prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
                 showTutorialNotification();
             }
