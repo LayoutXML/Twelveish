@@ -1016,7 +1016,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                                 + middle
                                 + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
                                 + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-                return arrangeWords(text);
+                return arrangeWords(text).toUpperCase();
             }
         }
 
@@ -1171,9 +1171,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 String[] textArray = text.split("\n");
                 StringBuilder newText= new StringBuilder();
                 for (String word : textArray) {
-                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase());
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase()).append('\n');
                 }
-                return newText.toString();
+                return newText.toString().substring(0,newText.length()-1);
             }
 
         }
