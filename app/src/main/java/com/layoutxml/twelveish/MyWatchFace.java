@@ -1162,9 +1162,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 String[] textArray = text.split("\n");
                 StringBuilder newText= new StringBuilder();
                 for (String word : textArray) {
-                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase());
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase()).append('\n');
                 }
-                return newText.toString();
+                return newText.toString().substring(0,newText.length()-1);
             } else {
                 String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix;
                 text = arrangeWords(text);
