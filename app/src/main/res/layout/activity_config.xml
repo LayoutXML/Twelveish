@@ -19,27 +19,59 @@
         android:layout_centerVertical="true"
         android:background="@drawable/settings_watch_face_preview_background"/>
 
-    <TextView
+    <ImageView
+        android:id="@+id/left_complication_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/watch_face_background"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="LayoutXML" />
+        android:layout_alignLeft="@+id/watch_face_background"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/added_complication" />
 
-    <TextView
+    <ImageButton
+        android:id="@+id/left_complication"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/left_complication_background"
+        android:layout_alignRight="@+id/left_complication_background"
+        android:layout_alignTop="@+id/left_complication_background"
+        android:layout_alignBottom="@+id/left_complication_background"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/right_complication_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/app_name"
-        android:textSize="30sp" />
+        android:src="@drawable/added_complication"
+        android:background="@android:color/transparent"
+        android:layout_alignRight="@+id/watch_face_background"
+        android:layout_centerVertical="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"/>
+
+    <ImageButton
+        android:id="@+id/right_complication"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_alignLeft="@+id/right_complication_background"
+        android:layout_alignTop="@+id/right_complication_background"
+        android:layout_alignRight="@+id/right_complication_background"
+        android:layout_alignBottom="@+id/right_complication_background"
+        android:background="@android:color/transparent" />
 
     <ImageView
         android:id="@+id/bottom_complication_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:src="@drawable/added_complication"
-        style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_alignBottom="@+id/watch_face_background"
         android:layout_centerHorizontal="true"
@@ -47,10 +79,14 @@
 
     <ImageButton
         android:id="@+id/bottom_complication"
-        style="?android:borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/watch_face_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/bottom_complication_background"
+        android:layout_alignTop="@+id/bottom_complication_background"
+        android:layout_alignLeft="@+id/bottom_complication_background"
+        android:layout_alignRight="@+id/bottom_complication_background"
         android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
         android:layout_marginBottom="0dp" />

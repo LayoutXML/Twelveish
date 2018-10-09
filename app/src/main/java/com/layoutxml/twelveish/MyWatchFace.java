@@ -103,7 +103,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean disableComplicationTap;
     //Complications and their data
     private static final int BOTTOM_COMPLICATION_ID = 0;
-    private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
+    private static final int LEFT_COMPLICATION_ID = 1;
+    private static final int RIGHT_COMPLICATION_ID = 2;
+    private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID, LEFT_COMPLICATION_ID, RIGHT_COMPLICATION_ID};
     private static final int[][] COMPLICATION_SUPPORTED_TYPES = {
             {
                     ComplicationData.TYPE_RANGED_VALUE,
@@ -112,6 +114,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     ComplicationData.TYPE_SHORT_TEXT,
                     ComplicationData.TYPE_SMALL_IMAGE,
                     ComplicationData.TYPE_LARGE_IMAGE
+            },
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
+            },
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
             }
     };
     private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
@@ -132,6 +146,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         switch (complicationLocation) {
             case BOTTOM:
                 return BOTTOM_COMPLICATION_ID;
+            case LEFT:
+                return LEFT_COMPLICATION_ID;
+            case RIGHT:
+                return RIGHT_COMPLICATION_ID;
             default:
                 return -1;
         }
@@ -145,6 +163,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         switch (complicationLocation) {
             case BOTTOM:
                 return COMPLICATION_SUPPORTED_TYPES[0];
+            case LEFT:
+                return COMPLICATION_SUPPORTED_TYPES[1];
+            case RIGHT:
+                return COMPLICATION_SUPPORTED_TYPES[2];
             default:
                 return new int[] {};
         }
@@ -306,10 +328,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void initializeComplications() {
             mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            ComplicationDrawable leftComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            ComplicationDrawable rightComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
             assert bottomComplicationDrawable != null;
             bottomComplicationDrawable.setContext(getApplicationContext());
+            assert leftComplicationDrawable != null;
+            leftComplicationDrawable.setContext(getApplicationContext());
+            assert rightComplicationDrawable != null;
+            rightComplicationDrawable.setContext(getApplicationContext());
             mComplicationDrawableSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             mComplicationDrawableSparseArray.put(BOTTOM_COMPLICATION_ID, bottomComplicationDrawable);
+            mComplicationDrawableSparseArray.put(LEFT_COMPLICATION_ID, leftComplicationDrawable);
+            mComplicationDrawableSparseArray.put(RIGHT_COMPLICATION_ID, rightComplicationDrawable);
             setActiveComplications(COMPLICATION_IDS);
         }
 
@@ -545,13 +575,25 @@ public class MyWatchFace extends CanvasWatchFaceService {
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
-            Rect bottomBounds = new Rect(screenWidthG/2-screenHeightG/4,
+            Rect bottomBounds = new Rect(screenWidthG/2-screenWidthG/4,
                     (int)(screenHeightG*3/4-mChinSize),
-                    screenWidthG/2+screenHeightG/4,
+                    screenWidthG/2+screenWidthG/4,
                     (int)(screenHeightG-mChinSize));
+            Rect leftBounds = new Rect(0,
+                    screenHeightG*3/8,
+                    screenWidthG/4,
+                    screenHeightG*5/8);
+            Rect rightBounds = new Rect(screenWidthG*3/4,
+                    screenHeightG*3/8,
+                    screenWidthG,
+                    screenHeightG*5/8);
             if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
                 ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
                 bottomComplicationDrawable.setBounds(bottomBounds);
+                ComplicationDrawable leftComplicationDrawable = mComplicationDrawableSparseArray.get(LEFT_COMPLICATION_ID);
+                leftComplicationDrawable.setBounds(leftBounds);
+                ComplicationDrawable rightComplicationDrawable = mComplicationDrawableSparseArray.get(RIGHT_COMPLICATION_ID);
+                rightComplicationDrawable.setBounds(rightBounds);
             }
         }
 

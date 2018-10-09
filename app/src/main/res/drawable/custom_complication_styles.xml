@@ -8,6 +8,7 @@
 <drawable
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     class="android.support.wearable.complications.rendering.ComplicationDrawable"
     app:backgroundColor="@android:color/transparent"
     app:borderColor="@android:color/transparent"
@@ -21,7 +22,8 @@
     app:textTypeface="sans-serif-condensed"
     app:titleColor="@color/digital_text"
     app:titleSize="10sp"
-    app:titleTypeface="sans-serif">
+    app:titleTypeface="sans-serif"
+    tools:targetApi="n">
 
     <ambient
         app:highlightColor="@color/digital_text"
