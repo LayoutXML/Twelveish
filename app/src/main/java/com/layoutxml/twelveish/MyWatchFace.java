@@ -102,8 +102,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showDayAmbient;
     private Boolean disableComplicationTap;
     //Complications and their data
+    private Boolean complicationLeftSet;
+    private Boolean complicationRightSet;
     private static final int BOTTOM_COMPLICATION_ID = 0;
-    private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID};
+    private static final int LEFT_COMPLICATION_ID = 1;
+    private static final int RIGHT_COMPLICATION_ID = 2;
+    private static final int[] COMPLICATION_IDS= {BOTTOM_COMPLICATION_ID, LEFT_COMPLICATION_ID, RIGHT_COMPLICATION_ID};
     private static final int[][] COMPLICATION_SUPPORTED_TYPES = {
             {
                     ComplicationData.TYPE_RANGED_VALUE,
@@ -112,6 +116,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     ComplicationData.TYPE_SHORT_TEXT,
                     ComplicationData.TYPE_SMALL_IMAGE,
                     ComplicationData.TYPE_LARGE_IMAGE
+            },
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
+            },
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
             }
     };
     private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
@@ -132,6 +148,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         switch (complicationLocation) {
             case BOTTOM:
                 return BOTTOM_COMPLICATION_ID;
+            case LEFT:
+                return LEFT_COMPLICATION_ID;
+            case RIGHT:
+                return RIGHT_COMPLICATION_ID;
             default:
                 return -1;
         }
@@ -145,6 +165,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         switch (complicationLocation) {
             case BOTTOM:
                 return COMPLICATION_SUPPORTED_TYPES[0];
+            case LEFT:
+                return COMPLICATION_SUPPORTED_TYPES[1];
+            case RIGHT:
+                return COMPLICATION_SUPPORTED_TYPES[2];
             default:
                 return new int[] {};
         }
@@ -306,10 +330,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void initializeComplications() {
             mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            ComplicationDrawable leftComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
+            ComplicationDrawable rightComplicationDrawable = (ComplicationDrawable)getDrawable(R.drawable.custom_complication_styles);
             assert bottomComplicationDrawable != null;
             bottomComplicationDrawable.setContext(getApplicationContext());
+            assert leftComplicationDrawable != null;
+            leftComplicationDrawable.setContext(getApplicationContext());
+            assert rightComplicationDrawable != null;
+            rightComplicationDrawable.setContext(getApplicationContext());
             mComplicationDrawableSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             mComplicationDrawableSparseArray.put(BOTTOM_COMPLICATION_ID, bottomComplicationDrawable);
+            mComplicationDrawableSparseArray.put(LEFT_COMPLICATION_ID, leftComplicationDrawable);
+            mComplicationDrawableSparseArray.put(RIGHT_COMPLICATION_ID, rightComplicationDrawable);
             setActiveComplications(COMPLICATION_IDS);
         }
 
@@ -361,6 +393,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             language = prefs.getString(getString(R.string.preference_language),"en");
             font = prefs.getString(getString(R.string.preference_font),"robotolight");
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
+            complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set),false);
+            complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set),false);
 
             //Work with given preferences
             switch (language) {
@@ -482,17 +516,17 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
 
-            if (counter>=50 && !showedRateAlready) {
+            if (counter>=100 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate),true).apply();
                 showRateNotification();
             }
 
             counter++;
-            if (counter<60) {
+            if (counter<102) {
                 prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
-            if (!showedTutorialAlready){
+            if (!showedTutorialAlready && counter>30){
                 prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
                 showTutorialNotification();
             }
@@ -545,13 +579,25 @@ public class MyWatchFace extends CanvasWatchFaceService {
             float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
             mTextPaint.setTextSize(textSizeSmall);
             mTextPaint2.setTextSize(textSize);
-            Rect bottomBounds = new Rect(screenWidthG/2-screenHeightG/4,
+            Rect bottomBounds = new Rect(screenWidthG/2-screenWidthG/4,
                     (int)(screenHeightG*3/4-mChinSize),
-                    screenWidthG/2+screenHeightG/4,
+                    screenWidthG/2+screenWidthG/4,
                     (int)(screenHeightG-mChinSize));
+            Rect leftBounds = new Rect(0,
+                    screenHeightG*3/8,
+                    screenWidthG/4,
+                    screenHeightG*5/8);
+            Rect rightBounds = new Rect(screenWidthG*3/4,
+                    screenHeightG*3/8,
+                    screenWidthG,
+                    screenHeightG*5/8);
             if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
                 ComplicationDrawable bottomComplicationDrawable = mComplicationDrawableSparseArray.get(BOTTOM_COMPLICATION_ID);
                 bottomComplicationDrawable.setBounds(bottomBounds);
+                ComplicationDrawable leftComplicationDrawable = mComplicationDrawableSparseArray.get(LEFT_COMPLICATION_ID);
+                leftComplicationDrawable.setBounds(leftBounds);
+                ComplicationDrawable rightComplicationDrawable = mComplicationDrawableSparseArray.get(RIGHT_COMPLICATION_ID);
+                rightComplicationDrawable.setBounds(rightBounds);
             }
         }
 
@@ -806,8 +852,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         text2 = capitalise0(hourText,minutes,index);
                         break;
                 }
-                mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2));
+                float textSize=0;
                 float x = bounds.width() / 2;
+                if (!complicationLeftSet && !complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                    x = bounds.width() / 2;
+                } else if (complicationLeftSet && !complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width()*5/8-16;
+                } else if (!complicationLeftSet && complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width()*3/8+16;
+                } else {
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width() / 2;
+                }
+                mTextPaint2.setTextSize(textSize);
                 float y = (bounds.height()*3/4-mChinSize+firstSeparator)/2;
                 for (String line : text2.split("\n")) {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
@@ -1098,7 +1158,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
-                line="O"+line+"O";
                 float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();

@@ -8,7 +8,9 @@ package com.layoutxml.twelveish.config;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,14 +34,20 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     private static final String TAG = "ConfigActivity";
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     public enum ComplicationLocation {
-        BOTTOM
+        BOTTOM, LEFT, RIGHT
     }
     private int mBottomComplicationId;
+    private int mLeftComplicationId;
+    private int mRightComplicationId;
     private int mSelectedComplicationId;
     private ComponentName mWatchFaceComponentName;
     private ProviderInfoRetriever mProviderInfoRetriever;
     private ImageView mBottomComplicationBackground;
     private ImageButton mBottomComplication;
+    private ImageView mLeftComplicationBackground;
+    private ImageButton mLeftComplication;
+    private ImageView mRightComplicationBackground;
+    private ImageButton mRightComplication;
     private Drawable mDefaultAddComplicationDrawable;
 
     @Override
@@ -50,21 +58,31 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
         mDefaultAddComplicationDrawable = getDrawable(R.drawable.add_complication);
         mSelectedComplicationId = -1;
 
-        mBottomComplicationId =
-                MyWatchFace.getComplicationId(ComplicationLocation.BOTTOM);
+        mBottomComplicationId = MyWatchFace.getComplicationId(ComplicationLocation.BOTTOM);
+        mLeftComplicationId = MyWatchFace.getComplicationId(ComplicationLocation.LEFT);
+        mRightComplicationId = MyWatchFace.getComplicationId(ComplicationLocation.RIGHT);
 
-        mWatchFaceComponentName =
-                new ComponentName(getApplicationContext(), MyWatchFace.class);
+        mWatchFaceComponentName = new ComponentName(getApplicationContext(), MyWatchFace.class);
 
         mBottomComplicationBackground = findViewById(R.id.bottom_complication_background);
         mBottomComplication = findViewById(R.id.bottom_complication);
         mBottomComplication.setOnClickListener(this);
-
         mBottomComplication.setImageDrawable(mDefaultAddComplicationDrawable);
         mBottomComplicationBackground.setVisibility(View.INVISIBLE);
 
-        mProviderInfoRetriever =
-                new ProviderInfoRetriever(getApplicationContext(), Executors.newCachedThreadPool());
+        mLeftComplicationBackground = findViewById(R.id.left_complication_background);
+        mLeftComplication = findViewById(R.id.left_complication);
+        mLeftComplication.setOnClickListener(this);
+        mLeftComplication.setImageDrawable(mDefaultAddComplicationDrawable);
+        mLeftComplicationBackground.setVisibility(View.INVISIBLE);
+
+        mRightComplicationBackground = findViewById(R.id.right_complication_background);
+        mRightComplication = findViewById(R.id.right_complication);
+        mRightComplication.setOnClickListener(this);
+        mRightComplication.setImageDrawable(mDefaultAddComplicationDrawable);
+        mRightComplicationBackground.setVisibility(View.INVISIBLE);
+
+        mProviderInfoRetriever = new ProviderInfoRetriever(getApplicationContext(), Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
 
         retrieveInitialComplicationsData();
@@ -97,16 +115,17 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     public void onClick(View view) {
         if (view.equals(mBottomComplication)) {
             launchComplicationHelperActivity(ComplicationLocation.BOTTOM);
+        } else if (view.equals(mLeftComplication)) {
+            launchComplicationHelperActivity(ComplicationLocation.LEFT);
+        } else if (view.equals(mRightComplication)) {
+            launchComplicationHelperActivity(ComplicationLocation.RIGHT);
         }
     }
 
     private void launchComplicationHelperActivity(ComplicationLocation complicationLocation) {
-        mSelectedComplicationId =
-                MyWatchFace.getComplicationId(complicationLocation);
+        mSelectedComplicationId = MyWatchFace.getComplicationId(complicationLocation);
         if (mSelectedComplicationId >= 0) {
-            int[] supportedTypes =
-                    MyWatchFace.getSupportedComplicationTypes(
-                            complicationLocation);
+            int[] supportedTypes = MyWatchFace.getSupportedComplicationTypes(complicationLocation);
             startActivityForResult(
                     ComplicationHelperActivity.createProviderChooserHelperIntent(
                             getApplicationContext(),
@@ -121,14 +140,34 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
 
     public void updateComplicationViews(
             int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
+        SharedPreferences prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         if (watchFaceComplicationId == mBottomComplicationId) {
             if (complicationProviderInfo != null) {
                 mBottomComplication.setImageIcon(complicationProviderInfo.providerIcon);
                 mBottomComplicationBackground.setVisibility(View.VISIBLE);
-
             } else {
                 mBottomComplication.setImageDrawable(mDefaultAddComplicationDrawable);
                 mBottomComplicationBackground.setVisibility(View.INVISIBLE);
+            }
+        } else if (watchFaceComplicationId == mLeftComplicationId) {
+            if (complicationProviderInfo != null) {
+                prefs.edit().putBoolean(getString(R.string.complication_left_set),true).apply();
+                mLeftComplication.setImageIcon(complicationProviderInfo.providerIcon);
+                mLeftComplicationBackground.setVisibility(View.VISIBLE);
+            } else {
+                prefs.edit().putBoolean(getString(R.string.complication_left_set),false).apply();
+                mLeftComplication.setImageDrawable(mDefaultAddComplicationDrawable);
+                mLeftComplicationBackground.setVisibility(View.INVISIBLE);
+            }
+        } else if (watchFaceComplicationId == mRightComplicationId) {
+            if (complicationProviderInfo != null) {
+                prefs.edit().putBoolean(getString(R.string.complication_right_set),true).apply();
+                mRightComplication.setImageIcon(complicationProviderInfo.providerIcon);
+                mRightComplicationBackground.setVisibility(View.VISIBLE);
+            } else {
+                prefs.edit().putBoolean(getString(R.string.complication_right_set),false).apply();
+                mRightComplication.setImageDrawable(mDefaultAddComplicationDrawable);
+                mRightComplicationBackground.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -136,8 +175,7 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
-            ComplicationProviderInfo complicationProviderInfo =
-                    data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
+            ComplicationProviderInfo complicationProviderInfo = data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
             if (mSelectedComplicationId >= 0) {
                 Toast.makeText(getApplicationContext(), "Complication set", Toast.LENGTH_SHORT).show();
                 updateComplicationViews(mSelectedComplicationId, complicationProviderInfo);
