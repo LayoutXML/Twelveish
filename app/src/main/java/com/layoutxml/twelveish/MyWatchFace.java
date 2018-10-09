@@ -853,14 +853,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         break;
                 }
                 float textSize=0;
-                if (!complicationLeftSet && !complicationRightSet)
-                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
-                else if ((complicationLeftSet && !complicationRightSet) || (!complicationLeftSet && complicationRightSet))
-                    textSize = getTextSizeForWidth(bounds.width()*3/4 - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
-                else
-                    textSize = getTextSizeForWidth(bounds.width()/2 - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
-                mTextPaint2.setTextSize(textSize);
                 float x = bounds.width() / 2;
+                if (!complicationLeftSet && !complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                    x = bounds.width() / 2;
+                } else if (complicationLeftSet && !complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width()*5/8;
+                } else if (!complicationLeftSet && complicationRightSet) {
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width()*3/8;
+                } else {
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    x = bounds.width() / 2;
+                }
+                mTextPaint2.setTextSize(textSize);
                 float y = (bounds.height()*3/4-mChinSize+firstSeparator)/2;
                 for (String line : text2.split("\n")) {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
