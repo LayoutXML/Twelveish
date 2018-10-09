@@ -858,13 +858,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 32, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
