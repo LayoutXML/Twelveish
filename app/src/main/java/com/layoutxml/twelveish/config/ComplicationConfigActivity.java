@@ -8,7 +8,9 @@ package com.layoutxml.twelveish.config;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -138,30 +140,32 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
 
     public void updateComplicationViews(
             int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
+        SharedPreferences prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         if (watchFaceComplicationId == mBottomComplicationId) {
             if (complicationProviderInfo != null) {
                 mBottomComplication.setImageIcon(complicationProviderInfo.providerIcon);
                 mBottomComplicationBackground.setVisibility(View.VISIBLE);
-
             } else {
                 mBottomComplication.setImageDrawable(mDefaultAddComplicationDrawable);
                 mBottomComplicationBackground.setVisibility(View.INVISIBLE);
             }
         } else if (watchFaceComplicationId == mLeftComplicationId) {
             if (complicationProviderInfo != null) {
+                prefs.edit().putBoolean(getString(R.string.complication_left_set),true).apply();
                 mLeftComplication.setImageIcon(complicationProviderInfo.providerIcon);
                 mLeftComplicationBackground.setVisibility(View.VISIBLE);
-
             } else {
+                prefs.edit().putBoolean(getString(R.string.complication_left_set),false).apply();
                 mLeftComplication.setImageDrawable(mDefaultAddComplicationDrawable);
                 mLeftComplicationBackground.setVisibility(View.INVISIBLE);
             }
         } else if (watchFaceComplicationId == mRightComplicationId) {
             if (complicationProviderInfo != null) {
+                prefs.edit().putBoolean(getString(R.string.complication_right_set),true).apply();
                 mRightComplication.setImageIcon(complicationProviderInfo.providerIcon);
                 mRightComplicationBackground.setVisibility(View.VISIBLE);
-
             } else {
+                prefs.edit().putBoolean(getString(R.string.complication_right_set),false).apply();
                 mRightComplication.setImageDrawable(mDefaultAddComplicationDrawable);
                 mRightComplicationBackground.setVisibility(View.INVISIBLE);
             }

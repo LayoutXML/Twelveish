@@ -102,6 +102,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showDayAmbient;
     private Boolean disableComplicationTap;
     //Complications and their data
+    private Boolean complicationLeftSet;
+    private Boolean complicationRightSet;
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int LEFT_COMPLICATION_ID = 1;
     private static final int RIGHT_COMPLICATION_ID = 2;
@@ -391,6 +393,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             language = prefs.getString(getString(R.string.preference_language),"en");
             font = prefs.getString(getString(R.string.preference_font),"robotolight");
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
+            complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set),false);
+            complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set),false);
 
             //Work with given preferences
             switch (language) {
@@ -848,7 +852,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         text2 = capitalise0(hourText,minutes,index);
                         break;
                 }
-                mTextPaint2.setTextSize(getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2));
+                float textSize=0;
+                if (!complicationLeftSet && !complicationRightSet)
+                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                else if ((complicationLeftSet && !complicationRightSet) || (!complicationLeftSet && complicationRightSet))
+                    textSize = getTextSizeForWidth(bounds.width()*3/4 - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                else
+                    textSize = getTextSizeForWidth(bounds.width()/2 - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                mTextPaint2.setTextSize(textSize);
                 float x = bounds.width() / 2;
                 float y = (bounds.height()*3/4-mChinSize+firstSeparator)/2;
                 for (String line : text2.split("\n")) {
@@ -1140,7 +1151,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
-                line="O"+line+"O";
                 float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
