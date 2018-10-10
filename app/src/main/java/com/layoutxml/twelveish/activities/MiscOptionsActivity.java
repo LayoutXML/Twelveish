@@ -23,7 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.objects.MiscOption;
+import com.layoutxml.twelveish.objects.BooleanOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
 public class MiscOptionsActivity extends Activity {
 
     private static final String TAG = "MiscOptionsActivity";
-    private List<MiscOption> values = new ArrayList<>();
+    private List<BooleanOption> values = new ArrayList<>();
     private MiscOptionsAdapter mAdapter;
     private SharedPreferences prefs;
 
@@ -54,43 +54,43 @@ public class MiscOptionsActivity extends Activity {
     }
 
     private void generateValues(){
-        MiscOption option = new MiscOption();
+        BooleanOption option = new BooleanOption();
         option.setName("24h format (Words)");
         option.setKey(getString(R.string.preference_militarytext_time));
         option.setDefaultOption(false);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("24h format (Digital)");
         option.setKey(getString(R.string.preference_military_time));
         option.setDefaultOption(false);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("Show am/pm (Digital)");
         option.setKey(getString(R.string.preference_ampm));
         option.setDefaultOption(true);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("Disable tapping on complications");
         option.setKey(getString(R.string.preference_tap));
         option.setDefaultOption(false);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("Legacy word arrangement");
         option.setKey(getString(R.string.preference_legacy_word_arrangement));
         option.setDefaultOption(false);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("Show seconds (active)");
         option.setKey(getString(R.string.preference_show_seconds));
         option.setDefaultOption(true);
         values.add(option);
 
-        option = new MiscOption();
+        option = new BooleanOption();
         option.setName("Show Suffixes");
         option.setKey(getString(R.string.preference_show_suffixes));
         option.setDefaultOption(true);
@@ -116,7 +116,7 @@ public class MiscOptionsActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        MiscOption selectedMenuItem = values.get(position);
+                        BooleanOption selectedMenuItem = values.get(position);
                         prefs.edit().putBoolean(selectedMenuItem.getKey(),!selectedMenuItem.getBool()).apply();
                         selectedMenuItem.setBool(!selectedMenuItem.getBool());
                         switcher.setChecked(selectedMenuItem.getBool());
@@ -136,7 +136,7 @@ public class MiscOptionsActivity extends Activity {
         @Override
         public void onBindViewHolder(@NonNull MiscOptionsAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            MiscOption option = values.get(position);
+            BooleanOption option = values.get(position);
             holder.name.setText(option.getName());
             Boolean shouldBeOn = prefs.getBoolean(option.getKey(),option.getDefaultOption());
             holder.switcher.setChecked(shouldBeOn);

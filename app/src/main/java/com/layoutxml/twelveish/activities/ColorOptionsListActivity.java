@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.objects.ActivityOption;
 import com.layoutxml.twelveish.objects.ColorOption;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
 public class ColorOptionsListActivity extends Activity{
 
     private static final String TAG = "ColorOptionsListActivit";
-    private List<ColorOption> values = new ArrayList<>();
+    private List<ActivityOption> values = new ArrayList<>();
     private ColorOptionsListAdapter mAdapter;
 
     @Override
@@ -48,24 +49,34 @@ public class ColorOptionsListActivity extends Activity{
     }
 
     private void generateValues(){
-        ColorOption dateOption = new ColorOption();
+        ActivityOption dateOption = new ActivityOption();
         dateOption.setName("Main text (active)");
+        dateOption.setActivity(TextColorOptionsActivity.class);
+        dateOption.setExtra(getString(R.string.preference_main_color));
         values.add(dateOption);
 
-        dateOption = new ColorOption();
+        dateOption = new ActivityOption();
         dateOption.setName("Main text (ambient)");
+        dateOption.setActivity(TextColorOptionsActivity.class);
+        dateOption.setExtra(getString(R.string.preference_main_color_ambient));
         values.add(dateOption);
 
-        dateOption = new ColorOption();
+        dateOption = new ActivityOption();
         dateOption.setName("Secondary text (active)");
+        dateOption.setActivity(TextColorOptionsActivity.class);
+        dateOption.setExtra(getString(R.string.preference_secondary_color));
         values.add(dateOption);
 
-        dateOption = new ColorOption();
+        dateOption = new ActivityOption();
         dateOption.setName("Secondary text (ambient)");
+        dateOption.setActivity(TextColorOptionsActivity.class);
+        dateOption.setExtra(getString(R.string.preference_secondary_color_ambient));
         values.add(dateOption);
 
-        dateOption = new ColorOption();
+        dateOption = new ActivityOption();
         dateOption.setName("Background (active)");
+        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setExtra("");
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();
@@ -86,35 +97,9 @@ public class ColorOptionsListActivity extends Activity{
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Intent intent;
-                        switch (position){
-                            case 0:
-                                intent = new Intent(ColorOptionsListActivity.this, TextColorOptionsActivity.class);
-                                intent.putExtra("SettingsValue",getString(R.string.preference_main_color));
-                                ColorOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 1:
-                                intent = new Intent(ColorOptionsListActivity.this, TextColorOptionsActivity.class);
-                                intent.putExtra("SettingsValue",getString(R.string.preference_main_color_ambient));
-                                ColorOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 2:
-                                intent = new Intent(ColorOptionsListActivity.this, TextColorOptionsActivity.class);
-                                intent.putExtra("SettingsValue",getString(R.string.preference_secondary_color));
-                                ColorOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 3:
-                                intent = new Intent(ColorOptionsListActivity.this, TextColorOptionsActivity.class);
-                                intent.putExtra("SettingsValue",getString(R.string.preference_secondary_color_ambient));
-                                ColorOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 4:
-                                intent = new Intent(ColorOptionsListActivity.this, ColorOptionsActivity.class);
-                                ColorOptionsListActivity.this.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
+                        Intent intent = new Intent(ColorOptionsListActivity.this, values.get(position).getActivity());
+                        intent.putExtra("SettingsValue",values.get(position).getExtra());
+                        ColorOptionsListActivity.this.startActivity(intent);
                     }
                 });
             }
@@ -132,7 +117,7 @@ public class ColorOptionsListActivity extends Activity{
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            ColorOption colorOption = values.get(position);
+            ActivityOption colorOption = values.get(position);
             holder.name.setText(colorOption.getName());
 
         }

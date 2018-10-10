@@ -6,10 +6,19 @@
 
 package com.layoutxml.twelveish.objects;
 
-public class Setting {
+public class ActivityOption {
     private String name;
     private Integer icon;
     private Class activity;
+    private String extra;
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
 
     public Class getActivity() {
         return activity;

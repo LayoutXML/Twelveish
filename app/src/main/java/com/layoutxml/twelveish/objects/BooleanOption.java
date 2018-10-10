@@ -6,7 +6,7 @@
 
 package com.layoutxml.twelveish.objects;
 
-public class MiscOption {
+public class BooleanOption {
 
     private String name;
     private String key;

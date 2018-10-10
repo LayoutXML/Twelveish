@@ -21,11 +21,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
-import com.layoutxml.twelveish.objects.Setting;
+import com.layoutxml.twelveish.objects.ActivityOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ import java.util.List;
 public class SettingsActivity extends Activity {
 
     private static final String TAG = "ConfigActivity";
-    private List<Setting> values = new ArrayList<>();
+    private List<ActivityOption> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
 
     @Override
@@ -52,61 +51,61 @@ public class SettingsActivity extends Activity {
     }
 
     private void generateValues(){
-        Setting setting = new Setting();
+        ActivityOption activityOption = new ActivityOption();
         if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
-            setting.setName("Complication");
-            setting.setIcon(R.drawable.ic_complication);
-            setting.setActivity(ComplicationConfigActivity.class);
-            values.add(setting);
+            activityOption.setName("Complication");
+            activityOption.setIcon(R.drawable.ic_complication);
+            activityOption.setActivity(ComplicationConfigActivity.class);
+            values.add(activityOption);
         }
 
-        setting = new Setting();
-        setting.setName("Colors");
-        setting.setIcon(R.drawable.ic_color);
-        setting.setActivity(ColorOptionsActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Colors");
+        activityOption.setIcon(R.drawable.ic_color);
+        activityOption.setActivity(ColorOptionsListActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Font");
-        setting.setIcon(R.drawable.ic_font);
-        setting.setActivity(FontOptionsActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Font");
+        activityOption.setIcon(R.drawable.ic_font);
+        activityOption.setActivity(FontOptionsActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Date format");
-        setting.setIcon(R.drawable.ic_date);
-        setting.setActivity(DateOptionsListActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Date format");
+        activityOption.setIcon(R.drawable.ic_date);
+        activityOption.setActivity(DateOptionsListActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Capitalisation");
-        setting.setIcon(R.drawable.ic_capitalisation);
-        setting.setActivity(CapitalisationActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Capitalisation");
+        activityOption.setIcon(R.drawable.ic_capitalisation);
+        activityOption.setActivity(CapitalisationActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Show/hide elements");
-        setting.setIcon(R.drawable.ic_showhide);
-        setting.setActivity(ShowHideOptionsActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Show/hide elements");
+        activityOption.setIcon(R.drawable.ic_showhide);
+        activityOption.setActivity(ShowHideOptionsActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Language");
-        setting.setIcon(R.drawable.ic_language);
-        setting.setActivity(LanguageOptionsActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Language");
+        activityOption.setIcon(R.drawable.ic_language);
+        activityOption.setActivity(LanguageOptionsActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Miscellaneous");
-        setting.setIcon(R.drawable.ic_misc);
-        setting.setActivity(MiscOptionsActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Miscellaneous");
+        activityOption.setIcon(R.drawable.ic_misc);
+        activityOption.setActivity(MiscOptionsActivity.class);
+        values.add(activityOption);
 
-        setting = new Setting();
-        setting.setName("Info");
-        setting.setIcon(R.drawable.ic_info);
-        setting.setActivity(AboutActivity.class);
-        values.add(setting);
+        activityOption = new ActivityOption();
+        activityOption.setName("Info");
+        activityOption.setIcon(R.drawable.ic_info);
+        activityOption.setActivity(AboutActivity.class);
+        values.add(activityOption);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -147,9 +146,9 @@ public class SettingsActivity extends Activity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            Setting setting = values.get(position);
-            holder.name.setText(setting.getName());
-            holder.icon.setImageResource(setting.getIcon());
+            ActivityOption activityOption = values.get(position);
+            holder.name.setText(activityOption.getName());
+            holder.icon.setImageResource(activityOption.getIcon());
 
         }
 
