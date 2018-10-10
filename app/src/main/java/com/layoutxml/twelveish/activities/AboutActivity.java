@@ -7,12 +7,12 @@ import android.widget.TextView;
 import com.layoutxml.twelveish.BuildConfig;
 import com.layoutxml.twelveish.R;
 
-public class Licenses extends Activity{
+public class AboutActivity extends Activity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.licenses);
+        setContentView(R.layout.about_screen);
 
         int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;

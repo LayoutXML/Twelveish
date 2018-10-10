@@ -9,6 +9,15 @@ package com.layoutxml.twelveish.objects;
 public class Setting {
     private String name;
     private Integer icon;
+    private Class activity;
+
+    public Class getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Class activity) {
+        this.activity = activity;
+    }
 
     public String getName() {
         return name;

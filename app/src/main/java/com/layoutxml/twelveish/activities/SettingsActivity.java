@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.config;
+package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,21 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.activities.CapitalisationActivity;
-import com.layoutxml.twelveish.activities.ColorOptionsActivity;
-import com.layoutxml.twelveish.activities.ColorOptionsListActivity;
-import com.layoutxml.twelveish.activities.DateOptionsListActivity;
-import com.layoutxml.twelveish.activities.FontOptionsActivity;
-import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
-import com.layoutxml.twelveish.activities.Licenses;
-import com.layoutxml.twelveish.activities.MiscOptionsActivity;
-import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
+import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.objects.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DigitalWatchFaceWearableConfigActivity extends Activity {
+public class SettingsActivity extends Activity {
 
     private static final String TAG = "ConfigActivity";
     private List<Setting> values = new ArrayList<>();
@@ -61,48 +53,59 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
 
     private void generateValues(){
         Setting setting = new Setting();
-        setting.setName("Complication");
-        setting.setIcon(R.drawable.ic_complication);
-        values.add(setting);
+        if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+            setting.setName("Complication");
+            setting.setIcon(R.drawable.ic_complication);
+            setting.setActivity(ComplicationConfigActivity.class);
+            values.add(setting);
+        }
 
         setting = new Setting();
         setting.setName("Colors");
         setting.setIcon(R.drawable.ic_color);
+        setting.setActivity(ColorOptionsActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Font");
         setting.setIcon(R.drawable.ic_font);
+        setting.setActivity(FontOptionsActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Date format");
         setting.setIcon(R.drawable.ic_date);
+        setting.setActivity(DateOptionsListActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Capitalisation");
         setting.setIcon(R.drawable.ic_capitalisation);
+        setting.setActivity(CapitalisationActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Show/hide elements");
         setting.setIcon(R.drawable.ic_showhide);
+        setting.setActivity(ShowHideOptionsActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Language");
         setting.setIcon(R.drawable.ic_language);
+        setting.setActivity(LanguageOptionsActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Miscellaneous");
         setting.setIcon(R.drawable.ic_misc);
+        setting.setActivity(MiscOptionsActivity.class);
         values.add(setting);
 
         setting = new Setting();
         setting.setName("Info");
         setting.setIcon(R.drawable.ic_info);
+        setting.setActivity(AboutActivity.class);
         values.add(setting);
 
         mAdapter.notifyDataSetChanged();
@@ -126,50 +129,8 @@ public class DigitalWatchFaceWearableConfigActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent;
-                        switch (position){
-                            case 0:
-                                if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
-                                    intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ComplicationConfigActivity.class);
-                                    DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(),"Complications not supported",Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            case 1:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ColorOptionsListActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 2:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, FontOptionsActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 3:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, DateOptionsListActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 4:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, CapitalisationActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 5:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, ShowHideOptionsActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 6:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, LanguageOptionsActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 7:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, MiscOptionsActivity.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            case 8:
-                                intent = new Intent(DigitalWatchFaceWearableConfigActivity.this, Licenses.class);
-                                DigitalWatchFaceWearableConfigActivity.this.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
+                        intent = new Intent(SettingsActivity.this, values.get(position).getActivity());
+                        SettingsActivity.this.startActivity(intent);
                     }
                 });
             }

@@ -92,7 +92,6 @@ public class CapitalisationActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Capitalisation selectedMenuItem = values.get(position);
                         prefs.edit().putInt(getString(R.string.preference_capitalisation),position).apply();
                         Toast.makeText(getApplicationContext(), "Capitalisation mode set", Toast.LENGTH_SHORT).show();
                         finish();

@@ -49,7 +49,7 @@
         </service>
 
         <activity
-            android:name=".config.DigitalWatchFaceWearableConfigActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/digital_config_name">
             <intent-filter>
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>
@@ -72,7 +72,7 @@
         <activity android:name=".activities.TextColorOptionsActivity" />
         <activity android:name=".activities.ShowHideOptionsActivity" />
         <activity android:name=".activities.LanguageOptionsActivity" />
-        <activity android:name=".activities.Licenses" />
+        <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.FontOptionsActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
