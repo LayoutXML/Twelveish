@@ -78,6 +78,12 @@ public class MiscOptionsActivity extends Activity {
         option.setDefaultOption(false);
         values.add(option);
 
+        option = new MiscOption();
+        option.setName("Legacy word arrangement");
+        option.setKey(getString(R.string.preference_legacy_word_arrangement));
+        option.setDefaultOption(false);
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 

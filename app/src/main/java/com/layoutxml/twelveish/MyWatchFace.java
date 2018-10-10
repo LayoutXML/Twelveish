@@ -71,6 +71,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer screenHeightG;
     private Boolean showedRateAlready;
     private Boolean showedTutorialAlready;
+    private Boolean showedDonateAlready;
     private Integer counter;
     //SharedPreferences:
     private Integer backgroundColor;
@@ -101,6 +102,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showDay;
     private Boolean showDayAmbient;
     private Boolean disableComplicationTap;
+    private Boolean legacyWords;
     //Complications and their data
     private Boolean complicationLeftSet;
     private Boolean complicationRightSet;
@@ -273,44 +275,27 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void showRateNotification(){
             Log.d(TAG,"showRateNotification: start");
             int notificationId = 1;
-            // The channel ID of the notification.
             String id = "Main";
-            // Build intent for notification content
             Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.layoutxml.twelveish"));
             viewIntent.putExtra("Rate Twelveish", "Would you like to rate Twelveish? I won't ask again :)");
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-
-            // Notification channel ID is ignored for Android 7.1.1
-            // (API level 25) and lower.
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), id)
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("Rate Twelveish")
-                            .setContentText("Would you like to rate Twelveish? Tap to go to Google Play store.")
+                            .setContentText("Would you like to rate Twelveish? Tap to go to the Google Play store.")
                             .setContentIntent(viewPendingIntent);
-
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(getApplicationContext());
-
-            // Issue the notification with notification manager.
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
         private void showTutorialNotification(){
             int notificationId = 2;
-            // The channel ID of the notification.
             String id = "Main";
-            // Build intent for notification content
             Intent viewIntent = new Intent(getApplicationContext(), DigitalWatchFaceWearableConfigActivity.class);
             viewIntent.putExtra("Open settings", "Don't forget to customize the watch");
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-
-            // Notification channel ID is ignored for Android 7.1.1
-            // (API level 25) and lower.
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), id)
                             .setDefaults(Notification.DEFAULT_ALL)
@@ -318,12 +303,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             .setContentTitle("Open Twelveish Settings")
                             .setContentText("Don't forget to customize Twelveish directly on your watch")
                             .setContentIntent(viewPendingIntent);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+            notificationManager.notify(notificationId, notificationBuilder.build());
+        }
 
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(getApplicationContext());
-
-            // Issue the notification with notification manager.
+        private void showDonateNotification() {
+            int notificationId = 3;
+            String id = "Main";
+            Intent viewIntent = new Intent(getApplicationContext(), DigitalWatchFaceWearableConfigActivity.class);
+            viewIntent.putExtra("Donate", "Don't forget to donate");
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), id)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Donate to LayoutXML")
+                            .setContentText("Would you like to donate for Twelveish? Read more on Google Play.")
+                            .setContentIntent(viewPendingIntent);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
@@ -365,6 +362,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate),false);
             counter = prefs.getInt(getString(R.string.counter),0);
             showedTutorialAlready = prefs.getBoolean(getString(R.string.showed_tutorial),false);
+            showedDonateAlready = prefs.getBoolean(getString(R.string.showed_donate),false);
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
             mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
@@ -395,6 +393,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
             complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set),false);
             complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set),false);
+            legacyWords = prefs.getBoolean(getString(R.string.preference_legacy_word_arrangement),false);
 
             //Work with given preferences
             switch (language) {
@@ -522,13 +521,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             counter++;
-            if (counter<102) {
+            if (counter<202) {
                 prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
             if (!showedTutorialAlready && counter>30){
                 prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
                 showTutorialNotification();
+            }
+
+            if (counter>=200 && !showedDonateAlready) {
+                prefs.edit().putBoolean(getString(R.string.showed_donate),true).apply();
+                showDonateNotification();
             }
         }
 
@@ -855,16 +859,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 float textSize=0;
                 float x = bounds.width() / 2;
                 if (!complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-64, text2, true);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
@@ -965,7 +969,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                 }
             }
-            return mainPrefix + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+            if (legacyWords)
+                return mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+            else
+                return arrangeWords(mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix);
         }
 
         private String capitalise1(Integer hours, Integer minutes, Integer index) {
@@ -995,13 +1002,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
-            return text.toUpperCase();
+
+            if (legacyWords) {
+                String text =
+                        ((minutes > 0) ? Prefixes[index] : "")
+                                + ((minutes > 0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
+                return text.toUpperCase();
+            } else {
+                String text =
+                        ((minutes > 0) ? Prefixes[index] : "")
+                                + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text).toUpperCase();
+            }
         }
 
         private String capitalise2(Integer hours, Integer minutes, Integer index) {
@@ -1031,14 +1049,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
 
-            return text.toLowerCase();
+            if (legacyWords) {
+                String text =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return text.toLowerCase();
+            } else {
+                String text =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text);
+            }
         }
 
         private String capitalise3(Integer hours, Integer minutes, Integer index) {
@@ -1068,20 +1096,30 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     middle = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String text20 =
-                    ((minutes>0) ? Prefixes[index] : "")
-                            + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
-                            + middle
-                            + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
-                            + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
-            return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
+            if (legacyWords) {
+                String text20 =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? "\n" : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? "\n" : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase();
+            } else {
+                String text20 =
+                        ((minutes>0) ? Prefixes[index] : "")
+                                + ((minutes>0) ? (PrefixNewLine[index] ? " " : "") : "")
+                                + middle
+                                + ((minutes>0) ? (SuffixNewLine[index] ? " " : "") : "")
+                                + ((showSuffixes) ? ((minutes>0) ? Suffixes[index] : "") : "");
+                return arrangeWords(text20.substring(0,1).toUpperCase() + text20.substring(1).toLowerCase());
+            }
         }
 
         private String capitalise4(Integer hours, Integer minutes, Integer index) {
             //Prefix
             String mainPrefix = "";
             if ((minutes>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
-                mainPrefix = Prefixes[index].substring(0,1).toUpperCase() + Prefixes[index].substring(1).toLowerCase();
+                mainPrefix = Prefixes[index];
             }
 
             //Time
@@ -1111,25 +1149,113 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 default:
                     hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
             }
-            String mainText;
-            if (mainPrefix.equals("") || PrefixNewLine[index])
-                mainText = hoursInWords.substring(0,1).toUpperCase() + hoursInWords.substring(1);
-            else
-                mainText = hoursInWords.toLowerCase();
+            String mainText = hoursInWords;
 
             //Suffix
             String mainSuffix = "";
             if (showSuffixes) {
                 if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
-                    if (SuffixNewLine[index]) {
-                        mainSuffix = Suffixes[index].substring(0, 1).toUpperCase() + Suffixes[index].substring(1).toLowerCase();
-                    } else {
-                        mainSuffix = Suffixes[index].toLowerCase();
-                    }
+                    mainSuffix = Suffixes[index];
                 }
             }
-            return mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
 
+            if (legacyWords) {
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+                String[] textArray = text.split("\n");
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase()).append('\n');
+                }
+                return newText.toString().substring(0,newText.length()-1);
+            } else {
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix;
+                text = arrangeWords(text);
+                String[] textArray = text.split("\n");
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word.substring(0, 1).toUpperCase()).append(word.substring(1).toLowerCase()).append('\n');
+                }
+                return newText.toString().substring(0,newText.length()-1);
+            }
+
+        }
+
+        private String arrangeWords(String text) {
+            String[] textArray = text.split(" ");
+            int numberOfWords = textArray.length;
+            if (numberOfWords<2)
+                return text;
+            else if ((numberOfWords==2 && text.length()>=10) || (numberOfWords==3 && text.length()>12)){
+                StringBuilder newText= new StringBuilder();
+                for (String word : textArray) {
+                    newText.append(word).append('\n');
+                }
+                return newText.substring(0,newText.length()-1);
+            } else {
+                if (numberOfWords%4==0  && numberOfWords!=4) {
+                    int div = numberOfWords/4;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append('\n');
+                        } else {
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else if (numberOfWords%3==0 && ((text.length()>24 && numberOfWords%2==0) || (numberOfWords%2!=0))) {
+                    int div = numberOfWords/3;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append("\n");
+                        } else {
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else if (numberOfWords%2==0 || (numberOfWords==4 && text.length()>16)) {
+                    int div = numberOfWords/2;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append('\n');
+                        } else {
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+                else
+                {
+                    int div = numberOfWords/3;
+                    if (div==1)
+                        div = numberOfWords/2;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append("\n");
+                        } else {
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
+                }
+            }
         }
 
         private void updateTimer() {
@@ -1153,11 +1279,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text) {
+        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, Boolean addMargin) {
             float min = Integer.MAX_VALUE, linecount=0;
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
+                if (addMargin)
+                    line="O"+line+"O";
                 float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
