@@ -29,12 +29,13 @@ import com.layoutxml.twelveish.objects.IntegerOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorOptionsActivity extends Activity {
+public class ColorOptionsActivity extends Activity{
 
-    private static final String TAG = "ColorOptionsActivity";
+    private static final String TAG = "MainColorOptionsActivit";
     private List<IntegerOption> values = new ArrayList<>();
     private ColorsAdapter mAdapter;
     private SharedPreferences prefs;
+    private String preferencesKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,221 @@ public class ColorOptionsActivity extends Activity {
         mAdapter = new ColorsAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
-        generateValues();
+
+        if (getIntent().getStringExtra("Activity").equals("TextColor")) {
+            generateTextColorValues();
+        }
+        else if (getIntent().getStringExtra("Activity").equals("BackgroundColor")) {
+            generateBackgroundColorValues();
+        }
+        preferencesKey = getIntent().getStringExtra("SettingsValue");
     }
 
-    private void generateValues(){
+    private void generateTextColorValues(){
+        IntegerOption integerOption = new IntegerOption();
+        integerOption.setName("White");
+        integerOption.setInteger(android.graphics.Color.parseColor("#ffffff"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 400");
+        integerOption.setInteger(android.graphics.Color.parseColor("#bdbdbd"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 500");
+        integerOption.setInteger(android.graphics.Color.parseColor("#9e9e9e"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 600");
+        integerOption.setInteger(android.graphics.Color.parseColor("#757575"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 700");
+        integerOption.setInteger(android.graphics.Color.parseColor("#616161"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 800");
+        integerOption.setInteger(android.graphics.Color.parseColor("#424242"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gray 900");
+        integerOption.setInteger(android.graphics.Color.parseColor("#212121"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Black");
+        integerOption.setInteger(android.graphics.Color.parseColor("#000000"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Red");
+        integerOption.setInteger(android.graphics.Color.parseColor("#ff0000"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Magenta");
+        integerOption.setInteger(android.graphics.Color.parseColor("#ff00ff"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Yellow");
+        integerOption.setInteger(android.graphics.Color.parseColor("#ffff00"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Green");
+        integerOption.setInteger(android.graphics.Color.parseColor("#00ff00"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Cyan");
+        integerOption.setInteger(android.graphics.Color.parseColor("#00ffff"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Blue");
+        integerOption.setInteger(android.graphics.Color.parseColor("#0000ff"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Red");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A62C23"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Pink");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A61646"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Purple");
+        integerOption.setInteger(android.graphics.Color.parseColor("#9224A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Deep Purple");
+        integerOption.setInteger(android.graphics.Color.parseColor("#5E35A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Indigo");
+        integerOption.setInteger(android.graphics.Color.parseColor("#3A4AA6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Blue");
+        integerOption.setInteger(android.graphics.Color.parseColor("#1766A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Light Blue");
+        integerOption.setInteger(android.graphics.Color.parseColor("#0272A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Cyan");
+        integerOption.setInteger(android.graphics.Color.parseColor("#0092A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Teal");
+        integerOption.setInteger(android.graphics.Color.parseColor("#00A695"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Green");
+        integerOption.setInteger(android.graphics.Color.parseColor("#47A64A"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Light Green");
+        integerOption.setInteger(android.graphics.Color.parseColor("#76A63F"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Lime");
+        integerOption.setInteger(android.graphics.Color.parseColor("#99A62B"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Yellow");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A69926"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Amber");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A67E05"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Orange");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A66300"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Deep Orange");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A63716"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Brown");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A67563"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Gray");
+        integerOption.setInteger(android.graphics.Color.parseColor("#676767"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Material Blue Gray");
+        integerOption.setInteger(android.graphics.Color.parseColor("#7295A6"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Gold");
+        integerOption.setInteger(android.graphics.Color.parseColor("#FFD700"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Sunset");
+        integerOption.setInteger(android.graphics.Color.parseColor("#F8B195"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Fog");
+        integerOption.setInteger(android.graphics.Color.parseColor("#A8A7A7"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Summer Red");
+        integerOption.setInteger(android.graphics.Color.parseColor("#fe4a49"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Aqua");
+        integerOption.setInteger(android.graphics.Color.parseColor("#2ab7ca"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Sun");
+        integerOption.setInteger(android.graphics.Color.parseColor("#fed766"));
+        values.add(integerOption);
+
+        integerOption = new IntegerOption();
+        integerOption.setName("Dawn");
+        integerOption.setInteger(android.graphics.Color.parseColor("#451e3e"));
+        values.add(integerOption);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void generateBackgroundColorValues(){
         IntegerOption integerOption = new IntegerOption();
         integerOption.setName("Black");
         integerOption.setInteger(android.graphics.Color.parseColor("#000000"));
@@ -245,8 +457,8 @@ public class ColorOptionsActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         IntegerOption selectedMenuItem = values.get(position);
-                        prefs.edit().putInt(getString(R.string.preference_background_color),selectedMenuItem.getInteger()).apply();
-                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
+                        prefs.edit().putInt(preferencesKey,selectedMenuItem.getInteger()).apply();
+                        Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -274,4 +486,5 @@ public class ColorOptionsActivity extends Activity {
             return values.size();
         }
     }
+
 }

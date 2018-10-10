@@ -11,9 +11,19 @@ public class ActivityOption {
     private Integer icon;
     private Class activity;
     private String extra;
+    private String extra2;
 
     public ActivityOption() {
         extra = "";
+        extra2 = "";
+    }
+
+    public String getExtra2() {
+        return extra2;
+    }
+
+    public void setExtra2(String extra2) {
+        this.extra2 = extra2;
     }
 
     public String getExtra() {

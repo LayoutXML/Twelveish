@@ -57,7 +57,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ColorOptionsActivity" />
         <activity android:name=".activities.MiscOptionsActivity" />
         <activity android:name=".activities.DateOptionsListActivity" />
         <activity android:name=".activities.DateSeparatorActivity" />
@@ -68,7 +67,7 @@
         </activity>
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
         <activity android:name=".activities.ColorOptionsListActivity" />
-        <activity android:name=".activities.TextColorOptionsActivity" />
+        <activity android:name=".activities.ColorOptionsActivity" />
         <activity android:name=".activities.ShowHideOptionsActivity" />
         <activity android:name=".activities.LanguageOptionsActivity" />
         <activity android:name=".activities.AboutActivity" />

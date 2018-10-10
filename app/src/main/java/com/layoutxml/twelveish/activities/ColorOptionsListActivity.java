@@ -50,32 +50,37 @@ public class ColorOptionsListActivity extends Activity{
     private void generateValues(){
         ActivityOption dateOption = new ActivityOption();
         dateOption.setName("Main text (active)");
-        dateOption.setActivity(TextColorOptionsActivity.class);
-        dateOption.setExtra(getString(R.string.preference_main_color));
+        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setExtra("TextColor");
+        dateOption.setExtra2(getString(R.string.preference_main_color));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Main text (ambient)");
-        dateOption.setActivity(TextColorOptionsActivity.class);
-        dateOption.setExtra(getString(R.string.preference_main_color_ambient));
+        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setExtra("TextColor");
+        dateOption.setExtra2(getString(R.string.preference_main_color_ambient));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Secondary text (active)");
-        dateOption.setActivity(TextColorOptionsActivity.class);
-        dateOption.setExtra(getString(R.string.preference_secondary_color));
+        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setExtra("TextColor");
+        dateOption.setExtra2(getString(R.string.preference_secondary_color));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Secondary text (ambient)");
-        dateOption.setActivity(TextColorOptionsActivity.class);
-        dateOption.setExtra(getString(R.string.preference_secondary_color_ambient));
+        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setExtra("TextColor");
+        dateOption.setExtra2(getString(R.string.preference_secondary_color_ambient));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Background (active)");
         dateOption.setActivity(ColorOptionsActivity.class);
-        dateOption.setExtra("");
+        dateOption.setExtra("BackgroundColor");
+        dateOption.setExtra2(getString(R.string.preference_background_color));
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();
@@ -97,7 +102,8 @@ public class ColorOptionsListActivity extends Activity{
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent = new Intent(ColorOptionsListActivity.this, values.get(position).getActivity());
-                        intent.putExtra("SettingsValue",values.get(position).getExtra());
+                        intent.putExtra("Activity",values.get(position).getExtra());
+                        intent.putExtra("SettingsValue",values.get(position).getExtra2());
                         ColorOptionsListActivity.this.startActivity(intent);
                     }
                 });
