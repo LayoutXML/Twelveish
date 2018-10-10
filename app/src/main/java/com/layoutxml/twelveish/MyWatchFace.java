@@ -857,16 +857,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 float textSize=0;
                 float x = bounds.width() / 2;
                 if (!complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() - 48,bounds.height()*3/4-mChinSize-firstSeparator-32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2, true);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
@@ -1261,11 +1261,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text) {
+        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, Boolean addMargin) {
             float min = Integer.MAX_VALUE, linecount=0;
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
                     linecount++;
+                if (addMargin)
+                    line="O"+line+"O";
                 float testTextSize = 100.00f;
                 mTextPaint2.setTextSize(testTextSize);
                 Rect bounds = new Rect();
