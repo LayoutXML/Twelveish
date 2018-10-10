@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.objects.ActivityOption;
 import com.layoutxml.twelveish.objects.DateOption;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import java.util.List;
 public class DateOptionsListActivity extends Activity {
 
     private static final String TAG = "DateOptionsListActivity";
-    private List<DateOption> values = new ArrayList<>();
+    private List<ActivityOption> values = new ArrayList<>();
     private DateOptionsListAdapter mAdapter;
 
     @Override
@@ -48,12 +49,14 @@ public class DateOptionsListActivity extends Activity {
     }
 
     private void generateValues(){
-        DateOption dateOption = new DateOption();
+        ActivityOption dateOption = new ActivityOption();
         dateOption.setName("Date format");
+        dateOption.setActivity(DateOrderActivity.class);
         values.add(dateOption);
 
-        dateOption = new DateOption();
+        dateOption = new ActivityOption();
         dateOption.setName("Separator symbol");
+        dateOption.setActivity(DateSeparatorActivity.class);
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();
@@ -74,19 +77,8 @@ public class DateOptionsListActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        Intent intent;
-                        switch (position){
-                            case 0:
-                                intent = new Intent(DateOptionsListActivity.this, DateOrderActivity.class);
-                                DateOptionsListActivity.this.startActivity(intent);
-                                break;
-                            case 1:
-                                intent = new Intent(DateOptionsListActivity.this, DateSeparatorActivity.class);
-                                DateOptionsListActivity.this.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
+                        Intent intent = new Intent(DateOptionsListActivity.this, values.get(position).getActivity());
+                        DateOptionsListActivity.this.startActivity(intent);
                     }
                 });
             }
@@ -104,7 +96,7 @@ public class DateOptionsListActivity extends Activity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            DateOption dateOption = values.get(position);
+            ActivityOption dateOption = values.get(position);
             holder.name.setText(dateOption.getName());
 
         }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.objects.Capitalisation;
+import com.layoutxml.twelveish.objects.IntegerOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 public class CapitalisationActivity extends Activity {
 
     private static final String TAG = "CapitalisationOptionsAc";
-    private List<Capitalisation> values = new ArrayList<>();
+    private List<IntegerOption> values = new ArrayList<>();
     private CapitalisationAdapter mAdapter;
     private SharedPreferences prefs;
 
@@ -54,24 +55,29 @@ public class CapitalisationActivity extends Activity {
     }
 
     private void generateValues(){
-        Capitalisation capitalisation = new Capitalisation();
+        IntegerOption capitalisation = new IntegerOption();
         capitalisation.setName("All words title case");
+        capitalisation.setInteger(0);
         values.add(capitalisation);
 
-        capitalisation = new Capitalisation();
+        capitalisation = new IntegerOption();
         capitalisation.setName("All uppercase");
+        capitalisation.setInteger(1);
         values.add(capitalisation);
 
-        capitalisation = new Capitalisation();
+        capitalisation = new IntegerOption();
         capitalisation.setName("All lowercase");
+        capitalisation.setInteger(2);
         values.add(capitalisation);
 
-        capitalisation = new Capitalisation();
+        capitalisation = new IntegerOption();
         capitalisation.setName("First word title case");
+        capitalisation.setInteger(3);
         values.add(capitalisation);
 
-        capitalisation = new Capitalisation();
+        capitalisation = new IntegerOption();
         capitalisation.setName("First word in every\nline title case");
+        capitalisation.setInteger(4);
         values.add(capitalisation);
 
         mAdapter.notifyDataSetChanged();
@@ -92,7 +98,7 @@ public class CapitalisationActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        prefs.edit().putInt(getString(R.string.preference_capitalisation),position).apply();
+                        prefs.edit().putInt(getString(R.string.preference_capitalisation),values.get(position).getInteger()).apply();
                         Toast.makeText(getApplicationContext(), "Capitalisation mode set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -111,7 +117,7 @@ public class CapitalisationActivity extends Activity {
         @Override
         public void onBindViewHolder(@NonNull CapitalisationAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            Capitalisation capitalisation = values.get(position);
+            IntegerOption capitalisation = values.get(position);
             holder.name.setText(capitalisation.getName());
         }
 

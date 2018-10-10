@@ -6,9 +6,9 @@
 
 package com.layoutxml.twelveish.objects;
 
-public class Color {
+public class IntegerOption {
     private String name;
-    private Integer colorcode;
+    private Integer integer;
 
     public String getName() {
         return name;
@@ -18,11 +18,11 @@ public class Color {
         this.name = name;
     }
 
-    public Integer getColorcode() {
-        return colorcode;
+    public Integer getInteger() {
+        return integer;
     }
 
-    public void setColorcode(Integer colorcode) {
-        this.colorcode = colorcode;
+    public void setInteger(Integer integer) {
+        this.integer = integer;
     }
 }
