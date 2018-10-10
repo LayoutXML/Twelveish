@@ -2,7 +2,6 @@ package com.layoutxml.twelveish.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.objects.LanguageOption;
+import com.layoutxml.twelveish.objects.StringOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
 public class LanguageOptionsActivity extends Activity {
 
     private static final String TAG = "LanguageOptionsActivity";
-    private List<LanguageOption> values = new ArrayList<>();
+    private List<StringOption> values = new ArrayList<>();
     private LanguageOptionsListAdapter mAdapter;
     private SharedPreferences prefs;
 
@@ -48,39 +47,39 @@ public class LanguageOptionsActivity extends Activity {
     }
 
     private void generateValues(){
-        LanguageOption option = new LanguageOption();
+        StringOption option = new StringOption();
         option.setName("English");
-        option.setKey("en");
+        option.setSymbol("en");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("Finish");
-        option.setKey("fi");
+        option.setSymbol("fi");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("German");
-        option.setKey("de");
+        option.setSymbol("de");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("Hungarian");
-        option.setKey("hu");
+        option.setSymbol("hu");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("Italian");
-        option.setKey("it");
+        option.setSymbol("it");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("Lithuanian");
-        option.setKey("lt");
+        option.setSymbol("lt");
         values.add(option);
 
-        option = new LanguageOption();
+        option = new StringOption();
         option.setName("Russian");
-        option.setKey("ru");
+        option.setSymbol("ru");
         values.add(option);
 
         mAdapter.notifyDataSetChanged();
@@ -101,8 +100,8 @@ public class LanguageOptionsActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        LanguageOption selectedMenuItem = values.get(position);
-                        prefs.edit().putString(getString(R.string.preference_language),selectedMenuItem.getKey()).apply();
+                        StringOption selectedMenuItem = values.get(position);
+                        prefs.edit().putString(getString(R.string.preference_language),selectedMenuItem.getSymbol()).apply();
                         Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -122,7 +121,7 @@ public class LanguageOptionsActivity extends Activity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            LanguageOption languageOption = values.get(position);
+            StringOption languageOption = values.get(position);
             holder.name.setText(languageOption.getName());
 
         }

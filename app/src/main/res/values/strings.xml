@@ -17,7 +17,7 @@
     <string name="preference_military_time">militaryTime</string>
     <string name="preference_militarytext_time">militarytextTime</string>
     <string name="preference_date_order">dateOrder</string>
-    <string name="preference_date_separator">dateSeparator</string>
+    <string name="preference_date_separator">stringOption</string>
     <string name="preference_capitalisation">capitalisation</string>
     <string name="preference_ampm">ampm</string>
     <string name="preference_show_secondary">showSecondary</string>

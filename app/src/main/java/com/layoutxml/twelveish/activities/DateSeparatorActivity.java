@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.objects.DateSeparator;
+import com.layoutxml.twelveish.objects.StringOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
 public class DateSeparatorActivity extends Activity{
 
     private static final String TAG = "DateSeparatorActivity";
-    List<DateSeparator> values = new ArrayList<>();
+    List<StringOption> values = new ArrayList<>();
     private DateSeparatorAdapter mAdapter;
     private SharedPreferences prefs;
 
@@ -53,25 +53,25 @@ public class DateSeparatorActivity extends Activity{
     }
 
     private void generateValues() {
-        DateSeparator dateSeparator = new DateSeparator();
-        dateSeparator.setName("Slash /");
-        dateSeparator.setSymbol("/");
-        values.add(dateSeparator);
+        StringOption stringOption = new StringOption();
+        stringOption.setName("Slash /");
+        stringOption.setSymbol("/");
+        values.add(stringOption);
 
-        dateSeparator = new DateSeparator();
-        dateSeparator.setName("Period .");
-        dateSeparator.setSymbol(".");
-        values.add(dateSeparator);
+        stringOption = new StringOption();
+        stringOption.setName("Period .");
+        stringOption.setSymbol(".");
+        values.add(stringOption);
 
-        dateSeparator = new DateSeparator();
-        dateSeparator.setName("Hyphen -");
-        dateSeparator.setSymbol("-");
-        values.add(dateSeparator);
+        stringOption = new StringOption();
+        stringOption.setName("Hyphen -");
+        stringOption.setSymbol("-");
+        values.add(stringOption);
 
-        dateSeparator = new DateSeparator();
-        dateSeparator.setName("Space");
-        dateSeparator.setSymbol(" ");
-        values.add(dateSeparator);
+        stringOption = new StringOption();
+        stringOption.setName("Space");
+        stringOption.setSymbol(" ");
+        values.add(stringOption);
     }
 
     public class DateSeparatorAdapter extends RecyclerView.Adapter<DateSeparatorAdapter.MyViewHolder>{
@@ -89,7 +89,7 @@ public class DateSeparatorActivity extends Activity{
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        DateSeparator selectedMenuItem = values.get(position);
+                        StringOption selectedMenuItem = values.get(position);
                         prefs.edit().putString(getString(R.string.preference_date_separator),selectedMenuItem.getSymbol()).apply();
                         Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
@@ -109,8 +109,8 @@ public class DateSeparatorActivity extends Activity{
         @Override
         public void onBindViewHolder(@NonNull DateSeparatorAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            DateSeparator dateSeparator = values.get(position);
-            holder.name.setText(dateSeparator.getName());
+            StringOption stringOption = values.get(position);
+            holder.name.setText(stringOption.getName());
         }
 
         @Override

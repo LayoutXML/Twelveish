@@ -6,9 +6,18 @@
 
 package com.layoutxml.twelveish.objects;
 
-public class DateOrder {
+public class StringOption {
 
-    private String name;
+    public String name;
+    public String symbol;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getName() {
         return name;

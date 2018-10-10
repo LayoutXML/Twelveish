@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.objects.DateOrder;
+import com.layoutxml.twelveish.objects.IntegerOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
 public class DateOrderActivity extends Activity{
 
     private static final String TAG = "DateOrderActivity";
-    private List<DateOrder> values = new ArrayList<>();
+    private List<IntegerOption> values = new ArrayList<>();
     private DateOrderAdapter mAdapter;
     private SharedPreferences prefs;
 
@@ -53,20 +53,24 @@ public class DateOrderActivity extends Activity{
     }
 
     private void generateValues() {
-        DateOrder dateOrder = new DateOrder();
+        IntegerOption dateOrder = new IntegerOption();
         dateOrder.setName("MDY");
+        dateOrder.setInteger(0);
         values.add(dateOrder);
 
-        dateOrder = new DateOrder();
+        dateOrder = new IntegerOption();
         dateOrder.setName("DMY");
+        dateOrder.setInteger(1);
         values.add(dateOrder);
 
-        dateOrder = new DateOrder();
+        dateOrder = new IntegerOption();
         dateOrder.setName("YMD");
+        dateOrder.setInteger(2);
         values.add(dateOrder);
 
-        dateOrder = new DateOrder();
+        dateOrder = new IntegerOption();
         dateOrder.setName("YDM");
+        dateOrder.setInteger(3);
         values.add(dateOrder);
     }
 
@@ -85,8 +89,8 @@ public class DateOrderActivity extends Activity{
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        DateOrder selectedMenuItem = values.get(position);
-                        prefs.edit().putInt(getString(R.string.preference_date_order),position).apply();
+                        IntegerOption selectedMenuItem = values.get(position);
+                        prefs.edit().putInt(getString(R.string.preference_date_order),values.get(position).getInteger()).apply();
                         Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -105,7 +109,7 @@ public class DateOrderActivity extends Activity{
         @Override
         public void onBindViewHolder(@NonNull DateOrderAdapter.MyViewHolder holder, int position) {
             Log.d(TAG,"MyViewHolder onBindViewHolder");
-            DateOrder dateOrder = values.get(position);
+            IntegerOption dateOrder = values.get(position);
             holder.name.setText(dateOrder.getName());
         }
 
