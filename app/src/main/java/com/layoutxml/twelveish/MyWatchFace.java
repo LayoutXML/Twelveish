@@ -1201,7 +1201,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             if (i+1!=numberOfWords)
                                 newText.append('\n');
                         } else {
-                            newText.append(" ");
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
                         }
                     }
                     return newText.toString();
@@ -1215,7 +1216,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             if (i+1!=numberOfWords)
                                 newText.append("\n");
                         } else {
-                            newText.append(" ");
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
                         }
                     }
                     return newText.toString();
@@ -1229,15 +1231,29 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             if (i+1!=numberOfWords)
                                 newText.append('\n');
                         } else {
-                            newText.append(" ");
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
                         }
                     }
                     return newText.toString();
                 }
                 else
                 {
-                    // I DONT KNOW
-                    return text+".";
+                    int div = numberOfWords/3;
+                    if (div==1)
+                        div = numberOfWords/2;
+                    StringBuilder newText= new StringBuilder();
+                    for (int i=0; i<numberOfWords; i++) {
+                        newText.append(textArray[i]);
+                        if ((i+1)%div==0) {
+                            if (i+1!=numberOfWords)
+                                newText.append("\n");
+                        } else {
+                            if (i+1!=numberOfWords)
+                                newText.append(" ");
+                        }
+                    }
+                    return newText.toString();
                 }
             }
         }
