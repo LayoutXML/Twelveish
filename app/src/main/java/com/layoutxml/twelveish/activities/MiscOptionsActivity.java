@@ -55,7 +55,7 @@ public class MiscOptionsActivity extends Activity {
 
     private void generateValues(){
         MiscOption option = new MiscOption();
-        option.setName("24h format (Word)");
+        option.setName("24h format (Words)");
         option.setKey(getString(R.string.preference_militarytext_time));
         option.setDefaultOption(false);
         values.add(option);
@@ -82,6 +82,18 @@ public class MiscOptionsActivity extends Activity {
         option.setName("Legacy word arrangement");
         option.setKey(getString(R.string.preference_legacy_word_arrangement));
         option.setDefaultOption(false);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show seconds (active)");
+        option.setKey(getString(R.string.preference_show_seconds));
+        option.setDefaultOption(true);
+        values.add(option);
+
+        option = new MiscOption();
+        option.setName("Show Suffixes");
+        option.setKey(getString(R.string.preference_show_suffixes));
+        option.setDefaultOption(true);
         values.add(option);
 
         mAdapter.notifyDataSetChanged();

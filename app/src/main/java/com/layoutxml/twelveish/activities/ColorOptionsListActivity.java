@@ -49,23 +49,23 @@ public class ColorOptionsListActivity extends Activity{
 
     private void generateValues(){
         ColorOption dateOption = new ColorOption();
-        dateOption.setName("Main text (when active)");
+        dateOption.setName("Main text (active)");
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Main text (in ambient)");
+        dateOption.setName("Main text (ambient)");
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Secondary color (when active)");
+        dateOption.setName("Secondary text (active)");
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Secondary color (in ambient)");
+        dateOption.setName("Secondary text (ambient)");
         values.add(dateOption);
 
         dateOption = new ColorOption();
-        dateOption.setName("Background (when active)");
+        dateOption.setName("Background (active)");
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();

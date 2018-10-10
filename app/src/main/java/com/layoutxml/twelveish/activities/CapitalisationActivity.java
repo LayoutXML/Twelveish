@@ -71,7 +71,7 @@ public class CapitalisationActivity extends Activity {
         values.add(capitalisation);
 
         capitalisation = new Capitalisation();
-        capitalisation.setName("First word in every line title case");
+        capitalisation.setName("First word in every\nline title case");
         values.add(capitalisation);
 
         mAdapter.notifyDataSetChanged();
