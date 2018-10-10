@@ -80,7 +80,8 @@ public class SettingsActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Capitalisation");
         activityOption.setIcon(R.drawable.ic_capitalisation);
-        activityOption.setActivity(CapitalisationActivity.class);
+        activityOption.setActivity(StringOptionsActivity.class);
+        activityOption.setExtra("Capitalization");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
@@ -129,6 +130,7 @@ public class SettingsActivity extends Activity {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent;
                         intent = new Intent(SettingsActivity.this, values.get(position).getActivity());
+                        intent.putExtra("Activity",values.get(position).getExtra());
                         SettingsActivity.this.startActivity(intent);
                     }
                 });

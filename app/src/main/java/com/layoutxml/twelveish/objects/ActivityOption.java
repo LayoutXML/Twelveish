@@ -12,6 +12,10 @@ public class ActivityOption {
     private Class activity;
     private String extra;
 
+    public ActivityOption() {
+        extra = "";
+    }
+
     public String getExtra() {
         return extra;
     }

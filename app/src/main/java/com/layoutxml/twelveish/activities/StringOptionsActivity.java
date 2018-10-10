@@ -28,12 +28,13 @@ import com.layoutxml.twelveish.objects.IntegerOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CapitalisationActivity extends Activity {
+public class StringOptionsActivity extends Activity {
 
     private static final String TAG = "CapitalisationOptionsAc";
     private List<IntegerOption> values = new ArrayList<>();
     private CapitalisationAdapter mAdapter;
     private SharedPreferences prefs;
+    private String preferencesKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,18 @@ public class CapitalisationActivity extends Activity {
         mAdapter = new CapitalisationAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
-        generateValues();
+
+        if (getIntent().getStringExtra("Activity").equals("Capitalization")) {
+            generateCapitalizationValues();
+            preferencesKey = getString(R.string.preference_capitalisation);
+        }
+        else if (getIntent().getStringExtra("Activity").equals("DateOrder")) {
+            generateDateOrderValues();
+            preferencesKey = getString(R.string.preference_date_order);
+        }
     }
 
-    private void generateValues(){
+    private void generateCapitalizationValues(){
         IntegerOption capitalisation = new IntegerOption();
         capitalisation.setName("All words title case");
         capitalisation.setInteger(0);
@@ -81,6 +90,28 @@ public class CapitalisationActivity extends Activity {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void generateDateOrderValues() {
+        IntegerOption dateOrder = new IntegerOption();
+        dateOrder.setName("MDY");
+        dateOrder.setInteger(0);
+        values.add(dateOrder);
+
+        dateOrder = new IntegerOption();
+        dateOrder.setName("DMY");
+        dateOrder.setInteger(1);
+        values.add(dateOrder);
+
+        dateOrder = new IntegerOption();
+        dateOrder.setName("YMD");
+        dateOrder.setInteger(2);
+        values.add(dateOrder);
+
+        dateOrder = new IntegerOption();
+        dateOrder.setName("YDM");
+        dateOrder.setInteger(3);
+        values.add(dateOrder);
+    }
+
     public class CapitalisationAdapter extends RecyclerView.Adapter<CapitalisationAdapter.MyViewHolder>{
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -96,8 +127,8 @@ public class CapitalisationActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        prefs.edit().putInt(getString(R.string.preference_capitalisation),values.get(position).getInteger()).apply();
-                        Toast.makeText(getApplicationContext(), "Capitalisation mode set", Toast.LENGTH_SHORT).show();
+                        prefs.edit().putInt(preferencesKey,values.get(position).getInteger()).apply();
+                        Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

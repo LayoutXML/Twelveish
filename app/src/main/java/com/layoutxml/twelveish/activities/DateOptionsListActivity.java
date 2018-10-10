@@ -49,8 +49,9 @@ public class DateOptionsListActivity extends Activity {
 
     private void generateValues(){
         ActivityOption dateOption = new ActivityOption();
-        dateOption.setName("Date format");
-        dateOption.setActivity(DateOrderActivity.class);
+        dateOption.setName("Date order");
+        dateOption.setActivity(StringOptionsActivity.class);
+        dateOption.setExtra("DateOrder");
         values.add(dateOption);
 
         dateOption = new ActivityOption();
@@ -77,6 +78,7 @@ public class DateOptionsListActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent = new Intent(DateOptionsListActivity.this, values.get(position).getActivity());
+                        intent.putExtra("Activity",values.get(position).getExtra());
                         DateOptionsListActivity.this.startActivity(intent);
                     }
                 });
