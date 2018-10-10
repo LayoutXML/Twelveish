@@ -859,16 +859,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 float textSize=0;
                 float x = bounds.width() / 2;
                 if (!complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-32, text2, true);
+                    textSize = getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-64, text2, true);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
