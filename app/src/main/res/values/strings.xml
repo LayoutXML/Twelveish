@@ -458,26 +458,26 @@
     <string-array name="PrefixesIT">
         <item/>
         <item/>
-        <item/>
+        <item>quasi</item>
+        <item>circa</item>
+        <item>quasi</item>
+        <item>pressapoco</item>
+        <item>circa</item>
+        <item>poco più che</item>
+        <item>quasi</item>
         <item/>
         <item>quasi</item>
-        <item>suppergiù</item>
-        <item>grosso modo</item>
-        <item/>
-        <item/>
-        <item/>
-        <item>quasi</item>
-        <item>suppergiù</item>
+        <item>pressapoco</item>
     </string-array>
     <string-array name="SuffixesIT">
         <item>e qualcosa</item>
         <item>e passa</item>
         <item>e un quarto</item>
-        <item>e un quarto o poco più</item>
+        <item>e un quarto</item>
         <item>e mezza</item>
         <item>e mezza</item>
         <item>e mezza</item>
-        <item>e mezza o poco più</item>
+        <item>e mezza</item>
         <item>meno un quarto</item>
         <item>meno qualcosa</item>
         <item/>
