@@ -71,6 +71,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Integer screenHeightG;
     private Boolean showedRateAlready;
     private Boolean showedTutorialAlready;
+    private Boolean showedDonateAlready;
     private Integer counter;
     //SharedPreferences:
     private Integer backgroundColor;
@@ -274,44 +275,27 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void showRateNotification(){
             Log.d(TAG,"showRateNotification: start");
             int notificationId = 1;
-            // The channel ID of the notification.
             String id = "Main";
-            // Build intent for notification content
             Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.layoutxml.twelveish"));
             viewIntent.putExtra("Rate Twelveish", "Would you like to rate Twelveish? I won't ask again :)");
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-
-            // Notification channel ID is ignored for Android 7.1.1
-            // (API level 25) and lower.
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), id)
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("Rate Twelveish")
-                            .setContentText("Would you like to rate Twelveish? Tap to go to Google Play store.")
+                            .setContentText("Would you like to rate Twelveish? Tap to go to the Google Play store.")
                             .setContentIntent(viewPendingIntent);
-
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(getApplicationContext());
-
-            // Issue the notification with notification manager.
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
         private void showTutorialNotification(){
             int notificationId = 2;
-            // The channel ID of the notification.
             String id = "Main";
-            // Build intent for notification content
             Intent viewIntent = new Intent(getApplicationContext(), DigitalWatchFaceWearableConfigActivity.class);
             viewIntent.putExtra("Open settings", "Don't forget to customize the watch");
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-
-            // Notification channel ID is ignored for Android 7.1.1
-            // (API level 25) and lower.
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext(), id)
                             .setDefaults(Notification.DEFAULT_ALL)
@@ -319,12 +303,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             .setContentTitle("Open Twelveish Settings")
                             .setContentText("Don't forget to customize Twelveish directly on your watch")
                             .setContentIntent(viewPendingIntent);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+            notificationManager.notify(notificationId, notificationBuilder.build());
+        }
 
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(getApplicationContext());
-
-            // Issue the notification with notification manager.
+        private void showDonateNotification() {
+            int notificationId = 3;
+            String id = "Main";
+            Intent viewIntent = new Intent(getApplicationContext(), DigitalWatchFaceWearableConfigActivity.class);
+            viewIntent.putExtra("Donate", "Don't forget to donate");
+            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(getApplicationContext(), id)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Donate to LayoutXML")
+                            .setContentText("Would you like to donate for Twelveish? Read more on Google Play.")
+                            .setContentIntent(viewPendingIntent);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
@@ -366,6 +362,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate),false);
             counter = prefs.getInt(getString(R.string.counter),0);
             showedTutorialAlready = prefs.getBoolean(getString(R.string.showed_tutorial),false);
+            showedDonateAlready = prefs.getBoolean(getString(R.string.showed_donate),false);
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
             mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
@@ -524,13 +521,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             counter++;
-            if (counter<102) {
+            if (counter<202) {
                 prefs.edit().putInt(getString(R.string.counter),counter).apply();
             }
 
             if (!showedTutorialAlready && counter>30){
                 prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
                 showTutorialNotification();
+            }
+
+            if (counter>=200 && !showedDonateAlready) {
+                prefs.edit().putBoolean(getString(R.string.showed_donate),true).apply();
+                showDonateNotification();
             }
         }
 
