@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Context;

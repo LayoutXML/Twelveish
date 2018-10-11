@@ -40,7 +40,7 @@ import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
-import com.layoutxml.twelveish.activities.SettingsActivity;
+import com.layoutxml.twelveish.activities.list_activities.ActivityImageViewActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -290,7 +290,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void showTutorialNotification(){
             int notificationId = 2;
             String id = "Main";
-            Intent viewIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            Intent viewIntent = new Intent(getApplicationContext(), ActivityImageViewActivity.class);
             viewIntent.putExtra("Open settings", "Don't forget to customize the watch");
             PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =
@@ -307,7 +307,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void showDonateNotification() {
             int notificationId = 3;
             String id = "Main";
-            Intent viewIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            Intent viewIntent = new Intent(getApplicationContext(), ActivityImageViewActivity.class);
             viewIntent.putExtra("Donate", "Don't forget to donate");
             PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
             NotificationCompat.Builder notificationBuilder =

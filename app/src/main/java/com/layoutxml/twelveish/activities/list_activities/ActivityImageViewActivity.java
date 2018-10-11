@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,13 +22,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.activities.AboutActivity;
+import com.layoutxml.twelveish.activities.FontOptionsActivity;
+import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
+import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActivity extends Activity {
+public class ActivityImageViewActivity extends Activity {
 
     private List<ActivityOption> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
@@ -99,7 +103,7 @@ public class SettingsActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Miscellaneous");
         activityOption.setIcon(R.drawable.ic_misc);
-        activityOption.setActivity(MiscOptionsActivity.class);
+        activityOption.setActivity(BooleanSwitcherActivity.class);
         values.add(activityOption);
 
         activityOption = new ActivityOption();
@@ -128,9 +132,9 @@ public class SettingsActivity extends Activity {
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent;
-                        intent = new Intent(SettingsActivity.this, values.get(position).getActivity());
+                        intent = new Intent(ActivityImageViewActivity.this, values.get(position).getActivity());
                         intent.putExtra("Activity",values.get(position).getExtra());
-                        SettingsActivity.this.startActivity(intent);
+                        ActivityImageViewActivity.this.startActivity(intent);
                     }
                 });
             }

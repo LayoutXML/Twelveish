@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.activities.StringTextViewActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
 import java.util.ArrayList;
@@ -52,35 +53,35 @@ public class ActivityTextViewActivity extends Activity{
     private void generateColorOptionsListValues(){
         ActivityOption dateOption = new ActivityOption();
         dateOption.setName("Main text (active)");
-        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setActivity(IntegerImageViewActivity.class);
         dateOption.setExtra("TextColor");
         dateOption.setExtra2(getString(R.string.preference_main_color));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Main text (ambient)");
-        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setActivity(IntegerImageViewActivity.class);
         dateOption.setExtra("TextColor");
         dateOption.setExtra2(getString(R.string.preference_main_color_ambient));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Secondary text (active)");
-        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setActivity(IntegerImageViewActivity.class);
         dateOption.setExtra("TextColor");
         dateOption.setExtra2(getString(R.string.preference_secondary_color));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Secondary text (ambient)");
-        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setActivity(IntegerImageViewActivity.class);
         dateOption.setExtra("TextColor");
         dateOption.setExtra2(getString(R.string.preference_secondary_color_ambient));
         values.add(dateOption);
 
         dateOption = new ActivityOption();
         dateOption.setName("Background (active)");
-        dateOption.setActivity(ColorOptionsActivity.class);
+        dateOption.setActivity(IntegerImageViewActivity.class);
         dateOption.setExtra("BackgroundColor");
         dateOption.setExtra2(getString(R.string.preference_background_color));
         values.add(dateOption);
@@ -97,7 +98,7 @@ public class ActivityTextViewActivity extends Activity{
 
         dateOption = new ActivityOption();
         dateOption.setName("Separator symbol");
-        dateOption.setActivity(DateSeparatorActivity.class);
+        dateOption.setActivity(StringTextViewActivity.class);
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();

@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +27,7 @@ import com.layoutxml.twelveish.objects.BooleanOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiscOptionsActivity extends Activity {
+public class BooleanSwitcherActivity extends Activity {
 
     private List<BooleanOption> values = new ArrayList<>();
     private MiscOptionsAdapter mAdapter;
@@ -48,10 +48,12 @@ public class MiscOptionsActivity extends Activity {
         mAdapter = new MiscOptionsAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
-        generateValues();
+
+        if (getIntent().getStringExtra("Activity").equals("MiscOptions"))
+            generateMiscOptionsValues();
     }
 
-    private void generateValues(){
+    private void generateMiscOptionsValues(){
         BooleanOption option = new BooleanOption();
         option.setName("24h format (Words)");
         option.setKey(getString(R.string.preference_militarytext_time));

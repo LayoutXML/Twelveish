@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +28,7 @@ import com.layoutxml.twelveish.objects.IntegerOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorOptionsActivity extends Activity{
+public class IntegerImageViewActivity extends Activity{
 
     private List<IntegerOption> values = new ArrayList<>();
     private ColorsAdapter mAdapter;

@@ -27,11 +27,12 @@ import com.layoutxml.twelveish.objects.StringOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DateSeparatorActivity extends Activity{
+public class StringTextViewActivity extends Activity{
 
     List<StringOption> values = new ArrayList<>();
     private DateSeparatorAdapter mAdapter;
     private SharedPreferences prefs;
+    private String preferencesKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,14 @@ public class DateSeparatorActivity extends Activity{
         mAdapter = new DateSeparatorAdapter();
         mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mWearableRecyclerView.setAdapter(mAdapter);
-        generateValues();
+
+        if (getIntent().getStringExtra("Activity").equals("DateSeparator")) {
+            generateDateSeparatorValues();
+            preferencesKey = getString(R.string.preference_date_separator);
+        }
     }
 
-    private void generateValues() {
+    private void generateDateSeparatorValues() {
         StringOption stringOption = new StringOption();
         stringOption.setName("Slash /");
         stringOption.setSymbol("/");
@@ -87,7 +92,7 @@ public class DateSeparatorActivity extends Activity{
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         StringOption selectedMenuItem = values.get(position);
-                        prefs.edit().putString(getString(R.string.preference_date_separator),selectedMenuItem.getSymbol()).apply();
+                        prefs.edit().putString(preferencesKey,selectedMenuItem.getSymbol()).apply();
                         Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
