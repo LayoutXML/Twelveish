@@ -576,10 +576,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Resources resources = MyWatchFace.this.getResources();
             isRound = insets.isRound();
             mChinSize = insets.getSystemWindowInsetBottom();
-            float textSize = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size);
-            float textSizeSmall = resources.getDimension(isRound ? R.dimen.digital_text_size_round : R.dimen.digital_text_size)/2.5f;
-            mTextPaint.setTextSize(textSizeSmall);
-            mTextPaint2.setTextSize(textSize);
+            mTextPaint.setTextSize(24);
+            mTextPaint2.setTextSize(24);
             Rect bottomBounds = new Rect(screenWidthG/2-screenWidthG/4,
                     (int)(screenHeightG*3/4-mChinSize),
                     screenWidthG/2+screenWidthG/4,
@@ -855,25 +853,24 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 float textSize=0;
                 float x = bounds.width() / 2;
                 if (!complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() - 32,bounds.height()*3/4-mChinSize-firstSeparator-64, text2, true);
+                    textSize = getTextSizeForWidth(bounds.width() - 32,(firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, true);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, bounds.height() * 3 / 4 - mChinSize - firstSeparator - 64, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
-                float y = (bounds.height()*3/4-mChinSize+firstSeparator)/2;
+                float y = 0;
                 for (String line : text2.split("\n")) {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
-                float difference = y-(bounds.height()*3/4-mChinSize+firstSeparator)/2;
-                y = (bounds.height()*3/4-mChinSize+firstSeparator)/2 - difference/2 -mTextPaint2.ascent();
+                y=-mTextPaint2.ascent()-y/2+bounds.height()/2;
                 for (String line : text2.split("\n")) {
                     canvas.drawText(line, x, y, mTextPaint2);
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
