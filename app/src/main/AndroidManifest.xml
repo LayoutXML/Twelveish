@@ -67,8 +67,6 @@
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
         <activity android:name=".activities.list_activities.ActivityTextViewActivity" />
         <activity android:name=".activities.list_activities.IntegerImageViewActivity" />
-        <activity android:name=".activities.ShowHideOptionsActivity" />
-        <activity android:name=".activities.LanguageOptionsActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.list_activities.FontTextViewActivity" />
 

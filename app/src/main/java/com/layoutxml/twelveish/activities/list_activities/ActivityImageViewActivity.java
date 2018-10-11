@@ -23,8 +23,6 @@ import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.AboutActivity;
-import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
-import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
@@ -90,7 +88,8 @@ public class ActivityImageViewActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Show/hide elements");
         activityOption.setIcon(R.drawable.ic_showhide);
-        activityOption.setActivity(ShowHideOptionsActivity.class);
+        activityOption.setActivity(BooleanSwitcherActivity.class);
+        activityOption.setExtra("ShowHide");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
@@ -104,6 +103,7 @@ public class ActivityImageViewActivity extends Activity {
         activityOption.setName("Miscellaneous");
         activityOption.setIcon(R.drawable.ic_misc);
         activityOption.setActivity(BooleanSwitcherActivity.class);
+        activityOption.setExtra("MiscOptions");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
