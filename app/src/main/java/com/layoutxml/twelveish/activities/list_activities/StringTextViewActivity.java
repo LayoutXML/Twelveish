@@ -4,7 +4,7 @@
  *
  */
 
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -52,7 +52,49 @@ public class StringTextViewActivity extends Activity{
         if (getIntent().getStringExtra("Activity").equals("DateSeparator")) {
             generateDateSeparatorValues();
             preferencesKey = getString(R.string.preference_date_separator);
+        } else if (getIntent().getStringExtra("Activity").equals("Language")) {
+            generateLanguageValues();
+            preferencesKey = getString(R.string.preference_language);
         }
+    }
+
+    private void generateLanguageValues(){
+        StringOption option = new StringOption();
+        option.setName("English");
+        option.setSymbol("en");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("Finish");
+        option.setSymbol("fi");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("German");
+        option.setSymbol("de");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("Hungarian");
+        option.setSymbol("hu");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("Italian");
+        option.setSymbol("it");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("Lithuanian");
+        option.setSymbol("lt");
+        values.add(option);
+
+        option = new StringOption();
+        option.setName("Russian");
+        option.setSymbol("ru");
+        values.add(option);
+
+        mAdapter.notifyDataSetChanged();
     }
 
     private void generateDateSeparatorValues() {

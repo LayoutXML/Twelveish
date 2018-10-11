@@ -1,4 +1,4 @@
-package com.layoutxml.twelveish.activities;
+package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +23,7 @@ import com.layoutxml.twelveish.objects.FontOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FontOptionsActivity extends Activity{
+public class FontTextViewActivity extends Activity{
 
     private List<FontOption> values = new ArrayList<>();
     private FontOptionsListAdapter mAdapter;

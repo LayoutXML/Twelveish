@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.list_activities.BooleanSwitcherActivity" />
-        <activity android:name=".activities.StringTextViewActivity" />
+        <activity android:name=".activities.list_activities.StringTextViewActivity" />
         <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivity" />
         <activity
             android:name=".config.ComplicationConfigActivity"
@@ -70,7 +70,7 @@
         <activity android:name=".activities.ShowHideOptionsActivity" />
         <activity android:name=".activities.LanguageOptionsActivity" />
         <activity android:name=".activities.AboutActivity" />
-        <activity android:name=".activities.FontOptionsActivity" />
+        <activity android:name=".activities.list_activities.FontTextViewActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

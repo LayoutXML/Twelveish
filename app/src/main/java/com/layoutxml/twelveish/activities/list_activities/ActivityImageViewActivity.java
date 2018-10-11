@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.AboutActivity;
-import com.layoutxml.twelveish.activities.FontOptionsActivity;
 import com.layoutxml.twelveish.activities.LanguageOptionsActivity;
 import com.layoutxml.twelveish.activities.ShowHideOptionsActivity;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
@@ -71,7 +70,7 @@ public class ActivityImageViewActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Font");
         activityOption.setIcon(R.drawable.ic_font);
-        activityOption.setActivity(FontOptionsActivity.class);
+        activityOption.setActivity(FontTextViewActivity.class);
         values.add(activityOption);
 
         activityOption = new ActivityOption();
@@ -97,7 +96,8 @@ public class ActivityImageViewActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Language");
         activityOption.setIcon(R.drawable.ic_language);
-        activityOption.setActivity(LanguageOptionsActivity.class);
+        activityOption.setActivity(StringTextViewActivity.class);
+        activityOption.setExtra("Language");
         values.add(activityOption);
 
         activityOption = new ActivityOption();

@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.activities.StringTextViewActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
 import java.util.ArrayList;
@@ -99,6 +98,7 @@ public class ActivityTextViewActivity extends Activity{
         dateOption = new ActivityOption();
         dateOption.setName("Separator symbol");
         dateOption.setActivity(StringTextViewActivity.class);
+        dateOption.setExtra("DateSeparator");
         values.add(dateOption);
 
         mAdapter.notifyDataSetChanged();
