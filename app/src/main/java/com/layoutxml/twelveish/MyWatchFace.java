@@ -35,7 +35,6 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
@@ -57,7 +56,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
-    private static final String TAG = "MyWatchFace";
     private String[] Prefixes;
     private String[] Suffixes;
     private String[] WeekDays;
@@ -273,7 +271,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private void showRateNotification(){
-            Log.d(TAG,"showRateNotification: start");
             int notificationId = 1;
             String id = "Main";
             Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.layoutxml.twelveish"));
@@ -676,7 +673,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             return complicationId;
                         }
                     } else {
-                        Log.e(TAG, "Not a recognized complication id.");
                     }
                 }
             }
@@ -690,19 +686,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     try {
                         complicationData.getTapAction().send();
                     } catch (PendingIntent.CanceledException e) {
-                        Log.e(TAG, "onComplicationTap() tap action error: " + e);
                     }
-                } else if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
-                    ComponentName componentName =
-                            new ComponentName(
-                                    getApplicationContext(), MyWatchFace.class);
-                    Intent permissionRequestIntent =
-                            ComplicationHelperActivity.createPermissionRequestHelperIntent(
-                                    getApplicationContext(), componentName);
-                    startActivity(permissionRequestIntent);
+                } else {
+                    assert complicationData != null;
+                    if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
+                        ComponentName componentName =
+                                new ComponentName(
+                                        getApplicationContext(), MyWatchFace.class);
+                        Intent permissionRequestIntent =
+                                ComplicationHelperActivity.createPermissionRequestHelperIntent(
+                                        getApplicationContext(), componentName);
+                        startActivity(permissionRequestIntent);
+                    }
                 }
-            } else {
-                Log.d(TAG, "No PendingIntent for complication " + complicationId + ".");
             }
         }
 

@@ -15,7 +15,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,8 @@ import com.layoutxml.twelveish.objects.IntegerOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringOptionsActivity extends Activity {
+public class IntegerTextViewOptionsActivity extends Activity {
 
-    private static final String TAG = "CapitalisationOptionsAc";
     private List<IntegerOption> values = new ArrayList<>();
     private CapitalisationAdapter mAdapter;
     private SharedPreferences prefs;
@@ -120,7 +118,6 @@ public class StringOptionsActivity extends Activity {
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.dateoptionslistListTextView);
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -138,14 +135,12 @@ public class StringOptionsActivity extends Activity {
         @NonNull
         @Override
         public CapitalisationAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
             return new CapitalisationAdapter.MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull CapitalisationAdapter.MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             IntegerOption capitalisation = values.get(position);
             holder.name.setText(capitalisation.getName());
         }

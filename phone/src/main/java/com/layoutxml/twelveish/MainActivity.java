@@ -26,7 +26,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     private List<Setting> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
 
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.settingsListTextView);
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +82,12 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             Setting setting = values.get(position);
             holder.name.setText(setting.getName());
 

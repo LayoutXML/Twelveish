@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import java.util.List;
 
 public class LanguageOptionsActivity extends Activity {
 
-    private static final String TAG = "LanguageOptionsActivity";
     private List<StringOption> values = new ArrayList<>();
     private LanguageOptionsListAdapter mAdapter;
     private SharedPreferences prefs;
@@ -93,7 +91,6 @@ public class LanguageOptionsActivity extends Activity {
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.dateoptionslistListTextView);
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -113,14 +110,12 @@ public class LanguageOptionsActivity extends Activity {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             StringOption languageOption = values.get(position);
             holder.name.setText(languageOption.getName());
 

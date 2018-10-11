@@ -11,7 +11,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import java.util.List;
 
 public class FontOptionsActivity extends Activity{
 
-    private static final String TAG = "FontOptionsActivity";
     private List<FontOption> values = new ArrayList<>();
     private FontOptionsListAdapter mAdapter;
     private SharedPreferences prefs;
@@ -126,7 +124,6 @@ public class FontOptionsActivity extends Activity{
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.dateoptionslistListTextView);
 
                 view.setOnClickListener(new View.OnClickListener() {
@@ -146,14 +143,12 @@ public class FontOptionsActivity extends Activity{
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             FontOption fontOption = values.get(position);
             holder.name.setText(fontOption.getName());
             holder.name.setTypeface(fontOption.getTypeface());

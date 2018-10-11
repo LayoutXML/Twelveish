@@ -15,7 +15,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import java.util.List;
 
 public class SettingsActivity extends Activity {
 
-    private static final String TAG = "ConfigActivity";
     private List<ActivityOption> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
 
@@ -62,7 +60,8 @@ public class SettingsActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Colors");
         activityOption.setIcon(R.drawable.ic_color);
-        activityOption.setActivity(ColorOptionsListActivity.class);
+        activityOption.setActivity(ActivityTextViewActivity.class);
+        activityOption.setExtra("ColorOptionsList");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
@@ -74,13 +73,14 @@ public class SettingsActivity extends Activity {
         activityOption = new ActivityOption();
         activityOption.setName("Date format");
         activityOption.setIcon(R.drawable.ic_date);
-        activityOption.setActivity(DateOptionsListActivity.class);
+        activityOption.setActivity(ActivityTextViewActivity.class);
+        activityOption.setExtra("DateOptionsList");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Capitalisation");
         activityOption.setIcon(R.drawable.ic_capitalisation);
-        activityOption.setActivity(StringOptionsActivity.class);
+        activityOption.setActivity(IntegerTextViewOptionsActivity.class);
         activityOption.setExtra("Capitalization");
         values.add(activityOption);
 
@@ -120,7 +120,6 @@ public class SettingsActivity extends Activity {
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.settingsListTextView);
                 icon = view.findViewById(R.id.settingsListImagetView);
 
@@ -140,14 +139,12 @@ public class SettingsActivity extends Activity {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.imageview_and_textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             ActivityOption activityOption = values.get(position);
             holder.name.setText(activityOption.getName());
             holder.icon.setImageResource(activityOption.getIcon());

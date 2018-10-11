@@ -58,15 +58,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MiscOptionsActivity" />
-        <activity android:name=".activities.DateOptionsListActivity" />
         <activity android:name=".activities.DateSeparatorActivity" />
-        <activity android:name=".activities.StringOptionsActivity" />
+        <activity android:name=".activities.IntegerTextViewOptionsActivity" />
         <activity
             android:name=".config.ComplicationConfigActivity"
             android:label="@string/digital_config_name">
         </activity>
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
-        <activity android:name=".activities.ColorOptionsListActivity" />
+        <activity android:name=".activities.ActivityTextViewActivity" />
         <activity android:name=".activities.ColorOptionsActivity" />
         <activity android:name=".activities.ShowHideOptionsActivity" />
         <activity android:name=".activities.LanguageOptionsActivity" />

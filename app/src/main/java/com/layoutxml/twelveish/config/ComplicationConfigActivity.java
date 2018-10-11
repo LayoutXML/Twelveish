@@ -18,7 +18,6 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.support.wearable.complications.ProviderInfoRetriever;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,7 +30,6 @@ import java.util.concurrent.Executors;
 
 public class ComplicationConfigActivity extends Activity implements View.OnClickListener {
 
-    private static final String TAG = "ConfigActivity";
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     public enum ComplicationLocation {
         BOTTOM, LEFT, RIGHT
@@ -133,8 +131,6 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
                             mSelectedComplicationId,
                             supportedTypes),
                     ComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
-        } else {
-            Log.d(TAG, "Complication not supported by watch face.");
         }
     }
 

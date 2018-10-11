@@ -15,7 +15,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import java.util.List;
 
 public class ColorOptionsActivity extends Activity{
 
-    private static final String TAG = "MainColorOptionsActivit";
     private List<IntegerOption> values = new ArrayList<>();
     private ColorsAdapter mAdapter;
     private SharedPreferences prefs;
@@ -448,7 +446,6 @@ public class ColorOptionsActivity extends Activity{
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.settingsListTextView);
                 icon = view.findViewById(R.id.settingsListImagetView);
 
@@ -468,14 +465,12 @@ public class ColorOptionsActivity extends Activity{
         @NonNull
         @Override
         public ColorsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.imageview_and_textview_item,parent,false);
             return new ColorsAdapter.MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ColorsAdapter.MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             IntegerOption integerOption = values.get(position);
             holder.name.setText(integerOption.getName());
             holder.icon.setColorFilter(integerOption.getInteger(), android.graphics.PorterDuff.Mode.SRC_IN);

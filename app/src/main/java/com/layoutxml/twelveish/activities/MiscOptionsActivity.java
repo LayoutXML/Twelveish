@@ -15,7 +15,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import java.util.List;
 
 public class MiscOptionsActivity extends Activity {
 
-    private static final String TAG = "MiscOptionsActivity";
     private List<BooleanOption> values = new ArrayList<>();
     private MiscOptionsAdapter mAdapter;
     private SharedPreferences prefs;
@@ -108,7 +106,6 @@ public class MiscOptionsActivity extends Activity {
 
             MyViewHolder(View view) {
                 super(view);
-                Log.d(TAG,"MyViewHolder");
                 name = view.findViewById(R.id.miscoptionsListTextView);
                 switcher = view.findViewById(R.id.miscoptionsListSwitch);
 
@@ -128,14 +125,12 @@ public class MiscOptionsActivity extends Activity {
         @NonNull
         @Override
         public MiscOptionsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Log.d(TAG,"MyViewHolder onCreateViewHolder");
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.switch_and_textview_item,parent,false);
             return new MiscOptionsAdapter.MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MiscOptionsAdapter.MyViewHolder holder, int position) {
-            Log.d(TAG,"MyViewHolder onBindViewHolder");
             BooleanOption option = values.get(position);
             holder.name.setText(option.getName());
             Boolean shouldBeOn = prefs.getBoolean(option.getKey(),option.getDefaultOption());
