@@ -132,7 +132,7 @@ public class FontTextViewActivity extends Activity{
                         int position = getAdapterPosition(); // gets item position
                         FontOption selectedMenuItem = values.get(position);
                         prefs.edit().putString(getString(R.string.preference_font),selectedMenuItem.getKey()).apply();
-                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });

@@ -18,9 +18,9 @@ public class AboutActivity extends Activity{
         String versionName = BuildConfig.VERSION_NAME;
 
         TextView License2 = findViewById(R.id.license2);
-        License2.setText(versionName);
+        License2.setText("Version name: "+versionName);
 
         TextView License3 = findViewById(R.id.license3);
-        License3.setText(""+versionCode);
+        License3.setText("Version code: "+versionCode);
     }
 }

@@ -135,7 +135,7 @@ public class StringTextViewActivity extends Activity{
                         int position = getAdapterPosition(); // gets item position
                         StringOption selectedMenuItem = values.get(position);
                         prefs.edit().putString(preferencesKey,selectedMenuItem.getSymbol()).apply();
-                        Toast.makeText(getApplicationContext(), "\""+selectedMenuItem.getName()+"\" set", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
