@@ -853,16 +853,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 float textSize=0;
                 float x = bounds.width() / 2;
                 if (!complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() - 32,(firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, true);
+                    textSize = getTextSizeForWidth(bounds.width() - 32,(firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()/2-mChinSize-32, text2, true);
                     x = bounds.width() / 2;
                 } else if (complicationLeftSet && !complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()/2-mChinSize-32, text2, false);
                     x = bounds.width()*5/8-16;
                 } else if (!complicationLeftSet && complicationRightSet) {
-                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()/2-mChinSize-32, text2, false);
                     x = bounds.width()*3/8+16;
                 } else {
-                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()*3/4-mChinSize-32, text2, false);
+                    textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()/2-mChinSize-32, text2, false);
                     x = bounds.width() / 2;
                 }
                 mTextPaint2.setTextSize(textSize);
