@@ -1200,7 +1200,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                     return newText.toString();
                 }
-                else if (numberOfWords%3==0 && ((text.length()>24 && numberOfWords%2==0) || (numberOfWords%2!=0))) {
+                else if (numberOfWords%3==0) {
                     int div = numberOfWords/3;
                     StringBuilder newText= new StringBuilder();
                     for (int i=0; i<numberOfWords; i++) {
