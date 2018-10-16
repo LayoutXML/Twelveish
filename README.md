@@ -12,8 +12,6 @@ Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **appr
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-3.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot3" align="left">
 
-<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-4.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot4" align="left">
-
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-5.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot5">
 
 ### [Download on the Google Play store](https://play.google.com/store/apps/details?id=com.layoutxml.twelveish).
@@ -22,17 +20,19 @@ Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **appr
 
 In addition to what has been mentioned in the description above, Twelveish offers:
 
-* Over 30 background colors
-* Over 30 text colors
-* 1 Android complication for all Wear OS versions and Android Wear versions 2.0 and greater. This complication is wide by default but can also be round
+* Over 30 background colors to choose from
+* Over 30 main and secondary colors both for active mode and ambient
+* 3 complications (2 round, 1 long or round)
+* Option to disable tapping on complications - useful if you constantly open them by accident
 * 16 different date format combinations
-* 5 capitalisation options
-* 12 and 24 hour clock formats. Separate for word and digital clocks
-* Options to show/hide almost any information
-* 6 languages (English, Finnish, German, Hungarian, Lithuanian and Russian)
-* 10 fonts
-* Support for chinned displays (aka flat tire)
-* Support for square displays
+* 5 capitalization options
+* 12 and 24 hour digital and word clock formats
+* show/hide almost any info (digital and word clocks, date, battery percentage, complication) with different combinations both for active and ambient modes
+* 7 languages (English, Finnish, German, Hungarian, Italian, Lithuanian and Russian)
+* 11 fonts that are compatible with all languages
+* Wear OS (Android Wear) 1.5 and above support
+* Chin (flat tire) support
+* Square screen support
 
 Most of the settings above can be set to be different for active and ambient modes, making your watch face even more unique.
 
