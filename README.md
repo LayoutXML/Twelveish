@@ -12,6 +12,8 @@ Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **appr
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-3.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot3" align="left">
 
+<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-4.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot4" align="left">
+
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-5.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot5">
 
 ### [Download on the Google Play store](https://play.google.com/store/apps/details?id=com.layoutxml.twelveish).
