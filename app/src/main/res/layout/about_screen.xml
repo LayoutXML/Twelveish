@@ -46,6 +46,12 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
+                android:id="@+id/logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\nLogo made by elawhatson\n" />
+
+            <TextView
                 android:id="@+id/license4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

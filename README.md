@@ -96,6 +96,8 @@ More information about my projects: https://layoutxml.com
 
 ## Acknowledgments
 
+Logo: [@elawhatson](https://github.com/elawhatson)
+
 Translations:
 
 * Finnish: Lari Palander [@oh2fhf](http://github.com/oh2fhf)
