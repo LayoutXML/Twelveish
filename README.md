@@ -106,6 +106,8 @@ Translations:
 
 * Hungarian: Richard Hriech, [@richardSin501](https://github.com/richardSin501)
 
+* Italian: Luigi Violin
+
 ## License
 
 Twelveish is licensed under "GNU GPLv3" license. Copyright laws apply.
