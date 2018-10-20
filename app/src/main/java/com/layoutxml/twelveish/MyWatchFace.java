@@ -101,6 +101,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean showDayAmbient;
     private Boolean disableComplicationTap;
     private Boolean legacyWords;
+    //Intent constants
+    private static final String TRANSITION_TO_AMBIENT_MODE = "com.layoutxml.tickingsound.TRANSITION_TO_AMBIENT_MODE";
+    private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.layoutxml.tickingsound.TRANSITION_TO_INTERACTIVE_MODE";
     //Complications and their data
     private Boolean complicationLeftSet;
     private Boolean complicationRightSet;
@@ -626,6 +629,17 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
                     complicationDrawable.setInAmbientMode(mAmbient);
                 }
+            }
+            if (isInAmbientMode()) {
+                Intent intent = new Intent();
+                intent.setAction(TRANSITION_TO_AMBIENT_MODE);
+                intent.putExtra("package",getPackageName());
+                sendBroadcast(intent);
+            } else {
+                Intent intent = new Intent();
+                intent.setAction(TRANSITION_TO_INTERACTIVE_MODE);
+                intent.putExtra("package",getPackageName());
+                sendBroadcast(intent);
             }
             updateTimer();
         }
