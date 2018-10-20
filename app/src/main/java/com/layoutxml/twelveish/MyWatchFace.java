@@ -633,10 +633,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             if (isInAmbientMode()) {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_AMBIENT_MODE);
+                intent.putExtra("package",getPackageName());
                 sendBroadcast(intent);
             } else {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_INTERACTIVE_MODE);
+                intent.putExtra("package",getPackageName());
                 sendBroadcast(intent);
             }
             updateTimer();
