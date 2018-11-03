@@ -453,6 +453,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,false,true,true};
                     SuffixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,false,false};
                     break;
+                case "es":
+                    Prefixes = getResources().getStringArray(R.array.PrefixesES);
+                    Suffixes = getResources().getStringArray(R.array.SuffixesES);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysES);
+                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new Boolean[]{false,false,true,false,false,true,false,false,false,false,false,true};
+                    SuffixNewLine = new Boolean[]{false,true,true,true,true,true,true,true,true,true,true,false};
+                    break;
                 default:
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
@@ -896,6 +904,39 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 drawComplications(canvas,now);
         }
 
+        private String getExactTime(Integer hours){
+            String exactTime= "";
+            switch (language) {
+                case "en":
+                    exactTime = getResources().getStringArray(R.array.ExactTimes)[hours];
+                    break;
+                case "de":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesDE)[hours];
+                    break;
+                case "lt":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesLT)[hours];
+                    break;
+                case "fi":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesFI)[hours];
+                    break;
+                case "ru":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesRU)[hours];
+                    break;
+                case "hu":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesHU)[hours];
+                    break;
+                case "it":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesIT)[hours];
+                    break;
+                case "es":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesES)[hours];
+                    break;
+                default:
+                    exactTime = getResources().getStringArray(R.array.ExactTimes)[hours];
+            }
+            return exactTime;
+        }
+
         private String capitalise0(Integer hours, Integer minutes, Integer index){
             //Prefix
             String mainPrefix = "";
@@ -915,33 +956,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Time
             StringBuilder hoursInWords = new StringBuilder();
             String mainText;
-            String[] mainArray;
-            switch (language) {
-                case "en":
-                    mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
-                    break;
-                case "de":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesDE)[hours].split(" ");
-                    break;
-                case "lt":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesLT)[hours].split(" ");
-                    break;
-                case "fi":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesFI)[hours].split(" ");
-                    break;
-                case "ru":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesRU)[hours].split(" ");
-                    break;
-                case "hu":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesHU)[hours].split(" ");
-                    break;
-                case "it":
-                    mainArray = getResources().getStringArray(R.array.ExactTimesIT)[hours].split(" ");
-                    break;
-                default:
-                    mainArray = getResources().getStringArray(R.array.ExactTimes)[hours].split(" ");
+            String[] mainArray = getExactTime(hours).split(" ");
 
-            }
             for (String word : mainArray) {
                 if (hoursInWords.length()!=0) {
                     hoursInWords.append(" ");
@@ -983,32 +999,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise1(Integer hours, Integer minutes, Integer index) {
-            String middle;
-            switch (language) {
-                case "en":
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-                    break;
-                case "de":
-                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
-                    break;
-                case "lt":
-                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
-                    break;
-                case "fi":
-                    middle = getResources().getStringArray(R.array.ExactTimesFI)[hours];
-                    break;
-                case "ru":
-                    middle = getResources().getStringArray(R.array.ExactTimesRU)[hours];
-                    break;
-                case "hu":
-                    middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
-                    break;
-                case "it":
-                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
-                    break;
-                default:
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-            }
+            String middle = getExactTime(hours);
 
             if (legacyWords) {
                 String text =
@@ -1030,32 +1021,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise2(Integer hours, Integer minutes, Integer index) {
-            String middle;
-            switch (language) {
-                case "en":
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-                    break;
-                case "de":
-                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
-                    break;
-                case "lt":
-                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
-                    break;
-                case "fi":
-                    middle = getResources().getStringArray(R.array.ExactTimesFI)[hours];
-                    break;
-                case "ru":
-                    middle = getResources().getStringArray(R.array.ExactTimesRU)[hours];
-                    break;
-                case "hu":
-                    middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
-                    break;
-                case "it":
-                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
-                    break;
-                default:
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-            }
+            String middle = getExactTime(hours);
 
             if (legacyWords) {
                 String text =
@@ -1077,32 +1043,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private String capitalise3(Integer hours, Integer minutes, Integer index) {
-            String middle;
-            switch (language) {
-                case "en":
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-                    break;
-                case "de":
-                    middle = getResources().getStringArray(R.array.ExactTimesDE)[hours];
-                    break;
-                case "lt":
-                    middle = getResources().getStringArray(R.array.ExactTimesLT)[hours];
-                    break;
-                case "fi":
-                    middle = getResources().getStringArray(R.array.ExactTimesFI)[hours];
-                    break;
-                case "ru":
-                    middle = getResources().getStringArray(R.array.ExactTimesRU)[hours];
-                    break;
-                case "hu":
-                    middle = getResources().getStringArray(R.array.ExactTimesHU)[hours];
-                    break;
-                case "it":
-                    middle = getResources().getStringArray(R.array.ExactTimesIT)[hours];
-                    break;
-                default:
-                    middle = getResources().getStringArray(R.array.ExactTimes)[hours];
-            }
+            String middle = getExactTime(hours);
             if (legacyWords) {
                 String text20 =
                         ((minutes>0) ? Prefixes[index] : "")
@@ -1130,32 +1071,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Time
-            String hoursInWords;
-            switch (language) {
-                case "en":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
-                    break;
-                case "de":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesDE)[hours];
-                    break;
-                case "lt":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesLT)[hours];
-                    break;
-                case "fi":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesFI)[hours];
-                    break;
-                case "ru":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesRU)[hours];
-                    break;
-                case "hu":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesHU)[hours];
-                    break;
-                case "it":
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimesIT)[hours];
-                    break;
-                default:
-                    hoursInWords = getResources().getStringArray(R.array.ExactTimes)[hours];
-            }
+            String hoursInWords = getExactTime(hours);
             String mainText = hoursInWords;
 
             //Suffix
