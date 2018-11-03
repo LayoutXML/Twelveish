@@ -493,4 +493,70 @@
         <item>Sa</item>
     </string-array>
 
+    <string-array name="ExactTimesES">
+        <item>las doce</item>
+        <item>las una</item>
+        <item>las dos</item>
+        <item>las tres</item>
+        <item>las cuatro</item>
+        <item>las cinco</item>
+        <item>las seis</item>
+        <item>las siete</item>
+        <item>las ocho</item>
+        <item>las nueve</item>
+        <item>las diez</item>
+        <item>las once</item>
+        <item>las doce</item>
+        <item>las una</item>
+        <item>las dos</item>
+        <item>las tres</item>
+        <item>las cuatro</item>
+        <item>las cinco</item>
+        <item>las seis</item>
+        <item>las siete</item>
+        <item>las ocho</item>
+        <item>las nueve</item>
+        <item>las diez</item>
+        <item>las once</item>
+    </string-array>
+    <string-array name="PrefixesES">
+        <item/>
+        <item/>
+        <item>casi</item>
+        <item/>
+        <item/>
+        <item>casi</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item>casi</item>
+    </string-array>
+    <string-array name="SuffixesES">
+        <item/>
+        <item>y cinco</item>
+        <item>y diez</item>
+        <item>y cuarto</item>
+        <item>y veinte</item>
+        <item>y media</item>
+        <item>y media</item>
+        <item>y media pasadas</item>
+        <item>menos veinte</item>
+        <item>menos cuarto</item>
+        <item>menos diez</item>
+        <item></item>
+    </string-array>
+    <string-array name="WeekDaysES">
+        <item>Do</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Mie</item>
+        <item>Ju</item>
+        <item>Vie</item>
+        <item>Sa</item>
+    </string-array>
+
+
+
 </resources>
