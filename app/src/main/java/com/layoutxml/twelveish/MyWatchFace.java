@@ -102,8 +102,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private Boolean disableComplicationTap;
     private Boolean legacyWords;
     //Intent constants
-    private static final String TRANSITION_TO_AMBIENT_MODE = "com.layoutxml.tickingsound.TRANSITION_TO_AMBIENT_MODE";
-    private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.layoutxml.tickingsound.TRANSITION_TO_INTERACTIVE_MODE";
+    private static final String TRANSITION_TO_AMBIENT_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_AMBIENT_MODE";
+    private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_INTERACTIVE_MODE";
     //Complications and their data
     private Boolean complicationLeftSet;
     private Boolean complicationRightSet;
