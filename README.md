@@ -30,7 +30,7 @@ In addition to what has been mentioned in the description above, Twelveish offer
 * 5 capitalization options
 * 12 and 24 hour digital and word clock formats
 * show/hide almost any info (digital and word clocks, date, battery percentage, complication) with different combinations both for active and ambient modes
-* 7 languages (English, Finnish, German, Hungarian, Italian, Lithuanian and Russian)
+* 8 languages (English, Finnish, German, Hungarian, Italian, Lithuanian, Russian and Spanish)
 * 11 fonts that are compatible with all languages
 * Wear OS (Android Wear) 1.5 and above support
 * Chin (flat tire) support
@@ -107,6 +107,8 @@ Translations:
 * Hungarian: Richard Hriech, [@richardSin501](https://github.com/richardSin501)
 
 * Italian: Luigi Violin
+
+* Spanish: David Amian Valle, [@amian84](https://github.com/amian84)
 
 ## License
 
