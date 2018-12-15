@@ -49,7 +49,7 @@
                 android:id="@+id/logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="\nLogo made by elawhatson\n" />
+                android:text="\nLogo made by elawhatson.\n\nTranslations by:\noh2fhf,\nroschlau,\nrichardSin501,\nLuigi Violin,\namian84.\n" />
 
             <TextView
                 android:id="@+id/license4"
