@@ -473,6 +473,7 @@ public class IntegerImageViewActivity extends Activity{
         public void onBindViewHolder(@NonNull ColorsAdapter.MyViewHolder holder, int position) {
             IntegerOption integerOption = values.get(position);
             holder.name.setText(integerOption.getName());
+            holder.icon.setImageDrawable(getDrawable(R.drawable.circle));
             holder.icon.setColorFilter(integerOption.getInteger(), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
