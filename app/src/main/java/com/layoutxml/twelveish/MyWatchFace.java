@@ -642,12 +642,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_AMBIENT_MODE);
                 intent.putExtra("package",getPackageName());
-                sendBroadcast(intent);
+                sendBroadcast(intent,"com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
             } else {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_INTERACTIVE_MODE);
                 intent.putExtra("package",getPackageName());
-                sendBroadcast(intent);
+                sendBroadcast(intent,"com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
             }
             updateTimer();
         }
