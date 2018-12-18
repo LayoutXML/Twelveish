@@ -234,16 +234,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 invalidate();
             }
         };
-        private final BroadcastReceiver globalBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mCalendar = Calendar.getInstance();
-                int minutes = mCalendar.get(Calendar.MINUTE);
-                if (minutes%5==0 || minutes==1)
-                    significantTimeChange = true;
-                getDate();
-            }
-        };
         private boolean mRegisteredTimeZoneReceiver = false;
         private float mChinSize;
         private Paint mBackgroundPaint;
@@ -622,7 +612,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mCalendar.setTimeZone(TimeZone.getDefault());
                 invalidate();
                 loadPreferences();
-                getDate();
             } else {
                 unregisterReceiver();
             }
@@ -636,12 +625,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
             MyWatchFace.this.registerReceiver(mTimeZoneReceiver, filter);
-
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(Intent.ACTION_TIME_TICK);
-            intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-            intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
-            MyWatchFace.this.registerReceiver(globalBroadcastReceiver, intentFilter);
         }
 
         private void unregisterReceiver() {
@@ -806,6 +789,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
             int seconds = mCalendar.get(Calendar.SECOND);
             int minutes = mCalendar.get(Calendar.MINUTE);
+            if (minutes%5==0 || minutes==1) {
+                significantTimeChange = true;
+                getDate();
+            }
             int hourDigital = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
             if (hourDigital == 0 && !militaryTime)
                 hourDigital = 12;
