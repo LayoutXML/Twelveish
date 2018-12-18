@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -59,54 +58,51 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String[] Prefixes;
     private String[] Suffixes;
     private String[] WeekDays;
-    private Integer[] TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-    private Boolean[] PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
-    private Boolean[] SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
-    private Boolean isRound = true;
+    private int[] TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+    private boolean[] PrefixNewLine = new boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+    private boolean[] SuffixNewLine = new boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
     private SharedPreferences prefs;
-    private Integer batteryLevel=100;
-    private Integer screenWidthG;
-    private Integer screenHeightG;
-    private Boolean showedRateAlready;
-    private Boolean showedTutorialAlready;
-    private Boolean showedDonateAlready;
-    private Integer counter;
+    private int batteryLevel=100;
+    private int screenWidthG;
+    private int screenHeightG;
+    private String text3 = "";
+    private String dayOfTheWeek = "";
+    private String text1 = "";
     //SharedPreferences:
-    private Integer backgroundColor;
-    private Integer mainColor;
-    private Integer mainColorAmbient;
-    private Integer secondaryColor;
-    private Integer secondaryColorAmbient;
-    private Boolean militaryTime;
-    private Boolean militaryTextTime;
-    private Integer dateOrder;
+    private int backgroundColor;
+    private int mainColor;
+    private int mainColorAmbient;
+    private int secondaryColor;
+    private int secondaryColorAmbient;
+    private boolean militaryTime;
+    private boolean militaryTextTime;
+    private int dateOrder;
     private String dateSeparator;
-    private Integer capitalisation;
-    private Boolean ampm;
-    private Boolean showSecondary;
-    private Boolean showSecondaryActive;
-    private Boolean showSecondaryCalendar;
-    private Boolean showSecondaryCalendarActive;
-    private Boolean showSuffixes;
-    private Boolean showBattery;
-    private Boolean showBatteryAmbient;
-    private Boolean showWords;
-    private Boolean showWordsAmbient;
-    private Boolean showSeconds;
-    private Boolean showComplication;
-    private Boolean showComplicationAmbient;
+    private int capitalisation;
+    private boolean ampm;
+    private boolean showSecondary;
+    private boolean showSecondaryActive;
+    private boolean showSecondaryCalendar;
+    private boolean showSecondaryCalendarActive;
+    private boolean showSuffixes;
+    private boolean showBattery;
+    private boolean showBatteryAmbient;
+    private boolean showWords;
+    private boolean showWordsAmbient;
+    private boolean showSeconds;
+    private boolean showComplication;
+    private boolean showComplicationAmbient;
     private String language;
-    private String font;
-    private Boolean showDay;
-    private Boolean showDayAmbient;
-    private Boolean disableComplicationTap;
-    private Boolean legacyWords;
+    private boolean showDay;
+    private boolean showDayAmbient;
+    private boolean disableComplicationTap;
+    private boolean legacyWords;
     //Intent constants
     private static final String TRANSITION_TO_AMBIENT_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_AMBIENT_MODE";
     private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_INTERACTIVE_MODE";
     //Complications and their data
-    private Boolean complicationLeftSet;
-    private Boolean complicationRightSet;
+    private boolean complicationLeftSet;
+    private boolean complicationRightSet;
     private static final int BOTTOM_COMPLICATION_ID = 0;
     private static final int LEFT_COMPLICATION_ID = 1;
     private static final int RIGHT_COMPLICATION_ID = 2;
@@ -142,6 +138,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             @Override
             public void onReceive(Context context, Intent intent) {
                 batteryLevel = (int)(100*intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1)/((float)(intent.getIntExtra(BatteryManager.EXTRA_SCALE,-1))));
+                text1 = (batteryLevel+"%");
             }
         }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         return new Engine();
@@ -268,9 +265,61 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             prefs = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             loadPreferences();
+            getDate();
 
             if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N)
                 initializeComplications();
+
+            mTextPaint.setColor(secondaryColor);
+            mTextPaint2.setColor(mainColor);
+
+        }
+
+        private void getDate() {
+            //Get date
+            int first, second, third;
+            boolean FourFirst;
+            switch (dateOrder) {
+                case 0:
+                    first = mCalendar.get(Calendar.MONTH)+1; //MDY
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+                case 1:
+                    first = mCalendar.get(Calendar.DAY_OF_MONTH); //DMY
+                    second = mCalendar.get(Calendar.MONTH)+1;
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+                case 2:
+                    first = mCalendar.get(Calendar.YEAR); //YMD
+                    second = mCalendar.get(Calendar.MONTH)+1;
+                    third = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    FourFirst = true;
+                    break;
+                case 3:
+                    first = mCalendar.get(Calendar.YEAR); //YDM
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.MONTH)+1;
+                    FourFirst = true;
+                    break;
+                default:
+                    first = mCalendar.get(Calendar.MONTH)+1;
+                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    third = mCalendar.get(Calendar.YEAR);
+                    FourFirst = false;
+                    break;
+            }
+            if (FourFirst)
+                text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
+            else
+                text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
+
+
+            //Get day of the week
+            if ((mAmbient && showDayAmbient) || (!mAmbient && showDay))
+                dayOfTheWeek = WeekDays[mCalendar.get(Calendar.DAY_OF_WEEK)-1];
         }
 
         private void showRateNotification(){
@@ -359,10 +408,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private void loadPreferences() {
-            showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate),false);
-            counter = prefs.getInt(getString(R.string.counter),0);
-            showedTutorialAlready = prefs.getBoolean(getString(R.string.showed_tutorial),false);
-            showedDonateAlready = prefs.getBoolean(getString(R.string.showed_donate),false);
+            boolean showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate), false);
+            int counter = prefs.getInt(getString(R.string.counter), 0);
+            boolean showedTutorialAlready = prefs.getBoolean(getString(R.string.showed_tutorial), false);
+            boolean showedDonateAlready = prefs.getBoolean(getString(R.string.showed_donate), false);
             backgroundColor = prefs.getInt(getString(R.string.preference_background_color), android.graphics.Color.parseColor("#000000"));
             mainColor = prefs.getInt(getString(R.string.preference_main_color), android.graphics.Color.parseColor("#ffffff"));
             mainColorAmbient = prefs.getInt(getString(R.string.preference_main_color_ambient), android.graphics.Color.parseColor("#ffffff"));
@@ -389,7 +438,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showComplication = prefs.getBoolean(getString(R.string.preference_show_complications),true);
             showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient),true);
             language = prefs.getString(getString(R.string.preference_language),"en");
-            font = prefs.getString(getString(R.string.preference_font),"robotolight");
+            String font = prefs.getString(getString(R.string.preference_font), "robotolight");
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap),false);
             complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set),false);
             complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set),false);
@@ -401,144 +450,145 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
                     WeekDays = getResources().getStringArray(R.array.WeekDays);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
                     break;
                 case "de":
                     Prefixes = getResources().getStringArray(R.array.PrefixesDE);
                     Suffixes = getResources().getStringArray(R.array.SuffixesDE);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysDE);
-                    TimeShift = new Integer[]{0,0,0,0,1,1,1,1,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new Boolean[]{false,false,false,true,false,false,false,false,false,true,false,false};
+                    TimeShift = new int[]{0,0,0,0,1,1,1,1,1,1,1,1};
+                    PrefixNewLine = new boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,false,false,true,false,false,false,false,false,true,false,false};
                     break;
                 case "lt":
                     Prefixes = getResources().getStringArray(R.array.PrefixesLT);
                     Suffixes = getResources().getStringArray(R.array.SuffixesLT);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysLT);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,false,false,false,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,false,true,true,true,true,true,true,false,false,false,false};
                     break;
                 case "fi":
                     Prefixes = getResources().getStringArray(R.array.PrefixesFI);
                     Suffixes = getResources().getStringArray(R.array.SuffixesFI);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysFI);
-                    TimeShift = new Integer[]{0,0,0,0,1,1,1,1,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new Boolean[]{false,false,false,false,false,false,false,false,false,false,false,false};
+                    TimeShift = new int[]{0,0,0,0,1,1,1,1,1,1,1,1};
+                    PrefixNewLine = new boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,false,false,false,false,false,false,false,false,false,false,false};
                     break;
                 case "ru":
                     Prefixes = getResources().getStringArray(R.array.PrefixesRU);
                     Suffixes = getResources().getStringArray(R.array.SuffixesRU);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysRU);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,false,true,false,false,false,true,true,true,false};
-                    SuffixNewLine = new Boolean[]{false,true,true,true,true,true,true,true,false,false,false,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,false,true,false,false,false,true,true,true,false};
+                    SuffixNewLine = new boolean[]{false,true,true,true,true,true,true,true,false,false,false,false};
                     break;
                 case "hu":
                     Prefixes = getResources().getStringArray(R.array.PrefixesHU);
                     Suffixes = getResources().getStringArray(R.array.SuffixesHU);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysHU);
-                    TimeShift = new Integer[]{0,0,1,1,1,1,1,1,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,false,true};
-                    SuffixNewLine = new Boolean[]{true,true,true,false,false,true,false,true,false,true,true,false};
+                    TimeShift = new int[]{0,0,1,1,1,1,1,1,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,true,true,true,true,true,true,true,false,true};
+                    SuffixNewLine = new boolean[]{true,true,true,false,false,true,false,true,false,true,true,false};
                     break;
                 case "it":
                     Prefixes = getResources().getStringArray(R.array.PrefixesIT);
                     Suffixes = getResources().getStringArray(R.array.SuffixesIT);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysIT);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,false,true,true};
-                    SuffixNewLine = new Boolean[]{true,true,true,true,true,true,true,true,true,true,false,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,true,true,true,true,true,true,false,true,true};
+                    SuffixNewLine = new boolean[]{true,true,true,true,true,true,true,true,true,true,false,false};
                     break;
                 case "es":
                     Prefixes = getResources().getStringArray(R.array.PrefixesES);
                     Suffixes = getResources().getStringArray(R.array.SuffixesES);
                     WeekDays = getResources().getStringArray(R.array.WeekDaysES);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,false,false,true,false,false,false,false,false,true};
-                    SuffixNewLine = new Boolean[]{false,true,true,true,true,true,true,true,true,true,true,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,false,false,true,false,false,false,false,false,true};
+                    SuffixNewLine = new boolean[]{false,true,true,true,true,true,true,true,true,true,true,false};
                     break;
                 default:
                     Prefixes = getResources().getStringArray(R.array.Prefixes);
                     Suffixes = getResources().getStringArray(R.array.Suffixes);
                     WeekDays = getResources().getStringArray(R.array.WeekDays);
-                    TimeShift = new Integer[]{0,0,0,0,0,0,0,0,1,1,1,1};
-                    PrefixNewLine = new Boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new Boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
+                    TimeShift = new int[]{0,0,0,0,0,0,0,0,1,1,1,1};
+                    PrefixNewLine = new boolean[]{false,false,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,true,false,true,false,false,false,true,false,true,false,false};
                     break;
 
             }
 
+            Typeface NORMAL_TYPEFACE2;
             switch (font) {
                 case "robotolight":
-                    NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "alegreya":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.alegreya);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.alegreya);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "cabin":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.cabin);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.cabin);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "ibmplexsans":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.ibmplexsans);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.ibmplexsans);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "inconsolata":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.inconsolata);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.inconsolata);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "merriweather":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.merriweather);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.merriweather);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "nunito":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.nunito);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.nunito);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "pacifico":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.pacifico);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.pacifico);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "quattrocento":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.quattrocento);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.quattrocento);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "quicksand":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.quicksand);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.quicksand);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 case "rubik":
-                    NORMAL_TYPEFACE = ResourcesCompat.getFont(getApplicationContext(),R.font.rubik);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(),R.font.rubik);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
                 default:
-                    NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+                    NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                     break;
             }
 
-            if (counter>=100 && !showedRateAlready) {
+            if (counter >=100 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate),true).apply();
                 showRateNotification();
             }
 
             counter++;
-            if (counter<202) {
-                prefs.edit().putInt(getString(R.string.counter),counter).apply();
+            if (counter <202) {
+                prefs.edit().putInt(getString(R.string.counter), counter).apply();
             }
 
-            if (!showedTutorialAlready && counter>30){
+            if (!showedTutorialAlready && counter >30){
                 prefs.edit().putBoolean(getString(R.string.showed_tutorial),true).apply();
                 showTutorialNotification();
             }
 
-            if (counter>=200 && !showedDonateAlready) {
+            if (counter >=200 && !showedDonateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_donate),true).apply();
                 showDonateNotification();
             }
@@ -557,10 +607,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 registerReceiver();
                 mCalendar.setTimeZone(TimeZone.getDefault());
                 invalidate();
+                loadPreferences();
+                getDate();
             } else {
                 unregisterReceiver();
             }
-            loadPreferences();
             updateTimer();
         }
 
@@ -584,8 +635,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
-            Resources resources = MyWatchFace.this.getResources();
-            isRound = insets.isRound();
             mChinSize = insets.getSystemWindowInsetBottom();
             mTextPaint.setTextSize(24);
             mTextPaint2.setTextSize(24);
@@ -638,16 +687,20 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     complicationDrawable.setInAmbientMode(mAmbient);
                 }
             }
-            if (isInAmbientMode()) {
+            if (mAmbient) {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_AMBIENT_MODE);
                 intent.putExtra("package",getPackageName());
                 sendBroadcast(intent,"com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
+                mTextPaint.setColor(secondaryColorAmbient);
+                mTextPaint2.setColor(mainColorAmbient);
             } else {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_INTERACTIVE_MODE);
                 intent.putExtra("package",getPackageName());
                 sendBroadcast(intent,"com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
+                mTextPaint.setColor(secondaryColor);
+                mTextPaint2.setColor(mainColor);
             }
             updateTimer();
         }
@@ -692,7 +745,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         if (complicationBoundingRect.contains(x, y)) {
                             return complicationId;
                         }
-                    } else {
                     }
                 }
             }
@@ -705,10 +757,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if (complicationData.getTapAction() != null) {
                     try {
                         complicationData.getTapAction().send();
-                    } catch (PendingIntent.CanceledException e) {
+                    } catch (PendingIntent.CanceledException ignored) {
                     }
                 } else {
-                    assert complicationData != null;
                     if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
                         ComponentName componentName =
                                 new ComponentName(
@@ -725,30 +776,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             //Set colors
-            if (isInAmbientMode()) {
+            if (mAmbient) {
                 canvas.drawColor(Color.BLACK);
-                mTextPaint.setColor(secondaryColorAmbient);
-                mTextPaint2.setColor(mainColorAmbient);
             } else {
                 canvas.drawColor(backgroundColor);
-                mTextPaint.setColor(secondaryColor);
-                mTextPaint2.setColor(mainColor);
             }
 
             //Get time
             long now = System.currentTimeMillis();
-            mCalendar.setTimeInMillis(now);
-            Integer seconds = mCalendar.get(Calendar.SECOND);
-            Integer minutes = mCalendar.get(Calendar.MINUTE);
-            Integer hourDigital = militaryTime
-                    ? mCalendar.get(Calendar.HOUR_OF_DAY)
-                    : mCalendar.get(Calendar.HOUR);
+            mCalendar = Calendar.getInstance();
+            int seconds = mCalendar.get(Calendar.SECOND);
+            int minutes = mCalendar.get(Calendar.MINUTE);
+            int hourDigital = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
             if (hourDigital==0 && !militaryTime)
                 hourDigital=12;
-            Integer index = minutes / 5;
-            Integer hourText = militaryTextTime
-                    ? mCalendar.get(Calendar.HOUR_OF_DAY)+TimeShift[index]
-                    : mCalendar.get(Calendar.HOUR)+TimeShift[index];
+            int index = minutes / 5;
+            int hourText = militaryTextTime ? mCalendar.get(Calendar.HOUR_OF_DAY)+TimeShift[index] : mCalendar.get(Calendar.HOUR)+TimeShift[index];
             if (hourText>=24 && militaryTextTime)
                 hourText-=24;
             else if (hourText>12 && !militaryTextTime)
@@ -762,58 +805,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     ? String.format(Locale.UK, "%d:%02d"+ampmSymbols, hourDigital, minutes)
                     : String.format(Locale.UK,"%d:%02d:%02d"+ampmSymbols, hourDigital, minutes, seconds);
 
-            //Get date
-            Integer first, second, third;
-            Boolean FourFirst;
-            switch (dateOrder) {
-                case 0:
-                    first = mCalendar.get(Calendar.MONTH)+1; //MDY
-                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    third = mCalendar.get(Calendar.YEAR);
-                    FourFirst = false;
-                    break;
-                case 1:
-                    first = mCalendar.get(Calendar.DAY_OF_MONTH); //DMY
-                    second = mCalendar.get(Calendar.MONTH)+1;
-                    third = mCalendar.get(Calendar.YEAR);
-                    FourFirst = false;
-                    break;
-                case 2:
-                    first = mCalendar.get(Calendar.YEAR); //YMD
-                    second = mCalendar.get(Calendar.MONTH)+1;
-                    third = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    FourFirst = true;
-                    break;
-                case 3:
-                    first = mCalendar.get(Calendar.YEAR); //YDM
-                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    third = mCalendar.get(Calendar.MONTH)+1;
-                    FourFirst = true;
-                    break;
-                default:
-                    first = mCalendar.get(Calendar.MONTH)+1;
-                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    third = mCalendar.get(Calendar.YEAR);
-                    FourFirst = false;
-                    break;
-            }
-            String text3;
-            if (FourFirst)
-                text3 = String.format(Locale.UK, "%04d"+dateSeparator+"%02d"+dateSeparator+"%02d", first, second, third);
-            else
-                text3 = String.format(Locale.UK, "%02d"+dateSeparator+"%02d"+dateSeparator+"%04d", first, second, third);
-
-            //Get battery percentage
-            String text1 = (batteryLevel+"%");
-
-            //Get day of the week
-            String dayOfTheWeek = "";
-            if ((isInAmbientMode() && showDayAmbient) || (!isInAmbientMode() && showDay))
-                dayOfTheWeek = WeekDays[mCalendar.get(Calendar.DAY_OF_WEEK)-1];
-
             //Draw digital clock, date, battery percentage and day of the week
             Float firstSeparator = 40.0f;
-            if ((isInAmbientMode() && !showSecondary) || (!isInAmbientMode() && !showSecondaryActive)) {
+            if ((mAmbient && !showSecondary) || (!mAmbient && !showSecondaryActive)) {
                 text = "";
             }
             if (!text.equals("") || !dayOfTheWeek.equals("")) {
@@ -828,10 +822,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     firstSeparator = 40-mTextPaint.ascent()+mTextPaint.descent();
                 }
             }
-            if (!((isInAmbientMode() && showSecondaryCalendar) || (!isInAmbientMode() && showSecondaryCalendarActive))) {
+            if (!((mAmbient && showSecondaryCalendar) || (!mAmbient && showSecondaryCalendarActive))) {
                 text3="";
             }
-            if (!((isInAmbientMode() && showBatteryAmbient) || (!isInAmbientMode() && showBattery))) {
+            if (!((mAmbient && showBatteryAmbient) || (!mAmbient && showBattery))) {
                 text1="";
             }
             if (!text3.equals("") || !text1.equals("")) {
@@ -850,7 +844,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 firstSeparator=(float)bounds.height()/4;
 
             //Draw text clock
-            if ((isInAmbientMode() && showWordsAmbient) || (!isInAmbientMode() && showWords)) {
+            if ((mAmbient && showWordsAmbient) || (!mAmbient && showWords)) {
                 String text2;
                 switch (capitalisation) {
                     case 0:
@@ -872,8 +866,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         text2 = capitalise0(hourText,minutes,index);
                         break;
                 }
-                float textSize=0;
-                float x = bounds.width() / 2;
+                float textSize;
+                float x;
                 if (!complicationLeftSet && !complicationRightSet) {
                     textSize = getTextSizeForWidth(bounds.width() - 32,(firstSeparator>bounds.height()/4+mChinSize) ? bounds.height()-2*firstSeparator-32 : bounds.height()/2-mChinSize-32, text2, true);
                     x = bounds.width() / 2;
@@ -889,7 +883,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 }
                 mTextPaint2.setTextSize(textSize);
                 float y = 0;
-                for (String line : text2.split("\n")) {
+                for (String ignored : text2.split("\n")) {
                     y += mTextPaint2.descent() - mTextPaint2.ascent();
                 }
                 y=-mTextPaint2.ascent()-y/2+bounds.height()/2;
@@ -900,12 +894,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Draw complication
-            if (((isInAmbientMode() && showComplicationAmbient) || (!isInAmbientMode() && showComplication)) && (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N))
+            if (((mAmbient && showComplicationAmbient) || (!mAmbient && showComplication)) && (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N))
                 drawComplications(canvas,now);
         }
 
-        private String getExactTime(Integer hours){
-            String exactTime= "";
+        private String getExactTime(int hours){
+            String exactTime;
             switch (language) {
                 case "en":
                     exactTime = getResources().getStringArray(R.array.ExactTimes)[hours];
@@ -937,7 +931,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             return exactTime;
         }
 
-        private String capitalise0(Integer hours, Integer minutes, Integer index){
+        private String capitalise0(int hours, int minutes, int index){
             //Prefix
             String mainPrefix = "";
             StringBuilder prefix;
@@ -998,7 +992,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 return arrangeWords(mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix);
         }
 
-        private String capitalise1(Integer hours, Integer minutes, Integer index) {
+        private String capitalise1(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
 
             if (legacyWords) {
@@ -1020,7 +1014,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private String capitalise2(Integer hours, Integer minutes, Integer index) {
+        private String capitalise2(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
 
             if (legacyWords) {
@@ -1042,7 +1036,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private String capitalise3(Integer hours, Integer minutes, Integer index) {
+        private String capitalise3(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
             if (legacyWords) {
                 String text20 =
@@ -1063,16 +1057,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private String capitalise4(Integer hours, Integer minutes, Integer index) {
+        private String capitalise4(int hours, int minutes, int index) {
             //Prefix
             String mainPrefix = "";
             if ((minutes>0) && (!Prefixes[index].equals("")) && (Prefixes[index]!=null)) {
                 mainPrefix = Prefixes[index];
             }
-
-            //Time
-            String hoursInWords = getExactTime(hours);
-            String mainText = hoursInWords;
 
             //Suffix
             String mainSuffix = "";
@@ -1083,7 +1073,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             if (legacyWords) {
-                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? "\n" : "") : "") + getExactTime(hours) + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? "\n" : "") : "") + mainSuffix;
                 String[] textArray = text.split("\n");
                 StringBuilder newText= new StringBuilder();
                 for (String word : textArray) {
@@ -1091,7 +1081,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 }
                 return newText.toString().substring(0,newText.length()-1);
             } else {
-                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix;
+                String text = mainPrefix + ((mCalendar.get(Calendar.MINUTE)>0) ? (PrefixNewLine[index] ? " " : "") : "") + getExactTime(hours) + ((mCalendar.get(Calendar.MINUTE)>0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix;
                 text = arrangeWords(text);
                 String[] textArray = text.split("\n");
                 StringBuilder newText= new StringBuilder();
@@ -1189,7 +1179,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private boolean shouldTimerBeRunning() {
-            return isVisible() && !isInAmbientMode();
+            return isVisible() && !mAmbient;
         }
 
         private void handleUpdateTimeMessage() {
@@ -1202,7 +1192,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, Boolean addMargin) {
+        private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, boolean addMargin) {
             float min = Integer.MAX_VALUE, linecount=0;
             for (String line: text.split("\n")) {
                 if (!line.equals(""))
