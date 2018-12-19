@@ -72,6 +72,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String text2;
     private float x;
     private float basey;
+    private int lastSignificantMinutes = -1;
+    private int lastSignificantHours = -1;
     //SharedPreferences:
     private int backgroundColor;
     private int mainColor;
@@ -796,6 +798,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             int hourDigital = militaryTime ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
             if (hourDigital == 0 && !militaryTime)
                 hourDigital = 12;
+            if (hourDigital-lastSignificantHours!=0 || minutes-lastSignificantMinutes>5 || lastSignificantMinutes-minutes<-5) {
+                significantTimeChange = true;
+                getDate();
+            }
 
             //Get digital clock
             String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
@@ -843,6 +849,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             //Draw text clock
             if (significantTimeChange) {
+                lastSignificantMinutes = minutes;
+                lastSignificantHours = hourDigital;
                 int index = minutes / 5;
                 int hourText = militaryTextTime ? mCalendar.get(Calendar.HOUR_OF_DAY) + TimeShift[index] : mCalendar.get(Calendar.HOUR) + TimeShift[index];
                 if (hourText >= 24 && militaryTextTime)
