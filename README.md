@@ -90,9 +90,7 @@ Twelveish does not send any anonymous or personally identifiable information - T
 
 ## Author
 
-More information about me: https://rokasjankunas.com
-
-More information about my projects: https://layoutxml.com
+More information about me and my projects: https://rokasjankunas.com
 
 ## Acknowledgments
 
