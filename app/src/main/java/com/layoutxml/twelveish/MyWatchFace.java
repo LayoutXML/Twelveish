@@ -34,7 +34,6 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
@@ -53,7 +52,6 @@ import static android.view.Gravity.TOP;
 
 public class MyWatchFace extends CanvasWatchFaceService {
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
-    private static final String TAG = "MyWatchFace";
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -620,6 +618,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 unregisterReceiver();
             }
             updateTimer();
+            significantTimeChange = true;
         }
 
         private void registerReceiver() {
@@ -710,6 +709,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mTextPaint2.setColor(mainColor);
             }
             updateTimer();
+            significantTimeChange = true;
         }
 
         @Override
@@ -884,16 +884,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                     float textSize;
                     if (!complicationLeftSet && !complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() - 32, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - 2 * firstSeparator - 32 : bounds.height() / 2 - mChinSize - 32, text2, true);
+                        textSize = getTextSizeForWidth(bounds.width() - 32, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, true);
                         x = bounds.width() / 2;
                     } else if (complicationLeftSet && !complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - 2 * firstSeparator - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
+                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
                         x = bounds.width() * 5 / 8 - 16;
                     } else if (!complicationLeftSet && complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - 2 * firstSeparator - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
+                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
                         x = bounds.width() * 3 / 8 + 16;
                     } else {
-                        textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - 2 * firstSeparator - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
+                        textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
                         x = bounds.width() / 2;
                     }
                     float y=0;
@@ -1214,6 +1214,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, boolean addMargin) {
+            text = text.toUpperCase();
             float min = Integer.MAX_VALUE, linecount = 0;
             for (String line : text.split("\n")) {
                 if (!line.equals(""))
@@ -1231,13 +1232,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if (desiredTextSize2 < min)
                     min = desiredTextSize2;
             }
-            Paint newPaint = mTextPaint2;
-            newPaint.setTextSize(min);
-            while (newPaint.measureText("|", 0, "|".length()) / 5 > 6) { //6 is the burn in protection shifting limit in pixels
-                min -= 2;
-                newPaint.setTextSize(min);
-            }
-            Log.d(TAG,"linecount "+linecount);
             return min;
         }
     }
