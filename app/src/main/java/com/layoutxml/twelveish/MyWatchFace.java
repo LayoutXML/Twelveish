@@ -468,6 +468,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     PrefixNewLine = new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true};
                     SuffixNewLine = new boolean[]{false, false, false, true, false, false, false, false, false, true, false, false};
                     break;
+                case "el":
+                    Prefixes = getResources().getStringArray(R.array.PrefixesEL);
+                    Suffixes = getResources().getStringArray(R.array.SuffixesEL);
+                    WeekDays = getResources().getStringArray(R.array.WeekDaysEL);
+                    TimeShift = new int[]{0,0,0,0,0,0,0,1,1,1,1,1};
+                    PrefixNewLine = new boolean[]{true,false,true,true,true,true,true,true,true,true,true,true};
+                    SuffixNewLine = new boolean[]{false,true,true,true,true,true,true,true,true,true,false,false};
+                    break;
                 case "lt":
                     Prefixes = getResources().getStringArray(R.array.PrefixesLT);
                     Suffixes = getResources().getStringArray(R.array.SuffixesLT);
@@ -932,6 +940,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
                 case "de":
                     exactTime = getResources().getStringArray(R.array.ExactTimesDE)[hours];
+                    break;
+                case "el":
+                    exactTime = getResources().getStringArray(R.array.ExactTimesEL)[hours];
                     break;
                 case "lt":
                     exactTime = getResources().getStringArray(R.array.ExactTimesLT)[hours];
