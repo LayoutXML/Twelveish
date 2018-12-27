@@ -34,6 +34,7 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
@@ -52,6 +53,7 @@ import static android.view.Gravity.TOP;
 
 public class MyWatchFace extends CanvasWatchFaceService {
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
+    private static final String TAG = "MyWatchFace";
 
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -791,7 +793,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
             int seconds = mCalendar.get(Calendar.SECOND);
             int minutes = mCalendar.get(Calendar.MINUTE);
-            if (minutes%5==0 || minutes==1) {
+            if ((minutes%5==0 || minutes==1) && (seconds<2)) {
                 significantTimeChange = true;
                 getDate();
             }
@@ -1235,6 +1237,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 min -= 2;
                 newPaint.setTextSize(min);
             }
+            Log.d(TAG,"linecount "+linecount);
             return min;
         }
     }
