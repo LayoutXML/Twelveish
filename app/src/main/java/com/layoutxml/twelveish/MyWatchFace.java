@@ -901,7 +901,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
                         x = bounds.width() * 3 / 8 + 16;
                     } else {
-                        textSize = getTextSizeForWidth(bounds.width() / 2 - 16, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
+                        textSize = getTextSizeForWidth(bounds.width() / 2, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
                         x = bounds.width() / 2;
                     }
                     float y=0;
