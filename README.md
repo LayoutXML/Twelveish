@@ -6,6 +6,8 @@
 
 Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **approximate time in words** (in multiple languages). It also shows the exact time (digital clock) and day of the week on the top, date and battery percentage slightly below, a complication on the bottom (on all Wear OS versions and Android Wear versions 2.0 and greater). On top of that, Twelveish is **extremely customizable, completely free and open-source**.
 
+### NEW - [Integrates with TickTock Wear!](https://github.com/LayoutXML/TickTock-Wear)
+
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-1.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot1" align="left">
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-2.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot2" align="left">
@@ -30,7 +32,7 @@ In addition to what has been mentioned in the description above, Twelveish offer
 * 5 capitalization options
 * 12 and 24 hour digital and word clock formats
 * show/hide almost any info (digital and word clocks, date, battery percentage, complication) with different combinations both for active and ambient modes
-* 8 languages (English, Finnish, German, Hungarian, Italian, Lithuanian, Russian and Spanish)
+* 9 languages (English, Finnish, German, Greek, Hungarian, Italian, Lithuanian, Russian and Spanish)
 * 11 fonts that are compatible with all languages
 * Wear OS (Android Wear) 1.5 and above support
 * Chin (flat tire) support
@@ -62,7 +64,7 @@ You can install Twelveish directly from your computer. Method below describes ho
 
 ## Contributing
 
-Should you wish to contribute with translations you can contact me via email at hello@layoutxml.com so I could send you the instructions. You would have to translate 12 prefixes, 12 suffixes, 24 numbers and 7 days of the week.
+Should you wish to contribute with translations you can contact me via email at hello@rokasjankunas.com so I could send you the instructions. You would have to translate 12 prefixes, 12 suffixes, 24 numbers and 7 days of the week.
 
 If you notice any bugs you can create an issue with a detailed explanation. Issues section should not be used for feature requests.
 
@@ -100,13 +102,15 @@ Translations:
 
 * Finnish: Lari Palander [@oh2fhf](http://github.com/oh2fhf)
 
-* German: Robin Roschlau, [@roschlau](https://github.com/roschlau)
+* German: Robin Roschlau [@roschlau](https://github.com/roschlau)
 
-* Hungarian: Richard Hriech, [@richardSin501](https://github.com/richardSin501)
+* Greek: Lefteris Popoff
+
+* Hungarian: Richard Hriech [@richardSin501](https://github.com/richardSin501)
 
 * Italian: Luigi Violin
 
-* Spanish: David Amian Valle, [@amian84](https://github.com/amian84)
+* Spanish: David Amian Valle [@amian84](https://github.com/amian84)
 
 ## License
 
