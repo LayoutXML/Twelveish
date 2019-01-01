@@ -239,7 +239,7 @@
 
     <string-array name="ExactTimesRU">
         <item>двенадцать</item>
-        <item>один</item>
+        <item>час</item>
         <item>два</item>
         <item>три</item>
         <item>четыре</item>
@@ -292,13 +292,13 @@
         <item/>
     </string-array>
     <string-array name="WeekDaysRU">
-        <item>Во</item>
-        <item>По</item>
+        <item>Вс</item>
+        <item>Пн</item>
         <item>Вт</item>
         <item>Ср</item>
-        <item>Че</item>
-        <item>Пя</item>
-        <item>Су</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
     </string-array>
 
     <string-array name="ExactTimesDE">
