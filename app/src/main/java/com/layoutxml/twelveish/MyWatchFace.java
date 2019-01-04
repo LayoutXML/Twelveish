@@ -69,9 +69,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String dayOfTheWeek = "";
     private String text1 = "";
     private boolean significantTimeChange = true;
-    private String text2;
+    private String text2 = "";
     private float x;
-    private float basey;
+    private float basey = -1;
     private int lastSignificantMinutes = -1;
     private int lastSignificantHours = -1;
     //SharedPreferences:
@@ -856,6 +856,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             if (firstSeparator < bounds.height() / 4)
                 firstSeparator = (float) bounds.height() / 4;
+
+            if (text2.equals(""))
+                significantTimeChange = true;
+            if (basey==-1)
+                significantTimeChange = true;
 
             //Draw text clock
             if (significantTimeChange) {
