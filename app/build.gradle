@@ -6,8 +6,8 @@ android {
         applicationId "com.layoutxml.twelveish"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 187
-        versionName "1.9.4"
+        versionCode 190
+        versionName "1.9.5"
         multiDexEnabled true
     }
     buildTypes {
