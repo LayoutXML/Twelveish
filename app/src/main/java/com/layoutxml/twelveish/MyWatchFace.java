@@ -627,6 +627,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             updateTimer();
             significantTimeChange = true;
+            getDate();
         }
 
         private void registerReceiver() {
@@ -718,6 +719,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             updateTimer();
             significantTimeChange = true;
+            getDate();
         }
 
         @Override
