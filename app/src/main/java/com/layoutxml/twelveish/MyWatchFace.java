@@ -326,6 +326,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Get day of the week
             if ((mAmbient && showDayAmbient) || (!mAmbient && showDay))
                 dayOfTheWeek = WeekDays[mCalendar.get(Calendar.DAY_OF_WEEK) - 1];
+            else
+                dayOfTheWeek = "";
         }
 
         private void showRateNotification() {
@@ -930,6 +932,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         canvas.drawText(line, x, y, mTextPaint2);
                         y += mTextPaint2.descent() - mTextPaint2.ascent();
                     }
+                } else {
+                    text2 = "";
                 }
                 significantTimeChange = false;
             } else {
