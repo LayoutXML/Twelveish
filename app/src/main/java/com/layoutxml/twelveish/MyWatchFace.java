@@ -242,7 +242,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private Paint mTextPaint;
         private Paint mTextPaint2;
         private boolean mLowBitAmbient;
-        private boolean mAmbient;
+        private boolean mAmbient = false;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -717,15 +717,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 intent.setAction(TRANSITION_TO_AMBIENT_MODE);
                 intent.putExtra("package", getPackageName());
                 sendBroadcast(intent, "com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
-                mTextPaint.setColor(secondaryColorAmbient);
-                mTextPaint2.setColor(mainColorAmbient);
             } else {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_INTERACTIVE_MODE);
                 intent.putExtra("package", getPackageName());
                 sendBroadcast(intent, "com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
-                mTextPaint.setColor(secondaryColor);
-                mTextPaint2.setColor(mainColor);
             }
             updateTimer();
             significantTimeChange = true;
@@ -805,8 +801,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             //Set colors
             if (mAmbient) {
                 canvas.drawColor(Color.BLACK);
+                mTextPaint.setColor(secondaryColorAmbient);
+                mTextPaint2.setColor(mainColorAmbient);
             } else {
                 canvas.drawColor(backgroundColor);
+                mTextPaint.setColor(secondaryColor);
+                mTextPaint2.setColor(mainColor);
             }
 
             //Get time
