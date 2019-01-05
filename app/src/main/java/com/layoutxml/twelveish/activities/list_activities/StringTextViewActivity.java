@@ -60,6 +60,11 @@ public class StringTextViewActivity extends Activity{
 
     private void generateLanguageValues(){
         StringOption option = new StringOption();
+        option.setName("Dutch");
+        option.setSymbol("nl");
+        values.add(option);
+
+        option = new StringOption();
         option.setName("English");
         option.setSymbol("en");
         values.add(option);

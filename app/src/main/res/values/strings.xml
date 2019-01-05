@@ -621,4 +621,68 @@
         <item>Σα</item>
     </string-array>
 
+    <string-array name="ExactTimesNL">
+        <item>twaalf</item>
+        <item>een</item>
+        <item>twee</item>
+        <item>drie</item>
+        <item>vier</item>
+        <item>vijf</item>
+        <item>zes</item>
+        <item>zeven</item>
+        <item>acht</item>
+        <item>negen</item>
+        <item>tien</item>
+        <item>elf</item>
+        <item>twaalf</item>
+        <item>dertien</item>
+        <item>veertien</item>
+        <item>vijftien</item>
+        <item>zestien</item>
+        <item>zeventien</item>
+        <item>achttien</item>
+        <item>negentien</item>
+        <item>twintig</item>
+        <item>eenentwintig</item>
+        <item>tweeëntwintig</item>
+        <item>drieëntwintig</item>
+    </string-array>
+    <string-array name="PrefixesNL">
+        <item>iets over</item>
+        <item>bijna tien over</item>
+        <item>bijna kwart over</item>
+        <item>kwart over</item>
+        <item>bijna vijf voor half</item>
+        <item>bijna half</item>
+        <item>iets over half</item>
+        <item>bijna tien over half</item>
+        <item>bijna kwart voor</item>
+        <item>kwart voor</item>
+        <item>bijna vijf voor</item>
+        <item>bijna</item>
+    </string-array>
+    <string-array name="SuffixesNL">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>of zo</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>of zo</item>
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="WeekDaysNL">
+        <item>Zo</item>
+        <item>Ma</item>
+        <item>Di</item>
+        <item>Wo</item>
+        <item>Do</item>
+        <item>Vr</item>
+        <item>Za</item>
+    </string-array>
+
 </resources>
