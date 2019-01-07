@@ -460,7 +460,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     WeekDays = getResources().getStringArray(R.array.WeekDaysNL);
                     TimeShift = new int[]{0,0,0,0,1,1,1,1,1,1,1,1};
                     PrefixNewLine = new boolean[]{true,true,true,true,true,true,true,true,true,true,true,true};
-                    SuffixNewLine = new boolean[]{false,false,false,true,false,false,false,false,false,true,false,false};
+                    SuffixNewLine = new boolean[]{false,false,false,false,false,false,false,false,false,false,false,false};
                     break;
                 case "en":
                     Prefixes = getResources().getStringArray(R.array.Prefixes);

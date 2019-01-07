@@ -651,13 +651,13 @@
         <item>iets over</item>
         <item>bijna tien over</item>
         <item>bijna kwart over</item>
-        <item>kwart over</item>
+        <item>bijna tien voor half</item>
         <item>bijna vijf voor half</item>
         <item>bijna half</item>
         <item>iets over half</item>
         <item>bijna tien over half</item>
         <item>bijna kwart voor</item>
-        <item>kwart voor</item>
+        <item>bijna tien voor</item>
         <item>bijna vijf voor</item>
         <item>bijna</item>
     </string-array>
@@ -665,13 +665,13 @@
         <item></item>
         <item></item>
         <item></item>
-        <item>of zo</item>
         <item></item>
         <item></item>
         <item></item>
         <item></item>
         <item></item>
-        <item>of zo</item>
+        <item></item>
+        <item></item>
         <item></item>
         <item></item>
     </string-array>
