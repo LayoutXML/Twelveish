@@ -13,8 +13,8 @@ android {
         applicationId "com.layoutxml.twelveish"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 189
-        versionName "1.9.5"
+        versionCode 191
+        versionName "1.9.6"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
