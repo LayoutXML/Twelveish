@@ -685,4 +685,68 @@
         <item>Za</item>
     </string-array>
 
+    <string-array name="ExactTimesNO">
+        <item>tolv</item>
+        <item>ett</item>
+        <item>to</item>
+        <item>tre</item>
+        <item>fire</item>
+        <item>fem</item>
+        <item>seks</item>
+        <item>sju</item>
+        <item>åtte</item>
+        <item>ni</item>
+        <item>ti</item>
+        <item>elleve</item>
+        <item>tolv</item>
+        <item>ett</item>
+        <item>to</item>
+        <item>tre</item>
+        <item>fire</item>
+        <item>fem</item>
+        <item>seks</item>
+        <item>sju</item>
+        <item>åtte</item>
+        <item>ni</item>
+        <item>ti</item>
+        <item>elleve</item>
+    </string-array>
+    <string-array name="PrefixesNO">
+        <item></item>
+        <item></item>
+        <item>kvart over</item>
+        <item>kvart over</item>
+        <item>rundt halv</item>
+        <item>nesten halv</item>
+        <item>halv</item>
+        <item>halv</item>
+        <item>kvart på</item>
+        <item>kvart på</item>
+        <item>rundt</item>
+        <item>nesten</item>
+    </string-array>
+    <string-array name="SuffixesNO">
+        <item>ish</item>
+        <item>omtrent</item>
+        <item></item>
+        <item>omtrent</item>
+        <item></item>
+        <item></item>
+        <item>ish</item>
+        <item>omtrent</item>
+        <item></item>
+        <item>omtrent</item>
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="WeekDaysNO">
+        <item>Sø</item>
+        <item>Ma</item>
+        <item>Ti</item>
+        <item>On</item>
+        <item>To</item>
+        <item>Fr</item>
+        <item>Lø</item>
+    </string-array>
+
 </resources>
