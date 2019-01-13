@@ -116,6 +116,8 @@ Translations:
 
 * Spanish: David Amian Valle [@amian84](https://github.com/amian84)
 
+* Spanish (improvement): Marco Martinez
+
 ## License
 
 Twelveish is licensed under "GNU GPLv3" license. Copyright laws apply.
