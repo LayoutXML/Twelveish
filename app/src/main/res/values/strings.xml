@@ -713,29 +713,29 @@
     </string-array>
     <string-array name="PrefixesNO">
         <item></item>
-        <item></item>
-        <item>kvart over</item>
+        <item>litt over</item>
+        <item>snart kvart over</item>
         <item>kvart over</item>
         <item>rundt halv</item>
         <item>nesten halv</item>
         <item>halv</item>
         <item>halv</item>
-        <item>kvart på</item>
+        <item>snart kvart på</item>
         <item>kvart på</item>
         <item>rundt</item>
         <item>nesten</item>
     </string-array>
     <string-array name="SuffixesNO">
         <item>ish</item>
-        <item>omtrent</item>
-        <item></item>
-        <item>omtrent</item>
         <item></item>
         <item></item>
-        <item>ish</item>
-        <item>omtrent</item>
         <item></item>
-        <item>omtrent</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
         <item></item>
         <item></item>
     </string-array>
