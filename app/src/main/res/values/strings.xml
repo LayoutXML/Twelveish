@@ -659,7 +659,7 @@
         <item>bijna kwart voor</item>
         <item>bijna tien voor</item>
         <item>bijna vijf voor</item>
-        <item>bijna</item>
+        <item>iets voor</item>
     </string-array>
     <string-array name="SuffixesNL">
         <item></item>
@@ -673,7 +673,7 @@
         <item></item>
         <item></item>
         <item></item>
-        <item></item>
+        <item>uur</item>
     </string-array>
     <string-array name="WeekDaysNL">
         <item>Zo</item>
