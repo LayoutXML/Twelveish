@@ -5,10 +5,10 @@
   ~
   -->
 
-<android.support.wear.widget.WearableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.wear.widget.WearableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wearable_recycler_view"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-</android.support.wear.widget.WearableRecyclerView>
+</androidx.wear.widget.WearableRecyclerView>
