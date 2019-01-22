@@ -74,13 +74,6 @@ public class ActivityImageViewActivity extends Activity {
         values.add(activityOption);
 
         activityOption = new ActivityOption();
-        activityOption.setName("Text size offset");
-        activityOption.setIcon(R.drawable.ic_capitalisation);
-        activityOption.setActivity(FontSizeInfoActivity.class);
-        activityOption.setExtra("TextSize");
-        values.add(activityOption);
-
-        activityOption = new ActivityOption();
         activityOption.setName("Date format");
         activityOption.setIcon(R.drawable.ic_date);
         activityOption.setActivity(ActivityTextViewActivity.class);
@@ -106,6 +99,13 @@ public class ActivityImageViewActivity extends Activity {
         activityOption.setIcon(R.drawable.ic_language);
         activityOption.setActivity(StringTextViewActivity.class);
         activityOption.setExtra("Language");
+        values.add(activityOption);
+
+        activityOption = new ActivityOption();
+        activityOption.setName("Text size offset");
+        activityOption.setIcon(R.drawable.ic_capitalisation);
+        activityOption.setActivity(FontSizeInfoActivity.class);
+        activityOption.setExtra("TextSize");
         values.add(activityOption);
 
         activityOption = new ActivityOption();

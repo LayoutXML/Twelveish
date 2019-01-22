@@ -26,13 +26,14 @@ public class FontSizeInfoActivity extends Activity {
         int secondarySize = sharedPreferences.getInt(getString(R.string.secondary_text_size_offset),0);
         int actualMainTextSize = sharedPreferences.getInt(getString(R.string.main_text_size_real),24);
 
-        main.setText("This option allows increasing or decreasing text sizes.\n\n" +
+        main.setText("Usage not recommended.\n\n" +
+                "This option allows increasing or decreasing text sizes.\n\n" +
                 "By increasing them, items may overlap or go off screen.\n" +
                 "By decreasing them, text will be smaller.\n\n" +
                 "Main text size by default is automatically calculated to fit the screen and secondary text size is static.\n\n" +
                 "For reference, these are current text sizes:\n" +
                 "Main text: "+actualMainTextSize+" + "+mainSize+" (offset),\n" +
-                "Secondary: 24 + "+secondarySize+" (offset).");
+                "Secondary: 24 + "+secondarySize+" (offset).\n");
 
         okayButton.setOnClickListener(new View.OnClickListener(){
             @Override
