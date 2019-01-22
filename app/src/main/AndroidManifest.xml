@@ -74,6 +74,8 @@
         <activity android:name=".activities.list_activities.IntegerImageViewActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".activities.list_activities.FontTextViewActivity" />
+        <activity android:name=".activities.FontSizeActivity" />
+        <activity android:name=".activities.FontSizeInfoActivity" />
 
         <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
             <intent-filter>

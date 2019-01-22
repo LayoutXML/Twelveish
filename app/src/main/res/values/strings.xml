@@ -44,6 +44,9 @@
     <string name="counter">counter</string>
     <string name="complication_left_set">complication_left_set</string>
     <string name="complication_right_set">complication_right_set</string>
+    <string name="main_text_size_offset">mainTextSizeOffset</string>
+    <string name="secondary_text_size_offset">secondaryTextSizeOffset</string>
+    <string name="main_text_size_real">mainTextSizeReal</string>
 
     <string-array name="ExactTimes">
         <item>twelve</item>

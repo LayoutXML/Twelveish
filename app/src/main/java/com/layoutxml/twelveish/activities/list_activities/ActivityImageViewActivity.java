@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.AboutActivity;
+import com.layoutxml.twelveish.activities.FontSizeActivity;
+import com.layoutxml.twelveish.activities.FontSizeInfoActivity;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
@@ -69,6 +71,13 @@ public class ActivityImageViewActivity extends Activity {
         activityOption.setName("Font");
         activityOption.setIcon(R.drawable.ic_font);
         activityOption.setActivity(FontTextViewActivity.class);
+        values.add(activityOption);
+
+        activityOption = new ActivityOption();
+        activityOption.setName("Text size offset");
+        activityOption.setIcon(R.drawable.ic_capitalisation);
+        activityOption.setActivity(FontSizeInfoActivity.class);
+        activityOption.setExtra("TextSize");
         values.add(activityOption);
 
         activityOption = new ActivityOption();

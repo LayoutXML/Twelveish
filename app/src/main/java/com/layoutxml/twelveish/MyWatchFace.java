@@ -103,6 +103,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private boolean showDayAmbient;
     private boolean disableComplicationTap;
     private boolean legacyWords;
+    private int mainTextOffset=0;
+    private int secondaryTextOffset=0;
     //Intent constants
     private static final String TRANSITION_TO_AMBIENT_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_AMBIENT_MODE";
     private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_INTERACTIVE_MODE";
@@ -451,6 +453,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set), false);
             complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set), false);
             legacyWords = prefs.getBoolean(getString(R.string.preference_legacy_word_arrangement), false);
+            mainTextOffset = prefs.getInt(getString(R.string.main_text_size_offset),0);
+            secondaryTextOffset = prefs.getInt(getString(R.string.secondary_text_size_offset),0);
+
+            mTextPaint.setTextSize(24+secondaryTextOffset); //secondary text
 
             //Work with given preferences
             switch (language) {
@@ -669,8 +675,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
             mChinSize = insets.getSystemWindowInsetBottom();
-            mTextPaint.setTextSize(24);
-            mTextPaint2.setTextSize(24);
+            mTextPaint.setTextSize(24+secondaryTextOffset); //secondary text
+            mTextPaint2.setTextSize(24+mainTextOffset); //word clock
             Rect bottomBounds = new Rect(screenWidthG / 2 - screenWidthG / 4,
                     (int) (screenHeightG * 3 / 4 - mChinSize),
                     screenWidthG / 2 + screenWidthG / 4,
@@ -930,7 +936,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         x = bounds.width() / 2;
                     }
                     float y=0;
-                    mTextPaint2.setTextSize(textSize);
+                    mTextPaint2.setTextSize(textSize+mainTextOffset);
+                    prefs.edit().putInt(getString(R.string.main_text_size_real),(int)textSize).apply();
                     for (String ignored : text2.split("\n")) {
                         y += mTextPaint2.descent() - mTextPaint2.ascent();
                     }
