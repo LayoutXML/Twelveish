@@ -46,6 +46,7 @@ import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
@@ -64,6 +65,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
     private final String path = "/twelveish";
     private final String DATA_KEY = "rokas-twelveish";
+    private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -623,6 +625,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
 
+            invalidate();
+
             if (counter >= 100 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate), true).apply();
                 showRateNotification();
@@ -653,10 +657,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
+            PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+            mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+            mPutDataMapRequest.setUrgent();
+            PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+            Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
             if (visible) {
                 registerReceiver();
                 mCalendar.setTimeZone(TimeZone.getDefault());
-                invalidate();
                 loadPreferences();
                 Wearable.getDataClient(getApplicationContext()).addListener(this);
             } else {
@@ -1319,7 +1327,34 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void processData(DataItem dataItem) {
             DataMapItem mDataMapItem = DataMapItem.fromDataItem(dataItem);
-            Toast.makeText(getApplicationContext(),mDataMapItem.getDataMap().getString(DATA_KEY),Toast.LENGTH_SHORT).show();
+            String[] array = mDataMapItem.getDataMap().getStringArray(DATA_KEY);
+            if (array!=null && array.length==2) {
+                Toast.makeText(getApplicationContext(),"Preference received",Toast.LENGTH_SHORT).show();
+                prefs.edit().putString(array[0],array[1]).apply();
+                loadPreferences();
+                significantTimeChange = true;
+            }
+            boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
+            if (!handshake) {
+                Uri mUri =  new Uri.Builder()
+                        .scheme(PutDataRequest.WEAR_URI_SCHEME)
+                        .path(path)
+                        .authority(HANDSHAKE_KEY)
+                        .build();
+                Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
+                mUri =  new Uri.Builder()
+                        .scheme(PutDataRequest.WEAR_URI_SCHEME)
+                        .path(path)
+                        .authority("Timestamp")
+                        .build();
+                Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
+
+                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+            }
         }
     }
 }
