@@ -34,29 +34,22 @@ import com.layoutxml.twelveish.objects.Setting;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DataClient.OnDataChangedListener{
+public class MainActivity extends AppCompatActivity{
 
     private List<Setting> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
-    private final String path = "/twelveish";
-    private final String DATA_KEY = "rokas-twelveish";
-    private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
+
+    //Communication:
+    public static boolean isWatchConnected = false;
+    private Communicator communicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-//        String[] array = new String[2];
-//        array[0] = "language...";
-//        array[1] = "lt";
-//        mPutDataMapRequest.getDataMap().putStringArray(DATA_KEY, array);
-        mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
-        mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, false);
-        mPutDataMapRequest.setUrgent();
-        PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
-        Wearable.getDataClient(this).putDataItem(mPutDataRequest);
+        communicator = new Communicator(getApplicationContext());
+        communicator.initiateHandshake(getApplicationContext());
 
         RecyclerView mRecyclerView = findViewById(R.id.menuList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,18 +58,6 @@ public class MainActivity extends AppCompatActivity implements DataClient.OnData
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
         generateValues();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Wearable.getDataClient(getApplicationContext()).addListener(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Wearable.getDataClient(getApplicationContext()).removeListener(this);
     }
 
     private void generateValues() {
@@ -88,22 +69,23 @@ public class MainActivity extends AppCompatActivity implements DataClient.OnData
     }
 
     @Override
-    public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
-        for (DataEvent event: dataEventBuffer) {
-            if (event.getType()==DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath()!=null && event.getDataItem().getUri().getPath().equals(path)) {
-                DataMapItem mDataMapItem = DataMapItem.fromDataItem(event.getDataItem());
-                boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
-                if (handshake) {
-                    Toast.makeText(getApplicationContext(),"Watch connected",Toast.LENGTH_SHORT).show();
-                    Uri mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(HANDSHAKE_KEY)
-                            .build();
-                    Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
-                }
-            }
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        communicator.destroy();
+        communicator = null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
+        communicator.initiateHandshake(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
     }
 
     public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder>{

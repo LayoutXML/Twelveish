@@ -36,6 +36,7 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
@@ -63,9 +64,11 @@ import static android.view.Gravity.TOP;
 
 public class MyWatchFace extends CanvasWatchFaceService {
 
+    private static final String TAG = "MyWatchFace";
     private final String path = "/twelveish";
     private final String DATA_KEY = "rokas-twelveish";
     private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
+    private final String GOODBYE_KEY = "rokas-twelveish-gb";
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -650,23 +653,32 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         @Override
         public void onDestroy() {
-            mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
             super.onDestroy();
+
+            mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
+
+            PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+            mPutDataMapRequest.getDataMap().putBoolean(GOODBYE_KEY, true);
+            mPutDataMapRequest.setUrgent();
+            PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+            Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
         }
 
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
-            PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-            mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
-            mPutDataMapRequest.setUrgent();
-            PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
-            Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
             if (visible) {
                 registerReceiver();
                 mCalendar.setTimeZone(TimeZone.getDefault());
                 loadPreferences();
                 Wearable.getDataClient(getApplicationContext()).addListener(this);
+
+                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
             } else {
                 unregisterReceiver();
                 Wearable.getDataClient(getApplicationContext()).removeListener(this);
@@ -1320,7 +1332,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Uri mUri =  new Uri.Builder()
                     .scheme(PutDataRequest.WEAR_URI_SCHEME)
                     .path(path)
-                    .authority("*")
+                    .authority(DATA_KEY)
                     .build();
             Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
         }
@@ -1328,28 +1340,23 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private void processData(DataItem dataItem) {
             DataMapItem mDataMapItem = DataMapItem.fromDataItem(dataItem);
             String[] array = mDataMapItem.getDataMap().getStringArray(DATA_KEY);
-            if (array!=null && array.length==2) {
+            if (array!=null && array.length==3) {
                 Toast.makeText(getApplicationContext(),"Preference received",Toast.LENGTH_SHORT).show();
-                prefs.edit().putString(array[0],array[1]).apply();
+                switch (array[2]) {
+                    case "String":
+                        prefs.edit().putString(array[0],array[1]).apply();
+                        break;
+                    default:
+                        Log.d(TAG,"Unknown type in processData");
+                        break;
+                }
                 loadPreferences();
                 significantTimeChange = true;
             }
             boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
             if (!handshake) {
-                Uri mUri =  new Uri.Builder()
-                        .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                        .path(path)
-                        .authority(HANDSHAKE_KEY)
-                        .build();
-                Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
-                mUri =  new Uri.Builder()
-                        .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                        .path(path)
-                        .authority("Timestamp")
-                        .build();
-                Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
-
                 PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
