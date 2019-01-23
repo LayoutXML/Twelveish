@@ -19,24 +19,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.layoutxml.twelveish.objects.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private List<Setting> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
+    private final String path = "/twelveish";
+    private final String DATA_KEY = "rokas-twelveish";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataClient mDataClient = Wearable.getDataClient(getApplicationContext());
+        PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+        mPutDataMapRequest.getDataMap().putString(DATA_KEY,"handshake_test.");
+        mPutDataMapRequest.setUrgent();
+        PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+        Wearable.getDataClient(this).putDataItem(mPutDataRequest);
 
         RecyclerView mRecyclerView = findViewById(R.id.menuList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
