@@ -70,7 +70,7 @@ public class StringTextViewActivity extends Activity{
         values.add(option);
 
         option = new StringOption();
-        option.setName("Finish");
+        option.setName("Finnish");
         option.setSymbol("fi");
         values.add(option);
 
