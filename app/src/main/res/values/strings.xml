@@ -203,17 +203,17 @@
         <item>yksitoista</item>
     </string-array>
     <string-array name="PrefixesFI">
-        <item>hieman yli</item>
-        <item>noin viittä yli</item>
-        <item>lähes varttia yli</item>
+        <item />
+        <item>viittä yli</item>
+        <item>kymmentä yli</item>
         <item>varttia yli</item>
+        <item>kahtakymmentä yli</item>
         <item>kohta puoli</item>
-        <item>lähes puoli</item>
         <item>puoli</item>
         <item>puoli</item>
-        <item>lähes varttia vaille</item>
+        <item>kohta varttia vaille</item>
         <item>varttia vaille</item>
-        <item>kohta</item>
+        <item>kymmentä vaille</item>
         <item>lähes</item>
     </string-array>
     <string-array name="SuffixesFI">
@@ -548,7 +548,7 @@
         <item>menos veinte</item>
         <item>menos cuarto</item>
         <item>menos diez</item>
-        <item></item>
+        <item />
     </string-array>
     <string-array name="WeekDaysES">
         <item>Do</item>
@@ -588,7 +588,7 @@
     </string-array>
     <string-array name="PrefixesEL">
         <item>μόλις πέρασε</item>
-        <item></item>
+        <item />
         <item>περίπου</item>
         <item>πέρασε</item>
         <item>πλησιάζει</item>
@@ -601,7 +601,7 @@
         <item>σχεδόν</item>
     </string-array>
     <string-array name="SuffixesEL">
-        <item></item>
+        <item />
         <item>και κάτι</item>
         <item>και τέταρτο</item>
         <item>και τέταρτο</item>
@@ -611,8 +611,8 @@
         <item>παρά τέταρτο</item>
         <item>παρά τέταρτο</item>
         <item>παρά τέταρτο</item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysEL">
         <item>Κυ</item>
@@ -665,17 +665,17 @@
         <item>iets voor</item>
     </string-array>
     <string-array name="SuffixesNL">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
         <item>uur</item>
     </string-array>
     <string-array name="WeekDaysNL">
@@ -715,7 +715,7 @@
         <item>elleve</item>
     </string-array>
     <string-array name="PrefixesNO">
-        <item></item>
+        <item />
         <item>litt over</item>
         <item>snart kvart over</item>
         <item>kvart over</item>
@@ -730,17 +730,17 @@
     </string-array>
     <string-array name="SuffixesNO">
         <item>ish</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysNO">
         <item>Sø</item>
