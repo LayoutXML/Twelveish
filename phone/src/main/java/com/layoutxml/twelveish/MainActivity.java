@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,48 @@ public class MainActivity extends AppCompatActivity{
 
     private void generateValues() {
         Setting setting = new Setting();
-        setting.setName("Nothing in this screen yet.\nSupport LayoutXML by purchasing \"Support Development\" app on Google Play Store. Thanks.");
+        setting.setName("Colors");
+        setting.setIcon(R.drawable.ic_color);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Font");
+        setting.setIcon(R.drawable.ic_font);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Date format");
+        setting.setIcon(R.drawable.ic_date);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Capitalisation");
+        setting.setIcon(R.drawable.ic_capitalisation);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Show/hide elements");
+        setting.setIcon(R.drawable.ic_showhide);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Language");
+        setting.setIcon(R.drawable.ic_language);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Text size offset");
+        setting.setIcon(R.drawable.ic_capitalisation);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Miscellaneous");
+        setting.setIcon(R.drawable.ic_misc);
+        values.add(setting);
+
+        setting = new Setting();
+        setting.setName("Info");
+        setting.setIcon(R.drawable.ic_info);
         values.add(setting);
 
         mAdapter.notifyDataSetChanged();
@@ -93,10 +135,12 @@ public class MainActivity extends AppCompatActivity{
         class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView name;
+            ImageView icon;
 
             MyViewHolder(View view) {
                 super(view);
                 name = view.findViewById(R.id.settingsListTextView);
+                icon = view.findViewById(R.id.settingsListImagetView);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Setting setting = values.get(position);
             holder.name.setText(setting.getName());
-
+            holder.icon.setImageResource(setting.getIcon());
         }
 
         @Override

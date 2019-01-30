@@ -1346,6 +1346,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     case "String":
                         prefs.edit().putString(array[0],array[1]).apply();
                         break;
+                    case "Integer":
+                        try {
+                            int newPref = Integer.parseInt(array[1]);
+                            prefs.edit().putInt(array[0],newPref).apply();
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case "Boolean":
+                        if (array[1].equalsIgnoreCase("true") || array[1].equalsIgnoreCase("false")) {
+                            boolean newPref2 = Boolean.parseBoolean(array[1]);
+                            prefs.edit().putBoolean(array[0],newPref2).apply();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                        }
                     default:
                         Log.d(TAG,"Unknown type in processData");
                         break;
