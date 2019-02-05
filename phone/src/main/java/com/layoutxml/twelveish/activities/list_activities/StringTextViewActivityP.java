@@ -7,47 +7,42 @@
 package com.layoutxml.twelveish.activities.list_activities;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.wear.widget.WearableLinearLayoutManager;
-import androidx.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.layoutxml.twelveish.MainActivity;
 import com.layoutxml.twelveish.R;
-import com.layoutxml.twelveish.objects.StringOption;
-
+import com.layoutxml.twelveish.objects.StringOptionP;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringTextViewActivity extends Activity{
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-    private List<StringOption> values = new ArrayList<>();
+public class StringTextViewActivityP extends Activity{
+
+    private List<StringOptionP> values = new ArrayList<>();
     private DateSeparatorAdapter mAdapter;
-    private SharedPreferences prefs;
     private String preferencesKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wearablerecyclerview_activity);
+        setContentView(R.layout.activity_main);
 
-        prefs = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
-        mWearableRecyclerView.setLayoutManager(new WearableLinearLayoutManager(this));
-        mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
+        RecyclerView mRecyclerView = findViewById(R.id.menuList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAdapter = new DateSeparatorAdapter();
-        mWearableRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mWearableRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
 
         if (getIntent().getStringExtra("Activity").equals("DateSeparator")) {
             generateDateSeparatorValues();
@@ -59,57 +54,57 @@ public class StringTextViewActivity extends Activity{
     }
 
     private void generateLanguageValues(){
-        StringOption option = new StringOption();
+        StringOptionP option = new StringOptionP();
         option.setName("Dutch");
         option.setSymbol("nl");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("English");
         option.setSymbol("en");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Finnish");
         option.setSymbol("fi");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("German");
         option.setSymbol("de");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Greek");
         option.setSymbol("el");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Hungarian");
         option.setSymbol("hu");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Italian");
         option.setSymbol("it");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Lithuanian");
         option.setSymbol("lt");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Norwegian");
         option.setSymbol("no");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Russian");
         option.setSymbol("ru");
         values.add(option);
 
-        option = new StringOption();
+        option = new StringOptionP();
         option.setName("Spanish");
         option.setSymbol("es");
         values.add(option);
@@ -118,22 +113,22 @@ public class StringTextViewActivity extends Activity{
     }
 
     private void generateDateSeparatorValues() {
-        StringOption stringOption = new StringOption();
+        StringOptionP stringOption = new StringOptionP();
         stringOption.setName("Slash /");
         stringOption.setSymbol("/");
         values.add(stringOption);
 
-        stringOption = new StringOption();
+        stringOption = new StringOptionP();
         stringOption.setName("Period .");
         stringOption.setSymbol(".");
         values.add(stringOption);
 
-        stringOption = new StringOption();
+        stringOption = new StringOptionP();
         stringOption.setName("Hyphen -");
         stringOption.setSymbol("-");
         values.add(stringOption);
 
-        stringOption = new StringOption();
+        stringOption = new StringOptionP();
         stringOption.setName("Space");
         stringOption.setSymbol(" ");
         values.add(stringOption);
@@ -153,9 +148,11 @@ public class StringTextViewActivity extends Activity{
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        StringOption selectedMenuItem = values.get(position);
-                        prefs.edit().putString(preferencesKey,selectedMenuItem.getSymbol()).apply();
-                        Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
+                        StringOptionP selectedMenuItem = values.get(position);
+                        if (MainActivity.communicator!=null) {
+                            MainActivity.communicator.sendPreference(preferencesKey, selectedMenuItem.getSymbol(), "String", getApplicationContext());
+                            Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
+                        }
                         finish();
                     }
                 });
@@ -171,7 +168,7 @@ public class StringTextViewActivity extends Activity{
 
         @Override
         public void onBindViewHolder(@NonNull DateSeparatorAdapter.MyViewHolder holder, int position) {
-            StringOption stringOption = values.get(position);
+            StringOptionP stringOption = values.get(position);
             holder.name.setText(stringOption.getName());
         }
 

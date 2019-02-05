@@ -10,7 +10,6 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,28 +20,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.wearable.DataClient;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-import com.layoutxml.twelveish.objects.Setting;
+import com.layoutxml.twelveish.activities.AboutActivityP;
+import com.layoutxml.twelveish.activities.FontSizeInfoActivityP;
+import com.layoutxml.twelveish.activities.list_activities.ActivityTextViewActivityP;
+import com.layoutxml.twelveish.activities.list_activities.BooleanSwitcherActivityP;
+import com.layoutxml.twelveish.activities.list_activities.FontTextViewActivityP;
+import com.layoutxml.twelveish.activities.list_activities.IntegerTextViewOptionsActivityP;
+import com.layoutxml.twelveish.activities.list_activities.StringTextViewActivityP;
+import com.layoutxml.twelveish.objects.ActivityOptionP;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
-    private List<Setting> values = new ArrayList<>();
+    private List<ActivityOptionP> values = new ArrayList<>();
     private SettingsAdapter mAdapter;
 
     //Communication:
     public static boolean isWatchConnected = false;
-    private Communicator communicator;
+    public static Communicator communicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,50 +61,66 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void generateValues() {
-        Setting setting = new Setting();
-        setting.setName("Colors");
-        setting.setIcon(R.drawable.ic_color);
-        values.add(setting);
+        ActivityOptionP activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Colors");
+        activityOptionP.setIcon(R.drawable.ic_color);
+        activityOptionP.setActivity(ActivityTextViewActivityP.class);
+        activityOptionP.setExtra("ColorOptionsList");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Font");
-        setting.setIcon(R.drawable.ic_font);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Font");
+        activityOptionP.setIcon(R.drawable.ic_font);
+        activityOptionP.setActivity(FontTextViewActivityP.class);
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Date format");
-        setting.setIcon(R.drawable.ic_date);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Date format");
+        activityOptionP.setIcon(R.drawable.ic_date);
+        activityOptionP.setActivity(ActivityTextViewActivityP.class);
+        activityOptionP.setExtra("DateOptionsList");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Capitalisation");
-        setting.setIcon(R.drawable.ic_capitalisation);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Capitalisation");
+        activityOptionP.setIcon(R.drawable.ic_capitalisation);
+        activityOptionP.setActivity(IntegerTextViewOptionsActivityP.class);
+        activityOptionP.setExtra("Capitalization");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Show/hide elements");
-        setting.setIcon(R.drawable.ic_showhide);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Show/hide elements");
+        activityOptionP.setIcon(R.drawable.ic_showhide);
+        activityOptionP.setActivity(BooleanSwitcherActivityP.class);
+        activityOptionP.setExtra("ShowHide");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Language");
-        setting.setIcon(R.drawable.ic_language);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Language");
+        activityOptionP.setIcon(R.drawable.ic_language);
+        activityOptionP.setActivity(StringTextViewActivityP.class);
+        activityOptionP.setExtra("Language");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Text size offset");
-        setting.setIcon(R.drawable.ic_capitalisation);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Text size offset");
+        activityOptionP.setIcon(R.drawable.ic_capitalisation);
+        activityOptionP.setActivity(FontSizeInfoActivityP.class);
+        activityOptionP.setExtra("TextSize");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Miscellaneous");
-        setting.setIcon(R.drawable.ic_misc);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Miscellaneous");
+        activityOptionP.setIcon(R.drawable.ic_misc);
+        activityOptionP.setActivity(BooleanSwitcherActivityP.class);
+        activityOptionP.setExtra("MiscOptions");
+        values.add(activityOptionP);
 
-        setting = new Setting();
-        setting.setName("Info");
-        setting.setIcon(R.drawable.ic_info);
-        values.add(setting);
+        activityOptionP = new ActivityOptionP();
+        activityOptionP.setName("Info");
+        activityOptionP.setIcon(R.drawable.ic_info);
+        activityOptionP.setActivity(AboutActivityP.class);
+        values.add(activityOptionP);
 
         mAdapter.notifyDataSetChanged();
     }
@@ -147,14 +162,10 @@ public class MainActivity extends AppCompatActivity{
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
                         Intent intent;
-                        switch (position){
-                            /*case 0:
-                                intent = new Intent(MainActivity.this, ComplicationConfigActivity.class);
-                                MainActivity.this.startActivity(intent);
-                                break;*/
-                            default:
-                                break;
-                        }
+                        intent = new Intent(MainActivity.this, values.get(position).getActivity());
+                        intent.putExtra("Activity",values.get(position).getExtra());
+                        intent.putExtra("SettingsValue",values.get(position).getExtra2());
+                        MainActivity.this.startActivity(intent);
                     }
                 });
             }
@@ -163,15 +174,15 @@ public class MainActivity extends AppCompatActivity{
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.imageview_and_textview_item,parent,false);
             return new MyViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Setting setting = values.get(position);
-            holder.name.setText(setting.getName());
-            holder.icon.setImageResource(setting.getIcon());
+            ActivityOptionP activityOptionP = values.get(position);
+            holder.name.setText(activityOptionP.getName());
+            holder.icon.setImageResource(activityOptionP.getIcon());
         }
 
         @Override

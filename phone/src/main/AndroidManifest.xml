@@ -31,6 +31,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.list_activities.ActivityImageViewActivityP" />
+        <activity android:name=".activities.list_activities.ActivityTextViewActivityP" />
+        <activity android:name=".activities.list_activities.BooleanSwitcherActivityP" />
+        <activity android:name=".activities.list_activities.FontTextViewActivityP" />
+        <activity android:name=".activities.list_activities.IntegerImageViewActivityP" />
+        <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivityP" />
+        <activity android:name=".activities.list_activities.StringTextViewActivityP" />
+        <activity android:name=".activities.AboutActivityP" />
+        <activity android:name=".activities.FontSizeActivityP" />
+        <activity android:name=".activities.FontSizeInfoActivityP" />
     </application>
 
 </manifest>
