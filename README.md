@@ -120,6 +120,8 @@ Translations:
 
 * Spanish (improvement): Marco Martinez
 
+* Swedish: Max Sonneby
+
 ## License
 
 Twelveish is licensed under "GNU GPLv3" license. Copyright laws apply.
