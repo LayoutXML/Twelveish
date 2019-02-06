@@ -816,4 +816,69 @@
         <item>Di</item>
     </string-array>
 
+    <string-array name="ExactTimesPT">
+        <item>meia noite</item>
+        <item>uma</item>
+        <item>duas</item>
+        <item>três</item>
+        <item>quatro</item>
+        <item>cinco</item>
+        <item>seis</item>
+        <item>sete</item>
+        <item>oito</item>
+        <item>nove</item>
+        <item>dez</item>
+        <item>onze</item>
+        <item>meio dia</item>
+        <item>uma</item>
+        <item>duas</item>
+        <item>três</item>
+        <item>quatro</item>
+        <item>cinco</item>
+        <item>seis</item>
+        <item>sete</item>
+        <item>oito</item>
+        <item>nove</item>
+        <item>dez</item>
+        <item>onze</item>
+        <item>meia noite</item>
+    </string-array>
+    <string-array name="PrefixesPT">
+        <item />
+        <item />
+        <item>quase</item>
+        <item />
+        <item>após</item>
+        <item>quase</item>
+        <item />
+        <item>após</item>
+        <item>quase</item>
+        <item />
+        <item />
+        <item>quase</item>
+    </string-array>
+    <string-array name="SuffixesPT">
+        <item>e pouco</item>
+        <item>e tal</item>
+        <item>e um quarto</item>
+        <item>e um quarto</item>
+        <item>e um quarto</item>
+        <item>e meia</item>
+        <item>e meia</item>
+        <item>e meia</item>
+        <item>menos um quarto</item>
+        <item>menos um quarto</item>
+        <item>menos pouco</item>
+        <item />
+    </string-array>
+    <string-array name="WeekDaysPT">
+        <item>Dom</item>
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sab</item>
+    </string-array>
+
 </resources>
