@@ -116,11 +116,13 @@ Translations:
 
 * Norwegian: Johnny Wiig
 
+* Portuguese: Emanuel Teixeira
+
 * Spanish: David Amian Valle [@amian84](https://github.com/amian84)
 
 * Spanish (improvement): Marco Martinez
 
-* Swedish: Max Sonneby
+* Swedish: Max Sonneby [@StoreMax](https://github.com/StoreMax)
 
 ## License
 
