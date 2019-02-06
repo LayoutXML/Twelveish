@@ -752,4 +752,68 @@
         <item>Lø</item>
     </string-array>
 
+    <string-array name="ExactTimesFR">
+        <item>minuit</item>
+        <item>une heure</item>
+        <item>deux heure</item>
+        <item>trois heure</item>
+        <item>quatre heure</item>
+        <item>cinq heure</item>
+        <item>six heure</item>
+        <item>sept heure</item>
+        <item>huit heure</item>
+        <item>neuf heure</item>
+        <item>dix heure</item>
+        <item>onze heure</item>
+        <item>midi</item>
+        <item>treize heure</item>
+        <item>quatorze heure</item>
+        <item>quinze heure</item>
+        <item>seize heure</item>
+        <item>dix sept heure</item>
+        <item>dix huit heure</item>
+        <item>dix neuf heure</item>
+        <item>vingt heure</item>
+        <item>vingt-et-une heure</item>
+        <item>vingt-deux heure</item>
+        <item>vingt-trois heure</item>
+    </string-array>
+    <string-array name="PrefixesFR">
+        <item>environ</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>environ</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+        <item>presque</item>
+    </string-array>
+    <string-array name="SuffixesFR">
+        <item />
+        <item>dix</item>
+        <item>et quart</item>
+        <item>vingt</item>
+        <item>vingt-cinq</item>
+        <item>et demi</item>
+        <item>et demi</item>
+        <item>moins vingt</item>
+        <item>moins quart</item>
+        <item>moins dix</item>
+        <item>moins cinq</item>
+        <item />
+    </string-array>
+    <string-array name="WeekDaysFR">
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Me</item>
+        <item>Je</item>
+        <item>Ve</item>
+        <item>Sa</item>
+        <item>Di</item>
+    </string-array>
+
 </resources>

@@ -75,6 +75,11 @@ public class StringTextViewActivity extends Activity{
         values.add(option);
 
         option = new StringOption();
+        option.setName("French");
+        option.setSymbol("fr");
+        values.add(option);
+
+        option = new StringOption();
         option.setName("German");
         option.setSymbol("de");
         values.add(option);
