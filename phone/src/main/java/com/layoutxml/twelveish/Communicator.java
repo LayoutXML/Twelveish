@@ -54,12 +54,12 @@ public class Communicator implements DataClient.OnDataChangedListener {
                     public void run() {
                         if (!currentStatus) {
                             if (isWatchConnected) {
-                                Toast.makeText(applicationContext, "Watch disconnected (b)", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(applicationContext, "Watch disconnected", Toast.LENGTH_SHORT).show();
                             }
                             isWatchConnected = false;
                         } else {
                             if (!isWatchConnected) {
-                            Toast.makeText(applicationContext, "Watch connected (c)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -69,7 +69,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
         } else {
             currentStatus = true;
             if (!isWatchConnected) {
-            Toast.makeText(applicationContext, "Watch connected (d)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -96,7 +96,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
                 if (handshake) {
                     setCurrentStatus(true);
                     if (!isWatchConnected) {
-                        Toast.makeText(applicationContext, "Watch connected (a)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
                     }
                     isWatchConnected = true;
                     Uri mUri =  new Uri.Builder()
