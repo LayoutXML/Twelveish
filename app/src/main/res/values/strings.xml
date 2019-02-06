@@ -881,4 +881,68 @@
         <item>Sab</item>
     </string-array>
 
+    <string-array name="ExactTimesSV">
+        <item>tolv</item>
+        <item>ett</item>
+        <item>två</item>
+        <item>tre</item>
+        <item>fyra</item>
+        <item>fem</item>
+        <item>sex</item>
+        <item>sju</item>
+        <item>åtta</item>
+        <item>nio</item>
+        <item>tio</item>
+        <item>elva</item>
+        <item>tolv</item>
+        <item>ett</item>
+        <item>två</item>
+        <item>tre</item>
+        <item>fyra</item>
+        <item>fem</item>
+        <item>sex</item>
+        <item>sju</item>
+        <item>åtta</item>
+        <item>nio</item>
+        <item>tio</item>
+        <item>elva</item>
+    </string-array>
+    <string-array name="PrefixesSV">
+        <item />
+        <item>strax efter</item>
+        <item>snart kvart över</item>
+        <item>kvart över</item>
+        <item>snart halv</item>
+        <item>nästan halv</item>
+        <item>halv</item>
+        <item>lite över halv</item>
+        <item>snart kvart i</item>
+        <item>kvart i</item>
+        <item>snart</item>
+        <item>nästan</item>
+    </string-array>
+    <string-array name="SuffixesSV">
+        <item>ish</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item>ish</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+    </string-array>
+    <string-array name="WeekDaysSV">
+        <item>Sö</item>
+        <item>Må</item>
+        <item>Ti</item>
+        <item>On</item>
+        <item>To</item>
+        <item>Fr</item>
+        <item>Lö</item>
+    </string-array>
+
 </resources>

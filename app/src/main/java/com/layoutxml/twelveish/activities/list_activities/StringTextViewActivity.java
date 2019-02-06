@@ -124,6 +124,11 @@ public class StringTextViewActivity extends Activity{
         option.setSymbol("es");
         values.add(option);
 
+        option = new StringOption();
+        option.setName("Swedish");
+        option.setSymbol("sv");
+        values.add(option);
+
         mAdapter.notifyDataSetChanged();
     }
 
