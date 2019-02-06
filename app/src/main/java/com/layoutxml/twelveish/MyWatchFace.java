@@ -25,6 +25,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -34,10 +36,20 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
+import android.widget.Toast;
 
+import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 import com.layoutxml.twelveish.config.ComplicationConfigActivity;
 import com.layoutxml.twelveish.activities.list_activities.ActivityImageViewActivity;
 
@@ -51,8 +63,13 @@ import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.Gravity.TOP;
 
 public class MyWatchFace extends CanvasWatchFaceService {
-    private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
 
+    private static final String TAG = "MyWatchFace";
+    private final String path = "/twelveish";
+    private final String DATA_KEY = "rokas-twelveish";
+    private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
+    private final String GOODBYE_KEY = "rokas-twelveish-gb";
+    private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
     private String[] Prefixes;
@@ -227,7 +244,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
     }
 
-    private class Engine extends CanvasWatchFaceService.Engine {
+    private class Engine extends CanvasWatchFaceService.Engine implements DataClient.OnDataChangedListener {
 
         private final Handler mUpdateTimeHandler = new EngineHandler(this);
         private Calendar mCalendar;
@@ -611,6 +628,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     break;
             }
 
+            invalidate();
+
             if (counter >= 100 && !showedRateAlready) {
                 prefs.edit().putBoolean(getString(R.string.showed_rate), true).apply();
                 showRateNotification();
@@ -634,8 +653,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         @Override
         public void onDestroy() {
-            mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
             super.onDestroy();
+
+            mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
+
+            PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+            mPutDataMapRequest.getDataMap().putBoolean(GOODBYE_KEY, true);
+            mPutDataMapRequest.setUrgent();
+            PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+            Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
         }
 
         @Override
@@ -644,10 +670,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             if (visible) {
                 registerReceiver();
                 mCalendar.setTimeZone(TimeZone.getDefault());
-                invalidate();
                 loadPreferences();
+                Wearable.getDataClient(getApplicationContext()).addListener(this);
+
+                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
             } else {
                 unregisterReceiver();
+                Wearable.getDataClient(getApplicationContext()).removeListener(this);
             }
             updateTimer();
             significantTimeChange = true;
@@ -846,19 +880,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
 
             //Draw digital clock, date, battery percentage and day of the week
-            Float firstSeparator = 40.0f;
+            float firstSeparator = 40.0f;
             if ((mAmbient && !showSecondary) || (!mAmbient && !showSecondaryActive)) {
                 text = "";
             }
             if (!text.equals("") || !dayOfTheWeek.equals("")) {
                 if (!text.equals("") && !dayOfTheWeek.equals("")) {
-                    canvas.drawText(text + " • " + dayOfTheWeek, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(text + " • " + dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
                 } else if (!text.equals("")) {
-                    canvas.drawText(text, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(text, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
                 } else {
-                    canvas.drawText(dayOfTheWeek, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
                 }
             }
@@ -870,13 +904,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             if (!text3.equals("") || !text1.equals("")) {
                 if (!text3.equals("") && !text1.equals("")) {
-                    canvas.drawText(text3 + " • " + text1, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(text3 + " • " + text1, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
                 } else if (!text3.equals("")) {
-                    canvas.drawText(text3, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(text3, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
                 } else {
-                    canvas.drawText(text1, bounds.width() / 2, firstSeparator - mTextPaint.ascent(), mTextPaint);
+                    canvas.drawText(text1, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
                     firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
                 }
             }
@@ -923,17 +957,17 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     }
                     float textSize;
                     if (!complicationLeftSet && !complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() - 32, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, true);
-                        x = bounds.width() / 2;
+                        textSize = getTextSizeForWidth(bounds.width() - 32, (firstSeparator > bounds.height() / 4.0f + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4.0f - 32 : bounds.height() / 2.0f - mChinSize - 32, text2, true);
+                        x = bounds.width() / 2.0f;
                     } else if (complicationLeftSet && !complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
-                        x = bounds.width() * 5 / 8 - 16;
+                        textSize = getTextSizeForWidth(bounds.width() * 3.0f / 4.0f - 24, (firstSeparator > bounds.height() / 4.0f + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4.0f - 32 : bounds.height() / 2.0f - mChinSize - 32, text2, false);
+                        x = bounds.width() * 5.0f / 8.0f - 16;
                     } else if (!complicationLeftSet && complicationRightSet) {
-                        textSize = getTextSizeForWidth(bounds.width() * 3 / 4 - 24, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
-                        x = bounds.width() * 3 / 8 + 16;
+                        textSize = getTextSizeForWidth(bounds.width() * 3.0f / 4.0f - 24, (firstSeparator > bounds.height() / 4.0f + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4.0f - 32 : bounds.height() / 2.0f - mChinSize - 32, text2, false);
+                        x = bounds.width() * 3.0f / 8.0f + 16;
                     } else {
-                        textSize = getTextSizeForWidth(bounds.width() / 2, (firstSeparator > bounds.height() / 4 + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4 - 32 : bounds.height() / 2 - mChinSize - 32, text2, false);
-                        x = bounds.width() / 2;
+                        textSize = getTextSizeForWidth(bounds.width() / 2.0f, (firstSeparator > bounds.height() / 4.0f + mChinSize) ? bounds.height() - firstSeparator - bounds.height()/4.0f - 32 : bounds.height() / 2.0f - mChinSize - 32, text2, false);
+                        x = bounds.width() / 2.0f;
                     }
                     float y=0;
                     mTextPaint2.setTextSize(textSize+mainTextOffset);
@@ -941,7 +975,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     for (String ignored : text2.split("\n")) {
                         y += mTextPaint2.descent() - mTextPaint2.ascent();
                     }
-                    y = -mTextPaint2.ascent() - y / 2 + bounds.height() / 2;
+                    y = -mTextPaint2.ascent() - y / 2 + bounds.height() / 2.0f;
                     basey = y;
                     for (String line : text2.split("\n")) {
                         canvas.drawText(line, x, y, mTextPaint2);
@@ -1284,6 +1318,65 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     min = desiredTextSize2;
             }
             return min;
+        }
+
+
+        @Override
+        public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
+            for (DataEvent event: dataEventBuffer) {
+                if (event.getType()==DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath()!=null && event.getDataItem().getUri().getPath().equals(path)) {
+                    processData(event.getDataItem());
+                }
+            }
+
+            Uri mUri =  new Uri.Builder()
+                    .scheme(PutDataRequest.WEAR_URI_SCHEME)
+                    .path(path)
+                    .authority(DATA_KEY)
+                    .build();
+            Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
+        }
+
+        private void processData(DataItem dataItem) {
+            DataMapItem mDataMapItem = DataMapItem.fromDataItem(dataItem);
+            String[] array = mDataMapItem.getDataMap().getStringArray(DATA_KEY);
+            if (array!=null && array.length==3) {
+                Toast.makeText(getApplicationContext(),"Preference received",Toast.LENGTH_SHORT).show();
+                switch (array[2]) {
+                    case "String":
+                        prefs.edit().putString(array[0],array[1]).apply();
+                        break;
+                    case "Integer":
+                        try {
+                            int newPref = Integer.parseInt(array[1]);
+                            prefs.edit().putInt(array[0],newPref).apply();
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case "Boolean":
+                        if (array[1].equalsIgnoreCase("true") || array[1].equalsIgnoreCase("false")) {
+                            boolean newPref2 = Boolean.parseBoolean(array[1]);
+                            prefs.edit().putBoolean(array[0],newPref2).apply();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                        }
+                    default:
+                        Log.d(TAG,"Unknown type in processData");
+                        break;
+                }
+                loadPreferences();
+                significantTimeChange = true;
+            }
+            boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
+            if (!handshake) {
+                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+            }
         }
     }
 }

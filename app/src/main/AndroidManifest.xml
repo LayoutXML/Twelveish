@@ -77,17 +77,6 @@
         <activity android:name=".activities.FontSizeActivity" />
         <activity android:name=".activities.FontSizeInfoActivity" />
 
-        <!--<service android:name=".config.DigitalWatchFaceConfigListenerService">
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED"/>
-
-                <data
-                    android:host="*"
-                    android:pathPrefix="/"
-                    android:scheme="wear"/>
-            </intent-filter>
-        </service> -->
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

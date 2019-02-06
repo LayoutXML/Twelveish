@@ -1,21 +1,22 @@
 /*
  * Copyright (c) 2018. LayoutXML
  * Created by LayoutXML.
+ *
  */
 
 package com.layoutxml.twelveish.objects;
 
-public class Setting {
+public class StringOptionP {
 
-    private String name;
-    private Integer icon;
+    public String name;
+    public String symbol;
 
-    public Integer getIcon() {
-        return icon;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setIcon(Integer icon) {
-        this.icon = icon;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getName() {

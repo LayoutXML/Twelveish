@@ -6,6 +6,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.layoutxml.twelveish">
 
     <!-- Required to act as a custom watch face. -->
@@ -18,7 +19,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -26,8 +28,18 @@
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
                 <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             </intent-filter>
         </activity>
+        <activity android:name=".activities.list_activities.ActivityTextViewActivityP" />
+        <activity android:name=".activities.list_activities.BooleanSwitcherActivityP" />
+        <activity android:name=".activities.list_activities.FontTextViewActivityP" />
+        <activity android:name=".activities.list_activities.IntegerImageViewActivityP" />
+        <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivityP" />
+        <activity android:name=".activities.list_activities.StringTextViewActivityP" />
+        <activity android:name=".activities.AboutActivityP" />
+        <activity android:name=".activities.FontSizeActivityP" />
+        <activity android:name=".activities.FontSizeInfoActivityP" />
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@ import java.util.List;
 
 public class StringTextViewActivity extends Activity{
 
-    List<StringOption> values = new ArrayList<>();
+    private List<StringOption> values = new ArrayList<>();
     private DateSeparatorAdapter mAdapter;
     private SharedPreferences prefs;
     private String preferencesKey;

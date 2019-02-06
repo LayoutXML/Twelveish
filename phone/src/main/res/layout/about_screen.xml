@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/license1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Made by LayoutXML"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/license2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Error loading versionname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/license3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Error loading versioncode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\nLogo made by elawhatson.\n\nTranslations by:\noh2fhf,\nroschlau,\nrichardSin501,\nLuigi Violin,\namian84,\nLefteris Popoff,\neelcovb,\nJohnny Wiig,\nMarco Martinez.\n" />
+
+    <TextView
+        android:id="@+id/license4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Don't forget to rate the app!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</LinearLayout>

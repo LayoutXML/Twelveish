@@ -6,4 +6,42 @@
 
 <resources>
     <string name="app_name">Twelveish</string>
+    <string name="preference_background_color">backgroundColor</string>
+    <string name="preference_main_color">mainColorActive</string>
+    <string name="preference_main_color_ambient">mainColor</string>
+    <string name="preference_secondary_color">secondaryColorActive</string>
+    <string name="preference_secondary_color_ambient">secondaryColor</string>
+    <string name="preference_military_time">militaryTime</string>
+    <string name="preference_militarytext_time">militarytextTime</string>
+    <string name="preference_date_order">dateOrder</string>
+    <string name="preference_date_separator">stringOption</string>
+    <string name="preference_capitalisation">capitalisation</string>
+    <string name="preference_ampm">ampm</string>
+    <string name="preference_show_secondary">showSecondary</string>
+    <string name="preference_show_secondary_active">showSecondaryActive</string>
+    <string name="preference_show_secondary_calendar">showSecondaryCalendar</string>
+    <string name="preference_show_secondary_calendar_active">showSecondaryCalendarActive</string>
+    <string name="preference_show_suffixes">showSuffixes</string>
+    <string name="preference_show_battery">showBattery</string>
+    <string name="preference_show_battery_ambient">showBatteryAmbient</string>
+    <string name="preference_show_words">showWords</string>
+    <string name="preference_show_words_ambient">showWordsAmbient</string>
+    <string name="preference_show_seconds">showSeconds</string>
+    <string name="preference_show_complications">showComplication</string>
+    <string name="preference_show_complications_ambient">showComplicationAmbient</string>
+    <string name="preference_language">language</string>
+    <string name="preference_font">font</string>
+    <string name="preference_show_day">showDay</string>
+    <string name="preference_show_day_ambient">showDayAmbient</string>
+    <string name="preference_tap">tapComplicationDisable</string>
+    <string name="preference_legacy_word_arrangement">legacyWords</string>
+    <string name="showed_rate">showedRate</string>
+    <string name="showed_tutorial">showedTutorial</string>
+    <string name="showed_donate">showedDonate</string>
+    <string name="counter">counter</string>
+    <string name="complication_left_set">complication_left_set</string>
+    <string name="complication_right_set">complication_right_set</string>
+    <string name="main_text_size_offset">mainTextSizeOffset</string>
+    <string name="secondary_text_size_offset">secondaryTextSizeOffset</string>
+    <string name="main_text_size_real">mainTextSizeReal</string>
 </resources>
