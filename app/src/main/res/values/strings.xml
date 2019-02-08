@@ -755,48 +755,49 @@
     <string-array name="ExactTimesFR">
         <item>minuit</item>
         <item>une heure</item>
-        <item>deux heure</item>
-        <item>trois heure</item>
-        <item>quatre heure</item>
-        <item>cinq heure</item>
-        <item>six heure</item>
-        <item>sept heure</item>
-        <item>huit heure</item>
-        <item>neuf heure</item>
-        <item>dix heure</item>
-        <item>onze heure</item>
+        <item>deux heures</item>
+        <item>trois heures</item>
+        <item>quatre heures</item>
+        <item>cinq heures</item>
+        <item>six heures</item>
+        <item>sept heures</item>
+        <item>huit heures</item>
+        <item>neuf heures</item>
+        <item>dix heures</item>
+        <item>onze heures</item>
         <item>midi</item>
-        <item>treize heure</item>
-        <item>quatorze heure</item>
-        <item>quinze heure</item>
-        <item>seize heure</item>
-        <item>dix sept heure</item>
-        <item>dix huit heure</item>
-        <item>dix neuf heure</item>
-        <item>vingt heure</item>
-        <item>vingt-et-une heure</item>
-        <item>vingt-deux heure</item>
-        <item>vingt-trois heure</item>
+        <item>treize heures</item>
+        <item>quatorze heures</item>
+        <item>quinze heures</item>
+        <item>seize heures</item>
+        <item>dix sept heures</item>
+        <item>dix huit heures</item>
+        <item>dix neuf heures</item>
+        <item>vingt heures</item>
+        <item>vingt-et-une heures</item>
+        <item>vingt-deux heures</item>
+        <item>vingt-trois heures</item>
     </string-array>
     <string-array name="PrefixesFR">
+        <item />
         <item>environ</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
         <item>environ</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
-        <item>presque</item>
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
     <string-array name="SuffixesFR">
         <item />
+        <item />
         <item>dix</item>
         <item>et quart</item>
-        <item>vingt</item>
+        <item>et vingt</item>
         <item>vingt-cinq</item>
         <item>et demi</item>
         <item>et demi</item>
@@ -804,16 +805,15 @@
         <item>moins quart</item>
         <item>moins dix</item>
         <item>moins cinq</item>
-        <item />
     </string-array>
     <string-array name="WeekDaysFR">
+        <item>Di</item>
         <item>Lu</item>
         <item>Ma</item>
         <item>Me</item>
         <item>Je</item>
         <item>Ve</item>
         <item>Sa</item>
-        <item>Di</item>
     </string-array>
 
     <string-array name="ExactTimesPT">
