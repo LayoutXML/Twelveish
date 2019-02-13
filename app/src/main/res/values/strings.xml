@@ -917,7 +917,7 @@
         <item>halv</item>
         <item>lite över halv</item>
         <item>snart kvart i</item>
-        <item>kvart i</item>
+        <item>kvart\u00A0i</item>
         <item>snart</item>
         <item>nästan</item>
     </string-array>
