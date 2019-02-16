@@ -77,28 +77,28 @@
     <string-array name="Prefixes">
         <item/>
         <item/>
+        <item>a\u00A0quarter past</item>
         <item>a quarter past</item>
-        <item>a quarter past</item>
-        <item>almost half past</item>
-        <item>around half past</item>
+        <item>almost\u00A0half past</item>
+        <item>around\u00A0half past</item>
         <item>half past</item>
-        <item>half past</item>
+        <item>half\u00A0past</item>
         <item>a quarter to</item>
         <item>a quarter to</item>
+        <item>approaching</item>
         <item>almost</item>
-        <item>around</item>
     </string-array>
     <string-array name="Suffixes">
         <item>ish</item>
-        <item>or so</item>
+        <item>or\u00A0so</item>
         <item/>
-        <item>or so</item>
+        <item>or\u00A0so</item>
         <item/>
         <item/>
         <item>ish</item>
-        <item>or so</item>
+        <item>or\u00A0so</item>
         <item/>
-        <item>or so</item>
+        <item>or\u00A0so</item>
         <item/>
         <item/>
     </string-array>
