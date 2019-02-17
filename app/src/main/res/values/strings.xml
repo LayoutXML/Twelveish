@@ -910,13 +910,13 @@
     <string-array name="PrefixesSV">
         <item />
         <item>strax efter</item>
-        <item>snart kvart över</item>
+        <item>snart kvart\u00A0över</item>
         <item>kvart över</item>
         <item>snart halv</item>
         <item>nästan halv</item>
         <item>halv</item>
         <item>lite över halv</item>
-        <item>snart kvart i</item>
+        <item>snart kvart\u00A0i</item>
         <item>kvart\u00A0i</item>
         <item>snart</item>
         <item>nästan</item>
