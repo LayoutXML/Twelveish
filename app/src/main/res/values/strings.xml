@@ -275,20 +275,20 @@
         <item/>
         <item/>
         <item/>
-        <item>почти без четверти</item>
+        <item>почти\u00A0без четверти</item>
         <item>без четверти</item>
         <item>почти</item>
         <item/>
     </string-array>
     <string-array name="SuffixesRU">
         <item/>
-        <item>или около того</item>
-        <item>с четвертью</item>
-        <item>с четвертью</item>
-        <item>с половиной</item>
-        <item>с половиной</item>
-        <item>с половиной</item>
-        <item>с половиной</item>
+        <item>или\u00A0около того</item>
+        <item>с\u00A0четвертью</item>
+        <item>с\u00A0четвертью</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
         <item/>
         <item/>
         <item/>
