@@ -263,6 +263,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private boolean mLowBitAmbient;
         private boolean mAmbient = false;
 
+        /**
+         * Creates watch face
+         * @param holder holder
+         */
         @Override
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
@@ -300,6 +304,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         }
 
+        /**
+         * Gets date
+         */
         private void getDate() {
             //Get date
             int first, second, third;
@@ -349,6 +356,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 dayOfTheWeek = "";
         }
 
+        /**
+         * Asks user to rate
+         */
         private void showRateNotification() {
             int notificationId = 1;
             String id = "Main";
@@ -366,6 +376,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
+        /**
+         * Shows notification to tweak settings for the first time
+         */
         private void showTutorialNotification() {
             int notificationId = 2;
             String id = "Main";
@@ -383,6 +396,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
+        /**
+         * Asks user to donate
+         */
         private void showDonateNotification() {
             int notificationId = 3;
             String id = "Main";
@@ -400,6 +416,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
+        /**
+         * Initializes complications
+         */
         private void initializeComplications() {
             mActiveComplicationDataSparseArray = new SparseArray<>(COMPLICATION_IDS.length);
             ComplicationDrawable bottomComplicationDrawable = (ComplicationDrawable) getDrawable(R.drawable.custom_complication_styles);
@@ -418,6 +437,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             setActiveComplications(COMPLICATION_IDS);
         }
 
+        /**
+         * Updates complication data
+         * @param complicationId complication id
+         * @param complicationData complication data
+         */
         @Override
         public void onComplicationDataUpdate(
                 int complicationId, ComplicationData complicationData) {
@@ -427,6 +451,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             invalidate();
         }
 
+        /**
+         * Acts on surface change
+         * @param holder holder
+         * @param format format
+         * @param width width
+         * @param height height
+         */
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
@@ -434,6 +465,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             screenWidthG = width;
         }
 
+        /**
+         * Loads preferences
+         */
         private void loadPreferences() {
             boolean showedRateAlready = prefs.getBoolean(getString(R.string.showed_rate), false);
             int counter = prefs.getInt(getString(R.string.counter), 0);
@@ -675,6 +709,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Destroys watch face
+         */
         @Override
         public void onDestroy() {
             super.onDestroy();
@@ -688,6 +725,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
         }
 
+        /**
+         * Acts on visibility change
+         * @param visible is visible
+         */
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
@@ -712,6 +753,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             getDate();
         }
 
+        /**
+         * Registers all receivers
+         */
         private void registerReceiver() {
             if (mRegisteredTimeZoneReceiver) {
                 return;
@@ -721,6 +765,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             MyWatchFace.this.registerReceiver(mTimeZoneReceiver, filter);
         }
 
+        /**
+         * Unregisters all receivers
+         */
         private void unregisterReceiver() {
             if (!mRegisteredTimeZoneReceiver) {
                 return;
@@ -729,6 +776,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             MyWatchFace.this.unregisterReceiver(mTimeZoneReceiver);
         }
 
+        /**
+         * Acts on screen size change
+         * @param insets insets
+         */
         @Override
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
@@ -757,18 +808,28 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Automatically generated method
+         */
         @Override
         public void onPropertiesChanged(Bundle properties) {
             super.onPropertiesChanged(properties);
             mLowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
         }
 
+        /**
+         * Automatically generated method
+         */
         @Override
         public void onTimeTick() {
             super.onTimeTick();
             invalidate();
         }
 
+        /**
+         * Reacts to ambiend mode changes
+         * @param inAmbientMode is new mode ambient mode
+         */
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
@@ -800,6 +861,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             getDate();
         }
 
+        /**
+         * Performs user input actions
+         * @param tapType tap type
+         * @param x x
+         * @param y y
+         * @param eventTime time
+         */
         @Override
         public void onTapCommand(int tapType, int x, int y, long eventTime) {
             switch (tapType) {
@@ -822,6 +890,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
             invalidate();
         }
 
+        /**
+         * Return complication in given coordinates
+         * @param x x
+         * @param y y
+         * @return complication id
+         */
         private int getTappedComplicationId(int x, int y) {
             int complicationId;
             ComplicationData complicationData;
@@ -846,6 +920,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             return -1;
         }
 
+        /**
+         * Completes complication tap action
+         * @param complicationId complication id
+         */
         private void onComplicationTap(int complicationId) {
             ComplicationData complicationData = mActiveComplicationDataSparseArray.get(complicationId);
             if (complicationData != null) {
@@ -868,6 +946,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Method that draws all elements on canvas
+         * @param canvas canvas
+         * @param bounds bounds
+         */
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             //Set colors
@@ -1024,6 +1107,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Gets hours text from appropriate language array
+         * @param hours hours
+         * @return hours text
+         */
         private String getExactTime(int hours) {
             String exactTime;
             switch (language) {
@@ -1075,6 +1163,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             return exactTime;
         }
 
+        /**
+         * Capitalizes text: every word title case
+         * @param hours hours
+         * @param minutes minutes
+         * @param index array element for prefixes & suffixes
+         * @return capitalized text
+         */
         private String capitalise0(int hours, int minutes, int index) {
             //Prefix
             String mainPrefix = "";
@@ -1135,6 +1230,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 return arrangeWords(mainPrefix + ((minutes > 0) ? (PrefixNewLine[index] ? " " : "") : "") + mainText + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "") + mainSuffix);
         }
 
+        /**
+         * Capitalizes text: all caps
+         * @param hours hours
+         * @param minutes minutes
+         * @param index array element for prefixes & suffixes
+         * @return capitalized text
+         */
         private String capitalise1(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
 
@@ -1157,6 +1259,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Capitalizes text: all lowercase
+         * @param hours hours
+         * @param minutes minutes
+         * @param index array element for prefixes & suffixes
+         * @return capitalized text
+         */
         private String capitalise2(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
 
@@ -1179,6 +1288,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Capitalizes text: first word title case
+         * @param hours hours
+         * @param minutes minutes
+         * @param index array element for prefixes & suffixes
+         * @return capitalized text
+         */
         private String capitalise3(int hours, int minutes, int index) {
             String middle = getExactTime(hours);
             if (legacyWords) {
@@ -1200,6 +1316,13 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Capitalizes text: first word in every line title case
+         * @param hours hours
+         * @param minutes minutes
+         * @param index array element for prefixes & suffixes
+         * @return capitalized text
+         */
         private String capitalise4(int hours, int minutes, int index) {
             //Prefix
             String mainPrefix = "";
@@ -1236,6 +1359,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         }
 
+        /**
+         * Adds line breaks to fit text better
+         * @param text text
+         * @return new text
+         */
         private String arrangeWords(String text) {
             String[] textArray = text.split(" ");
             int numberOfWords = textArray.length;
@@ -1310,6 +1438,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Automatically generated method
+         */
         private void updateTimer() {
             mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
             if (shouldTimerBeRunning()) {
@@ -1317,10 +1448,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Automatically generated method
+         */
         private boolean shouldTimerBeRunning() {
             return isVisible() && !mAmbient;
         }
 
+        /**
+         * Automatically generated method
+         */
         private void handleUpdateTimeMessage() {
             invalidate();
             if (shouldTimerBeRunning()) {
@@ -1331,6 +1468,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
         }
 
+        /**
+         * Calculates the best maximum font size value for text
+         * @param desiredWidth canvas width with margins subtracted
+         * @param desiredHeight canvas height with margins subtracted
+         * @param text text
+         * @param addMargin whether to add additional margin or not
+         * @return text size
+         */
         private float getTextSizeForWidth(float desiredWidth, float desiredHeight, String text, boolean addMargin) {
             text = text.toUpperCase();
             float min = Integer.MAX_VALUE, linecount = 0;
@@ -1353,7 +1498,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             return min;
         }
 
-
+        /**
+         * Receives data shared between phone and wearable
+         * @param dataEventBuffer
+         */
         @Override
         public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
             for (DataEvent event: dataEventBuffer) {
@@ -1370,6 +1518,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
             Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
         }
 
+        /**
+         * Processes received data between phone and wearable
+         * @param dataItem dataItem
+         */
         private void processData(DataItem dataItem) {
             DataMapItem mDataMapItem = DataMapItem.fromDataItem(dataItem);
             String[] array = mDataMapItem.getDataMap().getStringArray(DATA_KEY);
