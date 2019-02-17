@@ -717,13 +717,13 @@
     <string-array name="PrefixesNO">
         <item />
         <item>litt over</item>
-        <item>snart kvart over</item>
+        <item>snart kvart\u00A0over</item>
         <item>kvart over</item>
         <item>rundt halv</item>
         <item>nesten halv</item>
         <item>halv</item>
         <item>halv</item>
-        <item>snart kvart på</item>
+        <item>snart kvart\u00A0på</item>
         <item>kvart på</item>
         <item>rundt</item>
         <item>nesten</item>
