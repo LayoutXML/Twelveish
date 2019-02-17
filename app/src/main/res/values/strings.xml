@@ -603,14 +603,14 @@
     <string-array name="SuffixesEL">
         <item />
         <item>και κάτι</item>
-        <item>και τέταρτο</item>
-        <item>και τέταρτο</item>
-        <item>και μισή</item>
-        <item>και μισή</item>
-        <item>και μισή</item>
-        <item>παρά τέταρτο</item>
-        <item>παρά τέταρτο</item>
-        <item>παρά τέταρτο</item>
+        <item>και\u00A0τέταρτο</item>
+        <item>και\u00A0τέταρτο</item>
+        <item>και\u00A0μισή</item>
+        <item>και\u00A0μισή</item>
+        <item>και\u00A0μισή</item>
+        <item>παρά\u00A0τέταρτο</item>
+        <item>παρά\u00A0τέταρτο</item>
+        <item>παρά\u00A0τέταρτο</item>
         <item />
         <item />
     </string-array>
