@@ -147,7 +147,7 @@
         <item>apie</item>
         <item>apie</item>
         <item>maždaug</item>
-        <item>beveik be ketvirčio</item>
+        <item>beveik\u00A0be ketvirčio</item>
         <item>be ketvirčio</item>
         <item>beveik</item>
         <item>apie</item>
@@ -155,12 +155,12 @@
     <string-array name="SuffixesLT">
         <item/>
         <item/>
-        <item>su ketvirčiu</item>
-        <item>su ketvirčiu</item>
-        <item>su puse</item>
-        <item>su puse</item>
-        <item>su puse</item>
-        <item>su puse</item>
+        <item>su\u00A0ketvirčiu</item>
+        <item>su\u00A0ketvirčiu</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
         <item/>
         <item/>
         <item/>
