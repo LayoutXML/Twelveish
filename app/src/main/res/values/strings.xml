@@ -867,7 +867,7 @@
         <item>e meia</item>
         <item>e meia</item>
         <item>menos um quarto</item>
-        <item>menos um quarto</item>
+        <item>menos\u00A0um quarto</item>
         <item>menos pouco</item>
         <item />
     </string-array>
