@@ -817,7 +817,7 @@
     </string-array>
 
     <string-array name="ExactTimesPT">
-        <item>meia noite</item>
+        <item>doze</item>
         <item>uma</item>
         <item>duas</item>
         <item>três</item>
@@ -829,7 +829,7 @@
         <item>nove</item>
         <item>dez</item>
         <item>onze</item>
-        <item>meio dia</item>
+        <item>doze</item>
         <item>uma</item>
         <item>duas</item>
         <item>três</item>
