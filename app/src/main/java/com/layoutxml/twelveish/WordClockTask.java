@@ -25,8 +25,6 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
     private int index;
     private String[] Prefixes;
     private String[] Suffixes;
-    private String[] WeekDays;
-    private int[] TimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
     private boolean[] PrefixNewLine = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
     private boolean[] SuffixNewLine = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
     private String language;
@@ -42,7 +40,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
     private int mainTextOffset;
 
     public WordClockTask(WeakReference<Context> context, String font, int capitalisation, int hourText, int minutes, int index, String[] prefixes,
-                         String[] suffixes, String[] weekDays, int[] timeShift, boolean[] prefixNewLine, boolean[] suffixNewLine,
+                         String[] suffixes, boolean[] prefixNewLine, boolean[] suffixNewLine,
                          String language, boolean showSuffixes, boolean legacyWords, boolean complicationLeftSet, boolean complicationRightSet,
                          int boundsWidth, int boundsHeight, float firstSeparator, float mChinSize, int mainTextOffset, WeakReference<WordClockListener> wordClockListenerWeakReference) {
         contextWeakReference = context;
@@ -54,8 +52,6 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         this.index = index;
         this.Prefixes = prefixes;
         this.Suffixes = suffixes;
-        this.WeekDays = weekDays;
-        this.TimeShift = timeShift;
         this.PrefixNewLine = prefixNewLine;
         this.SuffixNewLine = suffixNewLine;
         this.language = language;

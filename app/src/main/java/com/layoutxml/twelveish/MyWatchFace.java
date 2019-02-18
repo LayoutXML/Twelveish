@@ -1054,7 +1054,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     hourText = 12;
                 if ((mAmbient && showWordsAmbient) || (!mAmbient && showWords)) {
                     wordClockTask = new WordClockTask(new WeakReference<Context>(getApplicationContext()),font,capitalisation,hourText,minutes,index,Prefixes,Suffixes,
-                            WeekDays,TimeShift,PrefixNewLine,SuffixNewLine,language,showSuffixes,legacyWords,complicationLeftSet,complicationRightSet,bounds.width(),
+                            PrefixNewLine,SuffixNewLine,language,showSuffixes,legacyWords,complicationLeftSet,complicationRightSet,bounds.width(),
                             bounds.height(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
                     wordClockTask.execute();
                 } else {
