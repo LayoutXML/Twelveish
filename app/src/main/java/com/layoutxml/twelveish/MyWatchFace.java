@@ -1088,6 +1088,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             prefs.edit().putInt(getString(R.string.main_text_size_real),(int)wordClockTaskWrapper.getTextSize()).apply();
             mTextPaint2.setTextSize(wordClockTaskWrapper.getTextSize()+mainTextOffset);
             x = wordClockTaskWrapper.getX();
+            invalidate();
         }
 
         /**
