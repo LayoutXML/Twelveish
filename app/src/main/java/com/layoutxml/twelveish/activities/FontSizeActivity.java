@@ -39,12 +39,17 @@ public class FontSizeActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int newMin = Integer.parseInt(mainText.getText().toString());
-                int newMax = Integer.parseInt(secondaryText.getText().toString());
-                sharedPreferences.edit().putInt(getString(R.string.main_text_size_offset),newMin).apply();
-                sharedPreferences.edit().putInt(getString(R.string.secondary_text_size_offset),newMax).apply();
-                Toast.makeText(getApplicationContext(),newMin+" and "+newMax+" set",Toast.LENGTH_SHORT).show();
-                finish();
+                try {
+                    int newMin = Integer.parseInt(mainText.getText().toString());
+                    int newMax = Integer.parseInt(secondaryText.getText().toString());
+                    sharedPreferences.edit().putInt(getString(R.string.main_text_size_offset), newMin).apply();
+                    sharedPreferences.edit().putInt(getString(R.string.secondary_text_size_offset), newMax).apply();
+                    Toast.makeText(getApplicationContext(), newMin + " and " + newMax + " set", Toast.LENGTH_SHORT).show();
+                    finish();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Invalid input. Only numbers and '.' are allowed.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
