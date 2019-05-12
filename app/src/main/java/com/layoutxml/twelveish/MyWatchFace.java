@@ -1174,6 +1174,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                         break;
                 }
                 loadPreferences();
+                getDate(); //forces date refresh in case it is changed
                 significantTimeChange = true;
             }
             boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);

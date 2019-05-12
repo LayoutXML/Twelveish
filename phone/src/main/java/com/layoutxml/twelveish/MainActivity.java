@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
         mAdapter = new SettingsAdapter();
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-        //generateValues();
+        generateValues();
     }
 
     private void generateValues() {
