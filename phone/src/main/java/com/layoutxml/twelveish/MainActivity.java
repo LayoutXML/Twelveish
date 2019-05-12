@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity{
         communicator = new Communicator(getApplicationContext());
         communicator.initiateHandshake(getApplicationContext());
         communicator.requestBooleanPreferences(getApplicationContext(),null);
+        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
 
         RecyclerView mRecyclerView = findViewById(R.id.menuList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -131,19 +132,18 @@ public class MainActivity extends AppCompatActivity{
         super.onDestroy();
         communicator.destroy();
         communicator = null;
+        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
         communicator.initiateHandshake(getApplicationContext());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
     }
 
     public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder>{
