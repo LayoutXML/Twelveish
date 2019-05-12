@@ -213,6 +213,8 @@ public class BooleanSwitcherActivityP extends Activity{
             preferences.put(array[i],value);
         }
 
+        if (values.size()>0)
+            values.clear();
         if (getIntent().getStringExtra("Activity").equals("MiscOptions"))
             generateMiscOptionsValues();
         else if (getIntent().getStringExtra("Activity").equals("ShowHide"))
