@@ -65,62 +65,62 @@ public class MainActivity extends AppCompatActivity{
     private void generateValues() {
         ActivityOptionP activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Colors");
-        activityOptionP.setIcon(R.drawable.ic_color);
+        activityOptionP.setIcon(R.drawable.ic_colorp);
         activityOptionP.setActivity(ActivityTextViewActivityP.class);
         activityOptionP.setExtra("ColorOptionsList");
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Font");
-        activityOptionP.setIcon(R.drawable.ic_font);
+        activityOptionP.setIcon(R.drawable.ic_fontp);
         activityOptionP.setActivity(FontTextViewActivityP.class);
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Date format");
-        activityOptionP.setIcon(R.drawable.ic_date);
+        activityOptionP.setIcon(R.drawable.ic_datep);
         activityOptionP.setActivity(ActivityTextViewActivityP.class);
         activityOptionP.setExtra("DateOptionsList");
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Capitalisation");
-        activityOptionP.setIcon(R.drawable.ic_capitalisation);
+        activityOptionP.setIcon(R.drawable.ic_capitalisationp);
         activityOptionP.setActivity(IntegerTextViewOptionsActivityP.class);
         activityOptionP.setExtra("Capitalization");
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Show/hide elements");
-        activityOptionP.setIcon(R.drawable.ic_showhide);
+        activityOptionP.setIcon(R.drawable.ic_showhidep);
         activityOptionP.setActivity(BooleanSwitcherActivityP.class);
         activityOptionP.setExtra("ShowHide");
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Language");
-        activityOptionP.setIcon(R.drawable.ic_language);
+        activityOptionP.setIcon(R.drawable.ic_languagep);
         activityOptionP.setActivity(StringTextViewActivityP.class);
         activityOptionP.setExtra("Language");
         values.add(activityOptionP);
-
-        activityOptionP = new ActivityOptionP();
-        activityOptionP.setName("Text size offset");
-        activityOptionP.setIcon(R.drawable.ic_capitalisation);
-        activityOptionP.setActivity(FontSizeInfoActivityP.class);
-        activityOptionP.setExtra("TextSize");
-        values.add(activityOptionP);
+//
+//        activityOptionP = new ActivityOptionP();
+//        activityOptionP.setName("Text size offset");
+//        activityOptionP.setIcon(R.drawable.ic_capitalisation);
+//        activityOptionP.setActivity(FontSizeInfoActivityP.class);
+//        activityOptionP.setExtra("TextSize");
+//        values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Miscellaneous");
-        activityOptionP.setIcon(R.drawable.ic_misc);
+        activityOptionP.setIcon(R.drawable.ic_miscp);
         activityOptionP.setActivity(BooleanSwitcherActivityP.class);
         activityOptionP.setExtra("MiscOptions");
         values.add(activityOptionP);
 
         activityOptionP = new ActivityOptionP();
         activityOptionP.setName("Info");
-        activityOptionP.setIcon(R.drawable.ic_info);
+        activityOptionP.setIcon(R.drawable.ic_infop);
         activityOptionP.setActivity(AboutActivityP.class);
         values.add(activityOptionP);
 
