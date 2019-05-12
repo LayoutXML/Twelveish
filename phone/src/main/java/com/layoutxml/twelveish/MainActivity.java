@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity{
 
         communicator = new Communicator(getApplicationContext());
         communicator.initiateHandshake(getApplicationContext());
+        communicator.requestBooleanPreferences(getApplicationContext(),null);
 
         RecyclerView mRecyclerView = findViewById(R.id.menuList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
