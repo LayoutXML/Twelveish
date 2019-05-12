@@ -77,7 +77,7 @@ public class IntegerTextViewOptionsActivityP extends Activity {
         values.add(capitalisation);
 
         capitalisation = new IntegerOptionP();
-        capitalisation.setName("First word in every\nline title case");
+        capitalisation.setName("First word in every line title case");
         capitalisation.setInteger(4);
         values.add(capitalisation);
 

@@ -11,7 +11,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:editTextColor">@color/gray</item>
+        <item name="android:textColorPrimary">@color/gray</item>
+        <item name="android:textColorSecondary">@color/gray</item>
+        <item name="android:textColorTertiary">@color/gray</item>
+        <item name="android:textColorPrimaryInverse">@color/gray</item>
+        <item name="android:textColorSecondaryInverse">@color/gray</item>
+        <item name="android:textColorTertiaryInverse">@color/gray</item>
     </style>
 
 </resources>
