@@ -54,69 +54,69 @@ public class ActivityImageViewActivity extends Activity {
         ActivityOption activityOption = new ActivityOption();
         if (android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
             activityOption.setName("Complication");
-            activityOption.setIcon(R.drawable.ic_complication);
+            activityOption.setIcon(R.drawable.ic_complicationp);
             activityOption.setActivity(ComplicationConfigActivity.class);
             values.add(activityOption);
         }
 
         activityOption = new ActivityOption();
         activityOption.setName("Colors");
-        activityOption.setIcon(R.drawable.ic_color);
+        activityOption.setIcon(R.drawable.ic_colorp);
         activityOption.setActivity(ActivityTextViewActivity.class);
         activityOption.setExtra("ColorOptionsList");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Font");
-        activityOption.setIcon(R.drawable.ic_font);
+        activityOption.setIcon(R.drawable.ic_fontp);
         activityOption.setActivity(FontTextViewActivity.class);
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Date format");
-        activityOption.setIcon(R.drawable.ic_date);
+        activityOption.setIcon(R.drawable.ic_datep);
         activityOption.setActivity(ActivityTextViewActivity.class);
         activityOption.setExtra("DateOptionsList");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Capitalisation");
-        activityOption.setIcon(R.drawable.ic_capitalisation);
+        activityOption.setIcon(R.drawable.ic_capitalisationp);
         activityOption.setActivity(IntegerTextViewOptionsActivity.class);
         activityOption.setExtra("Capitalization");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Show/hide elements");
-        activityOption.setIcon(R.drawable.ic_showhide);
+        activityOption.setIcon(R.drawable.ic_showhidep);
         activityOption.setActivity(BooleanSwitcherActivity.class);
         activityOption.setExtra("ShowHide");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Language");
-        activityOption.setIcon(R.drawable.ic_language);
+        activityOption.setIcon(R.drawable.ic_languagep);
         activityOption.setActivity(StringTextViewActivity.class);
         activityOption.setExtra("Language");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Text size offset");
-        activityOption.setIcon(R.drawable.ic_capitalisation);
+        activityOption.setIcon(R.drawable.ic_capitalisationp);
         activityOption.setActivity(FontSizeInfoActivity.class);
         activityOption.setExtra("TextSize");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Miscellaneous");
-        activityOption.setIcon(R.drawable.ic_misc);
+        activityOption.setIcon(R.drawable.ic_miscp);
         activityOption.setActivity(BooleanSwitcherActivity.class);
         activityOption.setExtra("MiscOptions");
         values.add(activityOption);
 
         activityOption = new ActivityOption();
         activityOption.setName("Info");
-        activityOption.setIcon(R.drawable.ic_info);
+        activityOption.setIcon(R.drawable.ic_infop);
         activityOption.setActivity(AboutActivity.class);
         values.add(activityOption);
 
