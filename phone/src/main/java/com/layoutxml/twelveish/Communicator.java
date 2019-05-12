@@ -50,6 +50,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
         mPutDataMapRequest.setUrgent();
         PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
         Wearable.getDataClient(context).putDataItem(mPutDataRequest);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPutDataMapRequest.getDataMap().clear();
+            }
+        }, 5000);
     }
 
     private void setCurrentStatus(boolean value) {
@@ -94,6 +101,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
         mPutDataMapRequest.setUrgent();
         PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
         Wearable.getDataClient(context).putDataItem(mPutDataRequest);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPutDataMapRequest.getDataMap().clear();
+            }
+        }, 5000); //deleting as described in google's documentation does not actually work, so I have to resolve to clearing immediately
     }
 
     public void requestBooleanPreferences(Context context, WeakReference<BooleanSwitcherActivityP> listenerActivity) {
@@ -103,6 +117,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
         PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
         Wearable.getDataClient(context).putDataItem(mPutDataRequest);
         booleanActivity = listenerActivity;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPutDataMapRequest.getDataMap().clear();
+            }
+        }, 5000);
     }
 
     @Override
@@ -119,40 +140,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
                         Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
                     }
                     isWatchConnected = true;
-                    Uri mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(HANDSHAKE_KEY)
-                            .build();
-                    Wearable.getDataClient(applicationContext).deleteDataItems(mUri);
                 }
                 if (isWatchConnected && goodbye) {
                     Toast.makeText(applicationContext, "Watch disconnected", Toast.LENGTH_SHORT).show();
                     isWatchConnected=false;
                     initiateHandshake(applicationContext);
-
-                    Uri mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(GOODBYE_KEY)
-                            .build();
-                    Wearable.getDataClient(applicationContext).deleteDataItems(mUri);
                 }
                 if (preferences) {
-                    Uri mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(DATA_REQUEST_KEY)
-                            .build();
-                    Wearable.getDataClient(applicationContext).deleteDataItems(mUri);
-
-                    mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(DATA_REQUEST_KEY2)
-                            .build();
-                    Wearable.getDataClient(applicationContext).deleteDataItems(mUri);
-
                     String[] booleanPreferencesTemp = mDataMapItem.getDataMap().getStringArray(PREFERENCES_KEY);
                     if (booleanPreferencesTemp!=null) {
                         if (booleanPreferencesTemp.length==38) {
@@ -165,13 +159,6 @@ public class Communicator implements DataClient.OnDataChangedListener {
                             }
                         }
                     }
-
-                    mUri =  new Uri.Builder()
-                            .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                            .path(path)
-                            .authority(PREFERENCES_KEY)
-                            .build();
-                    Wearable.getDataClient(applicationContext).deleteDataItems(mUri);
                 }
             }
         }

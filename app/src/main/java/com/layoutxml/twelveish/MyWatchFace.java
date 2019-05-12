@@ -43,6 +43,7 @@ import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wearable.DataClient;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -56,7 +57,6 @@ import com.layoutxml.twelveish.activities.list_activities.ActivityImageViewActiv
 import com.layoutxml.twelveish.objects.WordClockTaskWrapper;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -726,11 +726,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
 
-            PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+            final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
             mPutDataMapRequest.getDataMap().putBoolean(GOODBYE_KEY, true);
             mPutDataMapRequest.setUrgent();
             PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
             Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPutDataMapRequest.getDataMap().clear();
+                }
+            }, 5000);
 
             if (wordClockTask!=null) {
                 if (wordClockTask.getStatus()!= AsyncTask.Status.FINISHED) {
@@ -753,12 +760,19 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 loadPreferences();
                 Wearable.getDataClient(getApplicationContext()).addListener(this);
 
-                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPutDataMapRequest.getDataMap().clear();
+                    }
+                }, 5000);
             } else {
                 unregisterReceiver();
                 Wearable.getDataClient(getApplicationContext()).removeListener(this);
@@ -1136,13 +1150,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     processData(event.getDataItem());
                 }
             }
-
-            Uri mUri =  new Uri.Builder()
-                    .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                    .path(path)
-                    .authority(DATA_KEY)
-                    .build();
-            Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
         }
 
         /**
@@ -1183,22 +1190,22 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
             if (!handshake) {
-                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPutDataMapRequest.getDataMap().clear();
+                    }
+                }, 5000);
             }
             boolean preferences = mDataMapItem.getDataMap().getBoolean(DATA_REQUEST_KEY);
             if (preferences) {
-                Uri mUri =  new Uri.Builder()
-                        .scheme(PutDataRequest.WEAR_URI_SCHEME)
-                        .path(path)
-                        .authority(DATA_REQUEST_KEY)
-                        .build();
-                Wearable.getDataClient(getApplicationContext()).deleteDataItems(mUri);
-
                 String[] preferencesToSend = new String[38];
                 preferencesToSend[0] = "militaryTime";
                 preferencesToSend[1] = militaryTime ? "true" : "false";
@@ -1239,7 +1246,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 preferencesToSend[36] = "legacyWords";
                 preferencesToSend[37] = legacyWords ? "true" : "false";
 
-                PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putStringArray(PREFERENCES_KEY, preferencesToSend);
                 mPutDataMapRequest.getDataMap().putBoolean(DATA_REQUEST_KEY, false);
@@ -1247,6 +1254,14 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+                mPutDataMapRequest.getDataMap().clear();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPutDataMapRequest.getDataMap().clear();
+                    }
+                }, 5000);
             }
         }
     }
