@@ -22,7 +22,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
@@ -31,15 +32,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.list_activities.ActivityTextViewActivityP" />
-        <activity android:name=".activities.list_activities.BooleanSwitcherActivityP" />
-        <activity android:name=".activities.list_activities.FontTextViewActivityP" />
-        <activity android:name=".activities.list_activities.IntegerImageViewActivityP" />
-        <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivityP" />
-        <activity android:name=".activities.list_activities.StringTextViewActivityP" />
-        <activity android:name=".activities.AboutActivityP" />
-        <activity android:name=".activities.FontSizeActivityP" />
-        <activity android:name=".activities.FontSizeInfoActivityP" />
+        <activity android:name=".activities.list_activities.ActivityTextViewActivityP"  android:screenOrientation="portrait" />
+        <activity android:name=".activities.list_activities.BooleanSwitcherActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.list_activities.FontTextViewActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.list_activities.IntegerImageViewActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.list_activities.StringTextViewActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.AboutActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FontSizeActivityP"  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FontSizeInfoActivityP"  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
