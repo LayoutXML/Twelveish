@@ -1,22 +1,14 @@
 # Twelveish - Watch face for Wear OS (Android Wear)
 
-<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-Logo.png" width="192" alt="Twelveish Watch Face for Wear OS (Android Wear) - Logo" align="left">
-
-<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-FeatureGraphic.png" height="192" alt="Twelveish Watch Face for Wear OS (Android Wear) - Feature Graphic">
+<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/app/src/main/ic_launcher-web.png" width="192" alt="Twelveish Watch Face for Wear OS (Android Wear) - Logo" align="left">
 
 Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **approximate time in words** (in multiple languages). It also shows the exact time (digital clock) and day of the week on the top, date and battery percentage slightly below, a complication on the bottom (on all Wear OS versions and Android Wear versions 2.0 and greater). On top of that, Twelveish is **extremely customizable, completely free and open-source**.
-
-### NEW - [Integrates with TickTock Wear!](https://github.com/LayoutXML/TickTock-Wear)
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-1.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot1" align="left">
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-2.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot2" align="left">
 
 <img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-3.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot3" align="left">
-
-<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-4.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot4" align="left">
-
-<img src="https://raw.githubusercontent.com/LayoutXML/Twelveish/master/screenshots/Twelveish-5.png" width="256" alt="Twelveish Watch Face for Wear OS (Android Wear) - Screenshot5">
 
 ### [Download on the Google Play store](https://play.google.com/store/apps/details?id=com.layoutxml.twelveish).
 
