@@ -472,6 +472,8 @@ public class IntegerImageViewActivityP extends Activity{
             IntegerOptionP integerOption = values.get(position);
             holder.name.setText(integerOption.getName());
             holder.icon.setImageDrawable(getDrawable(R.drawable.circle));
+            holder.icon.setScaleX(.75f);
+            holder.icon.setScaleY(.75f);
             holder.icon.setColorFilter(integerOption.getInteger(), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
