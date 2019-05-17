@@ -6,9 +6,9 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#b2b2b2</color>
-    <color name="colorPrimaryDark">#b2b2b2</color>
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#2196f3</color>
     <color name="gray">#b2b2b2</color>
-    <color name="colorAccent">#009688</color>
+    <color name="colorAccent">#2196f3</color>
     <color name="background">#212121</color>
 </resources>
