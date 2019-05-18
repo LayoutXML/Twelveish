@@ -42,6 +42,7 @@
         <activity android:name=".activities.FontSizeActivityP"  android:screenOrientation="portrait"/>
         <activity android:name=".activities.FontSizeInfoActivityP"  android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity" />
+        <activity android:name=".CustomizationScreen" />
     </application>
 
 </manifest>
