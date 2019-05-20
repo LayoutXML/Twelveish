@@ -17,11 +17,14 @@ import androidx.core.content.res.ResourcesCompat;
 import com.layoutxml.twelveish.CustomizationScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
+import com.layoutxml.twelveish.WordClockListener;
+import com.layoutxml.twelveish.WordClockTask;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class WatchPreviewView extends View {
+public class WatchPreviewView extends View implements WordClockListener {
 
     private final int secondaryTextOffset = 0; //TODO
     private final int mainTextOffset = 0; //TODO
@@ -49,6 +52,7 @@ public class WatchPreviewView extends View {
     private boolean[] PrefixNewLine = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
     private boolean[] SuffixNewLine = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
     private static final String TAG = "WatchPreviewView";
+    private WordClockTask wordClockTask;
 
     public WatchPreviewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -360,10 +364,25 @@ public class WatchPreviewView extends View {
             if (hourText == 0 && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_military_text_time)))
                 hourText = 12;
             if ((mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_words_ambient))) || (!mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_words)))) {
-//                wordClockTask = new WordClockTask(new WeakReference<Context>(context),font,capitalisation,hourText,minutes,index,Prefixes,Suffixes,
-//                        PrefixNewLine,SuffixNewLine,language,showSuffixes,legacyWords,complicationLeftSet,complicationRightSet,getWidth(),
-//                        getHeight(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
-//                wordClockTask.execute();
+                wordClockTask = new WordClockTask(new WeakReference<Context>(getContext()),
+                        settingsManager.stringHashmap.get(getContext().getString(R.string.preference_font)),
+                        settingsManager.integerHashmap.get(getContext().getString(R.string.preference_capitalisation)),
+                        hourText,
+                        minutes,
+                        index,
+                        Prefixes,
+                        Suffixes,
+                        PrefixNewLine,
+                        SuffixNewLine,
+                        settingsManager.stringHashmap.get(getContext().getString(R.string.preference_language)),
+                        settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_suffixes)),
+                        settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_legacy_word_arrangement)),
+                        false,
+                        false,
+                        getWidth(),
+                        getHeight(),firstSeparator,0,mainTextOffset,new WeakReference<WordClockListener>(this));
+                //TODO mChinSize, complicaions set receive
+                wordClockTask.execute();
             } else {
                 text2 = "";
             }
@@ -430,4 +449,12 @@ public class WatchPreviewView extends View {
             dayOfTheWeek = "";
     }
 
+    @Override
+    public void wordClockListener(WordClockTaskWrapper wordClockTaskWrapper) {
+        basey = wordClockTaskWrapper.getBasey();
+        text2 = wordClockTaskWrapper.getText();
+        mTextPaint2.setTextSize(wordClockTaskWrapper.getTextSize()+mainTextOffset);
+        x = wordClockTaskWrapper.getX();
+        invalidate();
+    }
 }
