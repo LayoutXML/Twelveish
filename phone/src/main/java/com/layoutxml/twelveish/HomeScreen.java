@@ -7,12 +7,20 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.wearable.Wearable;
+import com.layoutxml.twelveish.dagger.App;
+
 public class HomeScreen extends AppCompatActivity {
+
+    private Communicator communicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
+
+        communicator = ((App) getApplication()).getCommunicatorComponent().getCommunicator();
+        communicator.initiateHandshake();
 
         Button buttonCustomize = findViewById(R.id.buttonCustomize);
         buttonCustomize.setOnClickListener(new View.OnClickListener() {
@@ -24,4 +32,17 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Wearable.getDataClient(getApplicationContext()).removeListener(communicator); //unregistering and registering in every activity separately
+        //because we want to unregister when application closes and there's no onPause/onDestroy for classes like App.java that extend Application
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
+        communicator.initiateHandshake();
+    }
 }

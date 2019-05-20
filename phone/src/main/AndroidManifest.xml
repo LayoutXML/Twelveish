@@ -33,15 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.list_activities.ActivityTextViewActivityP"  android:screenOrientation="portrait" />
-        <activity android:name=".activities.list_activities.BooleanSwitcherActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.list_activities.FontTextViewActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.list_activities.IntegerImageViewActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.list_activities.StringTextViewActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.AboutActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.FontSizeActivityP"  android:screenOrientation="portrait"/>
-        <activity android:name=".activities.FontSizeInfoActivityP"  android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".CustomizationScreen" />
     </application>

@@ -121,20 +121,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
-        communicator.destroy();
-        communicator = null;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        communicator.initiateHandshake();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
     }

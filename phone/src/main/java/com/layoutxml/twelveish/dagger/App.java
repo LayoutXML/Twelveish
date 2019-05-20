@@ -17,9 +17,9 @@ public class App extends Application {
         component = DaggerCommunicatorComponent.factory()
                 .create(getApplicationContext());
 
-        communicator = component.getCommunicator();
-        communicator.initiateHandshake();
-        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
+//        communicator = component.getCommunicator();
+//        communicator.initiateHandshake();
+//        Wearable.getDataClient(getApplicationContext()).addListener(communicator);
     }
 
     public CommunicatorComponent getCommunicatorComponent() {

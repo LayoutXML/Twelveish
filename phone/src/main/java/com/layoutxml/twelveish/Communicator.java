@@ -113,7 +113,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
             public void run() {
                 mPutDataMapRequest.getDataMap().clear();
             }
-        }, 5000); //deleting as described in google's documentation does not actually work, so I have to resolve to clearing immediately
+        }, 5000); //deleting as described in google's documentation does not actually work, so I have to resolve to clearing with delay
     }
 
 //    public void requestBooleanPreferences(Context context, WeakReference<BooleanSwitcherActivityP> listenerActivity) {
@@ -154,9 +154,5 @@ public class Communicator implements DataClient.OnDataChangedListener {
                 }
             }
         }
-    }
-
-    public void destroy() {
-        applicationContext = null;
     }
 }
