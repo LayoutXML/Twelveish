@@ -12,14 +12,20 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.layoutxml.twelveish.adapters.OptionsPagerAdapter;
+import com.layoutxml.twelveish.dagger.DaggerSettingsManagerComponent;
+import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import com.layoutxml.twelveish.fragments.PreviewFragment;
 
 public class CustomizationScreen extends AppCompatActivity {
+
+    private SettingsManagerComponent settingsManagerComponent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customize_screen);
+
+        settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getApplicationContext());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -35,5 +41,9 @@ public class CustomizationScreen extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         fragmentTransaction.commit();
+    }
+
+    public SettingsManagerComponent getSettingsManagerComponent() {
+        return settingsManagerComponent;
     }
 }

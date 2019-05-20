@@ -44,4 +44,901 @@
     <string name="main_text_size_offset">mainTextSizeOffset</string>
     <string name="secondary_text_size_offset">secondaryTextSizeOffset</string>
     <string name="main_text_size_real">mainTextSizeReal</string>
+
+    <string-array name="ExactTimes">
+        <item>twelve</item>
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+        <item>nine</item>
+        <item>ten</item>
+        <item>eleven</item>
+        <item>twelve</item>
+        <item>thirteen</item>
+        <item>fourteen</item>
+        <item>fifteen</item>
+        <item>sixteen</item>
+        <item>seventeen</item>
+        <item>eighteen</item>
+        <item>nineteen</item>
+        <item>twenty</item>
+        <item>twenty one</item>
+        <item>twenty two</item>
+        <item>twenty three</item>
+    </string-array>
+    <string-array name="Prefixes">
+        <item/>
+        <item/>
+        <item>a\u00A0quarter past</item>
+        <item>a quarter past</item>
+        <item>almost\u00A0half past</item>
+        <item>around\u00A0half past</item>
+        <item>half past</item>
+        <item>half\u00A0past</item>
+        <item>a quarter to</item>
+        <item>a quarter to</item>
+        <item>approaching</item>
+        <item>almost</item>
+    </string-array>
+    <string-array name="Suffixes">
+        <item>ish</item>
+        <item>or\u00A0so</item>
+        <item/>
+        <item>or\u00A0so</item>
+        <item/>
+        <item/>
+        <item>ish</item>
+        <item>or\u00A0so</item>
+        <item/>
+        <item>or\u00A0so</item>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDays">
+        <item>Su</item>
+        <item>Mo</item>
+        <item>Tu</item>
+        <item>We</item>
+        <item>Th</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
+
+    <string-array name="ExactTimesLT">
+        <item>dvylikta</item>
+        <item>pirma</item>
+        <item>antra</item>
+        <item>trečia</item>
+        <item>ketvirta</item>
+        <item>penkta</item>
+        <item>šešta</item>
+        <item>septinta</item>
+        <item>aštunta</item>
+        <item>devinta</item>
+        <item>dešimta</item>
+        <item>vienuolikta</item>
+        <item>dvylikta</item>
+        <item>trylikta</item>
+        <item>keturiolikta</item>
+        <item>penkiolikta</item>
+        <item>šešiolikta</item>
+        <item>septyniolikta</item>
+        <item>aštuoniolikta</item>
+        <item>devyniolikta</item>
+        <item>dvidešimta</item>
+        <item>dvidešimt pirma</item>
+        <item>dvidešimt antra</item>
+        <item>dvidešimt trečia</item>
+    </string-array>
+    <string-array name="PrefixesLT">
+        <item>apie</item>
+        <item>maždaug</item>
+        <item>beveik</item>
+        <item>maždaug</item>
+        <item>beveik</item>
+        <item>apie</item>
+        <item>apie</item>
+        <item>maždaug</item>
+        <item>beveik\u00A0be ketvirčio</item>
+        <item>be ketvirčio</item>
+        <item>beveik</item>
+        <item>apie</item>
+    </string-array>
+    <string-array name="SuffixesLT">
+        <item/>
+        <item/>
+        <item>su\u00A0ketvirčiu</item>
+        <item>su\u00A0ketvirčiu</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
+        <item>su\u00A0puse</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysLT">
+        <item>Se</item>
+        <item>Pi</item>
+        <item>An</item>
+        <item>Tr</item>
+        <item>Ke</item>
+        <item>Pe</item>
+        <item>Še</item>
+    </string-array>
+
+    <string-array name="ExactTimesFI">
+        <item>kaksitoista</item>
+        <item>yksi</item>
+        <item>kaksi</item>
+        <item>kolme</item>
+        <item>neljä</item>
+        <item>viisi</item>
+        <item>kuusi</item>
+        <item>seitsemän</item>
+        <item>kahdeksan</item>
+        <item>yhdeksän</item>
+        <item>kymmenen</item>
+        <item>yksitoista</item>
+        <item>kaksitoista</item>
+        <item>yksi</item>
+        <item>kaksi</item>
+        <item>kolme</item>
+        <item>neljä</item>
+        <item>viisi</item>
+        <item>kuusi</item>
+        <item>seitsemän</item>
+        <item>kahdeksan</item>
+        <item>yhdeksän</item>
+        <item>kymmenen</item>
+        <item>yksitoista</item>
+    </string-array>
+    <string-array name="PrefixesFI">
+        <item />
+        <item>viittä yli</item>
+        <item>kymmentä yli</item>
+        <item>varttia yli</item>
+        <item>kahtakymmentä yli</item>
+        <item>kohta puoli</item>
+        <item>puoli</item>
+        <item>puoli</item>
+        <item>kohta\u00A0varttia vaille</item>
+        <item>varttia vaille</item>
+        <item>kymmentä vaille</item>
+        <item>lähes</item>
+    </string-array>
+    <string-array name="SuffixesFI">
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysFI">
+        <item>Su</item>
+        <item>Ma</item>
+        <item>Ti</item>
+        <item>Ke</item>
+        <item>To</item>
+        <item>Pe</item>
+        <item>La</item>
+    </string-array>
+
+    <string-array name="ExactTimesRU">
+        <item>двенадцать</item>
+        <item>час</item>
+        <item>два</item>
+        <item>три</item>
+        <item>четыре</item>
+        <item>пять</item>
+        <item>шесть</item>
+        <item>семь</item>
+        <item>восемь</item>
+        <item>девять</item>
+        <item>десять</item>
+        <item>одиннадцать</item>
+        <item>двенадцать</item>
+        <item>тринадцать</item>
+        <item>четырнадцать</item>
+        <item>пятнадцать</item>
+        <item>шестнадцать</item>
+        <item>семнадцать</item>
+        <item>восемьнадцать</item>
+        <item>девятнадцать</item>
+        <item>двадцать</item>
+        <item>двадцать один</item>
+        <item>двадцать два</item>
+        <item>двадцать три</item>
+    </string-array>
+    <string-array name="PrefixesRU">
+        <item/>
+        <item/>
+        <item>почти</item>
+        <item/>
+        <item>почти</item>
+        <item/>
+        <item/>
+        <item/>
+        <item>почти\u00A0без четверти</item>
+        <item>без четверти</item>
+        <item>почти</item>
+        <item/>
+    </string-array>
+    <string-array name="SuffixesRU">
+        <item/>
+        <item>или\u00A0около того</item>
+        <item>с\u00A0четвертью</item>
+        <item>с\u00A0четвертью</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
+        <item>с\u00A0половиной</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysRU">
+        <item>Вс</item>
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+    </string-array>
+
+    <string-array name="ExactTimesDE">
+        <item>zwölf</item>
+        <item>eins</item>
+        <item>zwei</item>
+        <item>drei</item>
+        <item>vier</item>
+        <item>fünf</item>
+        <item>sechs</item>
+        <item>sieben</item>
+        <item>acht</item>
+        <item>neun</item>
+        <item>zehn</item>
+        <item>elf</item>
+        <item>zwölf</item>
+        <item>dreizehn</item>
+        <item>vierzehn</item>
+        <item>fünfzehn</item>
+        <item>sechzehn</item>
+        <item>siebzehn</item>
+        <item>achtzehn</item>
+        <item>neunzehn</item>
+        <item>zwanzig</item>
+        <item>einundzwanzig</item>
+        <item>zweiundzwanzig</item>
+        <item>dreiundzwanzig</item>
+    </string-array>
+    <string-array name="PrefixesDE">
+        <item>kurz nach</item>
+        <item>bald viertel\u00A0nach</item>
+        <item>fast viertel\u00A0nach</item>
+        <item>viertel\u00A0nach</item>
+        <item>bald halb</item>
+        <item>kurz vor halb</item>
+        <item>kurz nach halb</item>
+        <item>bald viertel\u00A0vor</item>
+        <item>fast viertel\u00A0vor</item>
+        <item>viertel\u00A0vor</item>
+        <item>bald</item>
+        <item>fast</item>
+    </string-array>
+    <string-array name="SuffixesDE">
+        <item/>
+        <item/>
+        <item/>
+        <item>oder\u00A0so</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item>oder\u00A0so</item>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysDE">
+        <item>So</item>
+        <item>Mo</item>
+        <item>Di</item>
+        <item>Mi</item>
+        <item>Do</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
+
+    <string-array name="ExactTimesHU">
+        <item>tizenkettő</item>
+        <item>egy</item>
+        <item>kettő</item>
+        <item>három</item>
+        <item>négy</item>
+        <item>öt</item>
+        <item>hat</item>
+        <item>hét</item>
+        <item>nyolc</item>
+        <item>kilenc</item>
+        <item>tíz</item>
+        <item>tizenegy</item>
+        <item>tizenkettő</item>
+        <item>tizenhárom</item>
+        <item>tizennégy</item>
+        <item>tizenöt</item>
+        <item>tizenhat</item>
+        <item>tizenhét</item>
+        <item>tizennyolc</item>
+        <item>tizenkilenc</item>
+        <item>húsz</item>
+        <item>huszonegy</item>
+        <item>huszonkettő</item>
+        <item>huszonhárom</item>
+    </string-array>
+    <string-array name="PrefixesHU">
+        <item/>
+        <item/>
+        <item>negyed</item>
+        <item>negyed</item>
+        <item>lassan fél</item>
+        <item>fél</item>
+        <item>fél</item>
+        <item>fél</item>
+        <item>háromnegyed</item>
+        <item>háromnegyed</item>
+        <item/>
+        <item>mindjárt</item>
+    </string-array>
+    <string-array name="SuffixesHU">
+        <item>múlt</item>
+        <item>körül</item>
+        <item>lesz</item>
+        <item/>
+        <item/>
+        <item>lesz</item>
+        <item/>
+        <item>múlt</item>
+        <item/>
+        <item>múlt</item>
+        <item>lesz</item>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysHU">
+        <item>Va</item>
+        <item>Hé</item>
+        <item>Ke</item>
+        <item>Sze</item>
+        <item>Csü</item>
+        <item>Pé</item>
+        <item>Szo</item>
+    </string-array>
+
+    <string-array name="ExactTimesIT">
+        <item>mezzanotte</item>
+        <item>l\'una</item>
+        <item>le due</item>
+        <item>le tre</item>
+        <item>le quattro</item>
+        <item>le cinque</item>
+        <item>le sei</item>
+        <item>le sette</item>
+        <item>le otto</item>
+        <item>le nove</item>
+        <item>le dieci</item>
+        <item>le undici</item>
+        <item>mezzogiorno</item>
+        <item>l\'una</item>
+        <item>le due</item>
+        <item>le tre</item>
+        <item>le quattro</item>
+        <item>le cinque</item>
+        <item>le sei</item>
+        <item>le sette</item>
+        <item>le otto</item>
+        <item>le nove</item>
+        <item>le dieci</item>
+        <item>le undici</item>
+    </string-array>
+    <string-array name="PrefixesIT">
+        <item/>
+        <item/>
+        <item>quasi</item>
+        <item>circa</item>
+        <item>quasi</item>
+        <item>pressapoco</item>
+        <item>circa</item>
+        <item>poco più\u00A0che</item>
+        <item>quasi</item>
+        <item/>
+        <item>quasi</item>
+        <item>pressapoco</item>
+    </string-array>
+    <string-array name="SuffixesIT">
+        <item>e\u00A0qualcosa</item>
+        <item>e\u00A0passa</item>
+        <item>e\u00A0un\u00A0quarto</item>
+        <item>e\u00A0un\u00A0quarto</item>
+        <item>e\u00A0mezza</item>
+        <item>e\u00A0mezza</item>
+        <item>e\u00A0mezza</item>
+        <item>e mezza</item>
+        <item>meno un quarto</item>
+        <item>meno qualcosa</item>
+        <item/>
+        <item/>
+    </string-array>
+    <string-array name="WeekDaysIT">
+        <item>Do</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Me</item>
+        <item>Gi</item>
+        <item>Ve</item>
+        <item>Sa</item>
+    </string-array>
+
+    <string-array name="ExactTimesES">
+        <item>las doce</item>
+        <item>la una</item>
+        <item>las dos</item>
+        <item>las tres</item>
+        <item>las cuatro</item>
+        <item>las cinco</item>
+        <item>las seis</item>
+        <item>las siete</item>
+        <item>las ocho</item>
+        <item>las nueve</item>
+        <item>las diez</item>
+        <item>las once</item>
+        <item>las doce</item>
+        <item>la una</item>
+        <item>las dos</item>
+        <item>las tres</item>
+        <item>las cuatro</item>
+        <item>las cinco</item>
+        <item>las seis</item>
+        <item>las siete</item>
+        <item>las ocho</item>
+        <item>las nueve</item>
+        <item>las diez</item>
+        <item>las once</item>
+    </string-array>
+    <string-array name="PrefixesES">
+        <item/>
+        <item/>
+        <item>casi</item>
+        <item/>
+        <item/>
+        <item>casi</item>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item>casi</item>
+    </string-array>
+    <string-array name="SuffixesES">
+        <item/>
+        <item>y cinco</item>
+        <item>y cuarto</item>
+        <item>y cuarto</item>
+        <item>y veinte</item>
+        <item>y media</item>
+        <item>y media</item>
+        <item>y media pasadas</item>
+        <item>menos veinte</item>
+        <item>menos cuarto</item>
+        <item>menos diez</item>
+        <item />
+    </string-array>
+    <string-array name="WeekDaysES">
+        <item>Do</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Mie</item>
+        <item>Ju</item>
+        <item>Vie</item>
+        <item>Sa</item>
+    </string-array>
+
+    <string-array name="ExactTimesEL">
+        <item>δώδεκα</item>
+        <item>μία</item>
+        <item>δύο</item>
+        <item>τρεις</item>
+        <item>τέσσερις</item>
+        <item>πέντε</item>
+        <item>έξι</item>
+        <item>επτά</item>
+        <item>οκτώ</item>
+        <item>εννιά</item>
+        <item>δέκα</item>
+        <item>έντεκα</item>
+        <item>δώδεκα</item>
+        <item>μία</item>
+        <item>δύο</item>
+        <item>τρεις</item>
+        <item>τέσσερις</item>
+        <item>πέντε</item>
+        <item>έξι</item>
+        <item>επτά</item>
+        <item>οκτώ</item>
+        <item>εννιά</item>
+        <item>δέκα</item>
+        <item>έντεκα</item>
+    </string-array>
+    <string-array name="PrefixesEL">
+        <item>μόλις πέρασε</item>
+        <item />
+        <item>περίπου</item>
+        <item>πέρασε</item>
+        <item>πλησιάζει</item>
+        <item>περίπου</item>
+        <item>πέρασε</item>
+        <item>πλησιάζει</item>
+        <item>περίπου</item>
+        <item>πέρασε</item>
+        <item>πάει για</item>
+        <item>σχεδόν</item>
+    </string-array>
+    <string-array name="SuffixesEL">
+        <item />
+        <item>και κάτι</item>
+        <item>και\u00A0τέταρτο</item>
+        <item>και\u00A0τέταρτο</item>
+        <item>και\u00A0μισή</item>
+        <item>και\u00A0μισή</item>
+        <item>και\u00A0μισή</item>
+        <item>παρά\u00A0τέταρτο</item>
+        <item>παρά\u00A0τέταρτο</item>
+        <item>παρά\u00A0τέταρτο</item>
+        <item />
+        <item />
+    </string-array>
+    <string-array name="WeekDaysEL">
+        <item>Κυ</item>
+        <item>Δε</item>
+        <item>Τρ</item>
+        <item>Τε</item>
+        <item>Πε</item>
+        <item>Πα</item>
+        <item>Σα</item>
+    </string-array>
+
+    <string-array name="ExactTimesNL">
+        <item>twaalf</item>
+        <item>een</item>
+        <item>twee</item>
+        <item>drie</item>
+        <item>vier</item>
+        <item>vijf</item>
+        <item>zes</item>
+        <item>zeven</item>
+        <item>acht</item>
+        <item>negen</item>
+        <item>tien</item>
+        <item>elf</item>
+        <item>twaalf</item>
+        <item>dertien</item>
+        <item>veertien</item>
+        <item>vijftien</item>
+        <item>zestien</item>
+        <item>zeventien</item>
+        <item>achttien</item>
+        <item>negentien</item>
+        <item>twintig</item>
+        <item>eenentwintig</item>
+        <item>tweeëntwintig</item>
+        <item>drieëntwintig</item>
+    </string-array>
+    <string-array name="PrefixesNL">
+        <item>iets over</item>
+        <item>bijna tien over</item>
+        <item>bijna kwart over</item>
+        <item>bijna tien voor half</item>
+        <item>bijna vijf voor half</item>
+        <item>bijna half</item>
+        <item>iets over half</item>
+        <item>bijna tien over half</item>
+        <item>bijna kwart voor</item>
+        <item>bijna tien voor</item>
+        <item>bijna vijf voor</item>
+        <item>iets voor</item>
+    </string-array>
+    <string-array name="SuffixesNL">
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item>uur</item>
+    </string-array>
+    <string-array name="WeekDaysNL">
+        <item>Zo</item>
+        <item>Ma</item>
+        <item>Di</item>
+        <item>Wo</item>
+        <item>Do</item>
+        <item>Vr</item>
+        <item>Za</item>
+    </string-array>
+
+    <string-array name="ExactTimesNO">
+        <item>tolv</item>
+        <item>ett</item>
+        <item>to</item>
+        <item>tre</item>
+        <item>fire</item>
+        <item>fem</item>
+        <item>seks</item>
+        <item>sju</item>
+        <item>åtte</item>
+        <item>ni</item>
+        <item>ti</item>
+        <item>elleve</item>
+        <item>tolv</item>
+        <item>ett</item>
+        <item>to</item>
+        <item>tre</item>
+        <item>fire</item>
+        <item>fem</item>
+        <item>seks</item>
+        <item>sju</item>
+        <item>åtte</item>
+        <item>ni</item>
+        <item>ti</item>
+        <item>elleve</item>
+    </string-array>
+    <string-array name="PrefixesNO">
+        <item />
+        <item>litt over</item>
+        <item>snart kvart\u00A0over</item>
+        <item>kvart over</item>
+        <item>rundt halv</item>
+        <item>nesten halv</item>
+        <item>halv</item>
+        <item>halv</item>
+        <item>snart kvart\u00A0på</item>
+        <item>kvart på</item>
+        <item>rundt</item>
+        <item>nesten</item>
+    </string-array>
+    <string-array name="SuffixesNO">
+        <item>ish</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+    </string-array>
+    <string-array name="WeekDaysNO">
+        <item>Sø</item>
+        <item>Ma</item>
+        <item>Ti</item>
+        <item>On</item>
+        <item>To</item>
+        <item>Fr</item>
+        <item>Lø</item>
+    </string-array>
+
+    <string-array name="ExactTimesFR">
+        <item>douze heures</item>
+        <item>une heure</item>
+        <item>deux heures</item>
+        <item>trois heures</item>
+        <item>quatre heures</item>
+        <item>cinq heures</item>
+        <item>six heures</item>
+        <item>sept heures</item>
+        <item>huit heures</item>
+        <item>neuf heures</item>
+        <item>dix heures</item>
+        <item>onze heures</item>
+        <item>douze heures</item>
+        <item>treize heures</item>
+        <item>quatorze heures</item>
+        <item>quinze heures</item>
+        <item>seize heures</item>
+        <item>dix sept heures</item>
+        <item>dix huit heures</item>
+        <item>dix neuf heures</item>
+        <item>vingt heures</item>
+        <item>vingt-et-une heures</item>
+        <item>vingt-deux heures</item>
+        <item>vingt-trois heures</item>
+    </string-array>
+    <string-array name="PrefixesFR">
+        <item />
+        <item>environ</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item>environ</item>
+        <item />
+        <item />
+        <item />
+        <item />
+    </string-array>
+    <string-array name="SuffixesFR">
+        <item />
+        <item />
+        <item>dix</item>
+        <item>et quart</item>
+        <item>et vingt</item>
+        <item>vingt-cinq</item>
+        <item>et demi</item>
+        <item>et demi</item>
+        <item>moins vingt</item>
+        <item>moins quart</item>
+        <item>moins dix</item>
+        <item>moins cinq</item>
+    </string-array>
+    <string-array name="WeekDaysFR">
+        <item>Di</item>
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Me</item>
+        <item>Je</item>
+        <item>Ve</item>
+        <item>Sa</item>
+    </string-array>
+
+    <string-array name="ExactTimesPT">
+        <item>doze</item>
+        <item>uma</item>
+        <item>duas</item>
+        <item>três</item>
+        <item>quatro</item>
+        <item>cinco</item>
+        <item>seis</item>
+        <item>sete</item>
+        <item>oito</item>
+        <item>nove</item>
+        <item>dez</item>
+        <item>onze</item>
+        <item>doze</item>
+        <item>uma</item>
+        <item>duas</item>
+        <item>três</item>
+        <item>quatro</item>
+        <item>cinco</item>
+        <item>seis</item>
+        <item>sete</item>
+        <item>oito</item>
+        <item>nove</item>
+        <item>dez</item>
+        <item>onze</item>
+        <item>meia noite</item>
+    </string-array>
+    <string-array name="PrefixesPT">
+        <item />
+        <item />
+        <item>quase</item>
+        <item />
+        <item>após</item>
+        <item>quase</item>
+        <item />
+        <item>após</item>
+        <item>quase</item>
+        <item />
+        <item />
+        <item>quase</item>
+    </string-array>
+    <string-array name="SuffixesPT">
+        <item>e pouco</item>
+        <item>e tal</item>
+        <item>e um quarto</item>
+        <item>e um quarto</item>
+        <item>e um quarto</item>
+        <item>e meia</item>
+        <item>e meia</item>
+        <item>e meia</item>
+        <item>menos um quarto</item>
+        <item>menos\u00A0um quarto</item>
+        <item>menos pouco</item>
+        <item />
+    </string-array>
+    <string-array name="WeekDaysPT">
+        <item>Dom</item>
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sab</item>
+    </string-array>
+
+    <string-array name="ExactTimesSV">
+        <item>tolv</item>
+        <item>ett</item>
+        <item>två</item>
+        <item>tre</item>
+        <item>fyra</item>
+        <item>fem</item>
+        <item>sex</item>
+        <item>sju</item>
+        <item>åtta</item>
+        <item>nio</item>
+        <item>tio</item>
+        <item>elva</item>
+        <item>tolv</item>
+        <item>ett</item>
+        <item>två</item>
+        <item>tre</item>
+        <item>fyra</item>
+        <item>fem</item>
+        <item>sex</item>
+        <item>sju</item>
+        <item>åtta</item>
+        <item>nio</item>
+        <item>tio</item>
+        <item>elva</item>
+    </string-array>
+    <string-array name="PrefixesSV">
+        <item />
+        <item>strax efter</item>
+        <item>snart kvart\u00A0över</item>
+        <item>kvart över</item>
+        <item>snart halv</item>
+        <item>nästan halv</item>
+        <item>halv</item>
+        <item>lite över halv</item>
+        <item>snart kvart\u00A0i</item>
+        <item>kvart\u00A0i</item>
+        <item>snart</item>
+        <item>nästan</item>
+    </string-array>
+    <string-array name="SuffixesSV">
+        <item>ish</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item>ish</item>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+    </string-array>
+    <string-array name="WeekDaysSV">
+        <item>Sö</item>
+        <item>Må</item>
+        <item>Ti</item>
+        <item>On</item>
+        <item>To</item>
+        <item>Fr</item>
+        <item>Lö</item>
+    </string-array>
 </resources>
