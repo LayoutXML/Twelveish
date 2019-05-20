@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
         communicator.destroy();
         communicator = null;
-        Wearable.getDataClient(getApplicationContext()).removeListener(communicator);
     }
 
     @Override
