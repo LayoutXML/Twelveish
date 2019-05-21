@@ -8,7 +8,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/background</item>
-        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/colorAccent</item>>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:colorBackground">@color/background</item>

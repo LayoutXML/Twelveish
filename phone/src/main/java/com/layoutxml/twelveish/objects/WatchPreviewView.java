@@ -36,6 +36,7 @@ public class WatchPreviewView extends View implements WordClockListener {
     private final int mainTextOffset = 0; //TODO
     private int height = 0;
     private Paint paint;
+    private Paint paintFrame;
     private SettingsManager settingsManager;
     private boolean mAmbient = false;
     private Paint mTextPaint;
@@ -69,6 +70,7 @@ public class WatchPreviewView extends View implements WordClockListener {
     public WatchPreviewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
+        paintFrame = new Paint();
         CustomizationScreen activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
@@ -297,6 +299,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         int x = getWidth()/2;
         int y = getHeight()/2;
         paint.setColor(Color.parseColor("#000000"));
+        paintFrame.setColor(Color.DKGRAY);
 
         //Set colors
         if (mAmbient) {
@@ -308,7 +311,8 @@ public class WatchPreviewView extends View implements WordClockListener {
             mTextPaint.setColor(settingsManager.integerHashmap.get(getContext().getString(R.string.preference_secondary_text_color)));
             mTextPaint2.setColor(settingsManager.integerHashmap.get(getContext().getString(R.string.preference_main_text_color)));
         }
-        canvas.drawCircle(x,y+1,y+1,paint);
+        canvas.drawCircle(x,y,y+2,paintFrame);
+        canvas.drawCircle(x,y,y-2,paint);
 
         //Get time
         mCalendar = Calendar.getInstance();
