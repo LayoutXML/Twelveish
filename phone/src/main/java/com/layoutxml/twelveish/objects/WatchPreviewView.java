@@ -1,10 +1,14 @@
 package com.layoutxml.twelveish.objects;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -14,11 +18,13 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.layoutxml.twelveish.Communicator;
 import com.layoutxml.twelveish.CustomizationScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.WordClockListener;
 import com.layoutxml.twelveish.WordClockTask;
+import com.layoutxml.twelveish.dagger.App;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -53,6 +59,12 @@ public class WatchPreviewView extends View implements WordClockListener {
     private boolean[] SuffixNewLine = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
     private static final String TAG = "WatchPreviewView";
     private WordClockTask wordClockTask;
+    private Communicator communicator;
+    private int mChinSize = 0;
+    private boolean complicationRightSet = false;
+    private boolean complicationLeftSet = false;
+    private int secondaryTextSizeDP = 14;
+    private int batteryLevel = 100;
 
     public WatchPreviewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -73,7 +85,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint.setColor(settingsManager.integerHashmap.get(context.getString(R.string.preference_secondary_text_color)));
         mTextPaint2.setColor(settingsManager.integerHashmap.get(context.getString(R.string.preference_main_text_color)));
 
-        mTextPaint.setTextSize(24 + secondaryTextOffset); //secondary text
+        mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
         mTextPaint2.setTextSize(24 + mainTextOffset);
 
         Typeface NORMAL_TYPEFACE2;
@@ -259,6 +271,18 @@ public class WatchPreviewView extends View implements WordClockListener {
             }
         };
         reDrawer.run();
+
+        communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
+        communicator.requestConfig(getContext(),new WeakReference<WatchPreviewView>(this));
+        Log.d(TAG, "communicatorID" + communicator);
+
+        getContext().registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                batteryLevel = (int) (100 * intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) / ((float) (intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1))));
+                text1 = (batteryLevel + "%");
+            }
+        }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override
@@ -284,7 +308,7 @@ public class WatchPreviewView extends View implements WordClockListener {
             mTextPaint.setColor(settingsManager.integerHashmap.get(getContext().getString(R.string.preference_secondary_text_color)));
             mTextPaint2.setColor(settingsManager.integerHashmap.get(getContext().getString(R.string.preference_main_text_color)));
         }
-        canvas.drawCircle(x,y,y,paint);
+        canvas.drawCircle(x,y+1,y+1,paint);
 
         //Get time
         mCalendar = Calendar.getInstance();
@@ -309,20 +333,20 @@ public class WatchPreviewView extends View implements WordClockListener {
                 : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
 
         //Draw digital clock, date, battery percentage and day of the week
-        float firstSeparator = 40.0f;
+        float firstSeparator = 60.0f;
         if ((mAmbient && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_digital_clock_ambient))) || (!mAmbient && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_digital_clock)))) {
             text = "";
         }
         if (!text.equals("") || !dayOfTheWeek.equals("")) {
             if (!text.equals("") && !dayOfTheWeek.equals("")) {
                 canvas.drawText(text + " • " + dayOfTheWeek, getWidth() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                firstSeparator = 60 - mTextPaint.ascent() + mTextPaint.descent();
             } else if (!text.equals("")) {
                 canvas.drawText(text, getWidth() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                firstSeparator = 60 - mTextPaint.ascent() + mTextPaint.descent();
             } else {
                 canvas.drawText(dayOfTheWeek, getWidth() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                firstSeparator = 60 - mTextPaint.ascent() + mTextPaint.descent();
             }
         }
         if (!((mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_calendar_ambient))) || (!mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_calendar))))) {
@@ -377,11 +401,10 @@ public class WatchPreviewView extends View implements WordClockListener {
                         settingsManager.stringHashmap.get(getContext().getString(R.string.preference_language)),
                         settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_suffixes)),
                         settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_legacy_word_arrangement)),
-                        false,
-                        false,
-                        getWidth(),
-                        getHeight(),firstSeparator,0,mainTextOffset,new WeakReference<WordClockListener>(this));
-                //TODO mChinSize, complicaions set receive
+                        complicationLeftSet,
+                        complicationRightSet,
+                        getHeight(),
+                        getHeight(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
                 wordClockTask.execute();
             } else {
                 text2 = "";
@@ -456,5 +479,12 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint2.setTextSize(wordClockTaskWrapper.getTextSize()+mainTextOffset);
         x = wordClockTaskWrapper.getX();
         invalidate();
+    }
+
+    public void receivedDataListener(String[] booleanPreferencesTemp) {
+        Log.d(TAG, "receivedDataListener");
+        mChinSize = Integer.parseInt(booleanPreferencesTemp[0]);
+        complicationLeftSet = booleanPreferencesTemp[1].equals("true");
+        complicationRightSet = booleanPreferencesTemp[2].equals("true");
     }
 }

@@ -74,6 +74,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private final String GOODBYE_KEY = "rokas-twelveish-gb";
     private final String DATA_REQUEST_KEY = "rokas-twelveish-dr";
     private final String DATA_REQUEST_KEY2 = "rokas-twelveish-dr2";
+    private final String CONFIG_REQUEST_KEY = "rokas-twelveish-cr";
+    private final String CONFIG_REQUEST_KEY2 = "rokas-twelveish-cr2";
     private final String PREFERENCES_KEY = "rokas-twelveish-pr";
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
@@ -98,6 +100,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private int lastSignificantMinutes = -1;
     private int lastSignificantHours = -1;
     private WordClockTask wordClockTask;
+    private int secondaryTextSizeDP = 14;
     //SharedPreferences:
     private int backgroundColor;
     private int mainColor;
@@ -515,7 +518,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mainTextOffset = prefs.getInt(getString(R.string.main_text_size_offset),0);
             secondaryTextOffset = prefs.getInt(getString(R.string.secondary_text_size_offset),0);
 
-            mTextPaint.setTextSize(24+secondaryTextOffset); //secondary text
+            mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
 
             //Work with given preferences
             switch (language) {
@@ -813,7 +816,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
             mChinSize = insets.getSystemWindowInsetBottom();
-            mTextPaint.setTextSize(24+secondaryTextOffset); //secondary text
+            mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
             mTextPaint2.setTextSize(24+mainTextOffset); //word clock
             Rect bottomBounds = new Rect(screenWidthG / 2 - screenWidthG / 4,
                     (int) (screenHeightG * 3 / 4 - mChinSize),
@@ -1254,7 +1257,30 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
-                mPutDataMapRequest.getDataMap().clear();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPutDataMapRequest.getDataMap().clear();
+                    }
+                }, 5000);
+            }
+            boolean config = mDataMapItem.getDataMap().getBoolean(CONFIG_REQUEST_KEY);
+            if (config) {
+                Log.d(TAG, "processData: config");
+                String[] configToSend = new String[3];
+                configToSend[0] = (int)mChinSize + "";
+                configToSend[1] = complicationLeftSet ? "true" : "false";
+                configToSend[2] = complicationRightSet ? "true" : "false";
+
+                final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putStringArray(PREFERENCES_KEY, configToSend);
+                mPutDataMapRequest.getDataMap().putBoolean(CONFIG_REQUEST_KEY, false);
+                mPutDataMapRequest.getDataMap().putBoolean(CONFIG_REQUEST_KEY2, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override

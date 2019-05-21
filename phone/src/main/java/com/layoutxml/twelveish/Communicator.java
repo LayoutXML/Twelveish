@@ -14,6 +14,7 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.layoutxml.twelveish.objects.WatchPreviewView;
 
 import androidx.annotation.NonNull;
 
@@ -33,12 +34,15 @@ public class Communicator implements DataClient.OnDataChangedListener {
     private final String DATA_REQUEST_KEY = "rokas-twelveish-dr";
     private final String DATA_REQUEST_KEY2 = "rokas-twelveish-dr2";
     private final String PREFERENCES_KEY = "rokas-twelveish-pr";
+    private final String CONFIG_REQUEST_KEY = "rokas-twelveish-cr";
+    private final String CONFIG_REQUEST_KEY2 = "rokas-twelveish-cr2";
     private PutDataMapRequest mPutDataMapRequest;
     private Context applicationContext;
     private boolean currentStatus = true; //temporary value for waiting period if watch not found to not create false negatives
     public String[] booleanPreferences;
     public boolean isWatchConnected = false;
     private static final String TAG = "Communicator";
+    private WeakReference<WatchPreviewView> previewListener;
 
     @Inject
     public Communicator(Context context) {
@@ -132,13 +136,32 @@ public class Communicator implements DataClient.OnDataChangedListener {
 //        }, 5000);
 //    }
 
+    public void requestConfig(Context context, WeakReference<WatchPreviewView> listenerActivity) {
+        Log.d(TAG, "requestConfig");
+        mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+        mPutDataMapRequest.getDataMap().putBoolean(CONFIG_REQUEST_KEY, true);
+        mPutDataMapRequest.setUrgent();
+        PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+        Wearable.getDataClient(context).putDataItem(mPutDataRequest);
+        previewListener = listenerActivity;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPutDataMapRequest.getDataMap().clear();
+            }
+        }, 5000);
+    }
+
     @Override
     public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
         for (DataEvent event: dataEventBuffer) {
             if (event.getType()==DataEvent.TYPE_CHANGED && event.getDataItem().getUri().getPath()!=null && event.getDataItem().getUri().getPath().equals(path)) {
+                Log.d(TAG, "onDataChanged: received something");
                 DataMapItem mDataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                 boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
                 boolean goodbye = mDataMapItem.getDataMap().getBoolean(GOODBYE_KEY);
+                boolean config = mDataMapItem.getDataMap().getBoolean(CONFIG_REQUEST_KEY2);
                 if (handshake) {
                     Log.d(TAG,"handshake received");
                     setCurrentStatus(true);
@@ -151,6 +174,22 @@ public class Communicator implements DataClient.OnDataChangedListener {
                     Toast.makeText(applicationContext, "Watch disconnected", Toast.LENGTH_SHORT).show();
                     isWatchConnected=false;
                     initiateHandshake();
+                }
+                if (config) {
+                    Log.d(TAG, "onDataChanged: config");
+                    String[] booleanPreferencesTemp = mDataMapItem.getDataMap().getStringArray(PREFERENCES_KEY);
+                    if (booleanPreferencesTemp != null) {
+                        if (booleanPreferencesTemp.length == 3) {
+                            booleanPreferences = booleanPreferencesTemp;
+                            if (previewListener != null) {
+                                if (previewListener.get() != null) {
+                                    Log.d(TAG, "onDataChanged: config activity exists");
+                                    WatchPreviewView activity = previewListener.get();
+                                    activity.receivedDataListener(booleanPreferencesTemp);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
