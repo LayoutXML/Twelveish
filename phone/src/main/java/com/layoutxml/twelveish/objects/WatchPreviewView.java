@@ -20,11 +20,14 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.layoutxml.twelveish.Communicator;
 import com.layoutxml.twelveish.CustomizationScreen;
+import com.layoutxml.twelveish.HomeScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.WordClockListener;
 import com.layoutxml.twelveish.WordClockTask;
 import com.layoutxml.twelveish.dagger.App;
+import com.layoutxml.twelveish.dagger.DaggerSettingsManagerComponent;
+import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -71,8 +74,16 @@ public class WatchPreviewView extends View implements WordClockListener {
         super(context, attrs);
         paint = new Paint();
         paintFrame = new Paint();
-        CustomizationScreen activity = (CustomizationScreen) getContext();
-        settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
+        try {
+            CustomizationScreen activity = (CustomizationScreen) getContext();
+            settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
+            communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
+            communicator.requestConfig(getContext(),new WeakReference<WatchPreviewView>(this));
+            Log.d(TAG, "communicatorID" + communicator);
+        } catch (Exception e) {
+            SettingsManagerComponent settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getContext());
+            settingsManager = settingsManagerComponent.getSettingsManager();
+        }
 
         mTextPaint = new Paint();
         mTextPaint.setTypeface(NORMAL_TYPEFACE);
@@ -273,10 +284,6 @@ public class WatchPreviewView extends View implements WordClockListener {
             }
         };
         reDrawer.run();
-
-        communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
-        communicator.requestConfig(getContext(),new WeakReference<WatchPreviewView>(this));
-        Log.d(TAG, "communicatorID" + communicator);
 
         getContext().registerReceiver(new BroadcastReceiver() {
             @Override
