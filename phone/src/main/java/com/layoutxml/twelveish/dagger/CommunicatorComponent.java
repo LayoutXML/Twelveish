@@ -3,7 +3,6 @@ package com.layoutxml.twelveish.dagger;
 import android.content.Context;
 
 import com.layoutxml.twelveish.Communicator;
-import com.layoutxml.twelveish.objects.BooleanOptionP;
 
 import javax.inject.Singleton;
 
