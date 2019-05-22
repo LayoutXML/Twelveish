@@ -22,6 +22,7 @@
         <!--<item name="android:textColorTertiaryInverse">@color/gray</item>-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
 </resources>

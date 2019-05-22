@@ -69,6 +69,7 @@ public class WatchPreviewView extends View implements WordClockListener {
     private boolean complicationLeftSet = false;
     private int secondaryTextSizeDP = 14;
     private int batteryLevel = 100;
+    private int previousHight = 0;
 
     public WatchPreviewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -80,7 +81,9 @@ public class WatchPreviewView extends View implements WordClockListener {
             communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
             communicator.requestConfig(getContext(),new WeakReference<WatchPreviewView>(this));
             Log.d(TAG, "communicatorID" + communicator);
+            Log.d(TAG, "WatchPreviewView: from customization");
         } catch (Exception e) {
+            Log.d(TAG, "WatchPreviewView: from home screen");
             SettingsManagerComponent settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getContext());
             settingsManager = settingsManagerComponent.getSettingsManager();
         }
@@ -385,6 +388,10 @@ public class WatchPreviewView extends View implements WordClockListener {
             significantTimeChange = true;
         if (basey==-1)
             significantTimeChange = true;
+        if (previousHight!=getHeight()) {
+            significantTimeChange = true;
+            previousHight = getHeight();
+        }
 
         //Draw text clock
         if (significantTimeChange) {
@@ -416,6 +423,7 @@ public class WatchPreviewView extends View implements WordClockListener {
                         complicationRightSet,
                         getHeight(),
                         getHeight(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
+                Log.d(TAG, "onDraw: getHeight: "+getHeight());
                 wordClockTask.execute();
             } else {
                 text2 = "";
@@ -486,6 +494,7 @@ public class WatchPreviewView extends View implements WordClockListener {
     @Override
     public void wordClockListener(WordClockTaskWrapper wordClockTaskWrapper) {
         basey = wordClockTaskWrapper.getBasey();
+        Log.d(TAG, "wordClockListener: baseY "+basey);
         text2 = wordClockTaskWrapper.getText();
         mTextPaint2.setTextSize(wordClockTaskWrapper.getTextSize()+mainTextOffset);
         x = wordClockTaskWrapper.getX();

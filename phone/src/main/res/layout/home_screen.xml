@@ -8,6 +8,7 @@
 
     <FrameLayout
         android:id="@+id/fragmentPreview"
+        android:transitionName="preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="64dp"
