@@ -35,7 +35,6 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
 
         View view = inflater.inflate(R.layout.complication_settings_fragment,container,false);
 
-
         CustomizationScreen activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
