@@ -41,6 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:enabled="false"
         android:text="Browse"
         app:layout_constraintBottom_toTopOf="@+id/buttonInstall"
         app:layout_constraintEnd_toEndOf="parent"
