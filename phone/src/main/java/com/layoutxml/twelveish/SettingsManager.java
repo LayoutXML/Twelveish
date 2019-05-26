@@ -56,6 +56,7 @@ public class SettingsManager {
         stringHashmap.put(context.getResources().getString(R.string.preference_date_separator),"/");
         stringHashmap.put(context.getResources().getString(R.string.preference_language),"en");
         stringHashmap.put(context.getResources().getString(R.string.preference_font),"robotolight");
+        stringHashmap.put(context.getResources().getString(R.string.preference_font_secondary),"robotolight");
     }
 
 }

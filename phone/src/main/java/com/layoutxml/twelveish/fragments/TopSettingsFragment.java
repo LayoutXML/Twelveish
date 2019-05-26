@@ -41,14 +41,14 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
         List<Pair<String,Integer>> optionsTI = new ArrayList<>();
-        optionsTI.add(new Pair<String, Integer>("Text Color",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_main_text_color))));
-        optionsTI.add(new Pair<String, Integer>("Text Color in Ambient",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_main_text_color_ambient))));
+        optionsTI.add(new Pair<String, Integer>("Text Color",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color))));
+        optionsTI.add(new Pair<String, Integer>("Text Color in Ambient",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color_ambient))));
 
         List<Pair<String, String>> optionsTT = new ArrayList<>();
-        optionsTT.add(new Pair<String, String>("Font","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font)))); //TODO
+        optionsTT.add(new Pair<String, String>("Font","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary)))); //TODO
         optionsTT.add(new Pair<String, String>("Date Order","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.preference_date_order))));
         optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
-        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset))+" and "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
+        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
 
         List<Pair<String,Boolean>> optionsTS = new ArrayList<>();
         optionsTS.add(new Pair<String, Boolean>("Digital Clock",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_digital_clock))));
