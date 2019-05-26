@@ -45,6 +45,7 @@ public class CustomizationScreen extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.pagerOptions);
         OptionsPagerAdapter optionsPagerAdapter = new OptionsPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(optionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(4);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
