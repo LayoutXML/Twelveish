@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.wearable.Wearable;
+import com.layoutxml.twelveish.activities.InstallActivity;
 import com.layoutxml.twelveish.dagger.App;
 import com.layoutxml.twelveish.fragments.PreviewFragment;
 
@@ -41,6 +42,15 @@ public class HomeScreen extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),CustomizationScreen.class);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeScreen.this, preview, "preview");
                 startActivity(intent, options.toBundle());
+            }
+        });
+
+        Button install = findViewById(R.id.buttonInstall);
+        install.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InstallActivity.class);
+                startActivity(intent);
             }
         });
     }
