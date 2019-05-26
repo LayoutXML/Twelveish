@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.layoutxml.twelveish.fragments.ComplicationSettingsFragment;
 import com.layoutxml.twelveish.fragments.WatchSettingsFragment;
 
 public class OptionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -21,7 +22,7 @@ public class OptionsPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return new WatchSettingsFragment();
             case 0:
-                return new WatchSettingsFragment();
+                return new ComplicationSettingsFragment();
             case 1:
                 return new WatchSettingsFragment();
             case 2:
