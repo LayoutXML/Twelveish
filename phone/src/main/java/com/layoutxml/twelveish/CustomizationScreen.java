@@ -2,10 +2,11 @@ package com.layoutxml.twelveish;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,6 +25,7 @@ public class CustomizationScreen extends AppCompatActivity {
     private SettingsManagerComponent settingsManagerComponent;
     private Communicator communicator;
     private static final String TAG = "CustomizationScreen";
+    private boolean isInAmoledMode = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class CustomizationScreen extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Fragment previewFragment = new PreviewFragment();
+        final PreviewFragment previewFragment = new PreviewFragment();
         fragmentTransaction.replace(R.id.fragmentPreview,previewFragment);
 
         ViewPager viewPager = findViewById(R.id.pagerOptions);
@@ -51,6 +53,16 @@ public class CustomizationScreen extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         fragmentTransaction.commit();
+
+        ImageButton cahngeAmbientMode = findViewById(R.id.changeModeButton);
+        cahngeAmbientMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ambient change button. Old value: "+isInAmoledMode);
+                isInAmoledMode = !isInAmoledMode;
+                previewFragment.ambientModeChange(isInAmoledMode);
+            }
+        });
     }
 
     @Override
@@ -69,5 +81,9 @@ public class CustomizationScreen extends AppCompatActivity {
 
     public SettingsManagerComponent getSettingsManagerComponent() {
         return settingsManagerComponent;
+    }
+
+    public interface AmoledChange {
+        public void ambientModeChange(boolean value);
     }
 }
