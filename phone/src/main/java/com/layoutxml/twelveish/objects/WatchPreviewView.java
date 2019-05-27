@@ -52,6 +52,7 @@ public class WatchPreviewView extends View implements WordClockListener {
     private String dayOfTheWeek = "";
     private String text3 = "";
     private String text1 = "";
+    private String text1backup = "";
     private String text2 = "";
     private float basey = -1;
     private float x;
@@ -330,18 +331,16 @@ public class WatchPreviewView extends View implements WordClockListener {
         int minutes = mCalendar.get(Calendar.MINUTE);
         if ((minutes%5==0 || minutes==1) && (seconds<2)) {
             significantTimeChange = true;
-            getDate();
         }
         int hourDigital = settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_military_time)) ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
         if (hourDigital == 0 && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_military_time)))
             hourDigital = 12;
         if (hourDigital-lastSignificantHours!=0 || minutes-lastSignificantMinutes>5 || lastSignificantMinutes-minutes<-5) {
             significantTimeChange = true;
-            getDate();
         }
 
         //Get digital clock
-        String ampmSymbols = (settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_am_pm))) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
+        String ampmSymbols = (!settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_military_time))) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
         String text = (mAmbient || !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_seconds)))
                 ? String.format(Locale.UK, "%d:%02d" + ampmSymbols, hourDigital, minutes)
                 : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
@@ -367,7 +366,12 @@ public class WatchPreviewView extends View implements WordClockListener {
             text3 = "";
         }
         if (!((mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_battery_ambient))) || (!mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_battery))))) {
+            if (!text1.equals("")) {
+                text1backup = text1;
+            }
             text1 = "";
+        } else if (text1.equals("")) {
+            text1 = text1backup;
         }
         if (!text3.equals("") || !text1.equals("")) {
             if (!text3.equals("") && !text1.equals("")) {
@@ -393,8 +397,14 @@ public class WatchPreviewView extends View implements WordClockListener {
             previousHight = getHeight();
         }
 
+        if (settingsManager.significantTimeChange) {
+            significantTimeChange = true;
+            settingsManager.significantTimeChange = false;
+        }
+
         //Draw text clock
         if (significantTimeChange) {
+            getDate();
             lastSignificantMinutes = minutes;
             lastSignificantHours = hourDigital;
             int index = minutes / 5;
@@ -405,8 +415,7 @@ public class WatchPreviewView extends View implements WordClockListener {
                 hourText -= 12;
             if (hourText == 0 && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_military_text_time)))
                 hourText = 12;
-            if ((mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_words_ambient))) || (!mAmbient && settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_words)))) {
-                wordClockTask = new WordClockTask(new WeakReference<Context>(getContext()),
+            wordClockTask = new WordClockTask(new WeakReference<Context>(getContext()),
                         settingsManager.stringHashmap.get(getContext().getString(R.string.preference_font)),
                         settingsManager.integerHashmap.get(getContext().getString(R.string.preference_capitalisation)),
                         hourText,
@@ -417,17 +426,14 @@ public class WatchPreviewView extends View implements WordClockListener {
                         PrefixNewLine,
                         SuffixNewLine,
                         settingsManager.stringHashmap.get(getContext().getString(R.string.preference_language)),
-                        settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_suffixes)),
-                        settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_legacy_word_arrangement)),
+                        true,
+                        false,
                         complicationLeftSet,
                         complicationRightSet,
                         getHeight(),
                         getHeight(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
-                Log.d(TAG, "onDraw: getHeight: "+getHeight());
-                wordClockTask.execute();
-            } else {
-                text2 = "";
-            }
+            Log.d(TAG, "onDraw: getHeight: "+getHeight());
+            wordClockTask.execute();
             significantTimeChange = false;
         }
 
@@ -506,5 +512,11 @@ public class WatchPreviewView extends View implements WordClockListener {
         mChinSize = Integer.parseInt(booleanPreferencesTemp[0]);
         complicationLeftSet = booleanPreferencesTemp[1].equals("true");
         complicationRightSet = booleanPreferencesTemp[2].equals("true");
+    }
+
+    public void changeAmbientMode(boolean value) {
+        mAmbient = value;
+        significantTimeChange = true;
+        Log.d(TAG, "changeAmbientMode: "+value);
     }
 }

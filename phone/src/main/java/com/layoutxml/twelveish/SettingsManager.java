@@ -10,6 +10,7 @@ public class SettingsManager {
     public HashMap<String, Integer> integerHashmap;
     public HashMap<String, String> stringHashmap;
     private Context context;
+    public boolean significantTimeChange = false;
 
     public SettingsManager(Context context) {
         booleanHashmap = new HashMap<>();
@@ -21,23 +22,18 @@ public class SettingsManager {
     public void initializeDefaultBooleans() {
         booleanHashmap.put(context.getResources().getString(R.string.preference_military_time),false);
         booleanHashmap.put(context.getResources().getString(R.string.preference_military_text_time),false);
-        booleanHashmap.put(context.getResources().getString(R.string.preference_show_am_pm),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_digital_clock),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_digital_clock_ambient),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_calendar),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_calendar_ambient),true);
-        booleanHashmap.put(context.getResources().getString(R.string.preference_show_suffixes),true);               //DEPRECATED
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_battery),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_battery_ambient),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_day),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_day_ambient),true);
-        booleanHashmap.put(context.getResources().getString(R.string.preference_show_words),true);                  //DEPRECATED
-        booleanHashmap.put(context.getResources().getString(R.string.preference_show_words_ambient),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_seconds),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_complications),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_show_complications_ambient),true);
         booleanHashmap.put(context.getResources().getString(R.string.preference_tap_complications),false);
-        booleanHashmap.put(context.getResources().getString(R.string.preference_legacy_word_arrangement),false);    //DEPRECATED
     }
 
     public void initializeDefaultIntegers() {

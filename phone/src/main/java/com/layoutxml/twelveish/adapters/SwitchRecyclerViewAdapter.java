@@ -66,6 +66,9 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
         public void onClick(View view) {
             if (mClickListener != null) {
                 String key = mData.get(getAdapterPosition()).second;
+                if (key.equals("showDay") || key.equals("showDayAmbient") || key.equals("showSecondaryCalendarActive") || key.equals("showSecondaryCalendar") || key.equals("militarytextTime")) {
+                    settingsManager.significantTimeChange = true;
+                }
                 boolean newValue = !settingsManager.booleanHashmap.get(key);
                 settingsManager.booleanHashmap.put(key,newValue);
                 mySwtich.setChecked(newValue);
