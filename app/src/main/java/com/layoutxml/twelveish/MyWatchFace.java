@@ -119,8 +119,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private boolean showSecondaryCalendarActive;
     private boolean showBattery;
     private boolean showBatteryAmbient;
-    private boolean showWords;
-    private boolean showWordsAmbient;
     private boolean showSeconds;
     private boolean showComplication;
     private boolean showComplicationAmbient;
@@ -500,8 +498,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showBatteryAmbient = prefs.getBoolean(getString(R.string.preference_show_battery_ambient), true);
             showDay = prefs.getBoolean(getString(R.string.preference_show_day), true);
             showDayAmbient = prefs.getBoolean(getString(R.string.preference_show_day_ambient), true);
-            showWords = prefs.getBoolean(getString(R.string.preference_show_words), true);
-            showWordsAmbient = prefs.getBoolean(getString(R.string.preference_show_words_ambient), true);
             showSeconds = prefs.getBoolean(getString(R.string.preference_show_seconds), true);
             showComplication = prefs.getBoolean(getString(R.string.preference_show_complications), true);
             showComplicationAmbient = prefs.getBoolean(getString(R.string.preference_show_complications_ambient), true);
@@ -1073,14 +1069,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     hourText -= 12;
                 if (hourText == 0 && !militaryTextTime)
                     hourText = 12;
-                if ((mAmbient && showWordsAmbient) || (!mAmbient && showWords)) {
-                    wordClockTask = new WordClockTask(new WeakReference<Context>(getApplicationContext()),font,capitalisation,hourText,minutes,index,Prefixes,Suffixes,
-                            PrefixNewLine,SuffixNewLine,language,true,false,complicationLeftSet,complicationRightSet,bounds.width(),
-                            bounds.height(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
-                    wordClockTask.execute();
-                } else {
-                    text2 = "";
-                }
+                wordClockTask = new WordClockTask(new WeakReference<Context>(getApplicationContext()),font,capitalisation,hourText,minutes,index,Prefixes,Suffixes,
+                        PrefixNewLine,SuffixNewLine,language,true,false,complicationLeftSet,complicationRightSet,bounds.width(),
+                        bounds.height(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
+                wordClockTask.execute();
+
                 significantTimeChange = false;
             }
 
@@ -1231,9 +1224,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 preferencesToSend[18] = "showBatteryAmbient";
                 preferencesToSend[19] = showBatteryAmbient ? "true" : "false";
                 preferencesToSend[20] = "showWords";
-                preferencesToSend[21] = showWords ? "true" : "false";
+                preferencesToSend[21] = "true";
                 preferencesToSend[22] = "showWordsAmbient";
-                preferencesToSend[23] = showWordsAmbient ? "true" : "false";
+                preferencesToSend[23] = "true";
                 preferencesToSend[24] = "showSeconds";
                 preferencesToSend[25] = showSeconds ? "true" : "false";
                 preferencesToSend[26] = "showComplication";

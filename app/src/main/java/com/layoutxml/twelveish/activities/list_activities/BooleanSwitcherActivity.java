@@ -133,18 +133,6 @@ public class BooleanSwitcherActivity extends Activity {
         values.add(option);
 
         option = new BooleanOption();
-        option.setName("Word clock (active)");
-        option.setKey(getString(R.string.preference_show_words));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
-        option.setName("Word clock (ambient)");
-        option.setKey(getString(R.string.preference_show_words_ambient));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
         option.setName("Complications (active)");
         option.setKey(getString(R.string.preference_show_complications));
         option.setDefaultOption(true);
