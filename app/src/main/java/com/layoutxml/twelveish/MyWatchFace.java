@@ -117,7 +117,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private boolean showSecondaryActive;
     private boolean showSecondaryCalendar;
     private boolean showSecondaryCalendarActive;
-    private boolean showSuffixes;
     private boolean showBattery;
     private boolean showBatteryAmbient;
     private boolean showWords;
@@ -129,7 +128,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private boolean showDay;
     private boolean showDayAmbient;
     private boolean disableComplicationTap;
-    private boolean legacyWords;
     private int mainTextOffset=0;
     private int secondaryTextOffset=0;
     private String font;
@@ -498,7 +496,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             showSecondaryActive = prefs.getBoolean(getString(R.string.preference_show_secondary_active), true);
             showSecondaryCalendar = prefs.getBoolean(getString(R.string.preference_show_secondary_calendar), true);
             showSecondaryCalendarActive = prefs.getBoolean(getString(R.string.preference_show_secondary_calendar_active), true);
-            showSuffixes = prefs.getBoolean(getString(R.string.preference_show_suffixes), true);
             showBattery = prefs.getBoolean(getString(R.string.preference_show_battery), true);
             showBatteryAmbient = prefs.getBoolean(getString(R.string.preference_show_battery_ambient), true);
             showDay = prefs.getBoolean(getString(R.string.preference_show_day), true);
@@ -513,7 +510,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             disableComplicationTap = prefs.getBoolean(getString(R.string.preference_tap), false);
             complicationLeftSet = prefs.getBoolean(getString(R.string.complication_left_set), false);
             complicationRightSet = prefs.getBoolean(getString(R.string.complication_right_set), false);
-            legacyWords = prefs.getBoolean(getString(R.string.preference_legacy_word_arrangement), false);
             mainTextOffset = prefs.getInt(getString(R.string.main_text_size_offset),0);
             secondaryTextOffset = prefs.getInt(getString(R.string.secondary_text_size_offset),0);
 
@@ -1079,7 +1075,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                     hourText = 12;
                 if ((mAmbient && showWordsAmbient) || (!mAmbient && showWords)) {
                     wordClockTask = new WordClockTask(new WeakReference<Context>(getApplicationContext()),font,capitalisation,hourText,minutes,index,Prefixes,Suffixes,
-                            PrefixNewLine,SuffixNewLine,language,showSuffixes,legacyWords,complicationLeftSet,complicationRightSet,bounds.width(),
+                            PrefixNewLine,SuffixNewLine,language,true,false,complicationLeftSet,complicationRightSet,bounds.width(),
                             bounds.height(),firstSeparator,mChinSize,mainTextOffset,new WeakReference<WordClockListener>(this));
                     wordClockTask.execute();
                 } else {
@@ -1229,7 +1225,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 preferencesToSend[12] = "showSecondaryCalendarActive";
                 preferencesToSend[13] = showSecondaryCalendarActive ? "true" : "false";
                 preferencesToSend[14] = "showSuffixes";
-                preferencesToSend[15] = showSuffixes ? "true" : "false";
+                preferencesToSend[15] = "true";
                 preferencesToSend[16] = "showBattery";
                 preferencesToSend[17] = showBattery ? "true" : "false";
                 preferencesToSend[18] = "showBatteryAmbient";
@@ -1251,7 +1247,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 preferencesToSend[34] = "disableComplicationTap";
                 preferencesToSend[35] = disableComplicationTap ? "true" : "false";
                 preferencesToSend[36] = "legacyWords";
-                preferencesToSend[37] = legacyWords ? "true" : "false";
+                preferencesToSend[37] = "false";
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
