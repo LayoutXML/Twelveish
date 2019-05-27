@@ -50,17 +50,17 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
         optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
 
-        List<Pair<String,Boolean>> optionsTS = new ArrayList<>();
-        optionsTS.add(new Pair<String, Boolean>("Digital Clock",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_digital_clock))));
-        optionsTS.add(new Pair<String, Boolean>("Digital Clock in Ambient",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_digital_clock_ambient))));
-        optionsTS.add(new Pair<String, Boolean>("Day of the Week",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_day))));
-        optionsTS.add(new Pair<String, Boolean>("Day of the Week in Ambient",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_day_ambient))));
-        optionsTS.add(new Pair<String, Boolean>("Date",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_calendar))));
-        optionsTS.add(new Pair<String, Boolean>("Date in Ambient",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_calendar_ambient))));
-        optionsTS.add(new Pair<String, Boolean>("Battery Percentage",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_battery))));
-        optionsTS.add(new Pair<String, Boolean>("Battery Percentage in Ambient",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_battery_ambient))));
-        optionsTS.add(new Pair<String, Boolean>("24h Format",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_military_time))));
-        optionsTS.add(new Pair<String, Boolean>("Show Seconds in Active",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_show_seconds))));
+        List<Pair<String,String>> optionsTS = new ArrayList<>();
+        optionsTS.add(new Pair<String, String>("Digital Clock",getString(R.string.preference_show_digital_clock)));
+        optionsTS.add(new Pair<String, String>("Digital Clock in Ambient",getResources().getString(R.string.preference_show_digital_clock_ambient)));
+        optionsTS.add(new Pair<String, String>("Day of the Week",getResources().getString(R.string.preference_show_day)));
+        optionsTS.add(new Pair<String, String>("Day of the Week in Ambient",getResources().getString(R.string.preference_show_day_ambient)));
+        optionsTS.add(new Pair<String, String>("Date",getResources().getString(R.string.preference_show_calendar)));
+        optionsTS.add(new Pair<String, String>("Date in Ambient",getResources().getString(R.string.preference_show_calendar_ambient)));
+        optionsTS.add(new Pair<String, String>("Battery Percentage",getResources().getString(R.string.preference_show_battery)));
+        optionsTS.add(new Pair<String, String>("Battery Percentage in Ambient",getResources().getString(R.string.preference_show_battery_ambient)));
+        optionsTS.add(new Pair<String, String>("24h Format",getResources().getString(R.string.preference_military_time)));
+        optionsTS.add(new Pair<String, String>("Show Seconds in Active",getResources().getString(R.string.preference_show_seconds)));
 
         RecyclerView recyclerViewTI = view.findViewById(R.id.topImageRV);
         recyclerViewTI.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -76,7 +76,7 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
 
         RecyclerView recyclerViewTS = view.findViewById(R.id.topSwitchRV);
         recyclerViewTS.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterTS = new SwitchRecyclerViewAdapter(getContext(),optionsTS,settingsTSName);
+        adapterTS = new SwitchRecyclerViewAdapter(getContext(),optionsTS,settingsTSName, settingsManager);
         adapterTS.setClickListener(this);
         recyclerViewTS.setAdapter(adapterTS);
 

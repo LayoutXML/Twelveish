@@ -43,8 +43,8 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
         optionsSC.add(new Pair<String, String>("Right Complication","Click to launch menu on your watch"));
         optionsSC.add(new Pair<String, String>("Bottom Complication","Click to launch menu on your watch"));
 
-        List<Pair<String, Boolean>> optionsBO = new ArrayList<>();
-        optionsBO.add(new Pair<String,Boolean>("Disable complication tap actions",settingsManager.booleanHashmap.get(getString(R.string.preference_tap_complications))));
+        List<Pair<String, String>> optionsBO = new ArrayList<>();
+        optionsBO.add(new Pair<String,String>("Disable complication tap actions",getString(R.string.preference_tap_complications)));
 
         RecyclerView recyclerViewSC = view.findViewById(R.id.setComplicationsRV);
         recyclerViewSC.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -54,7 +54,7 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
 
         RecyclerView recyclerViewBO = view.findViewById(R.id.complicationsSwitchRV);
         recyclerViewBO.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterBO = new SwitchRecyclerViewAdapter(getContext(),optionsBO, complicationBOName);
+        adapterBO = new SwitchRecyclerViewAdapter(getContext(),optionsBO, complicationBOName, settingsManager);
         adapterBO.setClickListener(this);
         recyclerViewBO.setAdapter(adapterBO);
 

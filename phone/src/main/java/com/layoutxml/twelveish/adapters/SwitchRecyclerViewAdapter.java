@@ -12,20 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.SettingsManager;
 
 import java.util.List;
 
 public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecyclerViewAdapter.ViewHolder> {
 
-    private List<Pair<String, Boolean>> mData;
+    private List<Pair<String, String>> mData;
     private LayoutInflater mInflater;
     private ItemClickSwitchListener mClickListener;
     private String name=""; //adapter name
+    private SettingsManager settingsManager;
 
-    public SwitchRecyclerViewAdapter(Context context, List<Pair<String, Boolean>> data, String name) {
+    public SwitchRecyclerViewAdapter(Context context, List<Pair<String, String>> data, String name, SettingsManager settingsManager) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.name = name;
+        this.settingsManager = settingsManager;
     }
 
     @NonNull
@@ -38,9 +41,9 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = mData.get(position).first;
-        Boolean value = mData.get(position).second;
+        String key = mData.get(position).second;
         holder.myTextView.setText(title);
-        holder.mySwtich.setChecked(value);
+        holder.mySwtich.setChecked(settingsManager.booleanHashmap.get(key));
     }
 
     @Override
@@ -62,11 +65,10 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                if (mClickListener.onItemClickSwitch(view, getAdapterPosition(), !mData.get(getAdapterPosition()).second, name)) {
-                    //success
-                    mData.set(getAdapterPosition(),new Pair<String, Boolean>(mData.get(getAdapterPosition()).first,!mData.get(getAdapterPosition()).second));
-                    mySwtich.setChecked(mData.get(getAdapterPosition()).second);
-                }
+                String key = mData.get(getAdapterPosition()).second;
+                boolean newValue = !settingsManager.booleanHashmap.get(key);
+                settingsManager.booleanHashmap.put(key,newValue);
+                mySwtich.setChecked(newValue);
             }
         }
     }

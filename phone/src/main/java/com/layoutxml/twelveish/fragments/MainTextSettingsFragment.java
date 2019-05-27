@@ -49,8 +49,8 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         optionsTT.add(new Pair<String, String>("Capitalization","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.preference_capitalisation))));
         optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset))));
 
-        List<Pair<String,Boolean>> optionsTS = new ArrayList<>();
-        optionsTS.add(new Pair<String, Boolean>("24h Format",settingsManager.booleanHashmap.get(getResources().getString(R.string.preference_military_text_time))));
+        List<Pair<String,String>> optionsTS = new ArrayList<>();
+        optionsTS.add(new Pair<String, String>("24h Format",getResources().getString(R.string.preference_military_text_time)));
 
         RecyclerView recyclerViewTI = view.findViewById(R.id.topImageRV);
         recyclerViewTI.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,7 +66,7 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
 
         RecyclerView recyclerViewTS = view.findViewById(R.id.topSwitchRV);
         recyclerViewTS.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterMS = new SwitchRecyclerViewAdapter(getContext(),optionsTS, settingsMSName);
+        adapterMS = new SwitchRecyclerViewAdapter(getContext(),optionsTS, settingsMSName, settingsManager);
         adapterMS.setClickListener(this);
         recyclerViewTS.setAdapter(adapterMS);
 
