@@ -75,12 +75,6 @@ public class BooleanSwitcherActivity extends Activity {
         values.add(option);
 
         option = new BooleanOption();
-        option.setName("Legacy word arrangement");
-        option.setKey(getString(R.string.preference_legacy_word_arrangement));
-        option.setDefaultOption(false);
-        values.add(option);
-
-        option = new BooleanOption();
         option.setName("Show seconds (active)");
         option.setKey(getString(R.string.preference_show_seconds));
         option.setDefaultOption(true);
