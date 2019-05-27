@@ -69,12 +69,6 @@ public class BooleanSwitcherActivity extends Activity {
         values.add(option);
 
         option = new BooleanOption();
-        option.setName("Show am/pm (Digital)");
-        option.setKey(getString(R.string.preference_ampm));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
         option.setName("Disable tapping on complications");
         option.setKey(getString(R.string.preference_tap));
         option.setDefaultOption(false);

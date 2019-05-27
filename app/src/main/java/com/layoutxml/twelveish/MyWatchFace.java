@@ -113,7 +113,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private int dateOrder;
     private String dateSeparator;
     private int capitalisation;
-    private boolean ampm;
     private boolean showSecondary;
     private boolean showSecondaryActive;
     private boolean showSecondaryCalendar;
@@ -495,7 +494,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
             dateOrder = prefs.getInt(getString(R.string.preference_date_order), 0);
             dateSeparator = prefs.getString(getString(R.string.preference_date_separator), "/");
             capitalisation = prefs.getInt(getString(R.string.preference_capitalisation), 0);
-            ampm = prefs.getBoolean(getString(R.string.preference_ampm), true);
             showSecondary = prefs.getBoolean(getString(R.string.preference_show_secondary), true);
             showSecondaryActive = prefs.getBoolean(getString(R.string.preference_show_secondary_active), true);
             showSecondaryCalendar = prefs.getBoolean(getString(R.string.preference_show_secondary_calendar), true);
@@ -1014,7 +1012,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
 
             //Get digital clock
-            String ampmSymbols = (ampm) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
+            String ampmSymbols = (!militaryTime) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
             String text = (mAmbient || !showSeconds)
                     ? String.format(Locale.UK, "%d:%02d" + ampmSymbols, hourDigital, minutes)
                     : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
@@ -1221,7 +1219,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 preferencesToSend[2] = "militaryTextTime";
                 preferencesToSend[3] = militaryTextTime ? "true" : "false";
                 preferencesToSend[4] = "ampm";
-                preferencesToSend[5] = ampm ? "true" : "false";
+                preferencesToSend[5] = "false"; //TODO: remove
                 preferencesToSend[6] = "showSecondary";
                 preferencesToSend[7] = showSecondary ? "true" : "false";
                 preferencesToSend[8] = "showSecondaryActive";
