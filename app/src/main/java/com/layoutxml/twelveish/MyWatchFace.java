@@ -93,6 +93,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private String text3 = "";
     private String dayOfTheWeek = "";
     private String text1 = "";
+    private String text1backup = "";
     private boolean significantTimeChange = true;
     private String text2 = "";
     private float x;
@@ -1039,7 +1040,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 text3 = "";
             }
             if (!((mAmbient && showBatteryAmbient) || (!mAmbient && showBattery))) {
+                if (!text1.equals("")) {
+                    text1backup = text1;
+                }
                 text1 = "";
+            } else if (text1.equals("")) {
+                text1 = text1backup;
             }
             if (!text3.equals("") || !text1.equals("")) {
                 if (!text3.equals("") && !text1.equals("")) {
