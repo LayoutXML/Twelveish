@@ -31,13 +31,14 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     private final String settingsTTName = "settingsTT";
     private final String settingsTSName = "settingsTS";
     private SettingsManager settingsManager;
+    private CustomizationScreen activity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.top_settings_fragment,container,false);
 
-        CustomizationScreen activity = (CustomizationScreen) getContext();
+        activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
         List<Pair<String,Integer>> optionsTI = new ArrayList<>();
@@ -84,7 +85,11 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     }
 
     @Override
-    public boolean onItemClickSwitch(View view, int position, boolean newValue, String name) {return true;}
+    public void onItemClickSwitch(View view, int position, boolean newValue, String name) {
+        if (name.equals(settingsTSName)) {
+            activity.invalidatePreview();
+        }
+    }
 
     @Override
     public Integer onItemClickImage(View view, int position, Integer currentColor, String name) {return 0;}

@@ -22,20 +22,21 @@ import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SharedSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener, SwitchRecyclerViewAdapter.ItemClickSwitchListener{
+public class SharedSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener{
 
     private ImageRecyclerViewAdapter adapterMI;
     private TextviewRecyclerViewAdapter adapterMT;
     private final String settingsMIName = "settingsSI";
     private final String settingsMTName = "settingsST";
     private SettingsManager settingsManager;
+    private CustomizationScreen activity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.shared_settings_fragment,container,false);
 
-        CustomizationScreen activity = (CustomizationScreen) getContext();
+        activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
         List<Pair<String,Integer>> optionsTI = new ArrayList<>();
@@ -58,9 +59,6 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
 
         return view;
     }
-
-    @Override
-    public boolean onItemClickSwitch(View view, int position, boolean newValue, String name) {return true;}
 
     @Override
     public Integer onItemClickImage(View view, int position, Integer currentColor, String name) {return 0;}

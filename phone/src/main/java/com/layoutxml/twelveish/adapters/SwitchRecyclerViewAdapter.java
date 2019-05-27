@@ -72,6 +72,7 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
                 boolean newValue = !settingsManager.booleanHashmap.get(key);
                 settingsManager.booleanHashmap.put(key,newValue);
                 mySwtich.setChecked(newValue);
+                mClickListener.onItemClickSwitch(view, getAdapterPosition(), newValue, name);
             }
         }
     }
@@ -85,6 +86,6 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
     }
 
     public interface ItemClickSwitchListener {
-        boolean onItemClickSwitch(View view, int position, boolean newValue, String name);
+        void onItemClickSwitch(View view, int position, boolean newValue, String name);
     }
 }

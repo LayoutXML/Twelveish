@@ -26,6 +26,7 @@ public class CustomizationScreen extends AppCompatActivity {
     private Communicator communicator;
     private static final String TAG = "CustomizationScreen";
     private boolean isInAmoledMode = false;
+    private PreviewFragment previewFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class CustomizationScreen extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        final PreviewFragment previewFragment = new PreviewFragment();
+        previewFragment = new PreviewFragment();
         fragmentTransaction.replace(R.id.fragmentPreview,previewFragment);
 
         ViewPager viewPager = findViewById(R.id.pagerOptions);
@@ -61,6 +62,7 @@ public class CustomizationScreen extends AppCompatActivity {
                 Log.d(TAG, "onClick: ambient change button. Old value: "+isInAmoledMode);
                 isInAmoledMode = !isInAmoledMode;
                 previewFragment.ambientModeChange(isInAmoledMode);
+                invalidatePreview();
             }
         });
     }
@@ -85,5 +87,9 @@ public class CustomizationScreen extends AppCompatActivity {
 
     public interface AmoledChange {
         public void ambientModeChange(boolean value);
+    }
+
+    public void invalidatePreview() {
+        previewFragment.invalidate();
     }
 }

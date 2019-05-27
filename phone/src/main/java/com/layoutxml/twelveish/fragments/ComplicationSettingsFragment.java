@@ -28,6 +28,7 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
     private final String complicationSCName = "complicationSC";
     private final String complicationBOName = "complicationBO";
     private SettingsManager settingsManager;
+    private CustomizationScreen activity;
 
     @Nullable
     @Override
@@ -35,7 +36,7 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
 
         View view = inflater.inflate(R.layout.complication_settings_fragment,container,false);
 
-        CustomizationScreen activity = (CustomizationScreen) getContext();
+        activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
         List<Pair<String, String>> optionsSC = new ArrayList<Pair<String, String>>();
@@ -74,11 +75,9 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
     }
 
     @Override
-    public boolean onItemClickSwitch(View view, int position, boolean newValue, String name) {
+    public void onItemClickSwitch(View view, int position, boolean newValue, String name) {
         if (name.equals(complicationBOName)) {
-            settingsManager.booleanHashmap.put(getString(R.string.preference_tap_complications),newValue);
-            return true;
+            activity.invalidatePreview();
         }
-        return false;
     }
 }

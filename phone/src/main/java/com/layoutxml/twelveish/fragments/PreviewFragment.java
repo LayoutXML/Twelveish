@@ -34,4 +34,8 @@ public class PreviewFragment extends Fragment implements CustomizationScreen.Amo
         previewView.changeAmbientMode(value);
         Log.d(TAG, "ambientModeChange: "+value);
     }
+
+    public void invalidate() {
+        previewView.invalidate();
+    }
 }

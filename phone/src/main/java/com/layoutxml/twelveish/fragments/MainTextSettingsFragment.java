@@ -31,13 +31,14 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
     private final String settingsMTName = "settingsMT";
     private final String settingsMSName = "settingsMS";
     private SettingsManager settingsManager;
+    private CustomizationScreen activity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.top_settings_fragment,container,false);
 
-        CustomizationScreen activity = (CustomizationScreen) getContext();
+        activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
         List<Pair<String,Integer>> optionsTI = new ArrayList<>();
@@ -74,7 +75,11 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
     }
 
     @Override
-    public boolean onItemClickSwitch(View view, int position, boolean newValue, String name) {return true;}
+    public void onItemClickSwitch(View view, int position, boolean newValue, String name) {
+        if (name.equals(settingsMSName)) {
+            activity.invalidatePreview();
+        }
+    }
 
     @Override
     public Integer onItemClickImage(View view, int position, Integer currentColor, String name) {return 0;}
