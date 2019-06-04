@@ -1,6 +1,10 @@
 package com.layoutxml.twelveish.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.layoutxml.twelveish.CustomizationScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
+import com.layoutxml.twelveish.activities.ColorSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
@@ -32,6 +37,7 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     private final String settingsTSName = "settingsTS";
     private SettingsManager settingsManager;
     private CustomizationScreen activity;
+    private List<Pair<String,Integer>> optionsTI;
 
     @Nullable
     @Override
@@ -41,9 +47,8 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
-        List<Pair<String,Integer>> optionsTI = new ArrayList<>();
-        optionsTI.add(new Pair<String, Integer>("Text Color",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color))));
-        optionsTI.add(new Pair<String, Integer>("Text Color in Ambient",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color_ambient))));
+        optionsTI = new ArrayList<>();
+        generateColorOptions();
 
         List<Pair<String, String>> optionsTT = new ArrayList<>();
         optionsTT.add(new Pair<String, String>("Font","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary)))); //TODO
@@ -84,6 +89,12 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         return view;
     }
 
+    private void generateColorOptions() {
+        optionsTI.clear();
+        optionsTI.add(new Pair<String, Integer>("Text Color",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color))));
+        optionsTI.add(new Pair<String, Integer>("Text Color in Ambient",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color_ambient))));
+    }
+
     @Override
     public void onItemClickSwitch(View view, int position, boolean newValue, String name) {
         if (name.equals(settingsTSName)) {
@@ -92,8 +103,31 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     }
 
     @Override
-    public void onItemClickImage(View view, int position, Integer currentColor, String name) {}
+    public void onItemClickImage(View view, int position, Integer currentColor, String name) {
+        Intent intent = new Intent(getContext(), ColorSelectionActivity.class);
+        startActivityForResult(intent, position);
+    }
 
     @Override
     public void onItemClick(View view, int position, String name){}
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode== Activity.RESULT_OK) {
+            switch (requestCode) {
+                case 0:
+                    settingsManager.integerHashmap.put(getResources().getString(R.string.preference_secondary_text_color), data.getIntExtra("newColor", Color.parseColor("#000000")));
+                    generateColorOptions();
+                    adapterTI.notifyDataSetChanged();
+                    break;
+                case 1:
+                    settingsManager.integerHashmap.put(getResources().getString(R.string.preference_secondary_text_color_ambient), data.getIntExtra("newColor", Color.parseColor("#000000")));
+                    generateColorOptions();
+                    adapterTI.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
