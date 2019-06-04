@@ -11,4 +11,5 @@
     <color name="gray">#b2b2b2</color>
     <color name="colorAccent">#2196f3</color>
     <color name="background">#212121</color>
+    <color name="background_white">#FAFAFA</color>
 </resources>

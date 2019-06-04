@@ -69,32 +69,14 @@ public class BooleanSwitcherActivity extends Activity {
         values.add(option);
 
         option = new BooleanOption();
-        option.setName("Show am/pm (Digital)");
-        option.setKey(getString(R.string.preference_ampm));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
         option.setName("Disable tapping on complications");
         option.setKey(getString(R.string.preference_tap));
         option.setDefaultOption(false);
         values.add(option);
 
         option = new BooleanOption();
-        option.setName("Legacy word arrangement");
-        option.setKey(getString(R.string.preference_legacy_word_arrangement));
-        option.setDefaultOption(false);
-        values.add(option);
-
-        option = new BooleanOption();
         option.setName("Show seconds (active)");
         option.setKey(getString(R.string.preference_show_seconds));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
-        option.setName("Show Suffixes");
-        option.setKey(getString(R.string.preference_show_suffixes));
         option.setDefaultOption(true);
         values.add(option);
 
@@ -147,18 +129,6 @@ public class BooleanSwitcherActivity extends Activity {
         option = new BooleanOption();
         option.setName("Battery (ambient)");
         option.setKey(getString(R.string.preference_show_battery_ambient));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
-        option.setName("Word clock (active)");
-        option.setKey(getString(R.string.preference_show_words));
-        option.setDefaultOption(true);
-        values.add(option);
-
-        option = new BooleanOption();
-        option.setName("Word clock (ambient)");
-        option.setKey(getString(R.string.preference_show_words_ambient));
         option.setDefaultOption(true);
         values.add(option);
 
