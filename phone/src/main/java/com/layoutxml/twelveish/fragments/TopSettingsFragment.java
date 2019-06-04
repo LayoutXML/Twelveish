@@ -92,7 +92,7 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     }
 
     @Override
-    public Integer onItemClickImage(View view, int position, Integer currentColor, String name) {return 0;}
+    public void onItemClickImage(View view, int position, Integer currentColor, String name) {}
 
     @Override
     public void onItemClick(View view, int position, String name){}

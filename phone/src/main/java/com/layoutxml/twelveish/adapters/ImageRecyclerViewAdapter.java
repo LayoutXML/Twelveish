@@ -64,9 +64,7 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                Integer newColor = mClickListener.onItemClickImage(view, getAdapterPosition(), mData.get(getAdapterPosition()).second, name);
-                mData.set(getAdapterPosition(),new Pair<String, Integer>(mData.get(getAdapterPosition()).first,newColor));
-                myImage.setColorFilter(newColor, android.graphics.PorterDuff.Mode.SRC_IN);
+                mClickListener.onItemClickImage(view, getAdapterPosition(), mData.get(getAdapterPosition()).second, name);
             }
         }
     }
@@ -80,6 +78,6 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
     }
 
     public interface ItemClickImageListener {
-        Integer onItemClickImage(View view, int position, Integer currentColor, String name);
+        void onItemClickImage(View view, int position, Integer currentColor, String name);
     }
 }

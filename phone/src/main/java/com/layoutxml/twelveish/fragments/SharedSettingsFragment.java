@@ -61,7 +61,7 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
     }
 
     @Override
-    public Integer onItemClickImage(View view, int position, Integer currentColor, String name) {return 0;}
+    public void onItemClickImage(View view, int position, Integer currentColor, String name) {}
 
     @Override
     public void onItemClick(View view, int position, String name){}
