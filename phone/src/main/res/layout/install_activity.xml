@@ -27,18 +27,17 @@
             android:id="@+id/content1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             android:text="To install Twelveish go to Google Play store on your watch and click install under Twelveish.\n\nPress the button below to launch Google Play store on your watch."
-            android:textColor="@color/gray"
-            android:textStyle="bold" />
+            android:textColor="@color/gray" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Open Google Play" />
 
         <TextView
@@ -57,12 +56,11 @@
             android:id="@+id/content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             android:text="Twelveish will be automatically installed on your watch.\n\nBecause of the bug in Android Wear itself, this can take up to a few hours although usually this takes a few minutes."
-            android:textColor="@color/gray"
-            android:textStyle="bold" />
+            android:textColor="@color/gray" />
     </LinearLayout>
 
     <Button

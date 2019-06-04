@@ -35,6 +35,7 @@
         </activity>
         <activity android:name=".CustomizationScreen" />
         <activity android:name=".activities.InstallActivity" />
+        <activity android:name=".activities.AboutActivityP" />
     </application>
 
 </manifest>
