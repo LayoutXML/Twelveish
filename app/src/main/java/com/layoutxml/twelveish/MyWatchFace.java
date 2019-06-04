@@ -509,7 +509,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mainTextOffset = prefs.getInt(getString(R.string.main_text_size_offset),0);
             secondaryTextOffset = prefs.getInt(getString(R.string.secondary_text_size_offset),0);
 
-            mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
+            mTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f +secondaryTextOffset); //secondary text
 
             //Work with given preferences
             switch (language) {
@@ -807,7 +807,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
             mChinSize = insets.getSystemWindowInsetBottom();
-            mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
+            mTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f +secondaryTextOffset); //secondary text
             mTextPaint2.setTextSize(24+mainTextOffset); //word clock
             Rect bottomBounds = new Rect(screenWidthG / 2 - screenWidthG / 4,
                     (int) (screenHeightG * 3 / 4 - mChinSize),

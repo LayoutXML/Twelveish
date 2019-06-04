@@ -102,7 +102,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint.setColor(settingsManager.integerHashmap.get(context.getString(R.string.preference_secondary_text_color)));
         mTextPaint2.setColor(settingsManager.integerHashmap.get(context.getString(R.string.preference_main_text_color)));
 
-        mTextPaint.setTextSize((secondaryTextSizeDP * (getResources().getDisplayMetrics().densityDpi/160f))+secondaryTextOffset); //secondary text
+        mTextPaint.setTextSize(22 + secondaryTextOffset); //secondary text
         mTextPaint2.setTextSize(24 + mainTextOffset);
 
         Typeface NORMAL_TYPEFACE2;
@@ -404,6 +404,7 @@ public class WatchPreviewView extends View implements WordClockListener {
 
         //Draw text clock
         if (significantTimeChange) {
+            mTextPaint.setTextSize(getHeight() * 0.06f + secondaryTextOffset); //secondary text
             getDate();
             lastSignificantMinutes = minutes;
             lastSignificantHours = hourDigital;
