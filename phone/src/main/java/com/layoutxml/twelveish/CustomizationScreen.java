@@ -55,12 +55,17 @@ public class CustomizationScreen extends AppCompatActivity {
 
         fragmentTransaction.commit();
 
-        ImageButton cahngeAmbientMode = findViewById(R.id.changeModeButton);
-        cahngeAmbientMode.setOnClickListener(new View.OnClickListener() {
+        final ImageButton changeAmbientMode = findViewById(R.id.changeModeButton);
+        changeAmbientMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: ambient change button. Old value: "+isInAmoledMode);
                 isInAmoledMode = !isInAmoledMode;
+                if (isInAmoledMode) {
+                    changeAmbientMode.setImageDrawable(getDrawable(R.drawable.ic_inactive));
+                } else {
+                    changeAmbientMode.setImageDrawable(getDrawable(R.drawable.ic_active));
+                }
                 previewFragment.ambientModeChange(isInAmoledMode);
                 invalidatePreview();
             }
