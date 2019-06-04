@@ -310,7 +310,11 @@ public class WatchPreviewView extends View implements WordClockListener {
         int x = getWidth()/2;
         int y = getHeight()/2;
         paint.setColor(Color.parseColor("#000000"));
-        paintFrame.setColor(Color.DKGRAY);
+
+        if (mAmbient)
+            paintFrame.setColor(Color.parseColor("#333333"));
+        else
+            paintFrame.setColor(Color.DKGRAY);
 
         //Set colors
         if (mAmbient) {
