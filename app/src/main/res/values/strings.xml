@@ -77,15 +77,15 @@
     <string-array name="Prefixes">
         <item/>
         <item/>
-        <item>a\u00A0quarter past</item>
+        <item>roughtly ten past</item>
         <item>a quarter past</item>
-        <item>almost\u00A0half past</item>
+        <item>about twenty past</item>
         <item>around\u00A0half past</item>
         <item>half past</item>
         <item>half\u00A0past</item>
+        <item>around twenty to</item>
         <item>a quarter to</item>
-        <item>a quarter to</item>
-        <item>approaching</item>
+        <item>about ten minutes to</item>
         <item>almost</item>
     </string-array>
     <string-array name="Suffixes">
