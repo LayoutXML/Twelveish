@@ -478,7 +478,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return arrangeWords(text);
+            return arrangeWords(text).toLowerCase();
         }
     }
 
