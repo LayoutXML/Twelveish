@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.activities.AboutActivity;
 import com.layoutxml.twelveish.activities.FontSizeInfoActivity;
-import com.layoutxml.twelveish.config.ComplicationConfigActivity;
+import com.layoutxml.twelveish.activities.ComplicationConfigActivity;
 import com.layoutxml.twelveish.objects.ActivityOption;
 
 import java.util.ArrayList;

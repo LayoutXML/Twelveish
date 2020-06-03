@@ -22,7 +22,7 @@
             android:value="true" />
 
         <service
-            android:name=".MyWatchFace"
+            android:name=".WatchFace"
             android:label="@string/my_digital_name"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
@@ -66,7 +66,7 @@
         <activity android:name=".activities.list_activities.StringTextViewActivity" />
         <activity android:name=".activities.list_activities.IntegerTextViewOptionsActivity" />
         <activity
-            android:name=".config.ComplicationConfigActivity"
+            android:name=".activities.ComplicationConfigActivity"
             android:label="@string/digital_config_name">
         </activity>
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>

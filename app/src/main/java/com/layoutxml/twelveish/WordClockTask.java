@@ -6,15 +6,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.util.Log;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.layoutxml.twelveish.objects.WordClockTaskWrapper;
 
 import java.lang.ref.WeakReference;
 
-import androidx.core.content.res.ResourcesCompat;
-
-public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
+public class WordClockTask extends AsyncTask<Void, Void, WordClockTaskWrapper> {
 
     private final WeakReference<Context> contextWeakReference;
     private final WeakReference<WordClockListener> wordClockListenerWeakReference;
@@ -68,7 +67,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     @Override
     protected WordClockTaskWrapper doInBackground(Void... voids) {
-        
+
         String text;
         switch (capitalisation) {
             case 0:
@@ -94,21 +93,21 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         float textSize;
         float x;
         if (!complicationLeftSet && !complicationRightSet) {
-            textSize = getTextSizeForWidth(boundsWidth - 32, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight/4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, true);
+            textSize = getTextSizeForWidth(boundsWidth - 32, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight / 4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, true);
             x = boundsWidth / 2.0f;
         } else if (complicationLeftSet && !complicationRightSet) {
-            textSize = getTextSizeForWidth(boundsWidth * 3.0f / 4.0f - 24, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight/4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
+            textSize = getTextSizeForWidth(boundsWidth * 3.0f / 4.0f - 24, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight / 4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
             x = boundsWidth * 5.0f / 8.0f - 16;
         } else if (!complicationLeftSet && complicationRightSet) {
-            textSize = getTextSizeForWidth(boundsWidth * 3.0f / 4.0f - 24, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight/4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
+            textSize = getTextSizeForWidth(boundsWidth * 3.0f / 4.0f - 24, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight / 4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
             x = boundsWidth * 3.0f / 8.0f + 16;
         } else {
-            textSize = getTextSizeForWidth(boundsWidth / 2.0f, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight/4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
+            textSize = getTextSizeForWidth(boundsWidth / 2.0f, (firstSeparator > boundsHeight / 4.0f + mChinSize) ? boundsHeight - firstSeparator - boundsHeight / 4.0f - 32 : boundsHeight / 2.0f - mChinSize - 32, text, false);
             x = boundsWidth / 2.0f;
         }
 
-        float y=0;
-        mTextPaint2.setTextSize(textSize+mainTextOffset);
+        float y = 0;
+        mTextPaint2.setTextSize(textSize + mainTextOffset);
         for (String ignored : text.split("\n")) {
             y += mTextPaint2.descent() - mTextPaint2.ascent();
         }
@@ -120,18 +119,18 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
             y += mTextPaint2.descent() - mTextPaint2.ascent();
         }
 
-        return new WordClockTaskWrapper(text,basey, textSize, x);
+        return new WordClockTaskWrapper(text, basey, textSize, x);
     }
 
     @Override
     protected void onPostExecute(WordClockTaskWrapper wordClockTaskWrapper) {
         super.onPostExecute(wordClockTaskWrapper);
         final WordClockListener listener = wordClockListenerWeakReference.get();
-        if (listener!=null) {
+        if (listener != null) {
             listener.wordClockListener(wordClockTaskWrapper);
         }
     }
-    
+
 
     /**
      * Calculates the best maximum font size value for text
@@ -218,16 +217,17 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Gets hours text from appropriate language array
+     *
      * @param hours hours
      * @return hours text
      */
     private String getExactTime(int hours) {
-        
+
         Context context = contextWeakReference.get();
         if (context == null) {
             return "";
         }
-        
+
         String exactTime;
         switch (language) {
             case "nl":
@@ -280,6 +280,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Adds line breaks to fit text better
+     *
      * @param text text
      * @return new text
      */
@@ -359,9 +360,10 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Capitalizes text: every word title case
-     * @param hours hours
+     *
+     * @param hours   hours
      * @param minutes minutes
-     * @param index array element for prefixes & suffixes
+     * @param index   array element for prefixes & suffixes
      * @return capitalized text
      */
     private String capitalise0(int hours, int minutes, int index) {
@@ -426,9 +428,10 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Capitalizes text: all caps
-     * @param hours hours
+     *
+     * @param hours   hours
      * @param minutes minutes
-     * @param index array element for prefixes & suffixes
+     * @param index   array element for prefixes & suffixes
      * @return capitalized text
      */
     private String capitalise1(int hours, int minutes, int index) {
@@ -455,9 +458,10 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Capitalizes text: all lowercase
-     * @param hours hours
+     *
+     * @param hours   hours
      * @param minutes minutes
-     * @param index array element for prefixes & suffixes
+     * @param index   array element for prefixes & suffixes
      * @return capitalized text
      */
     private String capitalise2(int hours, int minutes, int index) {
@@ -484,9 +488,10 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Capitalizes text: first word title case
-     * @param hours hours
+     *
+     * @param hours   hours
      * @param minutes minutes
-     * @param index array element for prefixes & suffixes
+     * @param index   array element for prefixes & suffixes
      * @return capitalized text
      */
     private String capitalise3(int hours, int minutes, int index) {
@@ -512,9 +517,10 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
 
     /**
      * Capitalizes text: first word in every line title case
-     * @param hours hours
+     *
+     * @param hours   hours
      * @param minutes minutes
-     * @param index array element for prefixes & suffixes
+     * @param index   array element for prefixes & suffixes
      * @return capitalized text
      */
     private String capitalise4(int hours, int minutes, int index) {
