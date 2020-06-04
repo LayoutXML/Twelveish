@@ -115,20 +115,20 @@ public class ComplicationManager {
             complicationId = COMPLICATION_ID;
             complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
             complicationDrawable.setBackgroundColorActive(preferenceManager.getBackgroundColor());
-            complicationDrawable.setHighlightColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setHighlightColorAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setIconColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setIconColorAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setTextColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setTextColorAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setRangedValuePrimaryColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setRangedValuePrimaryColorAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setRangedValueSecondaryColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setRangedValueSecondaryColorAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setRangedValueRingWidthActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setRangedValueRingWidthAmbient(preferenceManager.getSecondaryColorAmbient());
-            complicationDrawable.setTitleColorActive(preferenceManager.getSecondaryColor());
-            complicationDrawable.setTitleColorAmbient(preferenceManager.getSecondaryColorAmbient());
+            complicationDrawable.setHighlightColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setHighlightColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setIconColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setIconColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setTextColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setTextColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setRangedValuePrimaryColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setRangedValuePrimaryColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setRangedValueSecondaryColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setRangedValueSecondaryColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setRangedValueRingWidthActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setRangedValueRingWidthAmbient(preferenceManager.getSecondaryTextColorAmbient());
+            complicationDrawable.setTitleColorActive(preferenceManager.getSecondaryTextColorActive());
+            complicationDrawable.setTitleColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
             complicationDrawable.draw(canvas, currentTimeMillis);
         }
     }

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import com.layoutxml.twelveish.enums.Capitalisation;
 import com.layoutxml.twelveish.objects.WordClockTaskWrapper;
 
 import java.lang.ref.WeakReference;
@@ -18,7 +19,7 @@ public class WordClockTask extends AsyncTask<Void, Void, WordClockTaskWrapper> {
     private final WeakReference<Context> contextWeakReference;
     private final WeakReference<WordClockListener> wordClockListenerWeakReference;
     private String font;
-    private int capitalisation;
+    private Capitalisation capitalisation;
     private int hourText;
     private int minutes;
     private int index;
@@ -38,7 +39,7 @@ public class WordClockTask extends AsyncTask<Void, Void, WordClockTaskWrapper> {
     private Paint mTextPaint2;
     private int mainTextOffset;
 
-    public WordClockTask(WeakReference<Context> context, String font, int capitalisation, int hourText, int minutes, int index, String[] prefixes,
+    public WordClockTask(WeakReference<Context> context, String font, Capitalisation capitalisation, int hourText, int minutes, int index, String[] prefixes,
                          String[] suffixes, boolean[] prefixNewLine, boolean[] suffixNewLine,
                          String language, boolean showSuffixes, boolean legacyWords, boolean complicationLeftSet, boolean complicationRightSet,
                          int boundsWidth, int boundsHeight, float firstSeparator, float mChinSize, int mainTextOffset, WeakReference<WordClockListener> wordClockListenerWeakReference) {
@@ -67,23 +68,19 @@ public class WordClockTask extends AsyncTask<Void, Void, WordClockTaskWrapper> {
 
     @Override
     protected WordClockTaskWrapper doInBackground(Void... voids) {
-
         String text;
         switch (capitalisation) {
-            case 0:
-                text = capitalise0(hourText, minutes, index); //every word title case
+            case UPPERCASE:
+                text = capitalise1(hourText, minutes, index);
                 break;
-            case 1:
-                text = capitalise1(hourText, minutes, index); //all caps
+            case LOWERCASE:
+                text = capitalise2(hourText, minutes, index);
                 break;
-            case 2:
-                text = capitalise2(hourText, minutes, index); //all lowercase
+            case FIRST_TITLE_CASE:
+                text = capitalise3(hourText, minutes, index);
                 break;
-            case 3:
-                text = capitalise3(hourText, minutes, index); //first word title case
-                break;
-            case 4:
-                text = capitalise4(hourText, minutes, index); //first word in every line title case
+            case LINE_TITLE_CASE:
+                text = capitalise4(hourText, minutes, index);
                 break;
             default:
                 text = capitalise0(hourText, minutes, index);

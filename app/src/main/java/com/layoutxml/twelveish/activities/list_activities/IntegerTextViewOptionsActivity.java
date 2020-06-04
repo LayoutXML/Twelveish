@@ -10,18 +10,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.wear.widget.WearableLinearLayoutManager;
-import androidx.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
+
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.enums.Capitalisation;
+import com.layoutxml.twelveish.enums.DateOrder;
 import com.layoutxml.twelveish.objects.IntegerOption;
 
 import java.util.ArrayList;
@@ -52,65 +55,33 @@ public class IntegerTextViewOptionsActivity extends Activity {
         if (getIntent().getStringExtra("Activity").equals("Capitalization")) {
             generateCapitalizationValues();
             preferencesKey = getString(R.string.preference_capitalisation);
-        }
-        else if (getIntent().getStringExtra("Activity").equals("DateOrder")) {
+        } else if (getIntent().getStringExtra("Activity").equals("DateOrder")) {
             generateDateOrderValues();
             preferencesKey = getString(R.string.preference_date_order);
         }
     }
 
-    private void generateCapitalizationValues(){
-        IntegerOption capitalisation = new IntegerOption();
-        capitalisation.setName("All words title case");
-        capitalisation.setInteger(0);
-        values.add(capitalisation);
-
-        capitalisation = new IntegerOption();
-        capitalisation.setName("All uppercase");
-        capitalisation.setInteger(1);
-        values.add(capitalisation);
-
-        capitalisation = new IntegerOption();
-        capitalisation.setName("All lowercase");
-        capitalisation.setInteger(2);
-        values.add(capitalisation);
-
-        capitalisation = new IntegerOption();
-        capitalisation.setName("First word title case");
-        capitalisation.setInteger(3);
-        values.add(capitalisation);
-
-        capitalisation = new IntegerOption();
-        capitalisation.setName("First word in every\nline title case");
-        capitalisation.setInteger(4);
-        values.add(capitalisation);
-
+    private void generateCapitalizationValues() {
+        for (Capitalisation capitalisation: Capitalisation.values()) {
+            IntegerOption capitalisationOption = new IntegerOption();
+            capitalisationOption.setName(capitalisation.getLabel());
+            capitalisationOption.setInteger(capitalisation.getIndex());
+            values.add(capitalisationOption);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
     private void generateDateOrderValues() {
-        IntegerOption dateOrder = new IntegerOption();
-        dateOrder.setName("MDY");
-        dateOrder.setInteger(0);
-        values.add(dateOrder);
-
-        dateOrder = new IntegerOption();
-        dateOrder.setName("DMY");
-        dateOrder.setInteger(1);
-        values.add(dateOrder);
-
-        dateOrder = new IntegerOption();
-        dateOrder.setName("YMD");
-        dateOrder.setInteger(2);
-        values.add(dateOrder);
-
-        dateOrder = new IntegerOption();
-        dateOrder.setName("YDM");
-        dateOrder.setInteger(3);
-        values.add(dateOrder);
+        for (DateOrder order : DateOrder.values()) {
+            IntegerOption dateOrderOption = new IntegerOption();
+            dateOrderOption.setName(order.name());
+            dateOrderOption.setInteger(order.getIndex());
+            values.add(dateOrderOption);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
-    public class CapitalisationAdapter extends RecyclerView.Adapter<CapitalisationAdapter.MyViewHolder>{
+    public class CapitalisationAdapter extends RecyclerView.Adapter<CapitalisationAdapter.MyViewHolder> {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -124,7 +95,7 @@ public class IntegerTextViewOptionsActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         int position = getAdapterPosition(); // gets item position
-                        prefs.edit().putInt(preferencesKey,values.get(position).getInteger()).apply();
+                        prefs.edit().putInt(preferencesKey, values.get(position).getInteger()).apply();
                         Toast.makeText(getApplicationContext(), "Preference set", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -135,7 +106,7 @@ public class IntegerTextViewOptionsActivity extends Activity {
         @NonNull
         @Override
         public CapitalisationAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item,parent,false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.textview_item, parent, false);
             return new CapitalisationAdapter.MyViewHolder(itemView);
         }
 

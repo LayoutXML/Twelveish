@@ -1,7 +1,5 @@
 package com.layoutxml.twelveish.objects;
 
-import com.layoutxml.twelveish.WordClockListener;
-
 public class WordClockTaskWrapper {
 
     private String text;
