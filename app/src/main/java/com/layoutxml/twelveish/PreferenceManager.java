@@ -2,6 +2,9 @@ package com.layoutxml.twelveish;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.layoutxml.twelveish.enums.Capitalisation;
 import com.layoutxml.twelveish.enums.DateOrder;
@@ -34,7 +37,6 @@ public class PreferenceManager {
     private boolean showSeconds;
     private boolean showComplicationActive;
     private boolean showComplicationAmbient;
-    private String languageCode;
     private boolean showDayActive;
     private boolean showDayAmbient;
     private boolean disableComplicationTap;
@@ -43,6 +45,7 @@ public class PreferenceManager {
     private String fontName;
     private boolean complicationLeftSet;
     private boolean complicationRightSet;
+    private Typeface font;
 
     PreferenceManager(Context context) {
         this.context = context;
@@ -72,13 +75,52 @@ public class PreferenceManager {
         showSeconds = preferences.getBoolean(context.getString(R.string.preference_show_seconds), true);
         showComplicationActive = preferences.getBoolean(context.getString(R.string.preference_show_complications), true);
         showComplicationAmbient = preferences.getBoolean(context.getString(R.string.preference_show_complications_ambient), true);
-        languageCode = preferences.getString(context.getString(R.string.preference_language), "en");
         fontName = preferences.getString(context.getString(R.string.preference_font), "robotolight");
         disableComplicationTap = preferences.getBoolean(context.getString(R.string.preference_tap), false);
         complicationLeftSet = preferences.getBoolean(context.getString(R.string.complication_left_set), false);
         complicationRightSet = preferences.getBoolean(context.getString(R.string.complication_right_set), false);
         mainTextSizeOffset = preferences.getInt(context.getString(R.string.main_text_size_offset), 0);
         secondaryTextSizeOffset = preferences.getInt(context.getString(R.string.secondary_text_size_offset), 0);
+        loadFont();
+    }
+
+    private void loadFont() {
+        switch (fontName) {
+            case "alegreya":
+                font = ResourcesCompat.getFont(context, R.font.alegreya);
+                break;
+            case "cabin":
+                font = ResourcesCompat.getFont(context, R.font.cabin);
+                break;
+            case "ibmplexsans":
+                font = ResourcesCompat.getFont(context, R.font.ibmplexsans);
+                break;
+            case "inconsolata":
+                font = ResourcesCompat.getFont(context, R.font.inconsolata);
+                break;
+            case "merriweather":
+                font = ResourcesCompat.getFont(context, R.font.merriweather);
+                break;
+            case "nunito":
+                font = ResourcesCompat.getFont(context, R.font.nunito);
+                break;
+            case "pacifico":
+                font = ResourcesCompat.getFont(context, R.font.pacifico);
+                break;
+            case "quattrocento":
+                font = ResourcesCompat.getFont(context, R.font.quattrocento);
+                break;
+            case "quicksand":
+                font = ResourcesCompat.getFont(context, R.font.quicksand);
+                break;
+            case "rubik":
+                font = ResourcesCompat.getFont(context, R.font.rubik);
+                break;
+            default:
+                // robotolight
+                font = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                break;
+        }
     }
 
     public ArrayList<String> getPreferencesList() {

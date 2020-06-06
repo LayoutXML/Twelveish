@@ -77,12 +77,12 @@
     <string-array name="Prefixes">
         <item/>
         <item/>
-        <item>a\u00A0quarter past</item>
         <item>a quarter past</item>
-        <item>almost\u00A0half past</item>
-        <item>around\u00A0half past</item>
+        <item>a quarter past</item>
+        <item>almost half past</item>
+        <item>around half past</item>
         <item>half past</item>
-        <item>half\u00A0past</item>
+        <item>half past</item>
         <item>a quarter to</item>
         <item>a quarter to</item>
         <item>approaching</item>
@@ -90,15 +90,15 @@
     </string-array>
     <string-array name="Suffixes">
         <item>ish</item>
-        <item>or\u00A0so</item>
+        <item>or so</item>
         <item/>
-        <item>or\u00A0so</item>
+        <item>or so</item>
         <item/>
         <item/>
         <item>ish</item>
-        <item>or\u00A0so</item>
+        <item>or so</item>
         <item/>
-        <item>or\u00A0so</item>
+        <item>or so</item>
         <item/>
         <item/>
     </string-array>
@@ -147,7 +147,7 @@
         <item>apie</item>
         <item>apie</item>
         <item>maždaug</item>
-        <item>beveik\u00A0be ketvirčio</item>
+        <item>beveik be ketvirčio</item>
         <item>be ketvirčio</item>
         <item>beveik</item>
         <item>apie</item>
@@ -155,12 +155,12 @@
     <string-array name="SuffixesLT">
         <item/>
         <item/>
-        <item>su\u00A0ketvirčiu</item>
-        <item>su\u00A0ketvirčiu</item>
-        <item>su\u00A0puse</item>
-        <item>su\u00A0puse</item>
-        <item>su\u00A0puse</item>
-        <item>su\u00A0puse</item>
+        <item>su ketvirčiu</item>
+        <item>su ketvirčiu</item>
+        <item>su puse</item>
+        <item>su puse</item>
+        <item>su puse</item>
+        <item>su puse</item>
         <item/>
         <item/>
         <item/>
@@ -211,7 +211,7 @@
         <item>kohta puoli</item>
         <item>puoli</item>
         <item>puoli</item>
-        <item>kohta\u00A0varttia vaille</item>
+        <item>kohta varttia vaille</item>
         <item>varttia vaille</item>
         <item>kymmentä vaille</item>
         <item>lähes</item>
@@ -275,20 +275,20 @@
         <item/>
         <item/>
         <item/>
-        <item>почти\u00A0без четверти</item>
+        <item>почти без четверти</item>
         <item>без четверти</item>
         <item>почти</item>
         <item/>
     </string-array>
     <string-array name="SuffixesRU">
         <item/>
-        <item>или\u00A0около того</item>
-        <item>с\u00A0четвертью</item>
-        <item>с\u00A0четвертью</item>
-        <item>с\u00A0половиной</item>
-        <item>с\u00A0половиной</item>
-        <item>с\u00A0половиной</item>
-        <item>с\u00A0половиной</item>
+        <item>или около того</item>
+        <item>с четвертью</item>
+        <item>с четвертью</item>
+        <item>с половиной</item>
+        <item>с половиной</item>
+        <item>с половиной</item>
+        <item>с половиной</item>
         <item/>
         <item/>
         <item/>
@@ -332,15 +332,15 @@
     </string-array>
     <string-array name="PrefixesDE">
         <item>kurz nach</item>
-        <item>bald viertel\u00A0nach</item>
-        <item>fast viertel\u00A0nach</item>
-        <item>viertel\u00A0nach</item>
+        <item>bald viertel nach</item>
+        <item>fast viertel nach</item>
+        <item>viertel nach</item>
         <item>bald halb</item>
         <item>kurz vor halb</item>
         <item>kurz nach halb</item>
-        <item>bald viertel\u00A0vor</item>
-        <item>fast viertel\u00A0vor</item>
-        <item>viertel\u00A0vor</item>
+        <item>bald viertel vor</item>
+        <item>fast viertel vor</item>
+        <item>viertel vor</item>
         <item>bald</item>
         <item>fast</item>
     </string-array>
@@ -348,13 +348,13 @@
         <item/>
         <item/>
         <item/>
-        <item>oder\u00A0so</item>
+        <item>oder so</item>
         <item/>
         <item/>
         <item/>
         <item/>
         <item/>
-        <item>oder\u00A0so</item>
+        <item>oder so</item>
         <item/>
         <item/>
     </string-array>
@@ -466,20 +466,20 @@
         <item>quasi</item>
         <item>pressapoco</item>
         <item>circa</item>
-        <item>poco più\u00A0che</item>
+        <item>poco più che</item>
         <item>quasi</item>
         <item/>
         <item>quasi</item>
         <item>pressapoco</item>
     </string-array>
     <string-array name="SuffixesIT">
-        <item>e\u00A0qualcosa</item>
-        <item>e\u00A0passa</item>
-        <item>e\u00A0un\u00A0quarto</item>
-        <item>e\u00A0un\u00A0quarto</item>
-        <item>e\u00A0mezza</item>
-        <item>e\u00A0mezza</item>
-        <item>e\u00A0mezza</item>
+        <item>e qualcosa</item>
+        <item>e passa</item>
+        <item>e un quarto</item>
+        <item>e un quarto</item>
+        <item>e mezza</item>
+        <item>e mezza</item>
+        <item>e mezza</item>
         <item>e mezza</item>
         <item>meno un quarto</item>
         <item>meno qualcosa</item>
@@ -603,14 +603,14 @@
     <string-array name="SuffixesEL">
         <item />
         <item>και κάτι</item>
-        <item>και\u00A0τέταρτο</item>
-        <item>και\u00A0τέταρτο</item>
-        <item>και\u00A0μισή</item>
-        <item>και\u00A0μισή</item>
-        <item>και\u00A0μισή</item>
-        <item>παρά\u00A0τέταρτο</item>
-        <item>παρά\u00A0τέταρτο</item>
-        <item>παρά\u00A0τέταρτο</item>
+        <item>και τέταρτο</item>
+        <item>και τέταρτο</item>
+        <item>και μισή</item>
+        <item>και μισή</item>
+        <item>και μισή</item>
+        <item>παρά τέταρτο</item>
+        <item>παρά τέταρτο</item>
+        <item>παρά τέταρτο</item>
         <item />
         <item />
     </string-array>
@@ -717,13 +717,13 @@
     <string-array name="PrefixesNO">
         <item />
         <item>litt over</item>
-        <item>snart kvart\u00A0over</item>
+        <item>snart kvart over</item>
         <item>kvart over</item>
         <item>rundt halv</item>
         <item>nesten halv</item>
         <item>halv</item>
         <item>halv</item>
-        <item>snart kvart\u00A0på</item>
+        <item>snart kvart på</item>
         <item>kvart på</item>
         <item>rundt</item>
         <item>nesten</item>
@@ -867,7 +867,7 @@
         <item>e meia</item>
         <item>e meia</item>
         <item>menos um quarto</item>
-        <item>menos\u00A0um quarto</item>
+        <item>menos um quarto</item>
         <item>menos pouco</item>
         <item />
     </string-array>
@@ -910,14 +910,14 @@
     <string-array name="PrefixesSV">
         <item />
         <item>strax efter</item>
-        <item>snart kvart\u00A0över</item>
+        <item>snart kvart över</item>
         <item>kvart över</item>
         <item>snart halv</item>
         <item>nästan halv</item>
         <item>halv</item>
         <item>lite över halv</item>
-        <item>snart kvart\u00A0i</item>
-        <item>kvart\u00A0i</item>
+        <item>snart kvart i</item>
+        <item>kvart i</item>
         <item>snart</item>
         <item>nästan</item>
     </string-array>

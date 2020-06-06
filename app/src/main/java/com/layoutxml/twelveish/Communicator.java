@@ -1,7 +1,6 @@
 package com.layoutxml.twelveish;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;

@@ -102,18 +102,10 @@ public class ComplicationManager {
         mComplicationDrawableSparseArray.put(BOTTOM_COMPLICATION_ID, bottomComplicationDrawable);
         mComplicationDrawableSparseArray.put(LEFT_COMPLICATION_ID, leftComplicationDrawable);
         mComplicationDrawableSparseArray.put(RIGHT_COMPLICATION_ID, rightComplicationDrawable);
-    }
 
-    public void drawComplications(Canvas canvas, long currentTimeMillis) {
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            return;
-        }
-
-        int complicationId;
         ComplicationDrawable complicationDrawable;
         for (int COMPLICATION_ID : COMPLICATION_IDS) {
-            complicationId = COMPLICATION_ID;
-            complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
+            complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
             complicationDrawable.setBackgroundColorActive(preferenceManager.getBackgroundColor());
             complicationDrawable.setHighlightColorActive(preferenceManager.getSecondaryTextColorActive());
             complicationDrawable.setHighlightColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
@@ -129,6 +121,19 @@ public class ComplicationManager {
             complicationDrawable.setRangedValueRingWidthAmbient(preferenceManager.getSecondaryTextColorAmbient());
             complicationDrawable.setTitleColorActive(preferenceManager.getSecondaryTextColorActive());
             complicationDrawable.setTitleColorAmbient(preferenceManager.getSecondaryTextColorAmbient());
+        }
+    }
+
+    public void drawComplications(Canvas canvas, long currentTimeMillis) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return;
+        }
+
+        int complicationId;
+        ComplicationDrawable complicationDrawable;
+        for (int COMPLICATION_ID : COMPLICATION_IDS) {
+            complicationId = COMPLICATION_ID;
+            complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
             complicationDrawable.draw(canvas, currentTimeMillis);
         }
     }
@@ -162,7 +167,7 @@ public class ComplicationManager {
         }
 
         Rect bottomBounds = new Rect(width / 2 - width / 4,
-                (int) (height * 3 / 4 - height),
+                (int) (height * 3 / 4),
                 width / 2 + width / 4,
                 (int) (height - chinSize));
         Rect leftBounds = new Rect(0,

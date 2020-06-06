@@ -29,14 +29,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.gms.wearable.DataClient;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.Wearable;
 import com.layoutxml.twelveish.activities.list_activities.ActivityImageViewActivity;
-import com.layoutxml.twelveish.objects.WordClockTaskWrapper;
+import com.layoutxml.twelveish.objects.TextGeneratorDataWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -52,19 +51,13 @@ public class WatchFace extends CanvasWatchFaceService {
     private static final int MESSAGE_UPDATE_TIME = 0;
     private static final String TRANSITION_TO_AMBIENT_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_AMBIENT_MODE";
     private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_INTERACTIVE_MODE";
-    
+
     private PreferenceManager preferenceManager;
+    private LanguageManager languageManager;
     private Communicator communicator;
     private ComplicationManager complicationManager;
     private SharedPreferences preferences;
-    private WordClockTask wordClockTask;
-    
-    private String[] currentLanguagePrefixes;
-    private String[] currentLanguageSuffixes;
-    private String[] currentLanguageWeekdays;
-    private int[] currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-    private boolean[] currentLanguageMergePrefix = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
-    private boolean[] currentLanguageMergeSuffix = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
+    private TextGenerator textGenerator;
 
     private int batteryLevel = 100;
     private int screenWidth;
@@ -75,8 +68,8 @@ public class WatchFace extends CanvasWatchFaceService {
     private String mainText = "";
     private String dayOfTheWeek = "";
     private boolean fetchMainText = true;
-    private float baseXCoordinate;
-    private float baseYCoordinate = -1;
+    private float baseXCoordinate = 0;
+    private float baseYCoordinate = 0;
     private int lastMainTextFetchTimeHours = -1;
     private int lastMainTextFetchTimeMinutes = -1;
 
@@ -112,7 +105,7 @@ public class WatchFace extends CanvasWatchFaceService {
         }
     }
 
-    private class Engine extends CanvasWatchFaceService.Engine implements DataClient.OnDataChangedListener, WordClockListener {
+    private class Engine extends CanvasWatchFaceService.Engine implements DataClient.OnDataChangedListener, TextGeneratorListener {
 
         private final Handler mUpdateTimeHandler = new EngineHandler(this);
         private Calendar mCalendar;
@@ -144,6 +137,7 @@ public class WatchFace extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
 
             preferenceManager = new PreferenceManager(getApplicationContext());
+            languageManager = new LanguageManager(getApplicationContext());
             communicator = new Communicator(getApplicationContext(), preferenceManager);
             complicationManager = new ComplicationManager(getApplicationContext(), preferenceManager);
 
@@ -208,7 +202,7 @@ public class WatchFace extends CanvasWatchFaceService {
 
             //Get day of the week
             if ((mAmbient && preferenceManager.isShowDayAmbient()) || (!mAmbient && preferenceManager.isShowDayActive()))
-                dayOfTheWeek = currentLanguageWeekdays[mCalendar.get(Calendar.DAY_OF_WEEK) - 1];
+                dayOfTheWeek = languageManager.getWeekday(mCalendar.get(Calendar.DAY_OF_WEEK) - 1);
             else
                 dayOfTheWeek = "";
         }
@@ -284,183 +278,7 @@ public class WatchFace extends CanvasWatchFaceService {
             boolean showedDonateAlready = preferences.getBoolean(getString(R.string.showed_donate), false);
 
             mTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f + preferenceManager.getSecondaryTextSizeOffset()); //secondary text
-
-            //Work with given preferences
-            switch (preferenceManager.getLanguageCode()) {
-                case "nl":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesNL);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesNL);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysNL);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false};
-                    break;
-                case "en":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.Prefixes);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.Suffixes);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDays);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
-                    break;
-                case "de":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesDE);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesDE);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysDE);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, false, false, true, false, false, false, false, false, true, false, false};
-                    break;
-                case "el":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesEL);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesEL);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysEL);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{true, false, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, true, true, true, true, true, true, true, true, true, false, false};
-                    break;
-                case "lt":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesLT);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesLT);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysLT);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, false, true, true, true, true, true, true, false, false, false, false};
-                    break;
-                case "fi":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesFI);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesFI);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysFI);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false};
-                    break;
-                case "no":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesNO);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesNO);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysNO);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{true, false, false, false, false, false, false, false, false, false, false, false};
-                    break;
-                case "ru":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesRU);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesRU);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysRU);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, false, true, false, false, false, true, true, true, false};
-                    currentLanguageMergeSuffix = new boolean[]{false, true, true, true, true, true, true, true, false, false, false, false};
-                    break;
-                case "hu":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesHU);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesHU);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysHU);
-                    currentLanguageTimeShift = new int[]{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, true, true, true, true, true, true, true, false, true};
-                    currentLanguageMergeSuffix = new boolean[]{true, true, true, false, false, true, false, true, false, true, true, false};
-                    break;
-                case "it":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesIT);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesIT);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysIT);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, true, true, true, true, true, true, false, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{true, true, true, true, true, true, true, true, true, true, false, false};
-                    break;
-                case "es":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesES);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesES);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysES);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, false, false, true, false, false, false, false, false, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, true, true, true, true, true, true, true, true, true, true, false};
-                    break;
-                case "fr":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesFR);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesFR);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysFR);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, true, false, false, false, false, false, true, false, false, false, false};
-                    currentLanguageMergeSuffix = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
-                    break;
-                case "pt":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesPT);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesPT);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysPT);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, false, true, true, false, true, true, false, false, true};
-                    currentLanguageMergeSuffix = new boolean[]{true, true, true, true, true, true, true, true, true, true, true, false};
-                    break;
-                case "sv":
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.PrefixesSV);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.SuffixesSV);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDaysSV);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, true, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{true, false, false, false, false, false, true, false, false, false, false, false};
-                    break;
-                default:
-                    currentLanguagePrefixes = getResources().getStringArray(R.array.Prefixes);
-                    currentLanguageSuffixes = getResources().getStringArray(R.array.Suffixes);
-                    currentLanguageWeekdays = getResources().getStringArray(R.array.WeekDays);
-                    currentLanguageTimeShift = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
-                    currentLanguageMergePrefix = new boolean[]{false, false, true, true, true, true, true, true, true, true, true, true};
-                    currentLanguageMergeSuffix = new boolean[]{false, true, false, true, false, false, false, true, false, true, false, false};
-                    break;
-
-            }
-
-            Typeface NORMAL_TYPEFACE2;
-            switch (preferenceManager.getFontName()) {
-                case "robotolight":
-                    NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "alegreya":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.alegreya);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "cabin":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.cabin);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "ibmplexsans":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.ibmplexsans);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "inconsolata":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.inconsolata);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "merriweather":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.merriweather);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "nunito":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "pacifico":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.pacifico);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "quattrocento":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.quattrocento);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "quicksand":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.quicksand);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                case "rubik":
-                    NORMAL_TYPEFACE2 = ResourcesCompat.getFont(getApplicationContext(), R.font.rubik);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-                default:
-                    NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                    mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                    break;
-            }
+            mTextPaint2.setTypeface(preferenceManager.getFont());
 
             invalidate();
 
@@ -493,11 +311,11 @@ public class WatchFace extends CanvasWatchFaceService {
 
             communicator.disconnect();
 
-            if (wordClockTask != null) {
-                if (wordClockTask.getStatus() != AsyncTask.Status.FINISHED) {
-                    wordClockTask.cancel(true);
+            if (textGenerator != null) {
+                if (textGenerator.getStatus() != AsyncTask.Status.FINISHED) {
+                    textGenerator.cancel(true);
                 }
-                wordClockTask = null;
+                textGenerator = null;
             }
         }
 
@@ -684,18 +502,8 @@ public class WatchFace extends CanvasWatchFaceService {
             if (fetchMainText) {
                 lastMainTextFetchTimeMinutes = minutes;
                 lastMainTextFetchTimeHours = hourDigital;
-                int index = minutes / 5;
-                int hourText = preferenceManager.isMilitaryFormatText() ? mCalendar.get(Calendar.HOUR_OF_DAY) + currentLanguageTimeShift[index] : mCalendar.get(Calendar.HOUR) + currentLanguageTimeShift[index];
-                if (hourText >= 24 && preferenceManager.isMilitaryFormatText())
-                    hourText -= 24;
-                else if (hourText > 12 && !preferenceManager.isMilitaryFormatText())
-                    hourText -= 12;
-                if (hourText == 0 && !preferenceManager.isMilitaryFormatText())
-                    hourText = 12;
-                wordClockTask = new WordClockTask(new WeakReference<Context>(getApplicationContext()), preferenceManager.getFontName(), preferenceManager.getCapitalisation(), hourText, minutes, index, currentLanguagePrefixes, currentLanguageSuffixes,
-                        currentLanguageMergePrefix, currentLanguageMergeSuffix, preferenceManager.getLanguageCode(), true, false, preferenceManager.isComplicationLeftSet(), preferenceManager.isComplicationRightSet(), bounds.width(),
-                        bounds.height(), firstSeparator, mChinSize, preferenceManager.getMainTextSizeOffset(), new WeakReference<WordClockListener>(this));
-                wordClockTask.execute();
+                textGenerator = new TextGenerator(preferenceManager, languageManager, this, bounds.width(), bounds.height(), mChinSize, firstSeparator);
+                textGenerator.execute();
 
                 fetchMainText = false;
             }
@@ -715,12 +523,12 @@ public class WatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void wordClockListener(WordClockTaskWrapper wordClockTaskWrapper) {
-            baseYCoordinate = wordClockTaskWrapper.getBasey();
-            mainText = wordClockTaskWrapper.getText();
-            preferences.edit().putInt(getString(R.string.main_text_size_real), (int) wordClockTaskWrapper.getTextSize()).apply();
-            mTextPaint2.setTextSize(wordClockTaskWrapper.getTextSize() + preferenceManager.getMainTextSizeOffset());
-            baseXCoordinate = wordClockTaskWrapper.getX();
+        public void textGeneratorListener(TextGeneratorDataWrapper textGeneratorDataWrapper) {
+            mainText = textGeneratorDataWrapper.getMainText();
+            baseXCoordinate = textGeneratorDataWrapper.getBaseXCoordinate();
+            baseYCoordinate = textGeneratorDataWrapper.getBaseYCoordinate();
+            preferences.edit().putInt(getString(R.string.main_text_size_real), (int) textGeneratorDataWrapper.getTextSize()).apply();
+            mTextPaint2.setTextSize(textGeneratorDataWrapper.getTextSize() + preferenceManager.getMainTextSizeOffset());
             invalidate();
         }
 
@@ -756,9 +564,11 @@ public class WatchFace extends CanvasWatchFaceService {
 
         private void forceRefresh() {
             preferenceManager.loadPreferences();
+            languageManager.loadPreferences();
             loadPreferences();
             getDate();
             fetchMainText = true;
+            invalidate();
         }
     }
 }
