@@ -226,12 +226,9 @@ public class ComplicationManager {
                 }
             } else {
                 if (complicationData.getType() == ComplicationData.TYPE_NO_PERMISSION) {
-                    ComponentName componentName =
-                            new ComponentName(
-                                    context, WatchFace.class);
-                    Intent permissionRequestIntent =
-                            ComplicationHelperActivity.createPermissionRequestHelperIntent(
-                                    context, componentName);
+                    ComponentName componentName = new ComponentName(context, WatchFace.class);
+                    Intent permissionRequestIntent = ComplicationHelperActivity.createPermissionRequestHelperIntent(context, componentName);
+                    permissionRequestIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(permissionRequestIntent);
                 }
             }

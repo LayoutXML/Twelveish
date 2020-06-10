@@ -1,19 +1,15 @@
 
 package com.layoutxml.twelveish;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
@@ -26,15 +22,11 @@ import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.wearable.DataClient;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.Wearable;
-import com.layoutxml.twelveish.activities.list_activities.ActivityImageViewActivity;
 import com.layoutxml.twelveish.objects.TextGeneratorDataWrapper;
 
 import java.lang.ref.WeakReference;
@@ -46,18 +38,19 @@ import static android.view.Gravity.CENTER_HORIZONTAL;
 import static android.view.Gravity.TOP;
 
 public class WatchFace extends CanvasWatchFaceService {
-    private static final Typeface DEFAULT_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = 1000;
     private static final int MESSAGE_UPDATE_TIME = 0;
     private static final String TRANSITION_TO_AMBIENT_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_AMBIENT_MODE";
     private static final String TRANSITION_TO_INTERACTIVE_MODE = "com.rokasjankunas.ticktock.TRANSITION_TO_INTERACTIVE_MODE";
+    private static final Typeface DEFAULT_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
+    private static final int DEFAULT_TEXT_COLOR = 0xFFFFFFFF;
 
     private PreferenceManager preferenceManager;
     private LanguageManager languageManager;
     private Communicator communicator;
     private ComplicationManager complicationManager;
-    private SharedPreferences preferences;
     private TextGenerator textGenerator;
+    private PromotionalNotifications promotionalNotifications;
 
     private int batteryLevel = 100;
     private int screenWidth;
@@ -93,36 +86,30 @@ public class WatchFace extends CanvasWatchFaceService {
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NonNull Message message) {
             WatchFace.Engine engine = mWeakReference.get();
-            if (engine != null) {
-                switch (msg.what) {
-                    case MESSAGE_UPDATE_TIME:
-                        engine.handleUpdateTimeMessage();
-                        break;
-                }
+            if (engine != null && message.what == MESSAGE_UPDATE_TIME) {
+                engine.handleUpdateTimeMessage();
             }
         }
     }
 
     private class Engine extends CanvasWatchFaceService.Engine implements DataClient.OnDataChangedListener, TextGeneratorListener {
-
-        private final Handler mUpdateTimeHandler = new EngineHandler(this);
-        private Calendar mCalendar;
-        private final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
+        private final Handler updateTimeHandler = new EngineHandler(this);
+        private Calendar calendar;
+        private boolean registeredTimeZoneReceiver = false;
+        private final BroadcastReceiver timeZoneReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                mCalendar.setTimeZone(TimeZone.getDefault());
+                calendar.setTimeZone(TimeZone.getDefault());
                 invalidate();
             }
         };
-        private boolean mRegisteredTimeZoneReceiver = false;
-        private float mChinSize;
-        private Paint mBackgroundPaint;
-        private Paint mTextPaint;
-        private Paint mTextPaint2;
-        private boolean mLowBitAmbient;
-        private boolean mAmbient = false;
+
+        private float chinSize;
+        private Paint secondaryTextPaint;
+        private Paint mainTextPaint;
+        private boolean ambientMode = false;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -134,63 +121,55 @@ public class WatchFace extends CanvasWatchFaceService {
                     .setAcceptsTapEvents(true)
                     .build());
 
-            mCalendar = Calendar.getInstance();
+            calendar = Calendar.getInstance();
+
+            secondaryTextPaint = new Paint();
+            secondaryTextPaint.setTypeface(DEFAULT_TYPEFACE);
+            secondaryTextPaint.setTextAlign(Paint.Align.CENTER);
+            secondaryTextPaint.setColor(DEFAULT_TEXT_COLOR);
+
+            mainTextPaint = new Paint();
+            mainTextPaint.setTypeface(DEFAULT_TYPEFACE);
+            mainTextPaint.setTextAlign(Paint.Align.CENTER);
+            mainTextPaint.setColor(DEFAULT_TEXT_COLOR);
 
             preferenceManager = new PreferenceManager(getApplicationContext());
             languageManager = new LanguageManager(getApplicationContext());
             communicator = new Communicator(getApplicationContext(), preferenceManager);
             complicationManager = new ComplicationManager(getApplicationContext(), preferenceManager);
-
-            mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(ContextCompat.getColor(getApplicationContext(), R.color.background));
-
-            mTextPaint = new Paint();
-            mTextPaint.setTypeface(DEFAULT_TYPEFACE);
-            mTextPaint.setAntiAlias(true);
-            mTextPaint.setTextAlign(Paint.Align.CENTER);
-
-            mTextPaint2 = new Paint();
-            mTextPaint2.setTypeface(DEFAULT_TYPEFACE);
-            mTextPaint2.setAntiAlias(true);
-            mTextPaint2.setTextAlign(Paint.Align.CENTER);
-
-            preferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            promotionalNotifications = new PromotionalNotifications(getApplicationContext());
             forceRefresh();
 
             complicationManager.initializeComplications();
             setActiveComplications(ComplicationManager.getComplicationIds());
-
-            mTextPaint.setColor(preferenceManager.getSecondaryTextColorActive());
-            mTextPaint2.setColor(preferenceManager.getMainTextColorActive());
         }
 
         private void getDate() {
-            //Get date
             int first, second, third;
             boolean FourFirst;
             switch (preferenceManager.getDateOrder()) {
                 case DMY:
-                    first = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    second = mCalendar.get(Calendar.MONTH) + 1;
-                    third = mCalendar.get(Calendar.YEAR);
+                    first = calendar.get(Calendar.DAY_OF_MONTH);
+                    second = calendar.get(Calendar.MONTH) + 1;
+                    third = calendar.get(Calendar.YEAR);
                     FourFirst = false;
                     break;
                 case YMD:
-                    first = mCalendar.get(Calendar.YEAR);
-                    second = mCalendar.get(Calendar.MONTH) + 1;
-                    third = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    first = calendar.get(Calendar.YEAR);
+                    second = calendar.get(Calendar.MONTH) + 1;
+                    third = calendar.get(Calendar.DAY_OF_MONTH);
                     FourFirst = true;
                     break;
                 case YDM:
-                    first = mCalendar.get(Calendar.YEAR); //YDM
-                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    third = mCalendar.get(Calendar.MONTH) + 1;
+                    first = calendar.get(Calendar.YEAR);
+                    second = calendar.get(Calendar.DAY_OF_MONTH);
+                    third = calendar.get(Calendar.MONTH) + 1;
                     FourFirst = true;
                     break;
                 default:
-                    first = mCalendar.get(Calendar.MONTH) + 1;
-                    second = mCalendar.get(Calendar.DAY_OF_MONTH);
-                    third = mCalendar.get(Calendar.YEAR);
+                    first = calendar.get(Calendar.MONTH) + 1;
+                    second = calendar.get(Calendar.DAY_OF_MONTH);
+                    third = calendar.get(Calendar.YEAR);
                     FourFirst = false;
                     break;
             }
@@ -201,61 +180,10 @@ public class WatchFace extends CanvasWatchFaceService {
 
 
             //Get day of the week
-            if ((mAmbient && preferenceManager.isShowDayAmbient()) || (!mAmbient && preferenceManager.isShowDayActive()))
-                dayOfTheWeek = languageManager.getWeekday(mCalendar.get(Calendar.DAY_OF_WEEK) - 1);
+            if ((ambientMode && preferenceManager.isShowDayAmbient()) || (!ambientMode && preferenceManager.isShowDayActive()))
+                dayOfTheWeek = languageManager.getWeekday(calendar.get(Calendar.DAY_OF_WEEK) - 1);
             else
                 dayOfTheWeek = "";
-        }
-
-        private void showRateNotification() {
-            int notificationId = 1;
-            String id = "Main";
-            Intent viewIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.layoutxml.twelveish"));
-            viewIntent.putExtra("Rate Twelveish", "Would you like to rate Twelveish? I won't ask again :)");
-            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(getApplicationContext(), id)
-                            .setDefaults(Notification.DEFAULT_ALL)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Rate Twelveish")
-                            .setContentText("Would you like to rate Twelveish? Tap to go to the Google Play store.")
-                            .setContentIntent(viewPendingIntent);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-            notificationManager.notify(notificationId, notificationBuilder.build());
-        }
-
-        private void showTutorialNotification() {
-            int notificationId = 2;
-            String id = "Main";
-            Intent viewIntent = new Intent(getApplicationContext(), ActivityImageViewActivity.class);
-            viewIntent.putExtra("Open settings", "Don't forget to customize the watch");
-            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(getApplicationContext(), id)
-                            .setDefaults(Notification.DEFAULT_ALL)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Open Twelveish Settings")
-                            .setContentText("Don't forget to customize Twelveish directly on your watch")
-                            .setContentIntent(viewPendingIntent);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-            notificationManager.notify(notificationId, notificationBuilder.build());
-        }
-
-        private void showDonateNotification() {
-            int notificationId = 3;
-            String id = "Main";
-            Intent viewIntent = new Intent(getApplicationContext(), ActivityImageViewActivity.class);
-            viewIntent.putExtra("Donate", "Don't forget to donate");
-            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, viewIntent, 0);
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(getApplicationContext(), id)
-                            .setDefaults(Notification.DEFAULT_ALL)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Donate to LayoutXML")
-                            .setContentText("Would you like to donate for Twelveish? Read more on Google Play.")
-                            .setContentIntent(viewPendingIntent);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-            notificationManager.notify(notificationId, notificationBuilder.build());
         }
 
         @Override
@@ -271,43 +199,22 @@ public class WatchFace extends CanvasWatchFaceService {
             screenWidth = width;
         }
 
-        private void loadPreferences() {
-            boolean showedRateAlready = preferences.getBoolean(getString(R.string.showed_rate), false);
-            int counter = preferences.getInt(getString(R.string.counter), 0);
-            boolean showedTutorialAlready = preferences.getBoolean(getString(R.string.showed_tutorial), false);
-            boolean showedDonateAlready = preferences.getBoolean(getString(R.string.showed_donate), false);
+        private void adjustToPreferenceChanges() {
+            mainTextPaint.setTypeface(preferenceManager.getFont());
+            mainTextPaint.setTextAlign(Paint.Align.CENTER);
+            mainTextPaint.setColor(preferenceManager.getMainTextColorActive());
 
-            mTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f + preferenceManager.getSecondaryTextSizeOffset()); //secondary text
-            mTextPaint2.setTypeface(preferenceManager.getFont());
-
-            invalidate();
-
-            if (counter >= 100 && !showedRateAlready) {
-                preferences.edit().putBoolean(getString(R.string.showed_rate), true).apply();
-                showRateNotification();
-            }
-
-            counter++;
-            if (counter < 202) {
-                preferences.edit().putInt(getString(R.string.counter), counter).apply();
-            }
-
-            if (!showedTutorialAlready && counter > 30) {
-                preferences.edit().putBoolean(getString(R.string.showed_tutorial), true).apply();
-                showTutorialNotification();
-            }
-
-            if (counter >= 200 && !showedDonateAlready) {
-                preferences.edit().putBoolean(getString(R.string.showed_donate), true).apply();
-                showDonateNotification();
-            }
+            secondaryTextPaint.setTypeface(preferenceManager.getFont());
+            secondaryTextPaint.setTextAlign(Paint.Align.CENTER);
+            secondaryTextPaint.setColor(preferenceManager.getSecondaryTextColorActive());
+            secondaryTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f + preferenceManager.getSecondaryTextSizeOffset());
         }
 
         @Override
         public void onDestroy() {
             super.onDestroy();
 
-            mUpdateTimeHandler.removeMessages(MESSAGE_UPDATE_TIME);
+            updateTimeHandler.removeMessages(MESSAGE_UPDATE_TIME);
 
             communicator.disconnect();
 
@@ -323,8 +230,9 @@ public class WatchFace extends CanvasWatchFaceService {
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
             if (visible) {
+                forceRefresh();
                 registerReceiver();
-                mCalendar.setTimeZone(TimeZone.getDefault());
+                calendar.setTimeZone(TimeZone.getDefault());
                 Wearable.getDataClient(getApplicationContext()).addListener(this);
 
                 communicator.performHandshake();
@@ -333,39 +241,40 @@ public class WatchFace extends CanvasWatchFaceService {
                 Wearable.getDataClient(getApplicationContext()).removeListener(this);
             }
             updateTimer();
-            forceRefresh();
         }
 
         private void registerReceiver() {
-            if (mRegisteredTimeZoneReceiver) {
+            if (registeredTimeZoneReceiver) {
                 return;
             }
-            mRegisteredTimeZoneReceiver = true;
+            registeredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            WatchFace.this.registerReceiver(mTimeZoneReceiver, filter);
+            WatchFace.this.registerReceiver(timeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
-            if (!mRegisteredTimeZoneReceiver) {
+            if (!registeredTimeZoneReceiver) {
                 return;
             }
-            mRegisteredTimeZoneReceiver = false;
-            WatchFace.this.unregisterReceiver(mTimeZoneReceiver);
+            registeredTimeZoneReceiver = false;
+            WatchFace.this.unregisterReceiver(timeZoneReceiver);
         }
 
         @Override
         public void onApplyWindowInsets(WindowInsets insets) {
             super.onApplyWindowInsets(insets);
-            mChinSize = insets.getSystemWindowInsetBottom();
-            mTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f + preferenceManager.getSecondaryTextSizeOffset()); //secondary text
-            mTextPaint2.setTextSize(24 + preferenceManager.getMainTextSizeOffset()); //word clock
-            complicationManager.setBounds(screenWidth, screenHeight, mChinSize);
+            chinSize = insets.getSystemWindowInsetBottom();
+            secondaryTextPaint.setTextSize(getResources().getDisplayMetrics().heightPixels * 0.06f + preferenceManager.getSecondaryTextSizeOffset()); //secondary text
+            mainTextPaint.setTextSize(24 + preferenceManager.getMainTextSizeOffset()); //word clock
+            complicationManager.setBounds(screenWidth, screenHeight, chinSize);
         }
 
         @Override
         public void onPropertiesChanged(Bundle properties) {
             super.onPropertiesChanged(properties);
-            mLowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
+            boolean lowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
+            secondaryTextPaint.setAntiAlias(!ambientMode && !lowBitAmbient);
+            mainTextPaint.setAntiAlias(!ambientMode && !lowBitAmbient);
         }
 
         @Override
@@ -377,13 +286,9 @@ public class WatchFace extends CanvasWatchFaceService {
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
-            mAmbient = inAmbientMode;
-            if (mLowBitAmbient) {
-                mTextPaint.setAntiAlias(!inAmbientMode);
-                mTextPaint2.setAntiAlias(!inAmbientMode);
-            }
+            ambientMode = inAmbientMode;
             complicationManager.changeAmbientMode(inAmbientMode);
-            if (mAmbient) {
+            if (ambientMode) {
                 Intent intent = new Intent();
                 intent.setAction(TRANSITION_TO_AMBIENT_MODE);
                 intent.putExtra("package", getPackageName());
@@ -395,48 +300,30 @@ public class WatchFace extends CanvasWatchFaceService {
                 sendBroadcast(intent, "com.rokasjankunas.ticktock.AMBIENT_INTERACTIVE_MODE_CHANGE");
             }
             updateTimer();
-            forceRefresh();
+            invalidate();
         }
 
         @Override
         public void onTapCommand(int tapType, int x, int y, long eventTime) {
-            switch (tapType) {
-                case TAP_TYPE_TOUCH:
-                    // The user has started touching the screen.
-                    break;
-                case TAP_TYPE_TOUCH_CANCEL:
-                    // The user has started a different gesture or otherwise cancelled the tap.
-                    break;
-                case TAP_TYPE_TAP:
-                    // The user has completed the tap gesture.
-                    complicationManager.handleTap(x, y);
-                    break;
+            if (tapType == TAP_TYPE_TAP) {
+                complicationManager.handleTap(x, y);
             }
             invalidate();
         }
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            //Set colors
-            if (mAmbient) {
-                canvas.drawColor(Color.BLACK);
-                mTextPaint.setColor(preferenceManager.getSecondaryTextColorAmbient());
-                mTextPaint2.setColor(preferenceManager.getMainTextColorAmbient());
-            } else {
-                canvas.drawColor(preferenceManager.getBackgroundColor());
-                mTextPaint.setColor(preferenceManager.getSecondaryTextColorActive());
-                mTextPaint2.setColor(preferenceManager.getMainTextColorActive());
-            }
+            setColors(canvas);
 
             //Get time
-            mCalendar = Calendar.getInstance();
-            int seconds = mCalendar.get(Calendar.SECOND);
-            int minutes = mCalendar.get(Calendar.MINUTE);
+            calendar = Calendar.getInstance();
+            int seconds = calendar.get(Calendar.SECOND);
+            int minutes = calendar.get(Calendar.MINUTE);
             if ((minutes % 5 == 0 || minutes == 1) && (seconds < 2)) {
                 fetchMainText = true;
                 getDate();
             }
-            int hourDigital = preferenceManager.isMilitaryFormatDigital() ? mCalendar.get(Calendar.HOUR_OF_DAY) : mCalendar.get(Calendar.HOUR);
+            int hourDigital = preferenceManager.isMilitaryFormatDigital() ? calendar.get(Calendar.HOUR_OF_DAY) : calendar.get(Calendar.HOUR);
             if (hourDigital == 0 && !preferenceManager.isMilitaryFormatDigital())
                 hourDigital = 12;
             if (hourDigital - lastMainTextFetchTimeHours != 0 || minutes - lastMainTextFetchTimeMinutes > 5 || lastMainTextFetchTimeMinutes - minutes < -5) {
@@ -445,32 +332,32 @@ public class WatchFace extends CanvasWatchFaceService {
             }
 
             //Get digital clock
-            String ampmSymbols = (!preferenceManager.isMilitaryFormatDigital()) ? (mCalendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
-            String text = (mAmbient || !preferenceManager.isShowSeconds())
+            String ampmSymbols = (!preferenceManager.isMilitaryFormatDigital()) ? (calendar.get(Calendar.HOUR_OF_DAY) >= 12 ? " pm" : " am") : "";
+            String text = (ambientMode || !preferenceManager.isShowSeconds())
                     ? String.format(Locale.UK, "%d:%02d" + ampmSymbols, hourDigital, minutes)
                     : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
 
             //Draw digital clock, date, battery percentage and day of the week
             float firstSeparator = 40.0f;
-            if ((mAmbient && !preferenceManager.isShowSecondaryTextAmbient()) || (!mAmbient && !preferenceManager.isShowSecondaryTextActive())) {
+            if ((ambientMode && !preferenceManager.isShowSecondaryTextAmbient()) || (!ambientMode && !preferenceManager.isShowSecondaryTextActive())) {
                 text = "";
             }
             if (!text.equals("") || !dayOfTheWeek.equals("")) {
                 if (!text.equals("") && !dayOfTheWeek.equals("")) {
-                    canvas.drawText(text + " • " + dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(text + " • " + dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = 40 - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 } else if (!text.equals("")) {
-                    canvas.drawText(text, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(text, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = 40 - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 } else {
-                    canvas.drawText(dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = 40 - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(dayOfTheWeek, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = 40 - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 }
             }
-            if (!((mAmbient && preferenceManager.isShowSecondaryCalendarAmbient()) || (!mAmbient && preferenceManager.isShowSecondaryCalendarActive()))) {
+            if (!((ambientMode && preferenceManager.isShowSecondaryCalendarAmbient()) || (!ambientMode && preferenceManager.isShowSecondaryCalendarActive()))) {
                 secondaryTextFirstLine = "";
             }
-            if (!((mAmbient && preferenceManager.isShowBatteryAmbient()) || (!mAmbient && preferenceManager.isShowBatteryActive()))) {
+            if (!((ambientMode && preferenceManager.isShowBatteryAmbient()) || (!ambientMode && preferenceManager.isShowBatteryActive()))) {
                 if (!secondaryTextSecondLine.equals("")) {
                     secondaryTextSecondLineCopy = secondaryTextSecondLine;
                 }
@@ -480,14 +367,14 @@ public class WatchFace extends CanvasWatchFaceService {
             }
             if (!secondaryTextFirstLine.equals("") || !secondaryTextSecondLine.equals("")) {
                 if (!secondaryTextFirstLine.equals("") && !secondaryTextSecondLine.equals("")) {
-                    canvas.drawText(secondaryTextFirstLine + " • " + secondaryTextSecondLine, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(secondaryTextFirstLine + " • " + secondaryTextSecondLine, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = firstSeparator - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 } else if (!secondaryTextFirstLine.equals("")) {
-                    canvas.drawText(secondaryTextFirstLine, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(secondaryTextFirstLine, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = firstSeparator - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 } else {
-                    canvas.drawText(secondaryTextSecondLine, bounds.width() / 2.0f, firstSeparator - mTextPaint.ascent(), mTextPaint);
-                    firstSeparator = firstSeparator - mTextPaint.ascent() + mTextPaint.descent();
+                    canvas.drawText(secondaryTextSecondLine, bounds.width() / 2.0f, firstSeparator - secondaryTextPaint.ascent(), secondaryTextPaint);
+                    firstSeparator = firstSeparator - secondaryTextPaint.ascent() + secondaryTextPaint.descent();
                 }
             }
             if (firstSeparator < bounds.height() / 4)
@@ -502,7 +389,7 @@ public class WatchFace extends CanvasWatchFaceService {
             if (fetchMainText) {
                 lastMainTextFetchTimeMinutes = minutes;
                 lastMainTextFetchTimeHours = hourDigital;
-                textGenerator = new TextGenerator(preferenceManager, languageManager, this, bounds.width(), bounds.height(), mChinSize, firstSeparator);
+                textGenerator = new TextGenerator(preferenceManager, languageManager, this, bounds.width(), bounds.height(), chinSize, firstSeparator);
                 textGenerator.execute();
 
                 fetchMainText = false;
@@ -511,14 +398,26 @@ public class WatchFace extends CanvasWatchFaceService {
             //Draw text
             float t = baseYCoordinate;
             for (String line : mainText.split("\n")) {
-                canvas.drawText(line, baseXCoordinate, t, mTextPaint2);
-                t += mTextPaint2.descent() - mTextPaint2.ascent();
+                canvas.drawText(line, baseXCoordinate, t, mainTextPaint);
+                t += mainTextPaint.descent() - mainTextPaint.ascent();
             }
 
             //Draw complication
-            if ((mAmbient && preferenceManager.isShowComplicationAmbient()) || (!mAmbient && preferenceManager.isShowComplicationActive())) {
+            if ((ambientMode && preferenceManager.isShowComplicationAmbient()) || (!ambientMode && preferenceManager.isShowComplicationActive())) {
                 long now = System.currentTimeMillis();
                 complicationManager.drawComplications(canvas, now);
+            }
+        }
+
+        private void setColors(Canvas canvas) {
+            if (ambientMode) {
+                canvas.drawColor(Color.BLACK);
+                secondaryTextPaint.setColor(preferenceManager.getSecondaryTextColorAmbient());
+                mainTextPaint.setColor(preferenceManager.getMainTextColorAmbient());
+            } else {
+                canvas.drawColor(preferenceManager.getBackgroundColor());
+                secondaryTextPaint.setColor(preferenceManager.getSecondaryTextColorActive());
+                mainTextPaint.setColor(preferenceManager.getMainTextColorActive());
             }
         }
 
@@ -527,20 +426,15 @@ public class WatchFace extends CanvasWatchFaceService {
             mainText = textGeneratorDataWrapper.getMainText();
             baseXCoordinate = textGeneratorDataWrapper.getBaseXCoordinate();
             baseYCoordinate = textGeneratorDataWrapper.getBaseYCoordinate();
-            preferences.edit().putInt(getString(R.string.main_text_size_real), (int) textGeneratorDataWrapper.getTextSize()).apply();
-            mTextPaint2.setTextSize(textGeneratorDataWrapper.getTextSize() + preferenceManager.getMainTextSizeOffset());
+            mainTextPaint.setTextSize(textGeneratorDataWrapper.getTextSize() + preferenceManager.getMainTextSizeOffset());
             invalidate();
         }
 
         private void updateTimer() {
-            mUpdateTimeHandler.removeMessages(MESSAGE_UPDATE_TIME);
+            updateTimeHandler.removeMessages(MESSAGE_UPDATE_TIME);
             if (shouldTimerBeRunning()) {
-                mUpdateTimeHandler.sendEmptyMessage(MESSAGE_UPDATE_TIME);
+                updateTimeHandler.sendEmptyMessage(MESSAGE_UPDATE_TIME);
             }
-        }
-
-        private boolean shouldTimerBeRunning() {
-            return isVisible() && !mAmbient;
         }
 
         private void handleUpdateTimeMessage() {
@@ -548,8 +442,12 @@ public class WatchFace extends CanvasWatchFaceService {
             if (shouldTimerBeRunning()) {
                 long timeMs = System.currentTimeMillis();
                 long delayMs = INTERACTIVE_UPDATE_RATE_MS - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
-                mUpdateTimeHandler.sendEmptyMessageDelayed(MESSAGE_UPDATE_TIME, delayMs);
+                updateTimeHandler.sendEmptyMessageDelayed(MESSAGE_UPDATE_TIME, delayMs);
             }
+        }
+
+        private boolean shouldTimerBeRunning() {
+            return isVisible() && !ambientMode;
         }
 
         @Override
@@ -565,10 +463,11 @@ public class WatchFace extends CanvasWatchFaceService {
         private void forceRefresh() {
             preferenceManager.loadPreferences();
             languageManager.loadPreferences();
-            loadPreferences();
+            adjustToPreferenceChanges();
             getDate();
             fetchMainText = true;
             invalidate();
+            promotionalNotifications.doPromotion();
         }
     }
 }
