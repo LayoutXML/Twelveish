@@ -88,6 +88,8 @@ public class TextGenerator extends AsyncTask<Void, Void, TextGeneratorDataWrappe
     }
 
     private float calculateOptimalFontSizeForString(String text) {
+        double fontHeightToLineHeightRatio = 0.45;
+
         Paint paint = new Paint();
         paint.setTypeface(preferenceManager.getFont());
         paint.setTextAlign(Paint.Align.CENTER);
@@ -98,8 +100,10 @@ public class TextGenerator extends AsyncTask<Void, Void, TextGeneratorDataWrappe
 
         String[] splitTextByLines = text.split("\n");
 
-        int desiredHeight = (int) ((boundsHeight - firstSeparator - chinSize - 16) / splitTextByLines.length - (paint.descent() + paint.ascent()) * (splitTextByLines.length - 1));
-        int desiredWidth = boundsWidth - 16;
+        int desiredHeight = (int) ((boundsHeight - firstSeparator - chinSize - 16) * fontHeightToLineHeightRatio / splitTextByLines.length);
+        int desiredWidth = (preferenceManager.isComplicationLeftSet() || preferenceManager.isComplicationRightSet())
+                ? boundsWidth - 16
+                : (int) Math.sqrt(boundsWidth * boundsWidth / 1.5); // slightly bigger than a diagonal of a circle
         if (preferenceManager.isComplicationLeftSet()) {
             desiredWidth -= boundsWidth / 4;
         }
@@ -118,7 +122,7 @@ public class TextGenerator extends AsyncTask<Void, Void, TextGeneratorDataWrappe
     }
 
     private float calculateBaseXCoordinate() {
-        if ((preferenceManager.isComplicationLeftSet() && preferenceManager.isComplicationRightSet()) || (!preferenceManager.isComplicationLeftSet() && !preferenceManager.isComplicationRightSet())) {
+        if ((preferenceManager.isComplicationLeftSet() == preferenceManager.isComplicationRightSet())) {
             return (float) boundsWidth / 2;
         } else if (preferenceManager.isComplicationLeftSet()) {
             return (float) boundsWidth * 5 / 8;
