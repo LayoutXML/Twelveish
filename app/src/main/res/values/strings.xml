@@ -753,7 +753,7 @@
     </string-array>
 
     <string-array name="ExactTimesFR">
-        <item>douze heures</item>
+        <item>minuit</item>
         <item>une heure</item>
         <item>deux heures</item>
         <item>trois heures</item>
@@ -765,7 +765,7 @@
         <item>neuf heures</item>
         <item>dix heures</item>
         <item>onze heures</item>
-        <item>douze heures</item>
+        <item>midi</item>
         <item>treize heures</item>
         <item>quatorze heures</item>
         <item>quinze heures</item>
@@ -797,12 +797,12 @@
         <item />
         <item>dix</item>
         <item>et quart</item>
-        <item>et vingt</item>
+        <item>vingt</item>
         <item>vingt-cinq</item>
         <item>et demi</item>
         <item>et demi</item>
         <item>moins vingt</item>
-        <item>moins quart</item>
+        <item>moins le quart</item>
         <item>moins dix</item>
         <item>moins cinq</item>
     </string-array>
