@@ -12,6 +12,10 @@ Twelveish is a unique Wear OS (Android Wear) Watch Face that displays the **appr
 
 ### [Download on the Google Play store](https://play.google.com/store/apps/details?id=com.layoutxml.twelveish).
 
+## Foreword
+
+Project was started before learning any best practises or gaining experiance through work or studies and was intended to gain this experience. There are many things I would change and refactor if I were to start this project again. For now, it stays as a reminder of where it all started.
+
 ## Features
 
 In addition to what has been mentioned in the description above, Twelveish offers:
@@ -32,9 +36,6 @@ In addition to what has been mentioned in the description above, Twelveish offer
 
 Most of the settings above can be set to be different for active and ambient modes, making your watch face even more unique.
 
-## Donate
-You can now donate to me (LayouXML) on **[Google Play](https://play.google.com/store/apps/details?id=com.layoutxml.support)** or **[PayPal](https://www.paypal.me/RJankunas)**.
-
 ## Installation
 
 You can install Twelveish directly from your computer. Method below describes how to run Twelveish directly from the code and not how to sideload already precompiled .apk file. Instructions assume your watch (or phone) is connected to your computer (either via USB, Wi-Fi, Bluetooth or else). You can always install Twelveish directly from your watch (Wear OS and Android Wear version 2.0 and greater) or by installing companion app on your phone first. [Download on the Google Play store](https://play.google.com/store/apps/details?id=com.layoutxml.twelveish).
@@ -53,14 +54,6 @@ You can install Twelveish directly from your computer. Method below describes ho
 2. Open Android Studio and choose "Open an Existing Android Studio Project".
 3. Choose module "app" for Watch Face or "phone" for a companion app.
 4. Click the Run button.
-
-## Contributing
-
-Should you wish to contribute with translations you can contact me via email at hello@rokasjankunas.com so I could send you the instructions. You would have to translate 12 prefixes, 12 suffixes, 24 numbers and 7 days of the week.
-
-If you notice any bugs you can create an issue with a detailed explanation. Issues section should not be used for feature requests.
-
-More advanced users can create their own pull requests with new translations, bug fixes or features.
 
 ## Versioning
 
