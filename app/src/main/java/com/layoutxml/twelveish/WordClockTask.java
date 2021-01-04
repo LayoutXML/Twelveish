@@ -369,7 +369,19 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         String mainPrefix = "";
         StringBuilder prefix;
         if ((minutes > 0) && (!Prefixes[index].equals("")) && (Prefixes[index] != null)) {
-            String[] prefixArray = Prefixes[index].split(" ");
+
+            //We first need to replace unicode spaces with regular spaces
+            StringBuilder preString = new StringBuilder();
+            String[] preArray = Prefixes[index].split("\\u00A0");
+
+            for (int i = 0; i < preArray.length; i++){
+                preString.append(preArray[i]);
+                preString.append(" ");
+            }
+
+            // Then we'll separate out the first letter of each word and capitalize it
+
+            String[] prefixArray = preString.toString().split(" ");
             prefix = new StringBuilder();
             for (String word : prefixArray) {
                 if (prefix.length() != 0)
