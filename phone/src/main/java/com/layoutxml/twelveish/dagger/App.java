@@ -2,9 +2,12 @@ package com.layoutxml.twelveish.dagger;
 
 import android.app.Application;
 
+import javax.inject.Inject;
+
 public class App extends Application {
 
-    private CommunicatorComponent component;
+    @Inject
+    CommunicatorComponent component;
 
     @Override
     public void onCreate() {

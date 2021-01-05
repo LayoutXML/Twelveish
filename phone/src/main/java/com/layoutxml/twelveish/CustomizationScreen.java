@@ -20,9 +20,13 @@ import com.layoutxml.twelveish.dagger.DaggerSettingsManagerComponent;
 import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import com.layoutxml.twelveish.fragments.PreviewFragment;
 
+import javax.inject.Inject;
+
+
 public class CustomizationScreen extends AppCompatActivity {
 
-    private SettingsManagerComponent settingsManagerComponent;
+    @Inject
+    SettingsManagerComponent settingsManagerComponent;
     private Communicator communicator;
     private static final String TAG = "CustomizationScreen";
     private boolean isInAmoledMode = false;
