@@ -370,16 +370,19 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         StringBuilder prefix;
         if ((minutes > 0) && (!Prefixes[index].equals("")) && (Prefixes[index] != null)) {
 
-            //We first need to replace unicode spaces with regular spaces
+            //Split the prefix with non-break spaces and capitalise each word
             StringBuilder preString = new StringBuilder();
             String[] preArray = Prefixes[index].split("\\u00A0");
 
-            for (int i = 0; i < preArray.length; i++){
-                preString.append(preArray[i]);
-                preString.append(" ");
+            for (String word : preArray){
+                if(preString.length() != 0)
+                    preString.append("\u00A0");
+
+                String capitalised = word.substring(0, 1).toUpperCase() + word.substring(1);
+                preString.append(capitalised);
             }
 
-            // Then we'll separate out the first letter of each word and capitalize it
+            // Do the same with spaces
 
             String[] prefixArray = preString.toString().split(" ");
             prefix = new StringBuilder();
@@ -415,8 +418,21 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         if (showSuffixes) {
             StringBuilder suffix;
             if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+
+                //We first need to replace non-break spaces with regular spaces
+                StringBuilder suffString = new StringBuilder();
+                String[] suffArray = Suffixes[index].split("\\u00A0");
+
+                for (String word : suffArray){
+                    if(suffString.length() != 0)
+                        suffString.append("\u00A0");
+
+                    String capitalised = word.substring(0, 1).toUpperCase() + word.substring(1);
+                    suffString.append(capitalised);
+                }
+
                 if (SuffixNewLine[index]) {
-                    String[] suffixArray = Suffixes[index].split(" ");
+                    String[] suffixArray = suffString.toString().split(" ");
                     suffix = new StringBuilder();
                     for (String word : suffixArray) {
                         if (suffix.length() != 0)
@@ -426,7 +442,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                     }
                     mainSuffix = suffix.toString();
                 } else {
-                    mainSuffix = Suffixes[index].toLowerCase();
+                    mainSuffix = suffString.toString().toLowerCase();
                 }
             }
         }
