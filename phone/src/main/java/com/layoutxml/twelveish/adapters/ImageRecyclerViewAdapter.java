@@ -64,7 +64,7 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                mClickListener.onItemClickImage(view, getAdapterPosition(), mData.get(getAdapterPosition()).second, name);
+                mClickListener.onItemClickImage(view, getBindingAdapterPosition(), mData.get(getBindingAdapterPosition()).second, name);
             }
         }
     }
