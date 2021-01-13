@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2018. LayoutXML
-  ~ Created by LayoutXML.
-  ~
-  -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.layoutxml.twelveish">
-
     <!-- Required to act as a custom watch face. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required for complications to receive complication data and open the provider chooser. -->
     <uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA" />
@@ -30,13 +23,14 @@
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
                 <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".CustomizationScreen" />
         <activity android:name=".activities.InstallActivity" />
         <activity android:name=".activities.AboutActivityP" />
         <activity android:name=".activities.ColorSelectionActivity" />
+        <activity android:name=".activities.LanguageSelectionActivity"/>
     </application>
 
 </manifest>

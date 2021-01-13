@@ -46,6 +46,23 @@
     <string name="secondary_text_size_offset">secondaryTextSizeOffset</string>
     <string name="main_text_size_real">mainTextSizeReal</string>
 
+    <string-array name="AvailableLanguages">
+        <item>nl</item>
+        <item>en</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>el</item>
+        <item>hu</item>
+        <item>it</item>
+        <item>lt</item>
+        <item>no</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>sv</item>
+    </string-array>
+
     <string-array name="ExactTimes">
         <item>twelve</item>
         <item>one</item>
@@ -466,7 +483,7 @@
         <item>circa</item>
         <item>poco più\u00A0che</item>
         <item>quasi</item>
-        <item/>
+        <item />
         <item>quasi</item>
         <item>pressapoco</item>
     </string-array>
@@ -481,8 +498,8 @@
         <item>e mezza</item>
         <item>meno un quarto</item>
         <item>meno qualcosa</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysIT">
         <item>Do</item>
@@ -521,21 +538,21 @@
         <item>las once</item>
     </string-array>
     <string-array name="PrefixesES">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>casi</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>casi</item>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
         <item>casi</item>
     </string-array>
     <string-array name="SuffixesES">
-        <item/>
+        <item />
         <item>y cinco</item>
         <item>y cuarto</item>
         <item>y cuarto</item>

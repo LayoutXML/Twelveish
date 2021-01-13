@@ -71,11 +71,15 @@ public class WatchPreviewView extends View implements WordClockListener {
     private int secondaryTextSizeDP = 14;
     private int batteryLevel = 100;
     private int previousHight = 0;
+    private Context activity;
+    private String oldLanguage = "";
 
     public WatchPreviewView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
         paintFrame = new Paint();
+        activity = context;
+
         try {
             CustomizationScreen activity = (CustomizationScreen) getContext();
             settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
@@ -157,7 +161,34 @@ public class WatchPreviewView extends View implements WordClockListener {
                 break;
         }
 
-        switch (settingsManager.stringHashmap.get(context.getString(R.string.preference_language))) {
+        generateAffixes(); // Fetch the prefixes and suffixes for the chosen language
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        Runnable reDrawer = new Runnable(){
+            public void run(){
+                invalidate();
+                handler.postDelayed(this,1000);
+            }
+        };
+        reDrawer.run();
+
+        getContext().registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                batteryLevel = (int) (100 * intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) / ((float) (intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1))));
+                text1 = (batteryLevel + "%");
+            }
+        }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        height = MeasureSpec.getSize(heightMeasureSpec);
+    }
+
+    private void generateAffixes(){
+        switch (settingsManager.stringHashmap.get(activity.getString(R.string.preference_language))) {
             case "nl":
                 Prefixes = getResources().getStringArray(R.array.PrefixesNL);
                 Suffixes = getResources().getStringArray(R.array.SuffixesNL);
@@ -280,28 +311,7 @@ public class WatchPreviewView extends View implements WordClockListener {
                 break;
         }
 
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Runnable reDrawer = new Runnable(){
-            public void run(){
-                invalidate();
-                handler.postDelayed(this,1000);
-            }
-        };
-        reDrawer.run();
-
-        getContext().registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                batteryLevel = (int) (100 * intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) / ((float) (intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1))));
-                text1 = (batteryLevel + "%");
-            }
-        }, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
+        oldLanguage = settingsManager.stringHashmap.get(activity.getString(R.string.preference_language));
     }
 
     @Override
@@ -310,6 +320,10 @@ public class WatchPreviewView extends View implements WordClockListener {
         int x = getWidth()/2;
         int y = getHeight()/2;
         paint.setColor(Color.parseColor("#000000"));
+
+        if(!oldLanguage.equals(settingsManager.stringHashmap.get(activity.getString(R.string.preference_language)))) // The language has been changed, update our prefixes and suffixes
+            generateAffixes();
+
 
         if (mAmbient)
             paintFrame.setColor(Color.parseColor("#333333"));
