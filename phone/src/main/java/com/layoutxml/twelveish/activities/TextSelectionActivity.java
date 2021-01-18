@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.layoutxml.twelveish.R;
+import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,28 +25,34 @@ public class TextSelectionActivity extends AppCompatActivity implements Textview
     private List<Pair<String, String>> settingOptions;
     private String settingsName = "languageSelectionList";
     private String[] availableLanguages;
-    private String settingType = "";
+    private int settingType;
+    private SettingsManager settingsManager;
 
-    public static String LANGUAGE_SELECTION = "SELECT_LANGUAGE";
-    public static String FONT_SELECTION = "SELECT_FONT";
-    public static String SEPARATOR_SYMBOL = "SELECT_SEPARATOR";
-    public static String CAPITALIZATION = "CAPITALIZATION";
+    public static int LANGUAGE_SELECTION = 0;
+    public static int CAPITALIZATION = 1;
+    public static int FONT_SELECTION = 2;
+    public static int DATE_ORDER = 3;
+    public static int SEPARATOR_SYMBOL = 4;
+    public static int TEXT_OFFSET = 5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.color_selection_activity);
 
-        settingType = getIntent().getStringExtra("SETTING_TYPE");
+        settingType = getIntent().getIntExtra("SETTING_TYPE", 0);
 
-        if(settingType.equals(LANGUAGE_SELECTION)){
+        if(settingType == LANGUAGE_SELECTION){
             generateLanguageList();
-        } else if(settingType.equals(FONT_SELECTION)){
+        } else if(settingType == FONT_SELECTION){
             generateFontList();
-        } else if(settingType.equals(SEPARATOR_SYMBOL)){
+        } else if(settingType == SEPARATOR_SYMBOL){
             generateSeparatorList();
-        } else if(settingType.equals(CAPITALIZATION)){
+        } else if(settingType == CAPITALIZATION){
             generateCapitalizationList();
+        } else if(settingType == DATE_ORDER){
+            generateDateOrderList();
         }
 
         RecyclerView recyclerView = findViewById(R.id.colorList);
@@ -94,19 +102,42 @@ public class TextSelectionActivity extends AppCompatActivity implements Textview
         }
     }
 
+    private void generateDateOrderList(){
+        Calendar mCalendar = Calendar.getInstance();
+        settingOptions = new ArrayList<>();
+
+        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+        int month = mCalendar.get(Calendar.MONTH) + 1;
+        int year = mCalendar.get(Calendar.YEAR);
+
+        String dateStrings[] = new String[4];
+        dateStrings[0] = String.format(Locale.UK, "%02d" + "-" + "%02d" + "-" + "%04d", month, day, year);
+        dateStrings[1] = String.format(Locale.UK, "%02d" + "-" + "%02d" + "-" + "%04d", day, month, year);
+        dateStrings[2] = String.format(Locale.UK, "%04d" + "-" + "%02d" + "-" + "%02d", year, month, day);
+        dateStrings[3] = String.format(Locale.UK, "%04d" + "-" + "%02d" + "-" + "%02d", year, day, month);
+
+        settingOptions.add(new Pair<String, String>("Month-Day-Year", dateStrings[0]));
+        settingOptions.add(new Pair<String, String>("Day-Month-Year", dateStrings[1]));
+        settingOptions.add(new Pair<String, String>("Year-Month-Day", dateStrings[2]));
+        settingOptions.add(new Pair<String, String>("Year-Day-Month", dateStrings[3]));
+    }
+
     @Override
     public void onItemClick(View view, int position, String name) {
         Intent returnIntent = new Intent();
 
-        if(settingType.equals(LANGUAGE_SELECTION)){
+        if(settingType == LANGUAGE_SELECTION){
             String newLanguage = availableLanguages[position];
             returnIntent.putExtra("newLanguage", newLanguage);
-        } else if(settingType.equals(FONT_SELECTION)){
+
+        } else if(settingType == FONT_SELECTION){
             returnIntent.putExtra("newFont", settingOptions.get(position).second);
-        } else if(settingType.equals(SEPARATOR_SYMBOL)){
+        } else if(settingType == SEPARATOR_SYMBOL){
             returnIntent.putExtra("newSeparator", settingOptions.get(position).second);
-        } else if(settingType.equals(CAPITALIZATION)){
+        } else if(settingType == CAPITALIZATION){
             returnIntent.putExtra("newCapitalization", position);
+        } else if(settingType == DATE_ORDER){
+            returnIntent.putExtra("newDateOrder", position);
         }
 
         setResult(Activity.RESULT_OK, returnIntent);

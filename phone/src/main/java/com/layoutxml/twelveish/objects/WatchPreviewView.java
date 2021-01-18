@@ -109,57 +109,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint.setTextSize(22 + secondaryTextOffset); //secondary text
         mTextPaint2.setTextSize(24 + mainTextOffset);
 
-        Typeface NORMAL_TYPEFACE2;
-        switch (settingsManager.stringHashmap.get(context.getString(R.string.preference_font))) {
-            case "robotolight":
-                NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "alegreya":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.alegreya);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "cabin":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.cabin);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "ibmplexsans":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.ibmplexsans);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "inconsolata":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.inconsolata);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "merriweather":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.merriweather);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "nunito":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.nunito);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "pacifico":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.pacifico);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "quattrocento":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.quattrocento);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "quicksand":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.quicksand);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            case "rubik":
-                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(context, R.font.rubik);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-            default:
-                NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
-                break;
-        }
+        getFont();
 
         generateAffixes(); // Fetch the prefixes and suffixes for the chosen language
 
@@ -324,6 +274,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         if(!oldLanguage.equals(settingsManager.stringHashmap.get(activity.getString(R.string.preference_language)))) // The language has been changed, update our prefixes and suffixes
             generateAffixes();
 
+        getFont();
 
         if (mAmbient)
             paintFrame.setColor(Color.parseColor("#333333"));
@@ -465,6 +416,60 @@ public class WatchPreviewView extends View implements WordClockListener {
 
         //Draw complication
         //TODO placeholder
+    }
+
+    private void getFont(){
+        Typeface NORMAL_TYPEFACE2;
+        switch (settingsManager.stringHashmap.get(activity.getString(R.string.preference_font))) {
+            case "robotolight":
+                NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "alegreya":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.alegreya);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "cabin":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.cabin);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "ibmplexsans":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.ibmplexsans);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "inconsolata":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.inconsolata);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "merriweather":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.merriweather);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "nunito":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.nunito);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "pacifico":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.pacifico);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "quattrocento":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.quattrocento);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "quicksand":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.quicksand);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            case "rubik":
+                NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.rubik);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+            default:
+                NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                break;
+        }
     }
 
     private void getDate() {

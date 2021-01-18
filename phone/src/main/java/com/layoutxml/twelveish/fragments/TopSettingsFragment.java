@@ -20,6 +20,7 @@ import com.layoutxml.twelveish.CustomizationScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.activities.ColorSelectionActivity;
+import com.layoutxml.twelveish.activities.TextSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
@@ -38,6 +39,14 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     private SettingsManager settingsManager;
     private CustomizationScreen activity;
     private List<Pair<String,Integer>> optionsTI;
+    private List<Pair<String, String>> optionsTT;
+
+    private final int reqSecColorActive = 0;
+    private final int reqSecColorAmbient = 1;
+    private final int reqFont = 2;
+    private final int reqDateOrder = 3;
+    private final int reqDateSymbol = 4;
+    private final int reqTextOffset = 5;
 
     @Nullable
     @Override
@@ -50,11 +59,8 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         optionsTI = new ArrayList<>();
         generateColorOptions();
 
-        List<Pair<String, String>> optionsTT = new ArrayList<>();
-        optionsTT.add(new Pair<String, String>("Font","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary)))); //TODO
-        optionsTT.add(new Pair<String, String>("Date Order","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.preference_date_order))));
-        optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
-        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
+        optionsTT = new ArrayList<>();
+        generateTextOptions();
 
         List<Pair<String,String>> optionsTS = new ArrayList<>();
         optionsTS.add(new Pair<String, String>("Digital Clock",getString(R.string.preference_show_digital_clock)));
@@ -95,6 +101,18 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         optionsTI.add(new Pair<String, Integer>("Text Color in Ambient",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_secondary_text_color_ambient))));
     }
 
+    private void generateTextOptions(){
+        optionsTT.clear();
+
+        int dateOrder = settingsManager.integerHashmap.get(getResources().getString(R.string.preference_date_order));
+        String[] dateOrderString = {"Month-Day-Year", "Day-Month-Year", "Year-Month-Day", "Year-Day-Month"};
+
+        optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
+        optionsTT.add(new Pair<String, String>("Date Order","Currently set to "+dateOrderString[dateOrder]));
+        optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
+        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set to "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
+    }
+
     @Override
     public void onItemClickSwitch(View view, int position, boolean newValue, String name) {
         if (name.equals(settingsTSName)) {
@@ -109,21 +127,49 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     }
 
     @Override
-    public void onItemClick(View view, int position, String name){}
+    public void onItemClick(View view, int position, String name){
+        if(name.equals(settingsTTName)){
+            Intent intent;
+
+            intent = new Intent(getContext(), TextSelectionActivity.class);
+            intent.putExtra("SETTING_TYPE", position + 2);
+            startActivityForResult(intent,position + 2);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode== Activity.RESULT_OK) {
             switch (requestCode) {
-                case 0:
+                case reqSecColorActive:
                     settingsManager.integerHashmap.put(getResources().getString(R.string.preference_secondary_text_color), data.getIntExtra("newColor", Color.parseColor("#000000")));
                     generateColorOptions();
                     adapterTI.notifyDataSetChanged();
                     break;
-                case 1:
+                case reqSecColorAmbient:
                     settingsManager.integerHashmap.put(getResources().getString(R.string.preference_secondary_text_color_ambient), data.getIntExtra("newColor", Color.parseColor("#000000")));
                     generateColorOptions();
                     adapterTI.notifyDataSetChanged();
+                    break;
+                case reqFont:
+                    settingsManager.stringHashmap.put(activity.getString(R.string.preference_font_secondary), data.getStringExtra("newFont"));
+
+                    settingsManager.significantTimeChange = true;
+                    generateTextOptions();
+                    adapterTT.notifyDataSetChanged();
+                    break;
+                case reqDateOrder:
+                    settingsManager.integerHashmap.put(activity.getString(R.string.preference_date_order), data.getIntExtra("newDateOrder", 0));
+
+                    generateTextOptions();
+                    settingsManager.significantTimeChange = true;
+
+                    adapterTT.notifyDataSetChanged();
+                    activity.invalidatePreview();
+                    break;
+                case reqDateSymbol:
+                    break;
+                case reqTextOffset:
                     break;
                 default:
                     break;

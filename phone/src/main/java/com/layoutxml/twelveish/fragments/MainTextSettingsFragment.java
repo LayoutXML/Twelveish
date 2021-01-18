@@ -62,6 +62,7 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         optionsTI = new ArrayList<>();
         generateColorOptions();
 
+        optionsTT = new ArrayList<>();
         generateTextOptions();
 
 
@@ -96,10 +97,13 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
     }
 
     private void generateTextOptions(){
-        optionsTT = new ArrayList<>();
-        optionsTT.add(new Pair<String, String>("Font","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
-        optionsTT.add(new Pair<String, String>("Capitalization","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.preference_capitalisation))));
-        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set "+settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset))));
+        optionsTT.clear();
+
+        int capitalization = settingsManager.integerHashmap.get(getResources().getString(R.string.preference_capitalisation));
+        String[] capitalizationString = {"all words title case", "all uppercase", "all lowercase", "first world title case", "first word in every line title case"};
+        optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
+        optionsTT.add(new Pair<String, String>("Capitalization","Currently set to "+capitalizationString[capitalization]));
+        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set to "+settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset))));
     }
 
     @Override
@@ -125,11 +129,11 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
                     intent.putExtra("SETTING_TYPE", TextSelectionActivity.FONT_SELECTION);
                     startActivityForResult(intent, reqFont);
                     break;
-                /*case 1:
+                case 1:
                     intent = new Intent(getContext(), TextSelectionActivity.class);
                     intent.putExtra("SETTING_TYPE", TextSelectionActivity.CAPITALIZATION);
                     startActivityForResult(intent, reqCapitalization);
-                    break;*/
+                    break;
             }
         }
     }
@@ -151,15 +155,19 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
                     adapterMI.notifyDataSetChanged();
                     break;
                 case reqFont:
-                    // TODO: Handle new Font setting
                     settingsManager.stringHashmap.put(getResources().getString(R.string.preference_font), data.getStringExtra("newFont"));
+
+                    settingsManager.significantTimeChange = true;
+
+                    optionsTT.clear();
                     generateTextOptions();
                     adapterMT.notifyDataSetChanged();
-                    activity.invalidatePreview();
                     break;
                 case reqCapitalization:
-                    // TODO: Handle new capitalization setting
                     settingsManager.integerHashmap.put(getResources().getString(R.string.preference_capitalisation), data.getIntExtra("newCapitalization", 0));
+
+                    settingsManager.significantTimeChange = true;
+
                     generateTextOptions();
                     adapterMT.notifyDataSetChanged();
                     activity.invalidatePreview();
