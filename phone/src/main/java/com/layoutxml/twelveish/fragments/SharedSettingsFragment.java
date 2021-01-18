@@ -20,6 +20,7 @@ import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.activities.ColorSelectionActivity;
 import com.layoutxml.twelveish.activities.LanguageSelectionActivity;
+import com.layoutxml.twelveish.activities.TextSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
@@ -93,6 +94,7 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
     @Override
     public void onItemClick(View view, int position, String name){
         Intent intent = new Intent(getContext(), LanguageSelectionActivity.class);
+        intent.putExtra("SETTING_TYPE", TextSelectionActivity.LANGUAGE_SELECTION);
         startActivityForResult(intent, languageSelectionRequestCode);
     }
 

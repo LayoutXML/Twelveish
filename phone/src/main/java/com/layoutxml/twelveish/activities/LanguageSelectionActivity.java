@@ -20,7 +20,7 @@ import java.util.Locale;
 public class LanguageSelectionActivity extends AppCompatActivity implements TextviewRecyclerViewAdapter.ItemClickListener {
 
     private TextviewRecyclerViewAdapter adapter;
-    private List<Pair<String, String>> languageOptions;
+    private List<Pair<String, String>> settingOptions;
     private String settingsName = "languageSelectionList";
     private String[] availableLanguages;
 
@@ -29,18 +29,23 @@ public class LanguageSelectionActivity extends AppCompatActivity implements Text
         super.onCreate(savedInstanceState);
         setContentView(R.layout.color_selection_activity);
 
-        availableLanguages = getResources().getStringArray(R.array.AvailableLanguages);
-        languageOptions = new ArrayList<>();
-        for(String lang : availableLanguages){
-            Locale mLocale = new Locale(lang);
-            languageOptions.add(new Pair<String, String>(mLocale.getDisplayLanguage(mLocale), mLocale.getDisplayLanguage(new Locale ("en"))));
-        }
+        generateLanguageList();
+
 
         RecyclerView recyclerView = findViewById(R.id.colorList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TextviewRecyclerViewAdapter(this, languageOptions, settingsName);
+        adapter = new TextviewRecyclerViewAdapter(this, settingOptions, settingsName);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void generateLanguageList(){
+        availableLanguages = getResources().getStringArray(R.array.AvailableLanguages);
+        settingOptions = new ArrayList<>();
+        for(String lang : availableLanguages){
+            Locale mLocale = new Locale(lang);
+            settingOptions.add(new Pair<String, String>(mLocale.getDisplayLanguage(mLocale), mLocale.getDisplayLanguage(new Locale("en"))));
+        }
     }
 
     @Override
