@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,20 +24,24 @@ import com.layoutxml.twelveish.activities.AboutActivityP;
 import com.layoutxml.twelveish.activities.ColorSelectionActivity;
 import com.layoutxml.twelveish.activities.TextSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
+import com.layoutxml.twelveish.adapters.SeekerRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
+import com.layoutxml.twelveish.objects.Triple;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainTextSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener, SwitchRecyclerViewAdapter.ItemClickSwitchListener{
+public class MainTextSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener, SwitchRecyclerViewAdapter.ItemClickSwitchListener, SeekBar.OnSeekBarChangeListener {
 
     private ImageRecyclerViewAdapter adapterMI;
     private TextviewRecyclerViewAdapter adapterMT;
     private SwitchRecyclerViewAdapter adapterMS;
+    private SeekerRecyclerViewAdapter adapterMSB;
     private final String settingsMIName = "settingsMI";
     private final String settingsMTName = "settingsMT";
     private final String settingsMSName = "settingsMS";
+    private final String settingsMSBName = "settingsMSB";
     private SettingsManager settingsManager;
     private CustomizationScreen activity;
     private List<Pair<String,Integer>> optionsTI;
@@ -49,7 +54,7 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
     private final int reqColorAmbient = 1;
     private final int reqFont = 2;
     private final int reqCapitalization = 3;
-    private final int reqTextOffset = 4;
+
 
     @Nullable
     @Override
@@ -69,6 +74,9 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         List<Pair<String,String>> optionsTS = new ArrayList<>();
         optionsTS.add(new Pair<String, String>("24h Format",getResources().getString(R.string.preference_military_text_time)));
 
+        List<Triple<String, Integer, Integer>> optionsTSB = new ArrayList<>();
+        optionsTSB.add(new Triple<String, Integer, Integer>("Text Size Offset", settingsManager.integerHashmap.get(getString(R.string.secondary_text_size_offset)), 5));
+
         RecyclerView recyclerViewTI = view.findViewById(R.id.topImageRV);
         recyclerViewTI.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterMI = new ImageRecyclerViewAdapter(getContext(),optionsTI, settingsMIName);
@@ -80,6 +88,12 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         adapterMT = new TextviewRecyclerViewAdapter(getContext(),optionsTT, settingsMTName);
         adapterMT.setClickListener(this);
         recyclerViewTT.setAdapter(adapterMT);
+
+        RecyclerView recyclerViewMSB = view.findViewById(R.id.topSeekRV);
+        recyclerViewMSB.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapterMSB = new SeekerRecyclerViewAdapter(getContext(), optionsTSB, settingsMSBName);
+        adapterMSB.setOnSeekBarChangeListener(this);
+        recyclerViewMSB.setAdapter(adapterMSB);
 
         RecyclerView recyclerViewTS = view.findViewById(R.id.topSwitchRV);
         recyclerViewTS.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -103,7 +117,6 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         String[] capitalizationString = {"all words title case", "all uppercase", "all lowercase", "first world title case", "first word in every line title case"};
         optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
         optionsTT.add(new Pair<String, String>("Capitalization","Currently set to "+capitalizationString[capitalization]));
-        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set to "+settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset))));
     }
 
     @Override
@@ -172,13 +185,29 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
                     adapterMT.notifyDataSetChanged();
                     activity.invalidatePreview();
                     break;
-                case reqTextOffset:
-                    // TODO: Handle new text offset setting
-                    break;
                 default:
                     break;
             }
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
+        if(fromUser){
+            settingsManager.integerHashmap.put(getString(R.string.main_text_size_offset), newValue);
+            settingsManager.significantTimeChange = true;
+            activity.invalidatePreview();
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }
 

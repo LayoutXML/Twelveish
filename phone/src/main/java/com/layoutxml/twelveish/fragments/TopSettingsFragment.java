@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,20 +23,24 @@ import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.activities.ColorSelectionActivity;
 import com.layoutxml.twelveish.activities.TextSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
+import com.layoutxml.twelveish.adapters.SeekerRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
+import com.layoutxml.twelveish.objects.Triple;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener, SwitchRecyclerViewAdapter.ItemClickSwitchListener{
+public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener, SwitchRecyclerViewAdapter.ItemClickSwitchListener, SeekBar.OnSeekBarChangeListener {
 
     private ImageRecyclerViewAdapter adapterTI;
     private TextviewRecyclerViewAdapter adapterTT;
     private SwitchRecyclerViewAdapter adapterTS;
+    private SeekerRecyclerViewAdapter adapterTSB;
     private final String settingsTIName = "settingsTI";
     private final String settingsTTName = "settingsTT";
     private final String settingsTSName = "settingsTS";
+    private final String settingsTSBName = "settingsTSB";
     private SettingsManager settingsManager;
     private CustomizationScreen activity;
     private List<Pair<String,Integer>> optionsTI;
@@ -74,6 +79,9 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         optionsTS.add(new Pair<String, String>("24h Format",getResources().getString(R.string.preference_military_time)));
         optionsTS.add(new Pair<String, String>("Show Seconds in Active",getResources().getString(R.string.preference_show_seconds)));
 
+        List<Triple<String, Integer, Integer>> optionsTSB = new ArrayList<>();
+        optionsTSB.add(new Triple<String, Integer, Integer>("Text Size Offset", settingsManager.integerHashmap.get(getString(R.string.secondary_text_size_offset)), 5));
+
         RecyclerView recyclerViewTI = view.findViewById(R.id.topImageRV);
         recyclerViewTI.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterTI = new ImageRecyclerViewAdapter(getContext(),optionsTI,settingsTIName);
@@ -85,6 +93,13 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         adapterTT = new TextviewRecyclerViewAdapter(getContext(),optionsTT,settingsTTName);
         adapterTT.setClickListener(this);
         recyclerViewTT.setAdapter(adapterTT);
+
+        RecyclerView recyclerViewTSB = view.findViewById(R.id.topSeekRV);
+        recyclerViewTSB.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapterTSB = new SeekerRecyclerViewAdapter(getContext(), optionsTSB, settingsTSBName);
+        adapterTSB.setOnSeekBarChangeListener(this);
+        recyclerViewTSB.setAdapter(adapterTSB);
+
 
         RecyclerView recyclerViewTS = view.findViewById(R.id.topSwitchRV);
         recyclerViewTS.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -110,7 +125,6 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
         optionsTT.add(new Pair<String, String>("Date Order","Currently set to "+dateOrderString[dateOrder]));
         optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
-        optionsTT.add(new Pair<String, String>("Text Size Offset","Currently set to "+settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset))));
     }
 
     @Override
@@ -129,9 +143,7 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     @Override
     public void onItemClick(View view, int position, String name){
         if(name.equals(settingsTTName)){
-            Intent intent;
-
-            intent = new Intent(getContext(), TextSelectionActivity.class);
+            Intent intent = new Intent(getContext(), TextSelectionActivity.class);
             intent.putExtra("SETTING_TYPE", position + 2);
             startActivityForResult(intent,position + 2);
         }
@@ -169,11 +181,28 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
                     break;
                 case reqDateSymbol:
                     break;
-                case reqTextOffset:
-                    break;
                 default:
                     break;
             }
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
+        if(fromUser){
+            settingsManager.integerHashmap.put(getString(R.string.secondary_text_size_offset), newValue);
+            settingsManager.significantTimeChange = true;
+            activity.invalidatePreview();
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

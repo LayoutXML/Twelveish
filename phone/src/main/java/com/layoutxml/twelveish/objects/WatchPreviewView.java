@@ -35,8 +35,8 @@ import java.util.Locale;
 
 public class WatchPreviewView extends View implements WordClockListener {
 
-    private final int secondaryTextOffset = 0; //TODO
-    private final int mainTextOffset = 0; //TODO
+    private int secondaryTextOffset = 0;
+    private int mainTextOffset = 0;
     private int height = 0;
     private Paint paint;
     private Paint paintFrame;
@@ -275,6 +275,11 @@ public class WatchPreviewView extends View implements WordClockListener {
             generateAffixes();
 
         getFont();
+
+        // Update the size offsets
+        mainTextOffset = settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset));
+        secondaryTextOffset = settingsManager.integerHashmap.get(getResources().getString(R.string.secondary_text_size_offset));
+
 
         if (mAmbient)
             paintFrame.setColor(Color.parseColor("#333333"));
