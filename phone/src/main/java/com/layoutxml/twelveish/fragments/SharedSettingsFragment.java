@@ -81,7 +81,7 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
         optionsTT.clear();
         String chosenLanguage = new Locale(settingsManager.stringHashmap.get(getString(R.string.preference_language)))
                 .getDisplayLanguage(new Locale("en")); // return the name of the chosen language in English
-        optionsTT.add(new Pair<String, String>("Language","Currently set "+chosenLanguage));
+        optionsTT.add(new Pair<String, String>("Language","Currently set to "+chosenLanguage));
 
     }
 

@@ -150,6 +150,15 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     }
 
     @Override
+    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
+        if(fromUser){
+            settingsManager.integerHashmap.put(getString(R.string.secondary_text_size_offset), newValue * 3);
+            settingsManager.significantTimeChange = true;
+            activity.invalidatePreview();
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode== Activity.RESULT_OK) {
             switch (requestCode) {
@@ -180,6 +189,13 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
                     activity.invalidatePreview();
                     break;
                 case reqDateSymbol:
+                    settingsManager.stringHashmap.put(getString(R.string.preference_date_separator), data.getStringExtra("newSeparator"));
+
+                    generateTextOptions();
+                    settingsManager.significantTimeChange = true;
+
+                    adapterTT.notifyDataSetChanged();
+                    activity.invalidatePreview();
                     break;
                 default:
                     break;
@@ -187,14 +203,7 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         }
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
-        if(fromUser){
-            settingsManager.integerHashmap.put(getString(R.string.secondary_text_size_offset), newValue);
-            settingsManager.significantTimeChange = true;
-            activity.invalidatePreview();
-        }
-    }
+
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {

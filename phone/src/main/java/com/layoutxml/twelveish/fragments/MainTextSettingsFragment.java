@@ -152,6 +152,15 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
     }
 
     @Override
+    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
+        if(fromUser){
+            settingsManager.integerHashmap.put(getString(R.string.main_text_size_offset), newValue * 7);
+            settingsManager.significantTimeChange = true;
+            activity.invalidatePreview();
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         Log.d(TAG, "onActivityResult: result received");
         if (resultCode==Activity.RESULT_OK) {
@@ -191,14 +200,7 @@ public class MainTextSettingsFragment extends Fragment implements ImageRecyclerV
         }
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int newValue, boolean fromUser) {
-        if(fromUser){
-            settingsManager.integerHashmap.put(getString(R.string.main_text_size_offset), newValue);
-            settingsManager.significantTimeChange = true;
-            activity.invalidatePreview();
-        }
-    }
+
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
