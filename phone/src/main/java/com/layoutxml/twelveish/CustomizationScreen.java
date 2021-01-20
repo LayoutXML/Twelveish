@@ -1,6 +1,8 @@
 package com.layoutxml.twelveish;
 
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,16 +16,26 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.layoutxml.twelveish.adapters.OptionsPagerAdapter;
 import com.layoutxml.twelveish.dagger.App;
 import com.layoutxml.twelveish.dagger.DaggerSettingsManagerComponent;
 import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import com.layoutxml.twelveish.fragments.PreviewFragment;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 
-public class CustomizationScreen extends AppCompatActivity {
+public class CustomizationScreen extends AppCompatActivity implements View.OnClickListener {
 
     @Inject
     SettingsManagerComponent settingsManagerComponent;
@@ -41,7 +53,49 @@ public class CustomizationScreen extends AppCompatActivity {
         communicator.initiateHandshake();
         Log.d(TAG, "communicatorID" + communicator);
 
+        //private static final Type REVIEW_TYPE = new TypeToken<List<Revi>>()
+
         settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getApplicationContext());
+
+        SettingsManager testSettings = settingsManagerComponent.getSettingsManager();
+        Gson gson = new Gson();
+        try {
+            JsonReader reader = new JsonReader(new FileReader(this.getFilesDir().toString() + "/test.json"));
+            reader.beginObject();
+            while(reader.hasNext()){
+                String nameToRead = reader.nextName();
+                if(nameToRead.equals("stringHashMap")){
+                    reader.beginObject();
+                    while(reader.hasNext()){
+                        String firstString = reader.nextName();
+                        String secondString = reader.nextString();
+                        testSettings.stringHashmap.put(firstString, secondString);
+                    }
+                    reader.endObject();
+                } else if (nameToRead.equals("booleanHashMap")){
+                    reader.beginObject();
+                    while (reader.hasNext()){
+                        testSettings.booleanHashmap.put(reader.nextName(), reader.nextBoolean());
+                    }
+                    reader.endObject();
+                } else if(nameToRead.equals("integerHashMap")){
+                    reader.beginObject();
+                    while(reader.hasNext()){
+                        testSettings.integerHashmap.put(reader.nextName(), reader.nextInt());
+                    }
+                    reader.endObject();
+                }
+            }
+
+            reader.endObject();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -74,6 +128,9 @@ public class CustomizationScreen extends AppCompatActivity {
                 invalidatePreview();
             }
         });
+
+        ImageButton saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(this);
     }
 
     @Override
@@ -92,6 +149,30 @@ public class CustomizationScreen extends AppCompatActivity {
 
     public SettingsManagerComponent getSettingsManagerComponent() {
         return settingsManagerComponent;
+    }
+
+    @Override
+    public void onClick(View view) {
+        SettingsManager settingsManager = settingsManagerComponent.getSettingsManager();
+        Gson gson = new Gson();
+        HashMap<String, HashMap> settingMap = new HashMap<>();
+        settingMap.put("stringHashMap", settingsManager.stringHashmap);
+        settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
+        settingMap.put("integerHashMap", settingsManager.integerHashmap);
+
+        String mapString = gson.toJson(settingMap);
+
+        try {
+            String fileName = this.getFilesDir().toString() + "/test.json";
+            FileWriter writer = new FileWriter(fileName);
+            gson.toJson(settingMap, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(!mapString.equals("")){
+            mapString = "";
+        }
     }
 
     public interface AmoledChange {
