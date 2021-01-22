@@ -15,12 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".HomeScreen"
+        <activity android:name=".activities.BrowseActivity"></activity>
+        <activity
+            android:name=".HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
+
                 <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,7 +33,7 @@
         <activity android:name=".activities.InstallActivity" />
         <activity android:name=".activities.AboutActivityP" />
         <activity android:name=".activities.ColorSelectionActivity" />
-        <activity android:name=".activities.LanguageSelectionActivity"/>
+        <activity android:name=".activities.LanguageSelectionActivity" />
         <activity android:name=".activities.TextSelectionActivity" />
     </application>
 

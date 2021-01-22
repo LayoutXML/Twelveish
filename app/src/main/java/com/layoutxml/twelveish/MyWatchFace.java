@@ -59,6 +59,7 @@ import com.layoutxml.twelveish.objects.WordClockTaskWrapper;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -1184,6 +1185,35 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 getDate(); //forces date refresh in case it is changed
                 significantTimeChange = true;
             }
+            if (array!=null && array.length > 3){ // We're receiving multiple preferences at once
+                int index = 0;
+                for(int i = 0; i < array.length; i+=3){
+                    switch(array[i + 2]){
+                        case "String":
+                            prefs.edit().putString(array[i], array[i+1]).apply();
+                            break;
+                        case "Integer":
+                            int newPref = Integer.parseInt(array[i+1]);
+                            prefs.edit().putInt(array[i], newPref).apply();
+                            break;
+                        case "Boolean":
+                            if (array[i + 1].equalsIgnoreCase("true") || array[i+1].equalsIgnoreCase("false")){
+                                boolean newPref2 = Boolean.parseBoolean(array[i+1]);
+                                prefs.edit().putBoolean(array[i], newPref2).apply();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        default:
+                            Log.d(TAG, "Unkown type in processData. Index: " + i);
+                    }
+                }
+
+                loadPreferences();
+                getDate(); //forces date refresh in case it is changed
+                significantTimeChange = true;
+
+            }
             boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
             if (!handshake) {
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
@@ -1202,45 +1232,18 @@ public class MyWatchFace extends CanvasWatchFaceService {
             }
             boolean preferences = mDataMapItem.getDataMap().getBoolean(DATA_REQUEST_KEY);
             if (preferences) {
-                String[] preferencesToSend = new String[38];
-                preferencesToSend[0] = "militaryTime";
-                preferencesToSend[1] = militaryTime ? "true" : "false";
-                preferencesToSend[2] = "militaryTextTime";
-                preferencesToSend[3] = militaryTextTime ? "true" : "false";
-                preferencesToSend[4] = "ampm";
-                preferencesToSend[5] = "false"; //TODO: remove
-                preferencesToSend[6] = "showSecondary";
-                preferencesToSend[7] = showSecondary ? "true" : "false";
-                preferencesToSend[8] = "showSecondaryActive";
-                preferencesToSend[9] = showSecondaryActive ? "true" : "false";
-                preferencesToSend[10] = "showSecondaryCalendar";
-                preferencesToSend[11] = showSecondaryCalendar ? "true" : "false";
-                preferencesToSend[12] = "showSecondaryCalendarActive";
-                preferencesToSend[13] = showSecondaryCalendarActive ? "true" : "false";
-                preferencesToSend[14] = "showSuffixes";
-                preferencesToSend[15] = "true";
-                preferencesToSend[16] = "showBattery";
-                preferencesToSend[17] = showBattery ? "true" : "false";
-                preferencesToSend[18] = "showBatteryAmbient";
-                preferencesToSend[19] = showBatteryAmbient ? "true" : "false";
-                preferencesToSend[20] = "showWords";
-                preferencesToSend[21] = "true";
-                preferencesToSend[22] = "showWordsAmbient";
-                preferencesToSend[23] = "true";
-                preferencesToSend[24] = "showSeconds";
-                preferencesToSend[25] = showSeconds ? "true" : "false";
-                preferencesToSend[26] = "showComplication";
-                preferencesToSend[27] = showComplication ? "true" : "false";
-                preferencesToSend[28] = "showComplicationAmbient";
-                preferencesToSend[29] = showComplicationAmbient ? "true" : "false";
-                preferencesToSend[30] = "showDay";
-                preferencesToSend[31] = showDay ? "true" : "false";
-                preferencesToSend[32] = "showDayAmbient";
-                preferencesToSend[33] = showDayAmbient ? "true" : "false";
-                preferencesToSend[34] = "disableComplicationTap";
-                preferencesToSend[35] = disableComplicationTap ? "true" : "false";
-                preferencesToSend[36] = "legacyWords";
-                preferencesToSend[37] = "false";
+                Map<String, ?> prefMap = prefs.getAll();
+                int index = 0;
+                String[] preferencesToSend = new String[prefMap.size() * 2];
+
+                for(Map.Entry<String, ?> entry : prefMap.entrySet()){
+                    String key = entry.getKey();
+                    String value = entry.getValue().toString();
+
+                    preferencesToSend[index] = key;
+                    preferencesToSend[index+1] = value;
+                    index += 2;
+                }
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());

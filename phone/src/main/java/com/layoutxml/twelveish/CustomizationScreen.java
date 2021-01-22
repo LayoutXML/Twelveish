@@ -6,6 +6,7 @@ import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,7 +58,8 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
 
         settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getApplicationContext());
 
-        SettingsManager testSettings = settingsManagerComponent.getSettingsManager();
+
+        final SettingsManager testSettings = settingsManagerComponent.getSettingsManager();
         Gson gson = new Gson();
         try {
             JsonReader reader = new JsonReader(new FileReader(this.getFilesDir().toString() + "/test.json"));
@@ -96,7 +98,6 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
         }
 
 
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -131,6 +132,9 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
 
         ImageButton saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
+
+        ImageButton sendButton = findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(this);
     }
 
     @Override
@@ -154,29 +158,38 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         SettingsManager settingsManager = settingsManagerComponent.getSettingsManager();
-        Gson gson = new Gson();
-        HashMap<String, HashMap> settingMap = new HashMap<>();
-        settingMap.put("stringHashMap", settingsManager.stringHashmap);
-        settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
-        settingMap.put("integerHashMap", settingsManager.integerHashmap);
+        switch (view.getId()){
+            case R.id.saveButton:
 
-        String mapString = gson.toJson(settingMap);
+                Gson gson = new Gson();
+                HashMap<String, HashMap> settingMap = new HashMap<>();
+                settingMap.put("stringHashMap", settingsManager.stringHashmap);
+                settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
+                settingMap.put("integerHashMap", settingsManager.integerHashmap);
 
-        try {
-            String fileName = this.getFilesDir().toString() + "/test.json";
-            FileWriter writer = new FileWriter(fileName);
-            gson.toJson(settingMap, writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+                String mapString = gson.toJson(settingMap);
+
+                try {
+                    String fileName = this.getFilesDir().toString() + "/test.json";
+                    FileWriter writer = new FileWriter(fileName);
+                    gson.toJson(settingMap, writer);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.sendButton:
+                Toast.makeText(getApplicationContext(), "Applying watchface", Toast.LENGTH_LONG).show();
+                communicator.sendWatchFace(settingsManager, getApplicationContext());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + view.getId());
         }
-        if(!mapString.equals("")){
-            mapString = "";
-        }
+
     }
 
     public interface AmoledChange {
-        public void ambientModeChange(boolean value);
+        void ambientModeChange(boolean value);
     }
 
     public void invalidatePreview() {
