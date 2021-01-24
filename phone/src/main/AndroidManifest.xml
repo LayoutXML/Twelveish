@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.BrowseActivity"></activity>
         <activity
             android:name=".HomeScreen"
             android:label="@string/app_name"

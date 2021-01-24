@@ -54,13 +54,10 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
         communicator.initiateHandshake();
         Log.d(TAG, "communicatorID" + communicator);
 
-        //private static final Type REVIEW_TYPE = new TypeToken<List<Revi>>()
-
         settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getApplicationContext());
 
 
         final SettingsManager testSettings = settingsManagerComponent.getSettingsManager();
-        Gson gson = new Gson();
         try {
             JsonReader reader = new JsonReader(new FileReader(this.getFilesDir().toString() + "/test.json"));
             reader.beginObject();
@@ -96,7 +93,6 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -166,8 +162,6 @@ public class CustomizationScreen extends AppCompatActivity implements View.OnCli
                 settingMap.put("stringHashMap", settingsManager.stringHashmap);
                 settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
                 settingMap.put("integerHashMap", settingsManager.integerHashmap);
-
-                String mapString = gson.toJson(settingMap);
 
                 try {
                     String fileName = this.getFilesDir().toString() + "/test.json";

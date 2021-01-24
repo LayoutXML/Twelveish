@@ -1,8 +1,6 @@
 package com.layoutxml.twelveish;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,12 +12,15 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.google.gson.Gson;
 import com.layoutxml.twelveish.objects.WatchPreviewView;
 
 import androidx.annotation.NonNull;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -44,6 +45,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
     public boolean isWatchConnected = false;
     private static final String TAG = "Communicator";
     private WeakReference<WatchPreviewView> previewListener;
+    private WeakReference<WatchPreviewView> preferenceListener;
 
     @Inject
     public Communicator(Context context) {
@@ -178,13 +180,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
 
     }
 
-    /* public void requestBooleanPreferences(Context context, WeakReference<HomeScreen> listenerActivity) {
+    public void requestBooleanPreferences(Context context, WeakReference<WatchPreviewView> listenerActivity) {
         mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
         mPutDataMapRequest.getDataMap().putBoolean(DATA_REQUEST_KEY, true);
         mPutDataMapRequest.setUrgent();
         PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
         Wearable.getDataClient(context).putDataItem(mPutDataRequest);
-        customizationListener = listenerActivity;
+        preferenceListener = listenerActivity;
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -192,7 +194,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
                 mPutDataMapRequest.getDataMap().clear();
             }
           }, 5000);
-    }*/
+    }
 
    /* public void requestPreferences(Context context, WeakReference<CustomizationScreen> listenerActivity){
         mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
@@ -240,11 +242,13 @@ public class Communicator implements DataClient.OnDataChangedListener {
                     initiateHandshake();
                 }
 
-                /* if(preferences){
+                 if(preferences){
                     Log.d(TAG, "onDataChanged: preferences");
                     String[] newPreferences = mDataMapItem.getDataMap().getStringArray(PREFERENCES_KEY);
-                    HomeScreen customizationScreen = customizationListener.get();
-                    SettingsManager settingsManager = ((App) customizationScreen.getApplication()).getSettingsManagerComponent().getSettingsManager();
+                    SettingsManager settingsManager = new SettingsManager(applicationContext);
+                    settingsManager.initializeDefaultBooleans();
+                    settingsManager.initializeDefaultIntegers();
+                    settingsManager.initializeDefaultStrings();
                     if(newPreferences != null){
                         for(int i = 0; i < newPreferences.length; i+=2){
                             if(settingsManager.stringHashmap.containsKey(newPreferences[i])){
@@ -258,10 +262,24 @@ public class Communicator implements DataClient.OnDataChangedListener {
                             }
                         }
 
-                        settingsManager.significantTimeChange=true;
-                        customizationScreen.invalidatePreview();
-                    }*
-                }*/
+                        WatchPreviewView previewView = preferenceListener.get();
+                        Gson gson = new Gson();
+                        HashMap<String, HashMap> settingMap = new HashMap<>();
+                        settingMap.put("stringHashMap", settingsManager.stringHashmap);
+                        settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
+                        settingMap.put("integerHashMap", settingsManager.integerHashmap);
+
+                        try {
+                            String fileName = previewView.getContext().getFilesDir().toString() + "/test.json";
+                            FileWriter writer = new FileWriter(fileName);
+                            gson.toJson(settingMap, writer);
+                            writer.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        previewView.loadSettings(settingsManager);
+                    }
+                }
 
                 if (config) {
                     Log.d(TAG, "onDataChanged: config");

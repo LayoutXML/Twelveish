@@ -32,6 +32,7 @@ import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class WatchPreviewView extends View implements WordClockListener {
 
@@ -88,9 +89,13 @@ public class WatchPreviewView extends View implements WordClockListener {
             Log.d(TAG, "communicatorID" + communicator);
             Log.d(TAG, "WatchPreviewView: from customization");
         } catch (Exception e) {
-            Log.d(TAG, "WatchPreviewView: from home screen");
             SettingsManagerComponent settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getContext());
             settingsManager = settingsManagerComponent.getSettingsManager();
+            HomeScreen activity = (HomeScreen) getContext();
+            communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
+            communicator.requestBooleanPreferences(getContext(), new WeakReference<WatchPreviewView>(this));
+            Log.d(TAG, "WatchPreviewView: from home screen");
+            Log.d(TAG, "communicatorID: " + communicator);
         }
 
         mTextPaint = new Paint();
@@ -547,5 +552,30 @@ public class WatchPreviewView extends View implements WordClockListener {
         mAmbient = value;
         significantTimeChange = true;
         Log.d(TAG, "changeAmbientMode: "+value);
+    }
+
+    public void loadSettings(SettingsManager newSettings){
+        for(Map.Entry<String, String> preference : newSettings.stringHashmap.entrySet()){
+            String key = preference.getKey();
+            String value = preference.getValue();
+            if(value != null)
+                this.settingsManager.stringHashmap.put(key, value);
+        }
+
+        for(Map.Entry<String, Boolean> preference : newSettings.booleanHashmap.entrySet()){
+            String key = preference.getKey();
+            boolean value = preference.getValue();
+            this.settingsManager.booleanHashmap.put(key, value);
+        }
+
+        for(Map.Entry<String, Integer> preference : newSettings.integerHashmap.entrySet()){
+            String key = preference.getKey();
+            int value = preference.getValue();
+
+            this.settingsManager.integerHashmap.put(key, value);
+        }
+
+        settingsManager.significantTimeChange = true;
+        invalidate();
     }
 }
