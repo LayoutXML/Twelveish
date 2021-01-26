@@ -15,7 +15,7 @@
     <string name="preference_secondary_color">secondaryColorActive</string>
     <string name="preference_secondary_color_ambient">secondaryColor</string>
     <string name="preference_military_time">militaryTime</string>
-    <string name="preference_militarytext_time">militarytextTime</string>
+    <string name="preference_militarytext_time">militaryTextTime</string>
     <string name="preference_date_order">dateOrder</string>
     <string name="preference_date_separator">stringOption</string>
     <string name="preference_capitalisation">capitalisation</string>

@@ -1186,7 +1186,6 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 significantTimeChange = true;
             }
             if (array!=null && array.length > 3){ // We're receiving multiple preferences at once
-                int index = 0;
                 for(int i = 0; i < array.length; i+=3){
                     switch(array[i + 2]){
                         case "String":
@@ -1202,6 +1201,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                                 prefs.edit().putBoolean(array[i], newPref2).apply();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "processData: Boolean was neither true nor false! Key: " + array[i]);
                             }
                             break;
                         default:
