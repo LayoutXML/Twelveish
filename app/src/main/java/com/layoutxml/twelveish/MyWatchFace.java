@@ -80,6 +80,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private final String CONFIG_REQUEST_KEY = "rokas-twelveish-cr";
     private final String CONFIG_REQUEST_KEY2 = "rokas-twelveish-cr2";
     private final String PREFERENCES_KEY = "rokas-twelveish-pr";
+
+    private final String PING_FIRE = "rokas-twelveish-fire"; // Request ping
+    private final String PING_ICE = "rokas-twelveish-ice"; // Ping response
+    private final String TIMESTAMP = "rokas-twelveish-timestamp";
+
     private static Typeface NORMAL_TYPEFACE = Typeface.create("sans-serif-light", Typeface.NORMAL);
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
     private static final int MSG_UPDATE_TIME = 0;
@@ -1248,7 +1253,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 }
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putStringArray(PREFERENCES_KEY, preferencesToSend);
                 mPutDataMapRequest.getDataMap().putBoolean(DATA_REQUEST_KEY, false);
                 mPutDataMapRequest.getDataMap().putBoolean(DATA_REQUEST_KEY2, true);
@@ -1272,10 +1277,27 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 configToSend[2] = complicationRightSet ? "true" : "false";
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putStringArray(PREFERENCES_KEY, configToSend);
                 mPutDataMapRequest.getDataMap().putBoolean(CONFIG_REQUEST_KEY, false);
                 mPutDataMapRequest.getDataMap().putBoolean(CONFIG_REQUEST_KEY2, true);
+                mPutDataMapRequest.setUrgent();
+                PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+                Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPutDataMapRequest.getDataMap().clear();
+                    }
+                }, 5000);
+            }
+            boolean ping = mDataMapItem.getDataMap().getBoolean(PING_FIRE);
+            if(ping){
+                final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
+                mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putBoolean(PING_FIRE, false);
+                mPutDataMapRequest.getDataMap().putBoolean(PING_ICE, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);

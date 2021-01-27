@@ -39,6 +39,11 @@ public class Communicator implements DataClient.OnDataChangedListener {
     private final String PREFERENCES_KEY = "rokas-twelveish-pr";
     private final String CONFIG_REQUEST_KEY = "rokas-twelveish-cr";
     private final String CONFIG_REQUEST_KEY2 = "rokas-twelveish-cr2";
+
+    private final String PING_FIRE = "rokas-twelveish-fire"; // Request ping
+    private final String PING_ICE = "rokas-twelveish-ice"; // Ping response
+    private final String TIMESTAMP = "rokas-twelveish-timestamp";
+
     private PutDataMapRequest mPutDataMapRequest;
     private Context applicationContext;
     private boolean currentStatus = true; //temporary value for waiting period if watch not found to not create false negatives
@@ -47,6 +52,8 @@ public class Communicator implements DataClient.OnDataChangedListener {
     private static final String TAG = "Communicator";
     private WeakReference<WatchPreviewView> previewListener;
     private WeakReference<WatchPreviewView> preferenceListener;
+    private long lastPing = 0;
+
 
     @Inject
     public Communicator(Context context) {
@@ -103,6 +110,21 @@ public class Communicator implements DataClient.OnDataChangedListener {
             Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void ping(){
+        mPutDataMapRequest.getDataMap().putBoolean(PING_FIRE, true);
+        mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
+        mPutDataMapRequest.setUrgent();
+        final PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
+        Wearable.getDataClient(applicationContext).putDataItem(mPutDataRequest);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPutDataMapRequest.getDataMap().clear();
+            }
+        }, 5000);
     }
 
     public void sendPreference(String key, String value, String type, Context context) {
@@ -229,11 +251,31 @@ public class Communicator implements DataClient.OnDataChangedListener {
                 boolean goodbye = mDataMapItem.getDataMap().getBoolean(GOODBYE_KEY);
                 boolean config = mDataMapItem.getDataMap().getBoolean(CONFIG_REQUEST_KEY2);
                 boolean preferences = mDataMapItem.getDataMap().getBoolean(DATA_REQUEST_KEY2);
+                boolean ping = mDataMapItem.getDataMap().getBoolean(PING_ICE);
                 if (handshake) {
                     Log.d(TAG,"handshake received");
                     setCurrentStatus(true);
                     if (!isWatchConnected) {
                         Toast.makeText(applicationContext, "Watch connected", Toast.LENGTH_SHORT).show();
+                        lastPing = mDataMapItem.getDataMap().getLong(TIMESTAMP);
+                        final Handler pingHandler = new Handler(){};
+                        pingHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isWatchConnected) {
+                                    ping();
+                                    Long timeSincePing = System.currentTimeMillis() - lastPing;
+                                    if(timeSincePing > 15000){
+                                        Toast.makeText(applicationContext, "Watch disconnected, retrying", Toast.LENGTH_SHORT).show();
+                                        isWatchConnected = false;
+                                        initiateHandshake();
+                                        lastPing = 0;
+                                    }
+                                    pingHandler.postDelayed(this, 5000);
+                                }
+
+                            }
+                        }, 5000);
                     }
                     isWatchConnected = true;
                 }
@@ -241,6 +283,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
                     Toast.makeText(applicationContext, "Watch disconnected", Toast.LENGTH_SHORT).show();
                     isWatchConnected=false;
                     initiateHandshake();
+                    lastPing = 0;
                 }
 
                  if(preferences){
@@ -297,6 +340,10 @@ public class Communicator implements DataClient.OnDataChangedListener {
                             }
                         }
                     }
+                }
+
+                if(ping){
+                    lastPing = mPutDataMapRequest.getDataMap().getLong(TIMESTAMP);
                 }
             }
         }
