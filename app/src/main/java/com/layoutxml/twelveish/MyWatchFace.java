@@ -71,7 +71,9 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private static final String TAG = "MyWatchFace";
     private final String path = "/twelveish";
     private final String DATA_KEY = "rokas-twelveish";
-    private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
+    // private final String HANDSHAKE_KEY = "rokas-twelveish-hs";
+    private final String HANDSHAKE_REQUEST = "rokas-twelveish-hs-req";
+    private final String HANDSHAKE_RESPONSE = "rokas-twelveish-hs-res";
     private final String GOODBYE_KEY = "rokas-twelveish-gb";
     private final String DATA_REQUEST_KEY = "rokas-twelveish-dr";
     private final String DATA_REQUEST_KEY2 = "rokas-twelveish-dr2";
@@ -757,7 +759,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
-                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_REQUEST, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
@@ -1214,11 +1216,11 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 significantTimeChange = true;
 
             }
-            boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_KEY);
-            if (!handshake) {
+            boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_REQUEST);
+            if (handshake) {
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
                 mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
-                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_KEY, true);
+                mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_RESPONSE, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
                 Wearable.getDataClient(getApplicationContext()).putDataItem(mPutDataRequest);
