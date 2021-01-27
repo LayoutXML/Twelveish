@@ -93,7 +93,7 @@ public class WatchPreviewView extends View implements WordClockListener {
             settingsManager = settingsManagerComponent.getSettingsManager();
             HomeScreen activity = (HomeScreen) getContext();
             communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
-            communicator.requestBooleanPreferences(getContext(), new WeakReference<WatchPreviewView>(this));
+            communicator.requestPreferences(getContext(), new WeakReference<WatchPreviewView>(this));
             Log.d(TAG, "WatchPreviewView: from home screen");
             Log.d(TAG, "communicatorID: " + communicator);
         }

@@ -203,7 +203,7 @@ public class Communicator implements DataClient.OnDataChangedListener {
 
     }
 
-    public void requestBooleanPreferences(Context context, WeakReference<WatchPreviewView> listenerActivity) {
+    public void requestPreferences(Context context, WeakReference<WatchPreviewView> listenerActivity) {
         mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
         mPutDataMapRequest.getDataMap().putBoolean(DATA_REQUEST_KEY, true);
         mPutDataMapRequest.setUrgent();
