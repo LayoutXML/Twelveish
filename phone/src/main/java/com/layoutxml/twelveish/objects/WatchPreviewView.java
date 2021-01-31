@@ -99,12 +99,12 @@ public class WatchPreviewView extends View implements WordClockListener {
         }
 
         mTextPaint = new Paint();
-        mTextPaint.setTypeface(NORMAL_TYPEFACE);
+        mTextPaint.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mTextPaint2 = new Paint();
-        mTextPaint2.setTypeface(NORMAL_TYPEFACE);
+        mTextPaint2.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
         mTextPaint2.setAntiAlias(true);
         mTextPaint2.setTextAlign(Paint.Align.CENTER);
 
@@ -114,7 +114,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint.setTextSize(22 + secondaryTextOffset); //secondary text
         mTextPaint2.setTextSize(24 + mainTextOffset);
 
-        mTextPaint2.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
+
 
         generateAffixes(); // Fetch the prefixes and suffixes for the chosen language
 
