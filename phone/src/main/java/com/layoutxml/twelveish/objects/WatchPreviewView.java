@@ -32,6 +32,7 @@ import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class WatchPreviewView extends View implements WordClockListener {
 
@@ -88,9 +89,13 @@ public class WatchPreviewView extends View implements WordClockListener {
             Log.d(TAG, "communicatorID" + communicator);
             Log.d(TAG, "WatchPreviewView: from customization");
         } catch (Exception e) {
-            Log.d(TAG, "WatchPreviewView: from home screen");
             SettingsManagerComponent settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getContext());
             settingsManager = settingsManagerComponent.getSettingsManager();
+            HomeScreen activity = (HomeScreen) getContext();
+            communicator = ((App) activity.getApplication()).getCommunicatorComponent().getCommunicator();
+            communicator.requestPreferences(getContext(), new WeakReference<WatchPreviewView>(this));
+            Log.d(TAG, "WatchPreviewView: from home screen");
+            Log.d(TAG, "communicatorID: " + communicator);
         }
 
         mTextPaint = new Paint();
@@ -109,7 +114,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         mTextPaint.setTextSize(22 + secondaryTextOffset); //secondary text
         mTextPaint2.setTextSize(24 + mainTextOffset);
 
-        getFont();
+        mTextPaint2.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
 
         generateAffixes(); // Fetch the prefixes and suffixes for the chosen language
 
@@ -274,7 +279,7 @@ public class WatchPreviewView extends View implements WordClockListener {
         if(!oldLanguage.equals(settingsManager.stringHashmap.get(activity.getString(R.string.preference_language)))) // The language has been changed, update our prefixes and suffixes
             generateAffixes();
 
-        getFont();
+        mTextPaint.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
 
         // Update the size offsets
         mainTextOffset = settingsManager.integerHashmap.get(getResources().getString(R.string.main_text_size_offset));
@@ -320,6 +325,8 @@ public class WatchPreviewView extends View implements WordClockListener {
                 : String.format(Locale.UK, "%d:%02d:%02d" + ampmSymbols, hourDigital, minutes, seconds);
 
         //Draw digital clock, date, battery percentage and day of the week
+
+        mTextPaint.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary)))); // Set the font for our digital clock.
         float firstSeparator = 60.0f;
         if ((mAmbient && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_digital_clock_ambient))) || (!mAmbient && !settingsManager.booleanHashmap.get(getContext().getString(R.string.preference_show_digital_clock)))) {
             text = "";
@@ -378,6 +385,7 @@ public class WatchPreviewView extends View implements WordClockListener {
 
         //Draw text clock
         if (significantTimeChange) {
+            mTextPaint2.setTypeface(getFont(settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font))));
             mTextPaint.setTextSize(getHeight() * 0.06f + secondaryTextOffset); //secondary text
             getDate();
             lastSignificantMinutes = minutes;
@@ -423,58 +431,60 @@ public class WatchPreviewView extends View implements WordClockListener {
         //TODO placeholder
     }
 
-    private void getFont(){
+    private Typeface getFont(String newFont){
         Typeface NORMAL_TYPEFACE2;
-        switch (settingsManager.stringHashmap.get(activity.getString(R.string.preference_font))) {
+        switch (newFont) {
             case "robotolight":
                 NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "alegreya":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.alegreya);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "cabin":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.cabin);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "ibmplexsans":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.ibmplexsans);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "inconsolata":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.inconsolata);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "merriweather":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.merriweather);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "nunito":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.nunito);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "pacifico":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.pacifico);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "quattrocento":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.quattrocento);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "quicksand":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.quicksand);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             case "rubik":
                 NORMAL_TYPEFACE2 = ResourcesCompat.getFont(activity, R.font.rubik);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
             default:
                 NORMAL_TYPEFACE2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
-                mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
+                // mTextPaint2.setTypeface(NORMAL_TYPEFACE2);
                 break;
         }
+
+        return NORMAL_TYPEFACE2;
     }
 
     private void getDate() {
@@ -547,5 +557,30 @@ public class WatchPreviewView extends View implements WordClockListener {
         mAmbient = value;
         significantTimeChange = true;
         Log.d(TAG, "changeAmbientMode: "+value);
+    }
+
+    public void loadSettings(SettingsManager newSettings){
+        for(Map.Entry<String, String> preference : newSettings.stringHashmap.entrySet()){
+            String key = preference.getKey();
+            String value = preference.getValue();
+            if(value != null)
+                this.settingsManager.stringHashmap.put(key, value);
+        }
+
+        for(Map.Entry<String, Boolean> preference : newSettings.booleanHashmap.entrySet()){
+            String key = preference.getKey();
+            boolean value = preference.getValue();
+            this.settingsManager.booleanHashmap.put(key, value);
+        }
+
+        for(Map.Entry<String, Integer> preference : newSettings.integerHashmap.entrySet()){
+            String key = preference.getKey();
+            int value = preference.getValue();
+
+            this.settingsManager.integerHashmap.put(key, value);
+        }
+
+        settingsManager.significantTimeChange = true;
+        invalidate();
     }
 }

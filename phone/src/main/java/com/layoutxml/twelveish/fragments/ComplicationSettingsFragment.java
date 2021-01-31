@@ -46,6 +46,8 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
 
         List<Pair<String, String>> optionsBO = new ArrayList<>();
         optionsBO.add(new Pair<String,String>("Disable complication tap actions",getString(R.string.preference_tap_complications)));
+        optionsBO.add(new Pair<String, String>("Show complications", getResources().getString(R.string.preference_show_complications)));
+        optionsBO.add(new Pair<String, String>("Show complications in ambient", getResources().getString(R.string.preference_show_complications_ambient)));
 
         RecyclerView recyclerViewSC = view.findViewById(R.id.setComplicationsRV);
         recyclerViewSC.setLayoutManager(new LinearLayoutManager(getContext()));
