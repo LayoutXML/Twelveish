@@ -763,7 +763,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 Wearable.getDataClient(getApplicationContext()).addListener(this);
 
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_REQUEST, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
@@ -1224,7 +1224,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             boolean handshake = mDataMapItem.getDataMap().getBoolean(HANDSHAKE_REQUEST);
             if (handshake) {
                 final PutDataMapRequest mPutDataMapRequest = PutDataMapRequest.create(path);
-                mPutDataMapRequest.getDataMap().putLong("Timestamp", System.currentTimeMillis());
+                mPutDataMapRequest.getDataMap().putLong(TIMESTAMP, System.currentTimeMillis());
                 mPutDataMapRequest.getDataMap().putBoolean(HANDSHAKE_RESPONSE, true);
                 mPutDataMapRequest.setUrgent();
                 PutDataRequest mPutDataRequest = mPutDataMapRequest.asPutDataRequest();
