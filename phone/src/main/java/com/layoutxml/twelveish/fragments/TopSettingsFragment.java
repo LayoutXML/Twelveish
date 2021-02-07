@@ -51,7 +51,6 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     private final int reqFont = 2;
     private final int reqDateOrder = 3;
     private final int reqDateSymbol = 4;
-    private final int reqTextOffset = 5;
 
     @Nullable
     @Override
@@ -122,7 +121,8 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
         int dateOrder = settingsManager.integerHashmap.get(getResources().getString(R.string.preference_date_order));
         String[] dateOrderString = {"Month-Day-Year", "Day-Month-Year", "Year-Month-Day", "Year-Day-Month"};
 
-        optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
+        // TODO: Implement font selection for the top text on the watch.
+        // optionsTT.add(new Pair<String, String>("Font","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_font_secondary))));
         optionsTT.add(new Pair<String, String>("Date Order","Currently set to "+dateOrderString[dateOrder]));
         optionsTT.add(new Pair<String, String>("Date Separator Symbol","Currently set to "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_date_separator))));
     }
@@ -144,8 +144,8 @@ public class TopSettingsFragment extends Fragment implements ImageRecyclerViewAd
     public void onItemClick(View view, int position, String name){
         if(name.equals(settingsTTName)){
             Intent intent = new Intent(getContext(), TextSelectionActivity.class);
-            intent.putExtra("SETTING_TYPE", position + 2);
-            startActivityForResult(intent,position + 2);
+            intent.putExtra("SETTING_TYPE", position + 3);
+            startActivityForResult(intent,position + 3);
         }
     }
 
