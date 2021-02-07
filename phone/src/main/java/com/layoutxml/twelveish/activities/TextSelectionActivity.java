@@ -26,14 +26,12 @@ public class TextSelectionActivity extends AppCompatActivity implements Textview
     private String settingsName = "languageSelectionList";
     private String[] availableLanguages;
     private int settingType;
-    private SettingsManager settingsManager;
 
     public static int LANGUAGE_SELECTION = 0;
     public static int CAPITALIZATION = 1;
     public static int FONT_SELECTION = 2;
     public static int DATE_ORDER = 3;
     public static int SEPARATOR_SYMBOL = 4;
-    public static int TEXT_OFFSET = 5;
 
 
     @Override
