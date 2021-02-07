@@ -1199,8 +1199,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                             prefs.edit().putString(array[i], array[i+1]).apply();
                             break;
                         case "Integer":
-                            int newPref = Integer.parseInt(array[i+1]);
-                            prefs.edit().putInt(array[i], newPref).apply();
+                            try {
+                                int newPref = Integer.parseInt(array[1]);
+                                prefs.edit().putInt(array[i],newPref).apply();
+                            } catch (NumberFormatException e) {
+                                Toast.makeText(getApplicationContext(), "Preference error", Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         case "Boolean":
                             if (array[i + 1].equalsIgnoreCase("true") || array[i+1].equalsIgnoreCase("false")){
