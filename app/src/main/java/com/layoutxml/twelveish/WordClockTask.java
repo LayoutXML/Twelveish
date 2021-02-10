@@ -526,7 +526,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return text20.substring(0, 1).toUpperCase() + text20.substring(1).toLowerCase();
+            return text20.substring(0, 1).toUpperCase() + text20.substring(1);
         } else {
             String text20 =
                     ((minutes > 0) ? Prefixes[index] : "")
@@ -534,7 +534,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return arrangeWords(text20.substring(0, 1).toUpperCase() + text20.substring(1).toLowerCase());
+            return arrangeWords(text20.substring(0, 1).toUpperCase() + text20.substring(1));
         }
     }
 
