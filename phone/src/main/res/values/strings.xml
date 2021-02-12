@@ -347,15 +347,15 @@
     </string-array>
     <string-array name="PrefixesDE">
         <item>kurz nach</item>
-        <item>bald viertel\u00A0nach</item>
-        <item>fast viertel\u00A0nach</item>
-        <item>viertel\u00A0nach</item>
+        <item>bald Viertel\u00A0nach</item>
+        <item>fast Viertel\u00A0nach</item>
+        <item>Viertel\u00A0nach</item>
         <item>bald halb</item>
         <item>kurz vor halb</item>
         <item>kurz nach halb</item>
-        <item>bald viertel\u00A0vor</item>
-        <item>fast viertel\u00A0vor</item>
-        <item>viertel\u00A0vor</item>
+        <item>bald Viertel\u00A0vor</item>
+        <item>fast Viertel\u00A0vor</item>
+        <item>Viertel\u00A0vor</item>
         <item>bald</item>
         <item>fast</item>
     </string-array>
