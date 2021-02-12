@@ -12,7 +12,7 @@
     <string name="preference_secondary_text_color">secondaryColorActive</string>
     <string name="preference_secondary_text_color_ambient">secondaryColor</string>
     <string name="preference_military_time">militaryTime</string>
-    <string name="preference_military_text_time">militarytextTime</string>
+    <string name="preference_military_text_time">militaryTextTime</string>
     <string name="preference_date_order">dateOrder</string>
     <string name="preference_date_separator">stringOption</string>
     <string name="preference_capitalisation">capitalisation</string>
@@ -46,6 +46,23 @@
     <string name="secondary_text_size_offset">secondaryTextSizeOffset</string>
     <string name="main_text_size_real">mainTextSizeReal</string>
 
+    <string-array name="AvailableLanguages">
+        <item>nl</item>
+        <item>en</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>el</item>
+        <item>hu</item>
+        <item>it</item>
+        <item>lt</item>
+        <item>no</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>sv</item>
+    </string-array>
+
     <string-array name="ExactTimes">
         <item>twelve</item>
         <item>one</item>
@@ -73,8 +90,8 @@
         <item>twenty three</item>
     </string-array>
     <string-array name="Prefixes">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>a\u00A0quarter past</item>
         <item>a quarter past</item>
         <item>almost\u00A0half past</item>
@@ -89,16 +106,16 @@
     <string-array name="Suffixes">
         <item>ish</item>
         <item>or\u00A0so</item>
-        <item/>
+        <item />
         <item>or\u00A0so</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>ish</item>
         <item>or\u00A0so</item>
-        <item/>
+        <item />
         <item>or\u00A0so</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDays">
         <item>Su</item>
@@ -151,18 +168,18 @@
         <item>apie</item>
     </string-array>
     <string-array name="SuffixesLT">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>su\u00A0ketvirčiu</item>
         <item>su\u00A0ketvirčiu</item>
         <item>su\u00A0puse</item>
         <item>su\u00A0puse</item>
         <item>su\u00A0puse</item>
         <item>su\u00A0puse</item>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysLT">
         <item>Se</item>
@@ -215,18 +232,18 @@
         <item>lähes</item>
     </string-array>
     <string-array name="SuffixesFI">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysFI">
         <item>Su</item>
@@ -265,21 +282,21 @@
         <item>двадцать три</item>
     </string-array>
     <string-array name="PrefixesRU">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>почти</item>
-        <item/>
+        <item />
         <item>почти</item>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
         <item>почти\u00A0без четверти</item>
         <item>без четверти</item>
         <item>почти</item>
-        <item/>
+        <item />
     </string-array>
     <string-array name="SuffixesRU">
-        <item/>
+        <item />
         <item>или\u00A0около того</item>
         <item>с\u00A0четвертью</item>
         <item>с\u00A0четвертью</item>
@@ -287,10 +304,10 @@
         <item>с\u00A0половиной</item>
         <item>с\u00A0половиной</item>
         <item>с\u00A0половиной</item>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysRU">
         <item>Вс</item>
@@ -330,31 +347,31 @@
     </string-array>
     <string-array name="PrefixesDE">
         <item>kurz nach</item>
-        <item>bald viertel\u00A0nach</item>
-        <item>fast viertel\u00A0nach</item>
-        <item>viertel\u00A0nach</item>
+        <item>bald Viertel\u00A0nach</item>
+        <item>fast Viertel\u00A0nach</item>
+        <item>Viertel\u00A0nach</item>
         <item>bald halb</item>
         <item>kurz vor halb</item>
         <item>kurz nach halb</item>
-        <item>bald viertel\u00A0vor</item>
-        <item>fast viertel\u00A0vor</item>
-        <item>viertel\u00A0vor</item>
+        <item>bald Viertel\u00A0vor</item>
+        <item>fast Viertel\u00A0vor</item>
+        <item>Viertel\u00A0vor</item>
         <item>bald</item>
         <item>fast</item>
     </string-array>
     <string-array name="SuffixesDE">
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
         <item>oder\u00A0so</item>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
         <item>oder\u00A0so</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysDE">
         <item>So</item>
@@ -393,8 +410,8 @@
         <item>huszonhárom</item>
     </string-array>
     <string-array name="PrefixesHU">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>negyed</item>
         <item>negyed</item>
         <item>lassan fél</item>
@@ -403,22 +420,22 @@
         <item>fél</item>
         <item>háromnegyed</item>
         <item>háromnegyed</item>
-        <item/>
+        <item />
         <item>mindjárt</item>
     </string-array>
     <string-array name="SuffixesHU">
         <item>múlt</item>
         <item>körül</item>
         <item>lesz</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>lesz</item>
-        <item/>
+        <item />
         <item>múlt</item>
-        <item/>
+        <item />
         <item>múlt</item>
         <item>lesz</item>
-        <item/>
+        <item />
     </string-array>
     <string-array name="WeekDaysHU">
         <item>Va</item>
@@ -457,8 +474,8 @@
         <item>le undici</item>
     </string-array>
     <string-array name="PrefixesIT">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>quasi</item>
         <item>circa</item>
         <item>quasi</item>
@@ -466,7 +483,7 @@
         <item>circa</item>
         <item>poco più\u00A0che</item>
         <item>quasi</item>
-        <item/>
+        <item />
         <item>quasi</item>
         <item>pressapoco</item>
     </string-array>
@@ -481,8 +498,8 @@
         <item>e mezza</item>
         <item>meno un quarto</item>
         <item>meno qualcosa</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
     </string-array>
     <string-array name="WeekDaysIT">
         <item>Do</item>
@@ -521,21 +538,21 @@
         <item>las once</item>
     </string-array>
     <string-array name="PrefixesES">
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>casi</item>
-        <item/>
-        <item/>
+        <item />
+        <item />
         <item>casi</item>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
         <item>casi</item>
     </string-array>
     <string-array name="SuffixesES">
-        <item/>
+        <item />
         <item>y cinco</item>
         <item>y cuarto</item>
         <item>y cuarto</item>

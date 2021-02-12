@@ -65,14 +65,14 @@ public class SwitchRecyclerViewAdapter extends RecyclerView.Adapter<SwitchRecycl
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                String key = mData.get(getAdapterPosition()).second;
-                if (key.equals("showDay") || key.equals("showDayAmbient") || key.equals("showSecondaryCalendarActive") || key.equals("showSecondaryCalendar") || key.equals("militarytextTime")) {
+                String key = mData.get(getBindingAdapterPosition()).second;
+                if (key.equals("showDay") || key.equals("showDayAmbient") || key.equals("showSecondaryCalendarActive") || key.equals("showSecondaryCalendar") || key.equals("militaryTextTime")) {
                     settingsManager.significantTimeChange = true;
                 }
                 boolean newValue = !settingsManager.booleanHashmap.get(key);
                 settingsManager.booleanHashmap.put(key,newValue);
                 mySwtich.setChecked(newValue);
-                mClickListener.onItemClickSwitch(view, getAdapterPosition(), newValue, name);
+                mClickListener.onItemClickSwitch(view, getBindingAdapterPosition(), newValue, name);
             }
         }
     }

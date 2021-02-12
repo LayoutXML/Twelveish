@@ -59,7 +59,7 @@ public class TextviewRecyclerViewAdapter extends RecyclerView.Adapter<TextviewRe
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition(), name);
+            if (mClickListener != null) mClickListener.onItemClick(view, getBindingAdapterPosition(), name);
         }
     }
 

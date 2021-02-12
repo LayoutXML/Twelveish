@@ -1,9 +1,12 @@
 package com.layoutxml.twelveish;
 
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,15 +17,29 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.layoutxml.twelveish.adapters.OptionsPagerAdapter;
 import com.layoutxml.twelveish.dagger.App;
 import com.layoutxml.twelveish.dagger.DaggerSettingsManagerComponent;
 import com.layoutxml.twelveish.dagger.SettingsManagerComponent;
 import com.layoutxml.twelveish.fragments.PreviewFragment;
 
-public class CustomizationScreen extends AppCompatActivity {
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
 
-    private SettingsManagerComponent settingsManagerComponent;
+import javax.inject.Inject;
+
+
+public class CustomizationScreen extends AppCompatActivity implements View.OnClickListener {
+
+    @Inject
+    SettingsManagerComponent settingsManagerComponent;
     private Communicator communicator;
     private static final String TAG = "CustomizationScreen";
     private boolean isInAmoledMode = false;
@@ -38,6 +55,44 @@ public class CustomizationScreen extends AppCompatActivity {
         Log.d(TAG, "communicatorID" + communicator);
 
         settingsManagerComponent = DaggerSettingsManagerComponent.factory().create(getApplicationContext());
+
+
+        final SettingsManager testSettings = settingsManagerComponent.getSettingsManager();
+        try {
+            JsonReader reader = new JsonReader(new FileReader(this.getFilesDir().toString() + "/test.json"));
+            reader.beginObject();
+            while(reader.hasNext()){
+                String nameToRead = reader.nextName();
+                if(nameToRead.equals("stringHashMap")){
+                    reader.beginObject();
+                    while(reader.hasNext()){
+                        String firstString = reader.nextName();
+                        String secondString = reader.nextString();
+                        testSettings.stringHashmap.put(firstString, secondString);
+                    }
+                    reader.endObject();
+                } else if (nameToRead.equals("booleanHashMap")){
+                    reader.beginObject();
+                    while (reader.hasNext()){
+                        testSettings.booleanHashmap.put(reader.nextName(), reader.nextBoolean());
+                    }
+                    reader.endObject();
+                } else if(nameToRead.equals("integerHashMap")){
+                    reader.beginObject();
+                    while(reader.hasNext()){
+                        testSettings.integerHashmap.put(reader.nextName(), reader.nextInt());
+                    }
+                    reader.endObject();
+                }
+            }
+
+            reader.endObject();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -70,6 +125,12 @@ public class CustomizationScreen extends AppCompatActivity {
                 invalidatePreview();
             }
         });
+
+        ImageButton saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(this);
+
+        ImageButton sendButton = findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(this);
     }
 
     @Override
@@ -90,8 +151,39 @@ public class CustomizationScreen extends AppCompatActivity {
         return settingsManagerComponent;
     }
 
+    @Override
+    public void onClick(View view) {
+        SettingsManager settingsManager = settingsManagerComponent.getSettingsManager();
+        switch (view.getId()){
+            case R.id.saveButton:
+
+                Gson gson = new Gson();
+                HashMap<String, HashMap> settingMap = new HashMap<>();
+                settingMap.put("stringHashMap", settingsManager.stringHashmap);
+                settingMap.put("booleanHashMap", settingsManager.booleanHashmap);
+                settingMap.put("integerHashMap", settingsManager.integerHashmap);
+
+                try {
+                    String fileName = this.getFilesDir().toString() + "/test.json";
+                    FileWriter writer = new FileWriter(fileName);
+                    gson.toJson(settingMap, writer);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.sendButton:
+                Toast.makeText(getApplicationContext(), "Applying watchface", Toast.LENGTH_LONG).show();
+                communicator.sendWatchFace(settingsManager, getApplicationContext());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + view.getId());
+        }
+
+    }
+
     public interface AmoledChange {
-        public void ambientModeChange(boolean value);
+        void ambientModeChange(boolean value);
     }
 
     public void invalidatePreview() {

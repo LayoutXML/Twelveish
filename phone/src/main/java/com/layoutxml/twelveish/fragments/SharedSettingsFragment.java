@@ -19,12 +19,15 @@ import com.layoutxml.twelveish.CustomizationScreen;
 import com.layoutxml.twelveish.R;
 import com.layoutxml.twelveish.SettingsManager;
 import com.layoutxml.twelveish.activities.ColorSelectionActivity;
+import com.layoutxml.twelveish.activities.LanguageSelectionActivity;
+import com.layoutxml.twelveish.activities.TextSelectionActivity;
 import com.layoutxml.twelveish.adapters.ImageRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.SwitchRecyclerViewAdapter;
 import com.layoutxml.twelveish.adapters.TextviewRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SharedSettingsFragment extends Fragment implements ImageRecyclerViewAdapter.ItemClickImageListener, TextviewRecyclerViewAdapter.ItemClickListener{
 
@@ -35,6 +38,10 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
     private SettingsManager settingsManager;
     private CustomizationScreen activity;
     private List<Pair<String,Integer>> optionsTI;
+    private List<Pair<String, String>> optionsTT;
+    private int colorSelectionRequestCode = 0;
+    private int languageSelectionRequestCode = 1;
+    RecyclerView recyclerViewTT;
 
     @Nullable
     @Override
@@ -47,8 +54,8 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
         optionsTI = new ArrayList<>();
         generateColorOptions();
 
-        List<Pair<String, String>> optionsTT = new ArrayList<>();
-        optionsTT.add(new Pair<String, String>("Language","Currently set "+settingsManager.stringHashmap.get(getResources().getString(R.string.preference_language))));
+        optionsTT = new ArrayList<>();
+        generateLanguageOptions();
 
         RecyclerView recyclerViewTI = view.findViewById(R.id.topImageRV);
         recyclerViewTI.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -56,7 +63,7 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
         adapterMI.setClickListener(this);
         recyclerViewTI.setAdapter(adapterMI);
 
-        RecyclerView recyclerViewTT = view.findViewById(R.id.topTextRV);
+        recyclerViewTT = view.findViewById(R.id.topTextRV);
         recyclerViewTT.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterMT = new TextviewRecyclerViewAdapter(getContext(),optionsTT, settingsMTName);
         adapterMT.setClickListener(this);
@@ -70,14 +77,26 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
         optionsTI.add(new Pair<String, Integer>("Background Color",settingsManager.integerHashmap.get(getResources().getString(R.string.preference_background_color))));
     }
 
-    @Override
-    public void onItemClickImage(View view, int position, Integer currentColor, String name) {
-        Intent intent = new Intent(getContext(), ColorSelectionActivity.class);
-        startActivityForResult(intent, position);
+    private void generateLanguageOptions(){
+        optionsTT.clear();
+        String chosenLanguage = new Locale(settingsManager.stringHashmap.get(getString(R.string.preference_language)))
+                .getDisplayLanguage(new Locale("en")); // return the name of the chosen language in English
+        optionsTT.add(new Pair<String, String>("Language","Currently set to "+chosenLanguage));
+
     }
 
     @Override
-    public void onItemClick(View view, int position, String name){}
+    public void onItemClickImage(View view, int position, Integer currentColor, String name) {
+        Intent intent = new Intent(getContext(), ColorSelectionActivity.class);
+        startActivityForResult(intent, colorSelectionRequestCode);
+    }
+
+    @Override
+    public void onItemClick(View view, int position, String name){
+        Intent intent = new Intent(getContext(), LanguageSelectionActivity.class);
+        intent.putExtra("SETTING_TYPE", TextSelectionActivity.LANGUAGE_SELECTION);
+        startActivityForResult(intent, languageSelectionRequestCode);
+    }
 
 
     @Override
@@ -88,6 +107,16 @@ public class SharedSettingsFragment extends Fragment implements ImageRecyclerVie
                     settingsManager.integerHashmap.put(getResources().getString(R.string.preference_background_color), data.getIntExtra("newColor", Color.parseColor("#000000")));
                     generateColorOptions();
                     adapterMI.notifyDataSetChanged();
+                    break;
+                case 1:
+                    settingsManager.stringHashmap.put(getResources().getString(R.string.preference_language), data.getStringExtra("newLanguage"));
+
+                    settingsManager.significantTimeChange = true;
+                    activity.invalidatePreview();
+
+                    optionsTT.clear();
+                    generateLanguageOptions();
+                    adapterMT.notifyDataSetChanged();
                     break;
                 default:
                     break;

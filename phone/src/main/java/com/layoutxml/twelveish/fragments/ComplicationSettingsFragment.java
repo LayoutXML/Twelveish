@@ -39,19 +39,22 @@ public class ComplicationSettingsFragment extends Fragment implements TextviewRe
         activity = (CustomizationScreen) getContext();
         settingsManager = activity.getSettingsManagerComponent().getSettingsManager();
 
-        List<Pair<String, String>> optionsSC = new ArrayList<Pair<String, String>>();
+        // Commented out until implemented
+        /*List<Pair<String, String>> optionsSC = new ArrayList<Pair<String, String>>();
         optionsSC.add(new Pair<String, String>("Left Complication","Click to launch menu on your watch"));
         optionsSC.add(new Pair<String, String>("Right Complication","Click to launch menu on your watch"));
-        optionsSC.add(new Pair<String, String>("Bottom Complication","Click to launch menu on your watch"));
+        optionsSC.add(new Pair<String, String>("Bottom Complication","Click to launch menu on your watch"));*/
 
         List<Pair<String, String>> optionsBO = new ArrayList<>();
         optionsBO.add(new Pair<String,String>("Disable complication tap actions",getString(R.string.preference_tap_complications)));
+        optionsBO.add(new Pair<String, String>("Show complications", getResources().getString(R.string.preference_show_complications)));
+        optionsBO.add(new Pair<String, String>("Show complications in ambient", getResources().getString(R.string.preference_show_complications_ambient)));
 
-        RecyclerView recyclerViewSC = view.findViewById(R.id.setComplicationsRV);
+        /*RecyclerView recyclerViewSC = view.findViewById(R.id.setComplicationsRV);
         recyclerViewSC.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterSC = new TextviewRecyclerViewAdapter(getContext(),optionsSC, complicationSCName);
         adapterSC.setClickListener(this);
-        recyclerViewSC.setAdapter(adapterSC);
+        recyclerViewSC.setAdapter(adapterSC);*/
 
         RecyclerView recyclerViewBO = view.findViewById(R.id.complicationsSwitchRV);
         recyclerViewBO.setLayoutManager(new LinearLayoutManager(getContext()));

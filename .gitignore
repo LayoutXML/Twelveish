@@ -41,6 +41,10 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/modules.xml
+.idea/compiler.xml
+.idea/misc.xml
+.idea/**/shelf
 
 # Keystore files
 # Uncomment the following line if you do not want to check your keystore files in.
@@ -64,5 +68,4 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 .idea/workspace.xml___jb_old___
-.idea/misc.xml
 .idea/misc.xml

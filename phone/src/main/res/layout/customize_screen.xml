@@ -72,12 +72,13 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_scrollFlags="scroll|enterAlways"
+        app:tabGravity="fill"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextColor="@color/gray">
