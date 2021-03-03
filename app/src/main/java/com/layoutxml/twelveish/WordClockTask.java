@@ -369,7 +369,22 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         String mainPrefix = "";
         StringBuilder prefix;
         if ((minutes > 0) && (!Prefixes[index].equals("")) && (Prefixes[index] != null)) {
-            String[] prefixArray = Prefixes[index].split(" ");
+
+            //Split the prefix with non-break spaces and capitalise each word
+            StringBuilder preString = new StringBuilder();
+            String[] preArray = Prefixes[index].split("\\u00A0");
+
+            for (String word : preArray){
+                if(preString.length() != 0)
+                    preString.append("\u00A0");
+
+                String capitalised = word.substring(0, 1).toUpperCase() + word.substring(1);
+                preString.append(capitalised);
+            }
+
+            // Do the same with spaces
+
+            String[] prefixArray = preString.toString().split(" ");
             prefix = new StringBuilder();
             for (String word : prefixArray) {
                 if (prefix.length() != 0)
@@ -403,8 +418,21 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
         if (showSuffixes) {
             StringBuilder suffix;
             if ((minutes > 0) && (!Suffixes[index].equals("")) && (Suffixes[index] != null)) {
+
+                //We first need to replace non-break spaces with regular spaces
+                StringBuilder suffString = new StringBuilder();
+                String[] suffArray = Suffixes[index].split("\\u00A0");
+
+                for (String word : suffArray){
+                    if(suffString.length() != 0)
+                        suffString.append("\u00A0");
+
+                    String capitalised = word.substring(0, 1).toUpperCase() + word.substring(1);
+                    suffString.append(capitalised);
+                }
+
                 if (SuffixNewLine[index]) {
-                    String[] suffixArray = Suffixes[index].split(" ");
+                    String[] suffixArray = suffString.toString().split(" ");
                     suffix = new StringBuilder();
                     for (String word : suffixArray) {
                         if (suffix.length() != 0)
@@ -414,7 +442,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                     }
                     mainSuffix = suffix.toString();
                 } else {
-                    mainSuffix = Suffixes[index].toLowerCase();
+                    mainSuffix = suffString.toString().toLowerCase();
                 }
             }
         }
@@ -478,7 +506,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return arrangeWords(text);
+            return arrangeWords(text).toLowerCase();
         }
     }
 
@@ -498,7 +526,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? "\n" : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return text20.substring(0, 1).toUpperCase() + text20.substring(1).toLowerCase();
+            return text20.substring(0, 1).toUpperCase() + text20.substring(1);
         } else {
             String text20 =
                     ((minutes > 0) ? Prefixes[index] : "")
@@ -506,7 +534,7 @@ public class WordClockTask extends AsyncTask<Void,Void, WordClockTaskWrapper> {
                             + middle
                             + ((minutes > 0) ? (SuffixNewLine[index] ? " " : "") : "")
                             + ((showSuffixes) ? ((minutes > 0) ? Suffixes[index] : "") : "");
-            return arrangeWords(text20.substring(0, 1).toUpperCase() + text20.substring(1).toLowerCase());
+            return arrangeWords(text20.substring(0, 1).toUpperCase() + text20.substring(1));
         }
     }
 
